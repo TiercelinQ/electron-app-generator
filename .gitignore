@@ -1,0 +1,17 @@
+# Claude Code — personnel par machine
+.claude/settings.local.json
+.claude/agent-memory/
+
+# Sessions de génération
+claude-sessions/
+
+# Données applicatives des apps générées
+preferences.json
+*.db
+
+# Node / builds
+node_modules/
+out/
+dist/
+release/
+*.log

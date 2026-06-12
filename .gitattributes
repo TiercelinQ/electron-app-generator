@@ -1,0 +1,4 @@
+echo "* text=auto eol=lf" > .gitattributes
+git add .gitattributes
+git commit -m "Add .gitattributes — enforce LF line endings"
+git push
