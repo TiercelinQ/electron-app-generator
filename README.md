@@ -2,7 +2,7 @@
 
 > Claude Code generator for **Windows desktop apps** — Node.js · Electron · TypeScript · React · electron-vite.
 
-Part of a family of Claude Code generators. See also [python-app-generator](https://github.com/TiercelinQ/claude-python-app-generator) and [flutter-app-generator](https://github.com/TiercelinQ/flutter-app-generator).
+Part of a family of Claude Code generators. See also [python-app-generator](https://github.com/TiercelinQ/python-app-generator) and [flutter-app-generator](https://github.com/TiercelinQ/flutter-app-generator).
 
 ---
 
