@@ -27,8 +27,7 @@ Personnalisation du layout :
    - Header + 2 colonnes + footer
    - Header + contenu (sans footer)
    - Autre
-5. Emplacement des toasts : haut-droit (défaut) / haut-gauche / haut-centre /
-   bas-droit / bas-gauche / bas-centre ?
+5. Les toasts sont positionnés en haut-droit — seule position spécifiée par `layout.md §5`.
 ```
 
 Si « Autre » en 4 : poser 3 questions pour aider à choisir, puis proposer 2 dispositions avec recommandation.

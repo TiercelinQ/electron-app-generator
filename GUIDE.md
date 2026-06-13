@@ -18,7 +18,7 @@ electron-app-generator/
 │   │   └── security.md                        # Sécurité Electron — non négociable
 │   └── skills/
 │       ├── electron-app/    /electron-app     # Menu démarrage / reprise
-│       ├── phase1-cadrage/  /phase1-cadrage   # Cadrage — 4 questions + couleur primaire
+│       ├── phase1-cadrage/  /phase1-cadrage   # Cadrage — 5 questions + couleur primaire
 │       ├── phase2-analyse/  /phase2-analyse   # Fiche besoins structurée
 │       ├── phase3-layout/   /phase3-layout    # Proposition layout + personnalisation
 │       ├── phase4-contrat/  /phase4-contrat   # Contrat architectural verrouillé
@@ -49,7 +49,7 @@ cd electron-app-generator
 # Claude Code CLI installé et connecté
 claude --version
 
-# Node.js 20 LTS+ (pour exécuter les apps générées)
+# Node.js 22 LTS+ (pour exécuter les apps générées)
 node --version
 npm --version
 ```
@@ -112,12 +112,13 @@ Changer l'effort en session : `/effort medium` ou `/effort high`.
 
 ### Phase 1 — Cadrage
 
-Claude pose 4 questions en un seul bloc :
+Claude pose 5 questions en un seul bloc :
 
 1. Objectif de l'application
-2. Base de données (SQLite via better-sqlite3 / PostgreSQL / JSON / CSV / aucune)
+2. Base de données (SQLite via better-sqlite3 / JSON / CSV / aucune)
 3. Préférences persistantes entre sessions (Oui / Non)
 4. Internationalisation FR/EN (Oui / Non)
+5. Icône applicative : fichier .ico fourni ? (Oui avec chemin / Non — défaut Electron)
 
 Puis propose 3 couleurs primaires adaptées au contexte + l'option Slate Blue par défaut.
 Toute bibliothèque hors stack est validée ici.
@@ -142,7 +143,7 @@ en un seul bloc :
    - Header + 2 colonnes + footer
    - Header + contenu (sans footer)
    - Autre → Claude pose 3 questions pour aider à choisir, propose 2 dispositions avec recommandation
-5. Emplacement des toasts (haut-droit par défaut, 5 autres positions disponibles)
+5. Les toasts sont en haut-droit (position unique définie dans `layout.md §5`)
 
 Produit une synthèse complète du layout validé.
 **→ Validation explicite requise avant Phase 4.**
@@ -162,12 +163,13 @@ Enchaînement automatique entre les lots sans confirmation.
 
 | Taille               | Lot 1                | Lot 2                                       | Lot 3                                  | Lot 4                                  |
 | -------------------- | -------------------- | ------------------------------------------- | -------------------------------------- | -------------------------------------- |
-| Petit (3 lots)       | `shared/` + `models/`| `controllers/` + `preload/` + `views/`      | entrées + `styles/` + configs + README | —                                      |
-| Moyen/Grand (4 lots) | `shared/` + `models/`| `views/`                                    | `controllers/` + `preload/`            | entrées + `styles/` + configs + README |
+| Petit (3 lots)       | `shared/` + `models/`| `controllers/` + `preload/` + `views/` + `hooks/` | entrées + `styles/` + `scripts/` + configs + README | —                                                   |
+| Moyen/Grand (4 lots) | `shared/` + `models/`| `views/` + `hooks/`                         | `controllers/` + `preload/`            | entrées + `styles/` + `scripts/` + configs + README |
 
 **Dernier lot — livrables supplémentaires obligatoires :**
 
-- Instructions d'installation (`npm install`, `npm run dev`, `npm run dist`)
+- `scripts/ensure-electron.cjs` écrit à la racine — fiabilisation du binaire Electron au `postinstall`
+- Instructions d'installation (`npm install`, `npm run dev`, `npm run typecheck`, `npm run build`, `npm run dist`)
 - `README.md` écrit automatiquement à la racine du projet
 
 > **Note** : Claude Code demandera la permission d'exécuter Bash la première fois.
@@ -272,8 +274,8 @@ Disponible dans toutes les sessions suivantes sur ce projet.
 
 | Commande                | Modèle | Action                                               |
 | ----------------------- | ------ | ---------------------------------------------------- |
-| `/electron-app`         | Haiku  | Menu démarrage / reprise                             |
-| `/phase1-cadrage`       | Sonnet | Cadrage — 4 questions + couleur primaire             |
+| `/electron-app`         | Haiku  | Menu démarrage / reprise / chargement projet         |
+| `/phase1-cadrage`       | Sonnet | Cadrage — 5 questions + couleur primaire             |
 | `/phase2-analyse`       | Sonnet | Fiche besoins structurée                             |
 | `/phase3-layout`        | Sonnet | Proposition layout + personnalisation                |
 | `/phase4-contrat`       | Sonnet | Contrat architectural verrouillé                     |
@@ -299,6 +301,8 @@ mon-app/
 ├── README.md                      # Généré automatiquement en fin de Phase 5
 ├── claude-sessions/               # Fichiers SESSION (gitignorés)
 ├── resources/                     # icon.ico
+├── scripts/
+│   └── ensure-electron.cjs        # postinstall — fiabilisation binaire Electron
 └── src/
     ├── shared/
     │   ├── config.ts              # Constantes applicatives
@@ -341,7 +345,7 @@ Données d'exécution (`preferences.json`, `*.db`, logs) : dans `%APPDATA%/[NomA
 - Les couleurs d'icônes Font Awesome passent par les tokens CSS (`--icon-*`) — pas de constante de config (différence vs générateur Python).
 - Le contrat architectural (Phase 4) est verrouillé. Tout changement structurel impose le protocole de déclaration.
 - Les règles de sécurité Electron (`rules/security.md`) sont non négociables — `contextIsolation`, `sandbox`, CSP, validation IPC.
-- `better-sqlite3` est un module natif : `electron-builder install-app-deps` après `npm install` (inclus dans les instructions du dernier lot).
+- `better-sqlite3` est un module natif : `electron-builder install-app-deps` est chaîné dans le `postinstall` après `ensure-electron.cjs` — déclenché automatiquement par `npm install`.
 - `/charger-projet` et `/generate-readme` doivent être invoqués depuis la racine du projet cible.
 - La mémoire (`~/.claude/agent-memory/`) est locale à ta machine — non commitée, non partagée.
 - `.claude/settings.local.json` est gitignorée — chaque utilisateur configure ses propres permissions locales.

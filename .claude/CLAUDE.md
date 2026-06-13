@@ -40,9 +40,9 @@ Toute interface générée respecte intégralement ces deux fichiers.
 | Élément              | Valeur                                                         |
 | -------------------- | -------------------------------------------------------------- |
 | OS cible             | Windows                                                        |
-| Runtime              | Node.js 20 LTS+ · Electron stable (≥ 30)                       |
+| Runtime              | Node.js 22 LTS+ · Electron stable (≥ 42)                       |
 | Langage              | TypeScript strict (`strict: true`)                             |
-| Renderer             | React 18 — composants fonctionnels + hooks uniquement          |
+| Renderer             | React 19 — composants fonctionnels + hooks uniquement          |
 | Build                | electron-vite                                                  |
 | Architecture         | MVC stricte — main = Models · renderer = Views · IPC = Controllers |
 | Style                | CSS centralisé — `tokens.css` (variables) + `styles.css`       |
@@ -78,8 +78,8 @@ Toutes les commandes ci-dessous sont des skills Claude Code invocables avec `/` 
 
 | Commande                | Skill                          | Action                                       |
 | ----------------------- | ------------------------------ | -------------------------------------------- |
-| `/electron-app`         | `skills/electron-app/`         | Menu démarrage / reprise                     |
-| `/phase1-cadrage`       | `skills/phase1-cadrage/`       | Cadrage — 4 questions + couleur              |
+| `/electron-app`         | `skills/electron-app/`         | Menu démarrage / reprise / chargement projet |
+| `/phase1-cadrage`       | `skills/phase1-cadrage/`       | Cadrage — 5 questions + couleur              |
 | `/phase2-analyse`       | `skills/phase2-analyse/`       | Fiche besoins structurée                     |
 | `/phase3-layout`        | `skills/phase3-layout/`        | Proposition layout                           |
 | `/phase4-contrat`       | `skills/phase4-contrat/`       | Contrat architectural verrouillé             |

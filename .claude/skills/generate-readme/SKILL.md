@@ -7,7 +7,7 @@ description: Analyser le code source d'un projet Electron existant et générer 
 
 Pré-requis : invoqué depuis la racine du projet cible.
 
-1. Analyser : `package.json`, `src/shared/` (config, ipc-channels, types), `src/main/models/`, `src/main/controllers/`, `src/preload/`, `src/renderer/src/views/`, `styles/`.
+1. Analyser : `package.json`, `src/shared/` (config, ipc-channels, types), `src/main/models/`, `src/main/controllers/`, `src/preload/`, `src/renderer/src/views/`, `src/renderer/src/styles/`.
 2. Générer `README.md` à la racine :
 
 ```markdown
@@ -29,8 +29,12 @@ Pré-requis : invoqué depuis la racine du projet cible.
 
 ## Installation
 npm install
-npm run dev
+npm run dev          # développement
+npm run typecheck    # vérification TypeScript
+npm run build        # build sans packaging
+npm run dist         # packaging Windows (si demandé)
 ```
+<!-- Si better-sqlite3 : exécuter `electron-builder install-app-deps` après `npm install` -->
 
 3. Écrire le fichier sur le disque, confirmer en une ligne.
 4. Si des informations sont indéterminables depuis le code : poser les questions groupées en un seul bloc avant d'écrire.

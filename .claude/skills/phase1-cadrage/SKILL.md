@@ -1,6 +1,6 @@
 ---
 name: phase1-cadrage
-description: Phase 1 du cycle de génération d'application Electron — cadrage en 4 questions groupées, choix de la couleur primaire, annonce du calibrage (nombre de lots).
+description: Phase 1 du cycle de génération d'application Electron — cadrage en 5 questions groupées, choix de la couleur primaire, annonce du calibrage (nombre de lots).
 ---
 
 # /phase1-cadrage — Cadrage
@@ -11,7 +11,7 @@ description: Phase 1 du cycle de génération d'application Electron — cadrage
 Cadrage du projet :
 
 1. Objectif de l'application — description libre.
-2. Base de données : SQLite (better-sqlite3) / PostgreSQL / JSON / CSV / aucune ?
+2. Base de données : SQLite (better-sqlite3) / JSON / CSV / aucune ?
 3. Préférences persistantes entre sessions (thème, fenêtre…) ? Oui / Non
 4. Internationalisation FR/EN activée pour ce projet ? Oui / Non (FR par défaut si Non)
 5. Icône applicative : fichier .ico fourni ? Oui (chemin) / Non (défaut Electron, ajout possible plus tard)

@@ -30,11 +30,13 @@ Silencieuse — signalée uniquement si écart. Liste complète : `rules/mvc.md 
 
 ## Dernier lot — livrables supplémentaires obligatoires
 
+- `scripts/ensure-electron.cjs` écrit à la racine du projet (voir `rules/config.md §Postinstall`).
 - Instructions d'installation et d'exécution :
   ```
   npm install
   npm run dev        # développement
-  npm run typecheck  # vérification TS
+  npm run typecheck  # vérification TypeScript
+  npm run build      # build sans packaging
   npm run dist       # packaging Windows (si demandé)
   ```
   (+ note `electron-builder install-app-deps` si better-sqlite3.)
@@ -45,6 +47,3 @@ Silencieuse — signalée uniquement si écart. Liste complète : `rules/mvc.md 
 Correction isolée sur le fichier concerné + dépendances directes. Livraison du fichier complet corrigé.
 Après résolution d'anomalie : bilan de nettoyage (`rules/mvc.md`) puis proposer `Veux-tu mémoriser ce point ? /memoriser`.
 
-## Phase 6 — Finalisation (à la demande explicite uniquement)
-
-Retouches CSS · optimisations · conformité `layout.md` · conformité `design-system.md`.

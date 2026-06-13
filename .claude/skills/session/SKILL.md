@@ -36,8 +36,10 @@ Lot suivant : [X+1/total] (si Phase 5)
 
 ## Lots livrés
 
-- [x] Lot 1 — [contenu]
-- [ ] Lot 2 — [contenu]
+- [x] Lot 1/[total] — [contenu]
+- [ ] Lot 2/[total] — [contenu]
+- [ ] Lot 3/[total] — [contenu]
+- [ ] Lot 4/[total] — [contenu]  ← inclure uniquement si Moyen/Grand (4 lots)
 
 ## Points ouverts
 

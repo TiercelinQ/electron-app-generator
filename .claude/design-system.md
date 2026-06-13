@@ -16,6 +16,7 @@
 | `--font-sm`        | 14px     | Labels, sous-titres, corps    |
 | `--font-base`      | 16px     | Texte principal, navigation   |
 | `--font-lg`        | 18px     | Titres de section secondaires |
+| `--font-xl`        | 20px     | Titres intermédiaires         |
 | `--font-2xl`       | 24px     | Titres de section principaux  |
 | `--weight-normal`  | 400      | Corps, descriptions           |
 | `--weight-medium`  | 500      | Labels, items navigation      |
@@ -96,26 +97,30 @@ Implémentation : deux tokens d'usage dérivés, redéfinis par thème — c'est
 
 ### Palette graphiques / visualisation
 
-| Token             | Valeur            |
-| ----------------- | ----------------- |
-| `--chart-primary` | `var(--primary)`  |
-| `--chart-success` | `--success-600`   |
-| `--chart-warning` | `--warning-600`   |
-| `--chart-danger`  | `--danger-600`    |
-| `--chart-info`    | `--info-600`      |
+| Token             | Valeur                   |
+| ----------------- | ------------------------ |
+| `--chart-primary` | `var(--primary)`         |
+| `--chart-success` | `var(--success-600)`     |
+| `--chart-warning` | `var(--warning-600)`     |
+| `--chart-danger`  | `var(--danger-600)`      |
+| `--chart-info`    | `var(--info-600)`        |
+
+> Les tokens `--chart-*` consomment les couleurs sémantiques via `var()` — ils suivent automatiquement le thème sombre sans redéfinition.
 
 ---
 
 ## 3. ESPACEMENTS
 
-| Token         | Valeur | Usage                     |
-| ------------- | ------ | ------------------------- |
-| `--spacing-1` | 4px    | Micro-espacement          |
-| `--spacing-2` | 8px    | Padding interne compact   |
-| `--spacing-3` | 12px   | Padding standard          |
-| `--spacing-4` | 16px   | Espacement entre éléments |
-| `--spacing-6` | 24px   | Padding contenu principal |
-| `--spacing-8` | 32px   | Séparations majeures      |
+| Token         | Valeur | Usage                          |
+| ------------- | ------ | ------------------------------ |
+| `--spacing-1` | 4px    | Micro-espacement               |
+| `--spacing-2` | 8px    | Padding interne compact        |
+| `--spacing-3` | 12px   | Padding standard               |
+| `--spacing-4` | 16px   | Espacement entre éléments      |
+| `--spacing-5` | 20px   | Espacement intermédiaire       |
+| `--spacing-6` | 24px   | Padding contenu principal      |
+| `--spacing-7` | 28px   | Espacement intermédiaire large |
+| `--spacing-8` | 32px   | Séparations majeures           |
 
 ---
 

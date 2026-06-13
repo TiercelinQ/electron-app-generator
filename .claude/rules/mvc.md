@@ -57,6 +57,8 @@ mon-app/
 ├── electron-builder.yml
 ├── README.md
 ├── resources/                      # icône .ico, assets packaging
+├── scripts/
+│   └── ensure-electron.cjs         # postinstall — fiabilisation binaire Electron
 ├── src/
 │   ├── shared/
 │   │   ├── config.ts               # constantes applicatives
@@ -100,7 +102,7 @@ mon-app/
 | --- | -------------------------------------------------------------------------------------------------- |
 | 1   | `src/shared/` + `src/main/models/`                                                                 |
 | 2   | `src/main/controllers/` + `src/preload/` + `src/renderer/src/views/` + `hooks/`                    |
-| 3   | `src/main/index.ts` + entrées renderer + `utils/` + `styles/` + `i18n/` + configs racine + `package.json` + README + instructions |
+| 3   | `src/main/index.ts` + entrées renderer + `utils/` + `styles/` + `i18n/` + `scripts/` + configs racine + `package.json` + README + instructions |
 
 **Moyen / Grand projet (4 lots) :**
 
@@ -109,13 +111,13 @@ mon-app/
 | 1   | `src/shared/` + `src/main/models/`                                                                 |
 | 2   | `src/renderer/src/views/` + `hooks/`                                                               |
 | 3   | `src/main/controllers/` + `src/preload/`                                                           |
-| 4   | `src/main/index.ts` + entrées renderer + `utils/` + `styles/` + `i18n/` + configs racine + `package.json` + README + instructions |
+| 4   | `src/main/index.ts` + entrées renderer + `utils/` + `styles/` + `i18n/` + `scripts/` + configs racine + `package.json` + README + instructions |
 
 ### Format de livraison
 - Annonce : `📦 Lot N/[total] — [contenu]`
 - Fichiers écrits directement sur le disque, blocs complets et autonomes.
 - Enchaînement automatique entre les lots sans confirmation.
-- Dernier lot : instructions d'installation (`npm install`, `npm run dev`, `npm run build`) + `README.md` à la racine.
+- Dernier lot : instructions d'installation (`npm install`, `npm run dev`, `npm run typecheck`, `npm run build`, `npm run dist`) + note `electron-builder install-app-deps` si better-sqlite3 + `README.md` à la racine.
 
 ## Vérification d'intégrité (silencieuse — signalée uniquement si écart)
 
@@ -124,7 +126,8 @@ mon-app/
 2. Imports : tous utilisés, aucun manquant, sens unidirectionnel respecté.
 3. Responsabilités MVC respectées (zéro logique métier en view/controller, zéro UI en model).
 4. Zéro `// TODO`, zéro implémentation vide injustifiée, zéro `any` injustifié.
-5. Node 20+ · Electron stable · zéro API dépréciée (`remote`).
+4b. Error Boundary intégré dans `App.tsx` — handler `process.on("uncaughtException")` présent dans `src/main/index.ts` (voir `rules/errors.md`).
+5. Node 22+ · Electron stable (≥ 42) · zéro API dépréciée (`remote`).
 6. Conformité `design-system.md` et `layout.md`.
 7. Règles `rules/security.md` respectées.
 

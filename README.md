@@ -24,9 +24,9 @@ Every generated app enforces the same visual design system, security rules, and 
 
 | Element   | Value                                   |
 | --------- | --------------------------------------- |
-| Runtime   | Node.js 20 LTS+ · Electron stable (≥30) |
+| Runtime   | Node.js 22 LTS+ · Electron stable (≥42) |
 | Language  | TypeScript strict                       |
-| Renderer  | React 18                                |
+| Renderer  | React 19                                |
 | Build     | electron-vite                           |
 | Styling   | Centralized CSS — tokens + data-theme   |
 | Icons     | Font Awesome Free (npm, local — no CDN) |
@@ -43,7 +43,7 @@ Every generated app enforces the same visual design system, security rules, and 
 # Claude Code CLI — installed and authenticated
 claude --version
 
-# Node.js 20 LTS+
+# Node.js 22 LTS+
 node --version
 npm --version
 ```
@@ -70,7 +70,7 @@ Then in Claude Code:
 
 | Command                 | Action                                      |
 | ----------------------- | ------------------------------------------- |
-| `/electron-app`         | Start menu / resume session                 |
+| `/electron-app`         | Start menu / resume / load existing project |
 | `/phase1-cadrage`       | Scoping — questions + primary color         |
 | `/phase2-analyse`       | Structured requirements sheet               |
 | `/phase3-layout`        | Layout proposal + customization             |
@@ -96,6 +96,8 @@ my-app/
 ├── electron-builder.yml
 ├── README.md
 ├── resources/                     # icon.ico
+├── scripts/
+│   └── ensure-electron.cjs        # Electron binary install guard (postinstall)
 └── src/
     ├── shared/
     │   ├── config.ts              # App constants
