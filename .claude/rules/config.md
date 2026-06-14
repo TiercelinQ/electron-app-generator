@@ -205,12 +205,21 @@ async function main() {
     process.exit(1);
   }
 
+  // Electron >= 42 a renommé l'extracteur embarqué (extract-zip ->
+  // @electron-internal/extract-zip). On essaie les deux noms.
   let extract;
-  try {
-    extract = require("extract-zip");
-  } catch {
+  for (const name of ["@electron-internal/extract-zip", "extract-zip"]) {
+    try {
+      const mod = require(name);
+      extract = mod.default || mod;
+      break;
+    } catch {
+      /* try next name */
+    }
+  }
+  if (!extract) {
     console.error(
-      "[ensure-electron] Module 'extract-zip' introuvable — dépendance transitive d'electron manquante."
+      "[ensure-electron] Module d'extraction introuvable (@electron-internal/extract-zip ou extract-zip) — dépendance transitive d'electron manquante."
     );
     process.exit(1);
   }

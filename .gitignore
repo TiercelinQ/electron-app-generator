@@ -1,9 +1,5 @@
 # Claude Code — personnel par machine
 .claude/settings.local.json
-.claude/agent-memory/
-
-# Sessions de génération
-claude-sessions/
 
 # Données applicatives des apps générées
 preferences.json

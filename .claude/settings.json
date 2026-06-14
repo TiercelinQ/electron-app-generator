@@ -6,7 +6,9 @@
       "Bash(node:*)",
       "Read",
       "Write",
-      "Edit"
+      "Edit",
+      "Bash(echo \"ensure-electron OK \\(exit $?\\)\")",
+      "Bash(powershell.exe -NoProfile -Command 'Get-Process electron,node -ErrorAction SilentlyContinue | Where-Object { $_.Path -like '\\\\''*window-companion*'\\\\'' -or $_.ProcessName -eq '\\\\''electron'\\\\'' } | Stop-Process -Force -ErrorAction SilentlyContinue; Start-Sleep 1; \\(Get-Process electron -ErrorAction SilentlyContinue | Measure-Object\\).Count')"
     ],
     "deny": [
       "Read(**/.env)",
