@@ -17,6 +17,8 @@ The corrected file(s) on disk + a passing verification + (after a multi-attempt 
 
 ---
 
+> If the project root has not been provided in this flow, first ask: `Racine du projet ? (chemin du dossier)`.
+
 ## Decision tree — classify the failure first
 
 Read the actual error before touching code. Classify, then act in this order:
@@ -51,7 +53,7 @@ Read `design-system.md` / `layout.md` on demand if the fix touches UI (no longer
 1. Get the real error (command output, stack trace, devtools, or the user's repro). If you cannot reproduce, ask for the exact message — do not guess.
 2. Classify with the tree above; read both the failing site and the declaration it depends on.
 3. **Ask: "knowing what I know now, what is the clean fix?"** Implement that, not the quickest patch. If the clean fix is larger than expected, say so before applying.
-4. Apply the minimum correct change. Respect the layers, the contract (`docs/specs/04-contrat.md`), and the security rules.
+4. Apply the minimum correct change. Respect the layers, the contract (`docs/specs/04-architect.md`), and the security rules.
 5. **Verify**: re-run `rules/verification.md §A` for the affected area; confirm the targeted failure is gone and nothing else broke.
 6. If it took several attempts: produce the **cleanup report** (`rules/mvc.md` — list every dead element added during failed attempts), then offer `Veux-tu mémoriser ce point ? /memoriser`.
 

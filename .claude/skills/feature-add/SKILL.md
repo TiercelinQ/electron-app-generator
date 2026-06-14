@@ -1,10 +1,10 @@
 ---
-name: implement
+name: feature-add
 description: Add a feature, IPC channel, entity, or change to an Electron app already delivered by this framework. Use when the user asks to add or modify functionality on an existing project, respecting the locked architectural contract and the security rules.
 model: sonnet
 ---
 
-# /implement — Add a feature to a delivered app
+# /feature-add — Add a feature to a delivered app
 
 ## Role
 Senior Electron/React developer working on an existing, contracted codebase.
@@ -13,19 +13,21 @@ Senior Electron/React developer working on an existing, contracted codebase.
 Implement the requested change end-to-end (model → controller → preload → view), contract-compliant, secure, typecheck-clean, without scope creep.
 
 ## Deliverable
-The modified/added files on disk + an updated `docs/specs/04-contrat.md` if the structure changed + verified build.
+The modified/added files on disk + an updated `docs/specs/04-architect.md` if the structure changed + verified build.
 
 ---
 
+> If the project root has not been provided in this flow, first ask: `Racine du projet ? (chemin du dossier)`.
+
 ## Steps
 
-1. **Load context**: read `docs/specs/04-contrat.md` (locked contract), then `rules/mvc.md` · `rules/css.md` · `rules/errors.md` · `rules/config.md` · `rules/security.md` · `rules/db.md` (if DB) · `rules/verification.md` (not auto-imported). Read `design-system.md` / `layout.md` on demand (no longer auto-imported) before any UI change.
+1. **Load context**: read `docs/specs/04-architect.md` (locked contract), then `rules/mvc.md` · `rules/css.md` · `rules/errors.md` · `rules/config.md` · `rules/security.md` · `rules/db.md` (if DB) · `rules/verification.md` (not auto-imported). Read `design-system.md` / `layout.md` on demand (no longer auto-imported) before any UI change.
 
-2. **State assumptions** before coding. If the request is ambiguous (which entity, which view, business rule), ask — grouped questions, in French.
+2. **State assumptions** before coding. If the request is ambiguous (which entity, which view, business rule), ask — grouped questions, in French, each closed question with a `(recommandé)` answer.
 
 3. **Decide: within contract OR deviation.**
    - **Within contract** — the change fits the existing tree (new method on a model, new field on a DTO, new control in an existing view): implement directly.
-   - **Deviation** — the change needs a new file, IPC channel, entity, or library: **stop, declare the deviation + justification, wait for validation** (the Phase 4 protocol). Only then implement and update `docs/specs/04-contrat.md`.
+   - **Deviation** — the change needs a new file, IPC channel, entity, or library: **stop, declare the deviation + justification, wait for validation** (the Phase 4 protocol). Only then implement and update `docs/specs/04-architect.md`.
 
 4. **Implement across the layers** (a new feature usually touches all four):
    - Model: business logic / data access; raise named errors (`models/errors.ts`).

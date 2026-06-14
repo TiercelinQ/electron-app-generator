@@ -1,10 +1,10 @@
 ---
-name: phase5-developpement
+name: p5-development
 description: Phase 5 of the Electron app generation cycle — development and batch delivery, files written directly to disk, executable verification, final README.
 model: sonnet
 ---
 
-# /phase5-developpement — Batch development
+# /p5-development — Batch development
 
 ## Role
 Senior Electron/React developer — build the contracted app to a clean, buildable state.
@@ -19,7 +19,7 @@ The full project source on disk + `README.md` + verified build.
 
 ## Code rules
 
-At start, read and fully apply: `rules/mvc.md` · `rules/css.md` · `rules/errors.md` · `rules/config.md` · `rules/security.md` · `rules/db.md` (if DB) · `rules/tests.md` (if tests) · `rules/verification.md` (not auto-imported). **Read `design-system.md` and `layout.md`** (no longer auto-imported) before producing any UI. Read `docs/specs/04-contrat.md` — it is the locked contract this build follows.
+At start, read and fully apply: `rules/mvc.md` · `rules/css.md` · `rules/errors.md` · `rules/config.md` · `rules/security.md` · `rules/db.md` (if DB) · `rules/tests.md` (if tests) · `rules/verification.md` (not auto-imported). **Read `design-system.md` and `layout.md`** (no longer auto-imported) before producing any UI. Read `docs/specs/04-architect.md` — it is the locked contract this build follows.
 
 Critical reminders:
 - ESLint clean · Prettier · TypeScript strict · TSDoc on classes and public API.
@@ -31,7 +31,7 @@ Critical reminders:
 
 ## Anti-patterns — what NOT to do
 
-- **Do not** deviate from `docs/specs/04-contrat.md` silently — any structural change triggers the deviation protocol (stop, declare, validate) from `rules/mvc.md`.
+- **Do not** deviate from `docs/specs/04-architect.md` silently — any structural change triggers the deviation protocol (stop, declare, validate) from `rules/mvc.md`.
 - **Do not** weaken Electron security to make something work (`rules/security.md`) — locked `webPreferences`, validated IPC inputs, strict CSP.
 - **Do not** expose raw `ipcRenderer` in the preload, hardcode an IPC channel, or put business logic in a controller/view.
 - **Do not** leave a `// TODO`, an empty body, or a placeholder. Each batch is complete and self-contained.
@@ -40,6 +40,7 @@ Critical reminders:
 
 ## Delivery
 
+- Write to the project root chosen at the start of the flow (via `/electron-app` or `/p1-scoping`); if it was not set in this flow, ask for it once.
 - Create the folders and write the files **directly to disk** — no manual action required.
 - Announcement (French): `Lot N/[total] — [content]`
 - Automatic chaining between batches without confirmation.
@@ -72,7 +73,7 @@ Apply `rules/verification.md` — both the executable commands (§A, blocking wh
   Framework : electron v1.0.0
 
   ## Contexte métier
-  [Ce que fait l'app — synthèse issue de docs/specs/02-analyse.md : objectif + fonctionnalités clés]
+  [Ce que fait l'app — synthèse issue de docs/specs/02-featuring.md : objectif + fonctionnalités clés]
 
   ## Écarts par rapport au framework
   - Aucun
@@ -93,6 +94,16 @@ Apply `rules/verification.md` — both the executable commands (§A, blocking wh
   ```
   The `Stop` hook runs the fast static check at the end of each turn. Note in the README that the user can tune or remove it.
 - Confirm `docs/specs/` is present and consistent with the delivered code.
+
+## Seed batch — only if DB ≠ none (Phase 1 Q2)
+
+If a database was selected, deliver a standalone seed script `scripts/seed.ts` that inserts a coherent demo dataset, plus the `"seed": "tsx scripts/seed.ts"` (or `electron-vite`-run equivalent) script in `package.json`:
+- Uses the main-process models (`src/main/models/`) / `getDb()` — never raw SQL outside `models/`.
+- Coherent, FK-respecting data (~5-15 rows per entity), realistic French values, parents before children.
+- Idempotent: insert only if the target tables are empty (count check first); re-running must not duplicate rows.
+- Run instruction added to the README: `npm run seed`. Never called from `src/main/index.ts`.
+
+Announce `Lot [final]/[total] — scripts/seed.ts` (before the tests batch if both apply). See `@rules/db.md`.
 
 ## Test batch — only if Phase 1 Q6 = Yes
 

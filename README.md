@@ -13,14 +13,14 @@ Unified edition: the full generation pipeline **plus** post-delivery maintenance
 A structured prompt system that generates complete, production-ready Electron/React desktop applications through a 5-phase cycle, then maintains them:
 
 1. **Scoping** — 6 questions (objective, DB, prefs, i18n, icon, tests) + primary color
-2. **Requirements** — structured feature sheet, explicit out-of-scope, locked sizing
-3. **Layout** — topbar tabs, drawer/modal, toast position
-4. **Architecture contract** — full file tree, IPC channel table, tokens→CSS table — locked before any code is written
-5. **Development** — auto-chained batch delivery
+2. **Featuring** — structured feature sheet, explicit out-of-scope, locked sizing
+3. **Designing** — topbar tabs, drawer/modal, toast position
+4. **Architect** — full file tree, IPC channel table, tokens→CSS table — locked before any code is written
+5. **Development** — auto-chained batch delivery, seed script if a DB is used
 
-Each phase writes a French spec to `docs/specs/` (`01-cadrage` … `04-contrat`); the contract is the source of truth.
+Each phase writes a French spec to `docs/specs/` (`01-scoping` … `04-architect`); the contract is the source of truth.
 
-**Maintenance commands**: `/implement` (add a feature, contract-compliant), `/analyze` (trace behavior), `/fix` (root-cause debugging with a decision tree), `/refactor` (validated, behavior-preserving), `/test` (executable verification). Plus `/charger-projet` and `/generate-readme` to load/document existing apps.
+**Maintenance commands**: `/feature-add` (add a feature, contract-compliant), `/analyze` (trace behavior), `/fix` (root-cause debugging with a decision tree), `/refactor` (validated, behavior-preserving), `/test` (executable verification). Plus `/charger-projet` and `/generate-readme` to load/document existing apps.
 
 Every generated app enforces the same visual design system, strict MVC architecture, and locked Electron security.
 
@@ -77,12 +77,12 @@ Then in Claude Code:
 | Command                 | Action                                             |
 | ----------------------- | -------------------------------------------------- |
 | `/electron-app`         | Start menu (4 entry points incl. maintenance)      |
-| `/phase1-cadrage`       | Scoping — 5 questions + primary color              |
-| `/phase2-analyse`       | Requirements sheet + locked sizing                 |
-| `/phase3-layout`        | Layout proposal + customization                    |
-| `/phase4-contrat`       | Locked architecture contract (IPC channels)        |
-| `/phase5-developpement` | Auto-chained batch delivery                        |
-| `/implement`            | Add a feature to a shipped project                 |
+| `/p1-scoping`       | Scoping — 6 questions + primary color              |
+| `/p2-featuring`       | Featuring — requirements sheet + locked sizing     |
+| `/p3-designing`        | Designing — layout proposal + customization        |
+| `/p4-architect`       | Architect — locked architecture contract (IPC)     |
+| `/p5-development` | Auto-chained batch delivery                        |
+| `/feature-add`            | Add a feature to a shipped project                 |
 | `/analyze`              | Trace a feature across the MVC/IPC layers          |
 | `/fix`                  | Fix a bug — decision tree, root cause              |
 | `/refactor`             | Refactor under explicit validation only            |
@@ -104,7 +104,7 @@ my-app/
 ├── electron-builder.yml · README.md
 ├── CLAUDE.md                      # Project identity (origin, business context, deviations)
 ├── .claude/settings.json          # Guardrails + verification hook (self-enforced app)
-├── docs/specs/                    # Generation specs (FR): 01-cadrage … 04-contrat
+├── docs/specs/                    # Generation specs (FR): 01-scoping … 04-architect
 ├── resources/                     # .ico icon, packaging assets
 ├── scripts/ensure-electron.cjs    # Electron binary reliability (postinstall)
 └── src/
@@ -125,14 +125,14 @@ All generated apps share the same visual system, defined in `design-system.md`:
 - **Flat design** — zero border-radius, zero shadows, zero gradients
 - **CSS tokens** — all colors, sizes and durations are `var(--token)`; full light/dark theme via a single `[data-theme="dark"]` block
 - **Segoe UI** typography (Windows native)
-- **Slate Blue** primary color by default — 4 token values to change the entire app color
+- **Slate Blue** primary color recommended by default (+ 4 contextual proposals) — 4 token values to change the entire app color
 - **Toasts only** — no inline banners, no `dialog.showMessageBox`/`alert`/`confirm` for business errors
 
 ---
 
 ## Security
 
-`rules/security.md` is non-negotiable, applied to 100% of generated apps: locked `webPreferences` (`contextIsolation`, `nodeIntegration: false`, `sandbox`), strict CSP, every IPC input validated on the main side, minimal preload surface (named functions only), zero remote resource. `/fix` and `/implement` always route through it.
+`rules/security.md` is non-negotiable, applied to 100% of generated apps: locked `webPreferences` (`contextIsolation`, `nodeIntegration: false`, `sandbox`), strict CSP, every IPC input validated on the main side, minimal preload surface (named functions only), zero remote resource. `/fix` and `/feature-add` always route through it.
 
 ---
 

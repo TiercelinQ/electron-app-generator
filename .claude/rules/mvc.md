@@ -57,7 +57,7 @@ my-app/
 ├── electron-builder.yml
 ├── README.md
 ├── docs/
-│   └── specs/                      # generation specs (French): 01-cadrage … 04-contrat
+│   └── specs/                      # generation specs (French): 01-scoping … 04-architect
 ├── resources/                      # .ico icon, packaging assets
 ├── scripts/
 │   └── ensure-electron.cjs         # postinstall — Electron binary reliability

@@ -19,7 +19,7 @@ Write a README that reflects what was actually built.
 
 Prerequisite: invoked from the target project root.
 
-1. **Sources, in priority**: `docs/specs/*` (especially `04-contrat.md`) for the intended structure, then the real code — `package.json`, `src/shared/` (config, ipc-channels, types), `src/main/models/`, `src/main/controllers/`, `src/preload/`, `src/renderer/src/views/`, `src/renderer/src/styles/`. When specs and code disagree, the code is what shipped — describe the code and note the divergence.
+1. **Sources, in priority**: `docs/specs/*` (especially `04-architect.md`) for the intended structure, then the real code — `package.json`, `src/shared/` (config, ipc-channels, types), `src/main/models/`, `src/main/controllers/`, `src/preload/`, `src/renderer/src/views/`, `src/renderer/src/styles/`. When specs and code disagree, the code is what shipped — describe the code and note the divergence.
 2. Generate `README.md` at the root:
 
 ```markdown

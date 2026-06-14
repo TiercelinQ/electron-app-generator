@@ -17,6 +17,8 @@ A short French report stating what passed, with command output as proof; or a li
 
 ---
 
+> If the project root has not been provided in this flow, first ask: `Racine du projet ? (chemin du dossier)`.
+
 ## Steps
 
 1. **Apply `rules/verification.md §A`** in order:
@@ -41,7 +43,7 @@ A short French report stating what passed, with command output as proof; or a li
 
 ## Anti-patterns — what NOT to do
 - **Do not** report "all green" without having actually run the commands (or without flagging that the env was unavailable).
-- **Do not** fix code silently inside this skill — verification reports; fixing is `/fix` (root cause) or `/implement`.
+- **Do not** fix code silently inside this skill — verification reports; fixing is `/fix` (root cause) or `/feature-add`.
 - **Do not** scaffold tests or add a test runner the user did not ask for.
 - **Do not** lower a check (skip typecheck, disable a lint rule) to make the report pass.
 

@@ -17,6 +17,8 @@ A structured report (French) with `file:line` references. Optionally `docs/specs
 
 ---
 
+> If the project root has not been provided in this flow, first ask: `Racine du projet ? (chemin du dossier)`.
+
 ## Steps
 
 1. **Identify scope** — a single file, an entity (model+controller+view), a cross-cutting pattern (theming, error handling, IPC, security), or the whole app.
@@ -24,7 +26,7 @@ A structured report (French) with `file:line` references. Optionally `docs/specs
 2. **Ask when ambiguous** — if the request has several valid readings, use `AskUserQuestion` before diving in. See "When to ask" below.
 
 3. **Read the relevant sources** by layer:
-   - Contract & specs: `docs/specs/04-contrat.md` (structure of truth), other `docs/specs/*`.
+   - Contract & specs: `docs/specs/04-architect.md` (structure of truth), other `docs/specs/*`.
    - Shared: `src/shared/config.ts`, `src/shared/types.ts` (DTOs + `WindowApi`), `src/shared/ipc-channels.ts`.
    - Main entry / security: `src/main/index.ts`.
    - Models: `src/main/models/[entity].model.ts`, `models/errors.ts`, `preferences.model.ts`.
@@ -54,11 +56,11 @@ Use `AskUserQuestion` when:
 Offer 2–4 concrete options, recommended one first. Do not ask when the scope is obvious or you are just confirming a fact.
 
 ## Anti-patterns — what NOT to do
-- **Do not** modify code during an analysis. This skill is read-only; if a fix is wanted, hand off to `/fix` or `/implement`.
+- **Do not** modify code during an analysis. This skill is read-only; if a fix is wanted, hand off to `/fix` or `/feature-add`.
 - **Do not** report a behavior you inferred but did not read — mark it as an assumption and offer to verify.
 - **Do not** describe the layers in the abstract — anchor every claim to a `file:line`.
 - **Do not** silently pick one interpretation when several exist — ask.
 
 ## When the user asks something adjacent
-- **"And fix it"** → switch to `/fix` (bug) or `/implement` (change), carrying the analysis findings.
-- **"Is this secure / well-architected?"** → compare against `rules/security.md`, `docs/specs/04-contrat.md`, and `rules/mvc.md`; report deviations, do not refactor (that is `/refactor`, on request).
+- **"And fix it"** → switch to `/fix` (bug) or `/feature-add` (change), carrying the analysis findings.
+- **"Is this secure / well-architected?"** → compare against `rules/security.md`, `docs/specs/04-architect.md`, and `rules/mvc.md`; report deviations, do not refactor (that is `/refactor`, on request).

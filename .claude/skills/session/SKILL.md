@@ -1,6 +1,6 @@
 ---
 name: session
-description: Save the full state of the generation session into claude-sessions/SESSION_AppName_SN.md — phase, batches, locked decisions, open points, referencing the specs. Invoke at the end of a session.
+description: Save the full state of the generation session into docs/sessions/SESSION_AppName_SN.md — phase, batches, locked decisions, open points, referencing the specs. Invoke at the end of a session.
 model: haiku
 ---
 
@@ -13,13 +13,13 @@ Session archivist.
 Persist enough state to resume the project exactly where it stopped.
 
 ## Deliverable
-`claude-sessions/SESSION_[app_name]_S[N].md` (French).
+`docs/sessions/SESSION_[app_name]_S[N].md` (French).
 
 ---
 
-1. Create the `claude-sessions/` folder at the project root if it does not exist.
+1. Create the `docs/sessions/` folder at the project root if it does not exist.
 2. Determine N = next session number (existing files + 1).
-3. Write `claude-sessions/SESSION_[app_name]_S[N].md` (in French):
+3. Write `docs/sessions/SESSION_[app_name]_S[N].md` (in French):
 
 ```markdown
 # SESSION_S[N] — [APP_NAME] · [Phase terminée]
@@ -44,8 +44,8 @@ Lot suivant : [X+1/total] (si Phase 5)
 
 ## Specs
 
-Référence : docs/specs/01-cadrage.md · 02-analyse.md · 03-layout.md · 04-contrat.md
-(le contrat verrouillé dans 04-contrat.md fait foi — ne pas le dupliquer ici)
+Référence : docs/specs/01-scoping.md · 02-featuring.md · 03-designing.md · 04-architect.md
+(le contrat verrouillé dans 04-architect.md fait foi — ne pas le dupliquer ici)
 
 ## Lots livrés
 
@@ -59,7 +59,7 @@ Référence : docs/specs/01-cadrage.md · 02-analyse.md · 03-layout.md · 04-co
 [liste ou "aucun"]
 ```
 
-> If `docs/specs/04-contrat.md` exists, reference it instead of duplicating the full tree + IPC channels. Only summarize the locked decisions here.
+> If `docs/specs/04-architect.md` exists, reference it instead of duplicating the full tree + IPC channels. Only summarize the locked decisions here.
 
-4. Confirm: `Session sauvegardée : claude-sessions/SESSION_[app_name]_S[N].md`
+4. Confirm: `Session sauvegardée : docs/sessions/SESSION_[app_name]_S[N].md`
 5. Do not append the `/session · /statut · /contrat` reminder after this reply.

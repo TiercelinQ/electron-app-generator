@@ -1,6 +1,6 @@
 # Verification rules — single source of truth
 
-> Centralized, reusable verification for the whole framework. Referenced by `/phase5-developpement`, `/implement`, `/fix`, and `/test` — never duplicated in those skills.
+> Centralized, reusable verification for the whole framework. Referenced by `/p5-development`, `/feature-add`, `/fix`, and `/test` — never duplicated in those skills.
 > Two parts: **executable verification** (run real commands) and **static integrity** (read the code). Run silently; report only on a discrepancy.
 
 ---
@@ -44,7 +44,7 @@ Rules:
 ### Last batch only — cross-file
 9. All inter-layer imports resolved; IPC channels consistent end-to-end (`ipc-channels.ts` declaration ↔ handlers ↔ preload ↔ renderer calls).
 10. `WindowApi` interface aligned with the preload and the renderer usages.
-11. Architectural contract (`docs/specs/04-contrat.md`) respected — every file, IPC channel, and library matches the locked contract, or a declared+validated deviation exists.
+11. Architectural contract (`docs/specs/04-architect.md`) respected — every file, IPC channel, and library matches the locked contract, or a declared+validated deviation exists.
 12. Zero hardcoded visual value in TS/TSX, zero inline `style={}`.
 13. i18n keys: all used, none missing (if enabled).
 14. `docs/specs/` present and consistent with the delivered code.

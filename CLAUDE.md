@@ -10,6 +10,7 @@
 
 - **Always respond to the user in French.** Every conversational reply, grouped question block, confirmation, and batch announcement (`Lot N/...`) is written in French — regardless of the fact that this framework's driving files are in English.
 - Dense, direct answers. Lists over prose. Grouped questions in a single block. Short confirmations.
+- Whenever you ask a question, propose options, or propose a solution and await the user's reply, always include a recommended answer marked `(recommandé)`, chosen as the most pertinent for the context.
 - No unsolicited recap. No emojis except the batch marker. No filler.
 - Append at the end of every reply (except after `/session`, `/statut`, `/contrat`):
   `/session · /statut · /contrat`
@@ -39,18 +40,18 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 
 | Phase | Spec file |
 | ----- | --------------------------------- |
-| 1 — Cadrage   | `docs/specs/01-cadrage.md`   |
-| 2 — Analyse   | `docs/specs/02-analyse.md`   |
-| 3 — Layout    | `docs/specs/03-layout.md`    |
-| 4 — Contrat   | `docs/specs/04-contrat.md` (locked architectural contract) |
+| 1 — Scoping    | `docs/specs/01-scoping.md`   |
+| 2 — Featuring  | `docs/specs/02-featuring.md`   |
+| 3 — Designing  | `docs/specs/03-designing.md`    |
+| 4 — Architect  | `docs/specs/04-architect.md` (locked architectural contract) |
 
-`docs/specs/04-contrat.md` is the **source of truth** for the project structure — re-read by `/charger-projet`, `/contrat`, `/implement`, and `/refactor`.
+`docs/specs/04-architect.md` is the **source of truth** for the project structure — re-read by `/charger-projet`, `/contrat`, `/feature-add`, and `/refactor`.
 
 ---
 
 ## BINDING REFERENCES
 
-`design-system.md` and `layout.md` are binding references for every generated interface. They are **not** auto-imported (to keep the session context lean) — the UI skills (`/phase3-layout`, `/phase4-contrat`, `/phase5-developpement`, `/implement`, `/fix`, `/refactor`, `/analyze`) read them on demand before producing or altering any UI.
+`design-system.md` and `layout.md` are binding references for every generated interface. They are **not** auto-imported (to keep the session context lean) — the UI skills (`/p3-designing`, `/p4-architect`, `/p5-development`, `/feature-add`, `/fix`, `/refactor`, `/analyze`) read them on demand before producing or altering any UI.
 
 ---
 
@@ -87,10 +88,10 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 - If a database is used (Phase 1 Q2 ≠ none): single access point + versioned migrations — see @rules/db.md
 - If tests enabled in Phase 1 (Q6): test suite mandatory (Vitest + Testing Library) — see @rules/tests.md
 - No library that was not validated in Phase 1.
-- At project finalization (last batch of Phase 5): generate a `CLAUDE.md` at the generated project root — origin (framework + version), business context, framework deviations. See `/phase5-developpement`.
+- At project finalization (last batch of Phase 5): generate a `CLAUDE.md` at the generated project root — origin (framework + version), business context, framework deviations. See `/p5-development`.
 - After resolving an anomaly, offer: "Veux-tu mémoriser ce point ? `/memoriser`"
 
-Per-domain rule detail (loaded on demand by `/phase4-contrat`, `/phase5-developpement`, and the maintenance skills — not auto-imported): @rules/mvc.md · @rules/css.md · @rules/errors.md · @rules/config.md · @rules/security.md · @rules/db.md · @rules/tests.md · @rules/verification.md
+Per-domain rule detail (loaded on demand by `/p4-architect`, `/p5-development`, and the maintenance skills — not auto-imported): @rules/mvc.md · @rules/css.md · @rules/errors.md · @rules/config.md · @rules/security.md · @rules/db.md · @rules/tests.md · @rules/verification.md
 
 ---
 
@@ -103,18 +104,18 @@ All commands below are Claude Code skills invocable with `/`:
 | Command                 | Skill                          | Action                                       |
 | ----------------------- | ------------------------------ | -------------------------------------------- |
 | `/electron-app`         | `skills/electron-app/`         | Start / resume / maintenance menu            |
-| `/phase1-cadrage`       | `skills/phase1-cadrage/`       | Scoping — 5 questions + primary color        |
-| `/phase2-analyse`       | `skills/phase2-analyse/`       | Structured requirements sheet                |
-| `/phase3-layout`        | `skills/phase3-layout/`        | Layout proposal                              |
-| `/phase4-contrat`       | `skills/phase4-contrat/`       | Locked architectural contract                |
-| `/phase5-developpement` | `skills/phase5-developpement/` | Batch delivery                               |
+| `/p1-scoping`       | `skills/p1-scoping/`       | Scoping — 6 questions + primary color        |
+| `/p2-featuring`       | `skills/p2-featuring/`       | Structured requirements sheet                |
+| `/p3-designing`        | `skills/p3-designing/`        | Layout proposal                              |
+| `/p4-architect`       | `skills/p4-architect/`       | Locked architectural contract                |
+| `/p5-development` | `skills/p5-development/` | Batch delivery                               |
 
 ### Post-delivery maintenance
 
 | Command       | Skill                | Action                                                  |
 | ------------- | -------------------- | ------------------------------------------------------- |
 | `/analyze`    | `skills/analyze/`    | Trace a feature across the MVC/IPC layers, report       |
-| `/implement`  | `skills/implement/`  | Add a feature to a delivered app (contract-compliant)   |
+| `/feature-add`  | `skills/feature-add/`  | Add a feature to a delivered app (contract-compliant)   |
 | `/fix`        | `skills/fix/`        | Fix a bug — decision tree, root cause                   |
 | `/refactor`   | `skills/refactor/`   | Refactor under explicit validation only                 |
 | `/test`       | `skills/test/`       | Run executable verification (typecheck, lint, build)    |

@@ -30,9 +30,13 @@ Que faire ?
 → Réponds 1, 2, 3 ou 4, ou fournis directement ton fichier SESSION.
 ```
 
-**1 — New application**: start `/phase1-cadrage` immediately.
+**1 — New application**: ask for the destination folder, then start `/p1-scoping`:
+```
+Où créer l'application ? (chemin du dossier de destination, ex: C:\projets\MonApp)
+```
+Store this path as the project root — all generated files and specs (`docs/specs/`) are written there.
 
-**2 — Resume**: ask for the SESSION file path (`claude-sessions/SESSION_AppName_SN.md`), read it fully, then apply the resume protocol:
+**2 — Resume**: ask for the SESSION file path (`docs/sessions/SESSION_AppName_SN.md`), read it fully. The project root is the folder containing `docs/` (two levels up from the SESSION file); confirm it. Then apply the resume protocol:
 
 1. Read the SESSION block fully.
 2. Reply: `Reprise [APP_NAME] — [next phase] | Lot [X/total] | Points ouverts : [list or "aucun"]`
@@ -40,11 +44,17 @@ Que faire ?
 
 If a SESSION block is pasted directly into the message: apply the resume protocol without showing the menu.
 
-**3 — Load a delivered project**: chain to `/charger-projet` (invoke from the target project root, `.claude/` present).
+**3 — Load a delivered project**: ask for the project root to load, then chain to `/charger-projet` (`.claude/` present at that root):
+```
+Racine du projet à charger ? (chemin du dossier, ex: C:\projets\MonApp)
+```
 
-**4 — Maintain a delivered project**: first ensure the project is loaded (`/charger-projet` if not already), then route to the right maintenance skill based on the user's intent:
+**4 — Maintain a delivered project**: ask for the project root, first ensure the project is loaded (`/charger-projet` if not already), then route to the right maintenance skill based on the user's intent:
+```
+Racine du projet à maintenir ? (chemin du dossier, ex: C:\projets\MonApp)
+```
 - understand / trace how something works → `/analyze`
-- add a feature → `/implement`
+- add a feature → `/feature-add`
 - fix a bug → `/fix`
 - restructure existing code → `/refactor`
 - verify the build / run checks → `/test`

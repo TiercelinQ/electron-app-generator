@@ -1,10 +1,10 @@
 ---
-name: phase4-contrat
+name: p4-architect
 description: Phase 4 of the Electron app generation cycle — complete architectural contract (tree, role of each file, IPC channels, tokens → CSS table), written to the contract spec and locked after validation.
 model: sonnet
 ---
 
-# /phase4-contrat — Architectural contract
+# /p4-architect — Architectural contract
 
 ## Role
 Software architect — design the locked structure the whole build will follow.
@@ -13,11 +13,11 @@ Software architect — design the locked structure the whole build will follow.
 Produce a complete, unambiguous architectural contract that freezes the file tree, IPC channels, and CSS mapping.
 
 ## Deliverable
-`docs/specs/04-contrat.md` (written in French) — the locked source of truth + on-screen contract.
+`docs/specs/04-architect.md` (written in French) — the locked source of truth + on-screen contract.
 
 ---
 
-At start: read `design-system.md`, `layout.md` (no longer auto-imported), `rules/mvc.md` (tree, batches, MVC conventions) and `rules/css.md` (tokens → CSS). Read `docs/specs/01-cadrage.md` through `03-layout.md` for the validated decisions.
+At start: read `design-system.md`, `layout.md` (no longer auto-imported), `rules/mvc.md` (tree, batches, MVC conventions) and `rules/css.md` (tokens → CSS). Read `docs/specs/01-scoping.md` through `03-designing.md` for the validated decisions.
 
 Present (in French):
 
@@ -45,6 +45,6 @@ Any deviation (merge, split, rename, addition, removal of a file, IPC channel, o
 
 ## Write the spec
 
-Once validated, write the full contract to `docs/specs/04-contrat.md` (in French). This file is the **locked source of truth** re-read by `/phase5-developpement`, `/charger-projet`, `/contrat`, `/implement`, and `/refactor`.
+Once validated, write the full contract to `docs/specs/04-architect.md` (in French). This file is the **locked source of truth** re-read by `/p5-development`, `/charger-projet`, `/contrat`, `/feature-add`, and `/refactor`.
 
-→ Chain to `/phase5-developpement` after validation.
+→ Chain to `/p5-development` after validation.

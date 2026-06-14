@@ -22,11 +22,11 @@ claude-electron-framework/
 │   └── verification.md       # Vérification EXÉCUTABLE centralisée + intégrité statique
 ├── skills/
 │   ├── electron-app/         # Menu démarrage / reprise / maintenance (4 options)
-│   ├── phase1-cadrage/       # Cadrage — 5 questions + couleur → docs/specs/01-cadrage.md
-│   ├── phase2-analyse/       # Fiche besoins → docs/specs/02-analyse.md
-│   ├── phase3-layout/        # Proposition layout → docs/specs/03-layout.md
-│   ├── phase4-contrat/       # Contrat architectural verrouillé → docs/specs/04-contrat.md
-│   ├── phase5-developpement/ # Livraison par lots (enchaînement auto)
+│   ├── p1-scoping/       # Scoping — 6 questions + couleur → docs/specs/01-scoping.md
+│   ├── p2-featuring/       # Fiche besoins → docs/specs/02-featuring.md
+│   ├── p3-designing/        # Proposition layout → docs/specs/03-designing.md
+│   ├── p4-architect/       # Contrat architectural verrouillé → docs/specs/04-architect.md
+│   ├── p5-development/ # Livraison par lots (enchaînement auto)
 │   ├── implement/            # Ajouter une feature à un projet livré (respect contrat + sécurité)
 │   ├── analyze/              # Tracer une fonctionnalité renderer→preload→controller→model
 │   ├── fix/                  # Corriger un bug — arbre de décision, cause racine
@@ -52,8 +52,8 @@ claude-electron-framework/
 | Apport                        | Détail                                                                          |
 | ----------------------------- | ------------------------------------------------------------------------------- |
 | **Rôle par skill**            | Chaque skill ouvre sur un persona ciblé (Role / Goal / Deliverable).            |
-| **Specs persistées**          | Phases 1→4 écrivent `docs/specs/01-cadrage.md` … `04-contrat.md` (en français). |
-| **Contrat = source de vérité**| `docs/specs/04-contrat.md` relu par `/charger-projet`, `/contrat`, `/implement`, `/refactor`. |
+| **Specs persistées**          | Phases 1→4 écrivent `docs/specs/01-scoping.md` … `04-architect.md` (en français). |
+| **Contrat = source de vérité**| `docs/specs/04-architect.md` relu par `/charger-projet`, `/contrat`, `/feature-add`, `/refactor`. |
 | **Skills de maintenance**     | `analyze`, `implement`, `fix`, `refactor`, `test` avec arbres de décision et anti-patterns. |
 | **Vérification exécutable**   | `rules/verification.md` : typecheck, lint, build — échec bloquant.              |
 | **Mémoire native**            | `/memoriser` écrit dans la mémoire native Claude Code + `MEMORY.md`.            |
@@ -88,39 +88,39 @@ node --version        # Node.js 22 LTS+ (pour exécuter les apps générées)
 /electron-app → 1
 ```
 
-### Phase 1 — Cadrage
+### Phase 1 — Scoping
 
-6 questions en un seul bloc : objectif · base de données (SQLite better-sqlite3 / JSON / CSV / aucune) · préférences persistantes · i18n FR/EN · icône `.ico` · tests (Vitest + Testing Library). Puis choix de couleur primaire (3 propositions + Slate Blue par défaut). Calibrage annoncé.
+6 questions en un seul bloc : objectif · base de données (SQLite better-sqlite3 / JSON / CSV / aucune) · préférences persistantes · i18n FR/EN · icône `.ico` · tests (Vitest + Testing Library). Puis choix de couleur primaire (Slate Blue recommandé par défaut + 4 propositions adaptées au contexte). Calibrage annoncé.
 
 | Taille        | Lots (sans tests) | Lots (avec tests) |
 | ------------- | ----------------- | ----------------- |
 | Petit         | 3                 | 4                 |
 | Moyen / Grand | 4                 | 5                 |
 
-Écrit `docs/specs/01-cadrage.md`.
+Écrit `docs/specs/01-scoping.md`.
 
-### Phase 2 — Analyse des besoins
+### Phase 2 — Featuring
 
-Fiche structurée + calibrage figé. Validation bloquante avant Phase 3. Écrit `docs/specs/02-analyse.md`.
+Fiche structurée + calibrage figé. Validation bloquante avant Phase 3. Écrit `docs/specs/02-featuring.md`.
 
-### Phase 3 — Layout
+### Phase 3 — Designing
 
-Proposition issue de `layout.md` + personnalisation (onglets topbar, drawer/modale, position des toasts). Validation bloquante. Écrit `docs/specs/03-layout.md`.
+Proposition issue de `layout.md` + personnalisation (onglets topbar, drawer/modale, position des toasts). Validation bloquante. Écrit `docs/specs/03-designing.md`.
 
-### Phase 4 — Contrat architectural
+### Phase 4 — Architect
 
-Arborescence + rôle de chaque fichier + **tableau des canaux IPC** (canal → controller → model → `window.api` → view) + tableau tokens → CSS. **Verrouillé après validation.** Écrit `docs/specs/04-contrat.md` (source de vérité).
+Arborescence + rôle de chaque fichier + **tableau des canaux IPC** (canal → controller → model → `window.api` → view) + tableau tokens → CSS. **Verrouillé après validation.** Écrit `docs/specs/04-architect.md` (source de vérité).
 
-### Phase 5 — Développement par lots
+### Phase 5 — Development
 
-Fichiers écrits directement sur le disque. Annonce `Lot N/[total] — [contenu]`. Enchaînement automatique. Dernier lot : `scripts/ensure-electron.cjs`, instructions d'installation, `README.md`. Vérification exécutable appliquée.
+Fichiers écrits directement sur le disque. Annonce `Lot N/[total] — [contenu]`. Enchaînement automatique. Dernier lot : `scripts/ensure-electron.cjs`, instructions d'installation, `README.md` + `scripts/seed.ts` (jeu de données cohérent si une base est présente). Vérification exécutable appliquée.
 
 ---
 
 ## Reprendre une session
 
 ```
-/session             # sauvegarder en fin de session (claude-sessions/)
+/session             # sauvegarder en fin de session (docs/sessions/)
 /electron-app → 2    # reprendre : fournir le chemin du fichier SESSION
 ```
 
@@ -132,13 +132,13 @@ Fichiers écrits directement sur le disque. Annonce `Lot N/[total] — [contenu]
 /electron-app → 3     # ou directement /charger-projet depuis la racine du projet
 ```
 
-Claude lit `docs/specs/04-contrat.md` (priorité), sinon le README, sinon le code, puis applique toutes les règles. Projet sans README : `/generate-readme`.
+Claude lit `docs/specs/04-architect.md` (priorité), sinon le README, sinon le code, puis applique toutes les règles. Projet sans README : `/generate-readme`.
 
 ### Maintenance (`/electron-app → 4`)
 
 | Besoin                          | Commande      |
 | ------------------------------- | ------------- |
-| Ajouter une fonctionnalité      | `/implement`   |
+| Ajouter une fonctionnalité      | `/feature-add`   |
 | Comprendre / tracer le code     | `/analyze`     |
 | Corriger un bug                 | `/fix`         |
 | Restructurer (sous validation)  | `/refactor`    |
@@ -167,7 +167,7 @@ npm run dist                 # packaging — sur demande
 
 ## Sécurité Electron
 
-`rules/security.md` est non négociable et appliqué à 100% : `contextIsolation: true`, `nodeIntegration: false`, `sandbox: true`, CSP stricte, validation de toute entrée IPC côté main, preload à surface minimale (fonctions nommées uniquement), zéro ressource distante. `/fix` et `/implement` y renvoient systématiquement.
+`rules/security.md` est non négociable et appliqué à 100% : `contextIsolation: true`, `nodeIntegration: false`, `sandbox: true`, CSP stricte, validation de toute entrée IPC côté main, preload à surface minimale (fonctions nommées uniquement), zéro ressource distante. `/fix` et `/feature-add` y renvoient systématiquement.
 
 ---
 
@@ -182,12 +182,12 @@ Après correction (`/fix` ou Phase 5), Claude produit un bilan de nettoyage puis
 | Commande                | Modèle | Action                                               |
 | ----------------------- | ------ | ---------------------------------------------------- |
 | `/electron-app`         | Haiku  | Menu démarrage / reprise / maintenance               |
-| `/phase1-cadrage`       | Sonnet | Cadrage — 5 questions + couleur                      |
-| `/phase2-analyse`       | Sonnet | Fiche besoins                                        |
-| `/phase3-layout`        | Sonnet | Proposition layout + personnalisation                |
-| `/phase4-contrat`       | Sonnet | Contrat architectural verrouillé (canaux IPC)        |
-| `/phase5-developpement` | Sonnet | Livraison par lots — enchaînement automatique        |
-| `/implement`            | Sonnet | Ajouter une feature à un projet livré                |
+| `/p1-scoping`       | Sonnet | Scoping — 6 questions + couleur                      |
+| `/p2-featuring`       | Sonnet | Fiche besoins                                        |
+| `/p3-designing`        | Sonnet | Proposition layout + personnalisation                |
+| `/p4-architect`       | Sonnet | Contrat architectural verrouillé (canaux IPC)        |
+| `/p5-development` | Sonnet | Livraison par lots — enchaînement automatique        |
+| `/feature-add`            | Sonnet | Ajouter une feature à un projet livré                |
 | `/analyze`              | Sonnet | Tracer une fonctionnalité à travers les couches      |
 | `/fix`                  | Sonnet | Corriger un bug — cause racine                       |
 | `/refactor`             | Sonnet | Restructurer sous validation                         |
@@ -228,6 +228,6 @@ mon-app/
 - `design-system.md` et `layout.md` sont la **source de vérité unique** — ne pas les dupliquer.
 - Sécurité Electron (`rules/security.md`) non négociable — jamais affaiblie, même temporairement.
 - Les canaux IPC sont centralisés dans `src/shared/ipc-channels.ts` — zéro chaîne de canal en dur ailleurs.
-- Le contrat (`docs/specs/04-contrat.md`) est verrouillé. Tout changement structurel passe par `/implement` ou le protocole de déclaration d'écart.
-- `/charger-projet`, `/generate-readme`, `/implement`, `/analyze`, `/fix`, `/refactor`, `/test` s'invoquent depuis la racine du projet cible.
+- Le contrat (`docs/specs/04-architect.md`) est verrouillé. Tout changement structurel passe par `/feature-add` ou le protocole de déclaration d'écart.
+- `/charger-projet`, `/generate-readme`, `/feature-add`, `/analyze`, `/fix`, `/refactor`, `/test` s'invoquent depuis la racine du projet cible.
 - Aucune ressource distante (CDN) — tout est embarqué via npm (contrainte CSP).

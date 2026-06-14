@@ -9,10 +9,7 @@
       "Edit",
       "Bash(echo \"ensure-electron OK \\(exit $?\\)\")",
       "Bash(powershell.exe -NoProfile -Command 'Get-Process electron,node -ErrorAction SilentlyContinue | Where-Object { $_.Path -like '\\\\''*window-companion*'\\\\'' -or $_.ProcessName -eq '\\\\''electron'\\\\'' } | Stop-Process -Force -ErrorAction SilentlyContinue; Start-Sleep 1; \\(Get-Process electron -ErrorAction SilentlyContinue | Measure-Object\\).Count')",
-      "PowerShell($env:ELECTRON_RUN_AS_NODE=$null; npm run typecheck; if \\($?\\) { npm run lint })",
-      "PowerShell($env:ELECTRON_RUN_AS_NODE=$null; $p=\"D:\\\\Documents\\\\00 Mes Documents\\\\07 Projets et Creations\\\\01 Informatique\\\\claude\\\\dev\\\\frameworks\\\\electron\\\\window-companion\"; npm --prefix $p run typecheck; if \\($?\\) { npm --prefix $p run lint })",
-      "PowerShell($env:ELECTRON_RUN_AS_NODE=$null; $p=\"D:\\\\Documents\\\\00 Mes Documents\\\\07 Projets et Creations\\\\01 Informatique\\\\claude\\\\dev\\\\frameworks\\\\electron\\\\window-companion\"; npm --prefix $p run build)",
-      "PowerShell($env:ELECTRON_RUN_AS_NODE=$null; $p=\"D:\\\\Documents\\\\00 Mes Documents\\\\07 Projets et Creations\\\\01 Informatique\\\\claude\\\\dev\\\\frameworks\\\\electron\\\\window-companion\"; npm --prefix $p run typecheck; if \\($?\\) { npm --prefix $p run lint }; if \\($?\\) { npm --prefix $p run build })"
+      "PowerShell($env:ELECTRON_RUN_AS_NODE=$null; npm run typecheck; if \\($?\\) { npm run lint })"
     ],
     "deny": [
       "Read(**/.env)",
