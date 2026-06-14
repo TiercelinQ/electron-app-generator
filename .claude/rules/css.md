@@ -18,6 +18,9 @@ Imported once in `main.tsx`, in this order: `tokens.css` then `styles.css` then 
 5. **Strict flat design**: `border-radius: 0` everywhere, `box-shadow` forbidden, gradients forbidden, row alternation forbidden.
 6. **Naming conventions**: kebab-case classes (`.btn-primary`, `.data-table`), states prefixed `is-`/`has-` (`.is-active`, `.has-error`). `id` reserved for the unique shell anchors (`#topbar`, `#main-content`, `#statusbar`, `#toast-container`, `#drawer`, `#app-shell`).
 7. Zero CSS framework (Tailwind, Bootstrap…), zero CSS-in-JS, zero CSS Modules — centralized flat CSS only.
+8. **`color-scheme` declared per theme** in `tokens.css` (`:root` light, `[data-theme="dark"]` dark) so native controls (scrollbars, `<select>`, `<progress>`, checkbox/radio, pickers) follow the theme. Custom flat styling on top for scrollbars and `<progress>` (see `styles.css` organization).
+9. **No hardcoded `z-index`** — use the `--z-*` layering tokens (`design-system.md §13`). Overlays (`#toast-container`, drawer/modal overlays) read them.
+10. **`@media (prefers-reduced-motion: reduce)`** present in `styles.css` to neutralize transitions/animations. This is the only allowed `@media` there — `prefers-color-scheme` stays forbidden (theming is `data-theme`).
 
 ## Theme toggle
 
@@ -35,22 +38,28 @@ await window.api.savePreference("theme", theme);
 ```css
 /* ============================================================
    tokens.css — [APP_NAME] v[VERSION]
-   Reference: design-system.md v1.0 (Electron)
+   Reference: design-system.md v1.1 (Electron)
    ============================================================ */
 
 :root {
-  /* --- TYPOGRAPHY --- */
+  color-scheme: light;             /* native controls follow the theme */
+  /* --- TYPOGRAPHY (+ line-height) --- */
   /* --- COLORS — light mode --- */
-  /* --- PRIMARY (project: [color chosen in Phase 1]) --- */
-  /* --- SEMANTIC --- */
+  /* --- PRIMARY (project: [color chosen in Phase 1]) — 50/400/600/700/800/900 + usage tokens --- */
+  /* --- SEMANTIC (incl. danger-700/800) --- */
   /* --- ICONS --- */
   /* --- SPACING --- */
   /* --- FIXED SIZES --- */
+  /* --- SHAPE / BORDER-WIDTH / OPACITY --- */
   /* --- TRANSITIONS --- */
+  /* --- Z-INDEX (layering scale) --- */
+  /* --- SELECTION / TEXT-ON-PRIMARY --- */
 }
 
 [data-theme="dark"] {
-  /* --- COLORS — dark mode (full redefinition of themed tokens) --- */
+  color-scheme: dark;
+  /* --- COLORS — dark mode (full redefinition of themed tokens,
+         including semantic *-50 surfaces and --primary / --primary-bg) --- */
 }
 ```
 
@@ -59,7 +68,7 @@ await window.api.savePreference("theme", theme);
 ```css
 /* ============================================================
    styles.css — [APP_NAME] v[VERSION]
-   Reference: design-system.md v1.0 (Electron) · layout.md v2.0
+   Reference: design-system.md v1.1 (Electron) · layout.md v2.1
    ============================================================ */
 
 /* --- BASE ----------------------------------------------- */
@@ -110,12 +119,42 @@ body { ... }
 #statusbar { ... }
 
 /* --- FOCUS ------------------------------------------------------ */
-:focus-visible { ... }
+/* token: focus-ring / primary */
+:focus-visible { outline: var(--border-width-emphasis) solid var(--primary); outline-offset: 2px; }
+
+/* --- SELECTION ------------------------------------------------- */
+/* token: selection-bg / selection-text */
+::selection { background: var(--selection-bg); color: var(--selection-text); }
+
+/* --- SCROLLBARS (flat, Chromium) ------------------------------- */
+/* token: bg-muted / border-strong */
+::-webkit-scrollbar { width: 12px; height: 12px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--bg-muted); border: none; }      /* radius 0 */
+::-webkit-scrollbar-thumb:hover { background: var(--border-strong); }
+/* color-scheme (tokens.css) already themes native scrollbars as a fallback */
+
+/* --- NATIVE PROGRESS ------------------------------------------- */
+/* token: bg-muted / primary — statusbar <progress> (8px) */
+progress { appearance: none; height: 8px; border: none; background: var(--bg-muted); }
+progress::-webkit-progress-bar { background: var(--bg-muted); }
+progress::-webkit-progress-value { background: var(--primary); }
+
+/* --- TOOLTIP --------------------------------------------------- */
+/* token: text (inverted bg) / bg / border / spacing-2 / font-xs
+   Replaces the native title tooltip where flat styling matters. */
+.tooltip { background: var(--text); color: var(--bg); border: var(--border-width) solid var(--border);
+           padding: var(--spacing-1) var(--spacing-2); font-size: var(--font-xs); }
+
+/* --- REDUCED MOTION -------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}
 ```
 
 ## Per-project primary color
 
-If a color was chosen in Phase 1 (≠ Slate Blue): only the 4 `--primary-50/400/600/900` values change in the project's `tokens.css`. The global `design-system.md` stays unchanged.
+If a color was chosen in Phase 1 (≠ Slate Blue): only the 6 `--primary-50/400/600/700/800/900` values change in the project's `tokens.css` (the usage tokens `--primary`, `--primary-bg`, `--primary-hover`, `--primary-pressed` reference them and stay unchanged). The global `design-system.md` stays unchanged.
 
 ## Anti-patterns — what NOT to do
 
@@ -126,3 +165,6 @@ If a color was chosen in Phase 1 (≠ Slate Blue): only the 4 `--primary-50/400/
 - **Do not** introduce a CSS framework, CSS-in-JS, or CSS Modules.
 - **Do not** use an `id` for styling beyond the shell anchors — use a `className`.
 - **Do not** duplicate a token value as a magic number in TS — read the CSS variable / token.
+- **Do not** ship dark mode without `color-scheme` — native controls (scrollbars, `<select>`, `<progress>`) would stay light.
+- **Do not** hardcode a `z-index` — use the `--z-*` tokens.
+- **Do not** rely on the native `title` tooltip where flat styling is required — use the `.tooltip` rule.

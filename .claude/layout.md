@@ -1,7 +1,14 @@
-# Layout System — v2.0 (Electron)
+# Layout System — v2.1 (Electron)
 
 > Binding reference for all Node.js/Electron/React applications.
-> Built on `design-system.md v1.0 (Electron)`. The two files are inseparable.
+> Built on `design-system.md v1.1 (Electron)`. The two files are inseparable.
+
+## Changelog
+
+| Version | Date       | Main change                                                                |
+| ------- | ---------- | -------------------------------------------------------------------------- |
+| v2.1    | 2026-06-14 | statusbar text `--text-subtle` (WCAG) · dark surface ramp · layering reference |
+| v2.0    | initial    | Global structure, topbar, drawer, statusbar, recurring components           |
 
 ---
 
@@ -202,6 +209,9 @@ Component: `views/ToastManager.tsx` — queue in React state, `#toast-container`
 | `danger`  | `--danger-50`  | `--danger-600`  | `fa-circle-exclamation`   |
 | `info`    | `--info-50`    | `--info-600`    | `fa-circle-info`          |
 
+> `--*-50` is the toast surface role: pale tint in light, deep tint in dark (redefined in `[data-theme="dark"]`, see `design-system.md §2`). Toast message text uses `--text`. Toast icons use the matching `--icon-*` token. Toast icon colors: success `--icon-success`, warning `--icon-warning`, danger `--icon-danger`, info `--icon-info`.
+> Layering: `#toast-container` uses `--z-toast` (400), above modals (`design-system.md §13`), so a persistent `danger` toast is never hidden.
+
 ---
 
 ## 6. RIGHT DRAWER
@@ -211,7 +221,7 @@ Component: `views/ToastManager.tsx` — queue in React state, `#toast-container`
 | width            | `--drawer-width` = 320px                                                           |
 | animation        | slide from the right, `--transition-slow` = 250ms (`transform: translateX`)         |
 | light mode bg    | `--bg-elevated` = #FFFFFF                                                          |
-| dark mode bg     | `--bg-elevated` = #374151                                                          |
+| dark mode bg     | `--bg-elevated` = #1F2937                                                          |
 | left border      | 1px `--border`                                                                     |
 | padding          | `--spacing-6` = 24px                                                               |
 | overlay bg       | `--text` 40% opacity                                                               |
@@ -229,11 +239,13 @@ Component: `views/ToastManager.tsx` — queue in React state, `#toast-container`
 | ------------------ | ----------------------------- |
 | height             | `--statusbar-height` = 28px   |
 | light mode bg      | `--bg-muted` = #F3F4F6        |
-| dark mode bg       | `--bg-muted` = #1F2937        |
+| dark mode bg       | `--bg-muted` = #374151        |
 | top border         | 1px `--border`                |
 | horizontal padding | `--spacing-4` = 16px          |
 | font               | `--weight-normal` `--font-xs` |
-| text color         | `--text-muted`                |
+| text color         | `--text-subtle`               |
+
+> WCAG: `--text-subtle` on `--bg-muted` reaches ~4.4:1, marginal vs AA (4.5:1). Essential or error status uses `--text` for full contrast. `--text-muted` is reserved for disabled/decorative use (see `design-system.md §12`).
 
 ### Statusbar zones (left → right)
 
@@ -370,7 +382,7 @@ Implementation: `keydown` listeners in the renderer. Global shortcuts do not go 
 
 ## 11. DESIGN SYSTEM CROSS-REFERENCE
 
-This file does not redefine tokens — it consumes them. Every visual value is traced to `design-system.md v1.0 (Electron)`.
+This file does not redefine tokens — it consumes them. Every visual value is traced to `design-system.md v1.1 (Electron)`.
 
 | Need                       | Token                                              |
 | -------------------------- | -------------------------------------------------- |
@@ -386,5 +398,8 @@ This file does not redefine tokens — it consumes them. Every visual value is t
 | State transitions          | `--transition-default` = 150ms                     |
 | Shape                      | `--radius` = 0px (flat design)                     |
 | Shadows                    | none (flat design)                                 |
+| Line-height                | `--leading-tight` 1.25 / `--leading-normal` 1.5    |
+| Overlay opacity            | `--opacity-overlay` 0.4 (`--text` color)           |
+| Stacking order             | `--z-*` layering scale (`design-system.md §13`)    |
 ```
 

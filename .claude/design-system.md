@@ -1,9 +1,20 @@
-# Design System — v1.0 (Electron)
+# Design System — v1.1 (Electron)
 
 > Binding reference for all Node.js/Electron/React applications.
 > Use: Windows desktop applications, personal and professional use.
 > Inseparable from `layout.md`.
 > All tokens are **CSS custom properties** declared in `src/renderer/src/styles/tokens.css`.
+
+## Changelog
+
+| Version | Date       | Main change                                                                                       |
+| ------- | ---------- | ------------------------------------------------------------------------------------------------- |
+| v1.1    | 2026-06-14 | line-height · dark semantic backgrounds · primary/danger hover-pressed stops · `color-scheme` · WCAG AA target · layering scale · dark surface ramp fix · icon warning/info · selection/opacity/border-width tokens |
+| v1.0    | initial    | CSS custom properties port: typography, colors, spacing, components, states                        |
+
+> Aligns with the Python generator `design-system.md v1.2` (shared palette). Per-file versions: CSS rules in `rules/css.md`, layout in `layout.md`.
+
+Every generated application references the active version in its `README.md`.
 
 ---
 
@@ -30,6 +41,13 @@
 }
 ```
 
+### Line-height
+
+| Token              | Value | Usage                             |
+| ------------------ | ----- | --------------------------------- |
+| `--leading-tight`  | 1.25  | Titles (`--font-lg`, `--font-2xl`) |
+| `--leading-normal` | 1.5   | Body, labels                      |
+
 ---
 
 ## 2. COLORS
@@ -55,8 +73,8 @@
 | ----------------- | ------- | ---------------------- |
 | `--bg`            | #111827 | Main background, topbar |
 | `--bg-subtle`     | #1F2937 | Secondary areas        |
-| `--bg-muted`      | #1F2937 | Statusbar, hover       |
-| `--bg-elevated`   | #374151 | Drawer, modals         |
+| `--bg-elevated`   | #1F2937 | Drawer, modals         |
+| `--bg-muted`      | #374151 | Statusbar, hover       |
 | `--text`          | #F9FAFB | Primary text           |
 | `--text-subtle`   | #9CA3AF | Secondary text         |
 | `--text-muted`    | #6B7280 | Disabled text          |
@@ -64,21 +82,35 @@
 | `--border-subtle` | #1F2937 | Discreet separators    |
 | `--border-strong` | #4B5563 | Table headers          |
 
-### Primary color — Slate Blue
+> Dark surface ramp: `--bg` #111827 < {`--bg-subtle`, `--bg-elevated`} #1F2937 < `--bg-muted` #374151. `--bg-muted` is the lightest so that hover stays visible on every surface, including inside drawers and modals.
 
-| Token           | Light   | Dark    |
-| --------------- | ------- | ------- |
-| `--primary-50`  | #EEF2FF | —       |
-| `--primary-400` | —       | #818CF8 |
-| `--primary-600` | #4F46E5 | —       |
-| `--primary-900` | —       | #312E81 |
+### Native color scheme
 
-> Modification: replacing these 4 values in `tokens.css` is enough to change the primary color across the whole application.
-
-Implementation: two derived usage tokens, redefined per theme — these are the ones `styles.css` consumes.
+Declare `color-scheme` per theme so native controls (scrollbars, `<select>`, `<progress>`, checkbox/radio, native focus rings, date pickers) follow the theme. Without it, dark mode breaks on native widgets.
 
 ```css
-:root                { --primary: var(--primary-600); --primary-bg: var(--primary-50); }
+:root                { color-scheme: light; }
+[data-theme="dark"]  { color-scheme: dark; }
+```
+
+### Primary color — Slate Blue
+
+| Token           | Light   | Dark    | Usage                               |
+| --------------- | ------- | ------- | ----------------------------------- |
+| `--primary-50`  | #EEF2FF | —       | Selection / active bg (light)       |
+| `--primary-400` | —       | #818CF8 | Active text/border (dark)           |
+| `--primary-600` | #4F46E5 | —       | Active text/border, primary btn (light) |
+| `--primary-700` | #4338CA | #4338CA | Primary button hover (both modes)   |
+| `--primary-800` | #3730A3 | #3730A3 | Primary button pressed (both modes) |
+| `--primary-900` | —       | #312E81 | Selection / active bg (dark)        |
+
+> Modification: replacing `--primary-50/400/600/700/800/900` in `tokens.css` is enough to change the primary color across the whole application. The 6 stops derive from `--primary-600` by the same HSL rule used by the Python generator (same H/S, lightness varies: 95/70/—/50/42/25%). `--primary-700`/`--primary-800` are mode-agnostic (one value each).
+
+Implementation: derived usage tokens, redefined per theme (or fixed) — these are the ones `styles.css` consumes.
+
+```css
+:root                { --primary: var(--primary-600); --primary-bg: var(--primary-50);
+                       --primary-hover: var(--primary-700); --primary-pressed: var(--primary-800); }
 [data-theme="dark"]  { --primary: var(--primary-400); --primary-bg: var(--primary-900); }
 ```
 
@@ -86,14 +118,18 @@ Implementation: two derived usage tokens, redefined per theme — these are the 
 
 | Token             | Light   | Dark    | Usage                  |
 | ----------------- | ------- | ------- | ---------------------- |
-| `--success-50`    | #F0FDF4 | —       | Success toast bg       |
+| `--success-50`    | #F0FDF4 | #14532D | Success toast bg       |
 | `--success-600`   | #16A34A | #4ADE80 | Success border, icon   |
-| `--warning-50`    | #FFFBEB | —       | Warning toast bg       |
+| `--warning-50`    | #FFFBEB | #78350F | Warning toast bg       |
 | `--warning-600`   | #D97706 | #FCD34D | Warning border, icon   |
-| `--danger-50`     | #FFF1F2 | —       | Danger toast bg        |
+| `--danger-50`     | #FFF1F2 | #7F1D1D | Danger toast bg        |
 | `--danger-600`    | #DC2626 | #F87171 | Danger border, icon    |
-| `--info-50`       | #EFF6FF | —       | Info toast bg          |
+| `--danger-700`    | #B91C1C | #B91C1C | Danger button hover    |
+| `--danger-800`    | #991B1B | #991B1B | Danger button pressed  |
+| `--info-50`       | #EFF6FF | #1E3A8A | Info toast bg          |
 | `--info-600`      | #2563EB | #60A5FA | Info border, icon      |
+
+> Naming note: `--*-50` is a **role** ("semantic surface / toast background"), not a fixed luminance level. Light = pale tint, Dark = deep tint of the same hue, redefined in the `[data-theme="dark"]` block. Without the dark redefinition the `var()` keeps the light value and the toast breaks in dark mode. Toast message text uses `--text`; border/icon use `--*-600`.
 
 ### Charts / visualization palette
 
@@ -105,7 +141,21 @@ Implementation: two derived usage tokens, redefined per theme — these are the 
 | `--chart-danger`  | `var(--danger-600)`      |
 | `--chart-info`    | `var(--info-600)`        |
 
-> The `--chart-*` tokens consume the semantic colors via `var()` — they automatically follow dark mode with no redefinition.
+> The `--chart-*` tokens consume the semantic colors via `var()` — they automatically follow dark mode with no redefinition. Since `--*-600` already carry dark values, charts stay legible in both themes.
+
+### Text selection & on-primary
+
+| Token                | Light                | Dark                  | Usage                          |
+| -------------------- | -------------------- | --------------------- | ------------------------------ |
+| `--selection-bg`     | `var(--primary-bg)`  | `var(--primary-bg)`   | Selected text background       |
+| `--selection-text`   | `var(--text)`        | `var(--text)`         | Selected text color            |
+| `--text-on-primary`  | #FFFFFF              | #FFFFFF               | Text on Primary / Danger buttons |
+
+```css
+::selection { background: var(--selection-bg); color: var(--selection-text); }
+```
+
+> `--text-on-primary` replaces the literal `#FFFFFF` in button rules, keeping `styles.css` free of literal values (`rules/css.md` rule 2).
 
 ---
 
@@ -150,20 +200,35 @@ Implementation: two derived usage tokens, redefined per theme — these are the 
 | Topbar tab        | label + horizontal padding               | `--topbar-height`          | —                                             |
 | Label             | content, wrap if constrained             | content                    | —                                             |
 | Dropdown menu     | longest item                             | content                    | —                                             |
-| Dialog / modal    | content                                  | content                    | `min-width` advised per context               |
+| Dialog / modal    | content                                  | content                    | `min-width` 480px (see `layout.md` §8)        |
 | Tree item         | content + indentation                    | vertical padding           | —                                             |
 | Toast             | —                                        | multi-line content         | fixed width 320px                             |
 
 ---
 
-## 5. SHAPE & SHADOWS
+## 5. SHAPE, SHADOWS, BORDERS, OPACITY
 
-| Token      | Value                       |
-| ---------- | --------------------------- |
-| `--radius` | 0px — strict flat design    |
-| shadows    | none — strict flat design   |
+| Token      | Value                     |
+| ---------- | ------------------------- |
+| `--radius` | 0px, strict flat design   |
+| shadows    | none, strict flat design  |
 
 `box-shadow` forbidden. `border-radius: 0` everywhere.
+
+### Border widths
+
+| Token                     | Value | Usage                                        |
+| ------------------------- | ----- | -------------------------------------------- |
+| `--border-width`          | 1px   | Standard borders, separators                 |
+| `--border-width-emphasis` | 2px   | Focus, active tab underline, field-in-error  |
+| `--border-width-accent`   | 4px   | Toast left accent                            |
+
+### Opacity
+
+| Token                | Value | Usage                                  |
+| -------------------- | ----- | -------------------------------------- |
+| `--opacity-disabled` | 0.4   | Disabled interactive elements          |
+| `--opacity-overlay`  | 0.4   | Modal / drawer overlay (`--text` color) |
 
 ---
 
@@ -190,26 +255,40 @@ Implementation: two derived usage tokens, redefined per theme — these are the 
 
 ## 8. INTERACTIVE COMPONENT STATES
 
-Applies to all buttons, tabs, clickable items:
+Applies to **transparent-background interactive elements**: tabs, list/table/tree items, pagination buttons, `.btn-secondary`, `.btn-ghost`. Colored-background buttons (`.btn-primary`, `.btn-danger`) follow their own hover/pressed rules in §9, because turning their background gray on hover would drop the semantic color.
 
-| State                  | Rule                                                                  |
-| ---------------------- | --------------------------------------------------------------------- |
-| `default`              | Base style defined by the component                                    |
-| `:hover`               | `--bg-muted` background, `--transition-default` transition             |
-| `active` / selected    | `--primary-bg` background, `--primary` text (`.is-active` class)       |
-| `disabled`             | 40% opacity, `pointer-events: none` (`disabled` attribute or `.is-disabled`) |
-| `:focus-visible`       | `--focus-ring` visible                                                 |
+| State              | Rule                                                                            |
+| ------------------ | ------------------------------------------------------------------------------- |
+| `default`          | Base style defined by the component                                             |
+| `:hover`           | `--bg-muted` background, `--transition-default` transition                      |
+| `:active`          | `--bg-muted` background (same as hover for neutral elements)                    |
+| `.is-active` (selected) | `--primary-bg` background, `--primary` text                                |
+| `:disabled` / `.is-disabled` | `var(--opacity-disabled)` (0.4), `pointer-events: none`             |
+| `:focus-visible`   | `--focus-ring` visible                                                          |
+
+> `.is-active` (persistent selected state: active tab, selected row) is distinct from `:active` (transient mouse-down). Do not conflate them.
 
 ---
 
 ## 9. BUTTONS
 
-| Variant    | Class            | Background     | Text            | Border              |
-| ---------- | ---------------- | -------------- | --------------- | ------------------- |
-| Primary    | `.btn-primary`   | `--primary`    | #FFFFFF         | none                |
-| Secondary  | `.btn-secondary` | transparent    | `--text`        | 1px `--border`      |
-| Danger     | `.btn-danger`    | `--danger-600` | #FFFFFF         | none                |
-| Ghost      | `.btn-ghost`     | transparent    | `--text-subtle` | none                |
+| Variant    | Class            | Background     | Text                  | Border              |
+| ---------- | ---------------- | -------------- | --------------------- | ------------------- |
+| Primary    | `.btn-primary`   | `--primary`    | `--text-on-primary`   | none                |
+| Secondary  | `.btn-secondary` | transparent    | `--text`              | 1px `--border`      |
+| Danger     | `.btn-danger`    | `--danger-600` | `--text-on-primary`   | none                |
+| Ghost      | `.btn-ghost`     | transparent    | `--text-subtle`       | none                |
+
+**States per variant** (transition `--transition-default`):
+
+| Variant   | `:hover`            | `:active` (pressed)  | `:disabled`              |
+| --------- | ------------------- | -------------------- | ------------------------ |
+| Primary   | `--primary-hover`   | `--primary-pressed`  | `var(--opacity-disabled)` |
+| Danger    | `--danger-700`      | `--danger-800`       | `var(--opacity-disabled)` |
+| Secondary | `--bg-muted` bg     | `--bg-muted` bg      | `var(--opacity-disabled)` |
+| Ghost     | `--bg-muted` bg     | `--bg-muted` bg      | `var(--opacity-disabled)` |
+
+> Colored buttons darken on hover/pressed via their own stops, never the neutral `--bg-muted` rule of §8. `:focus-visible` shows the `--focus-ring` on every variant.
 
 **Dynamic sizing** — the size results from content + padding:
 
@@ -234,8 +313,10 @@ Single import in the renderer: `import "@fortawesome/fontawesome-free/css/all.mi
 | ---------------- | ---------------------- | ------------------------------ |
 | `--icon-default` | #6B7280 (text-subtle)  | #9CA3AF                        |
 | `--icon-active`  | #4F46E5 (primary-600)  | #818CF8                        |
-| `--icon-danger`  | #DC2626 (danger-600)   | #F87171                        |
 | `--icon-success` | #16A34A (success-600)  | #4ADE80                        |
+| `--icon-warning` | #D97706 (warning-600)  | #FCD34D                        |
+| `--icon-danger`  | #DC2626 (danger-600)   | #F87171                        |
+| `--icon-info`    | #2563EB (info-600)     | #60A5FA                        |
 | `--icon-muted`   | #9CA3AF (text-muted)   | #6B7280                        |
 
 **Sizes**: `font-size` via tokens `--icon-sm` (16px), `--icon-md` (20px), `--icon-lg` (24px).
@@ -269,3 +350,38 @@ body {
   color: var(--text);
 }
 ```
+
+---
+
+## 12. ACCESSIBILITY
+
+Target: **WCAG 2.1 level AA**.
+
+| Criterion           | Rule                                                                                          |
+| ------------------- | --------------------------------------------------------------------------------------------- |
+| Text contrast       | ≥ 4.5:1 normal text, ≥ 3:1 large text (≥ 18px bold or ≥ 24px) and UI components                |
+| `--text-muted`      | Disabled / decorative only, exempt from AA. Never for primary content                          |
+| Statusbar text      | `--text-subtle` (not `--text-muted`). ~4.4:1 on `--bg-muted`, marginal — essential/error status uses `--text` |
+| Minimum target size | 24px. `.btn-sm` (~24px) is the floor; prefer `.btn-md` for touch contexts                      |
+| Focus visibility    | `:focus-visible` ring always visible, never removed (`outline: none` forbidden without replacement) |
+| Reduced motion      | `@media (prefers-reduced-motion: reduce)` disables transitions (see `rules/css.md`)            |
+
+> Contrast figures are computed estimates, not tool-measured. Re-check with a contrast checker before shipping a new primary color.
+
+---
+
+## 13. LAYERING (z-index scale)
+
+CSS overlays (`position: fixed`/`absolute`) require explicit `z-index`. Order from back to front. A persistent `danger` toast must never be hidden, so toasts sit above modals.
+
+| Token               | Value | Element                          |
+| ------------------- | ----- | -------------------------------- |
+| `--z-content`       | 0     | Main content                     |
+| `--z-drawer-overlay`| 100   | Drawer dimming overlay           |
+| `--z-drawer`        | 110   | Right drawer (`#drawer`)         |
+| `--z-modal-overlay` | 200   | Modal dimming overlay            |
+| `--z-modal`         | 210   | Modal (`.modal`)                 |
+| `--z-dropdown`      | 300   | Dropdown / context menu          |
+| `--z-toast`         | 400   | Toasts (`#toast-container`)      |
+
+> Declared in `tokens.css`, consumed by the shell overlays in `styles.css`. No hardcoded `z-index` outside these tokens.
