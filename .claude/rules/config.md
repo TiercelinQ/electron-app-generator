@@ -1,36 +1,36 @@
-# Règles config, dépendances, i18n, logging, packaging
+# Config, dependencies, i18n, logging, packaging rules
 
-## Structure `src/shared/config.ts`
+## `src/shared/config.ts` structure
 
-Structure minimale obligatoire dans tout projet :
+Mandatory minimum structure in every project:
 
 ```ts
 // Application
-export const APP_NAME = "NomApp";
+export const APP_NAME = "AppName";
 export const APP_VERSION = "1.0.0";
 
-// Base de données (si applicable) — relatif à app.getPath("userData")
-export const DB_FILENAME = "nom_app.db";
+// Database (if applicable) — relative to app.getPath("userData")
+export const DB_FILENAME = "app_name.db";
 
-// Préférences (si applicable)
+// Preferences (if applicable)
 export const PREFERENCES_FILENAME = "preferences.json";
 
-// Internationalisation (si activée)
+// Internationalization (if enabled)
 export const DEFAULT_LOCALE = "fr";
 export const SUPPORTED_LOCALES = ["fr", "en"] as const;
 
-// Fenêtre
+// Window
 export const WINDOW_MIN_WIDTH = 1024;
 export const WINDOW_MIN_HEIGHT = 768;
 export const WINDOW_DEFAULT_WIDTH = 1280;
 export const WINDOW_DEFAULT_HEIGHT = 800;
 ```
 
-- Toute constante réutilisée dans plus d'un fichier va dans `shared/config.ts`.
-- Les chemins absolus (userData) sont résolus **dans le main uniquement** (`app.getPath`) — jamais dans `shared/` ni le renderer.
-- Zéro couleur dans `config.ts` — les couleurs (icônes comprises) vivent dans `tokens.css` (différence vs générateur Python).
+- Any constant reused in more than one file goes into `shared/config.ts`.
+- Absolute paths (userData) are resolved **in the main only** (`app.getPath`) — never in `shared/` or the renderer.
+- Zero color in `config.ts` — colors (icons included) live in `tokens.css` (difference vs the Python generator).
 
-## Canaux IPC — `src/shared/ipc-channels.ts`
+## IPC channels — `src/shared/ipc-channels.ts`
 
 ```ts
 export const IPC = {
@@ -41,9 +41,9 @@ export const IPC = {
 } as const;
 ```
 
-Convention : `entite:action`. Zéro chaîne de canal en dur hors de ce fichier.
+Convention: `entity:action`. Zero hardcoded channel string outside this file.
 
-## `package.json` — scripts obligatoires
+## `package.json` — mandatory scripts
 
 ```json
 {
@@ -59,12 +59,12 @@ Convention : `entite:action`. Zéro chaîne de canal en dur hors de ce fichier.
 }
 ```
 
-- `postinstall` **obligatoire** dans tout projet — voir section "Postinstall — fiabilisation du binaire Electron".
-- Si `better-sqlite3` (module natif) : chaîner `electron-builder install-app-deps` après le script de fiabilisation → `"postinstall": "node scripts/ensure-electron.cjs && electron-builder install-app-deps"`.
+- `postinstall` **mandatory** in every project — see the "Postinstall — Electron binary reliability" section.
+- If `better-sqlite3` (native module): chain `electron-builder install-app-deps` after the reliability script → `"postinstall": "node scripts/ensure-electron.cjs && electron-builder install-app-deps"`.
 
-## Versioning des dépendances
+## Dependency versioning
 
-`package.json` : versions caret (`^`), fixées à la version mineure validée en Phase 1. `package-lock.json` commité.
+`package.json`: caret versions (`^`), pinned to the minor version validated in Phase 1. `package-lock.json` committed.
 
 ```json
 "dependencies":    { "better-sqlite3": "^12.0.0", "i18next": "^26.0.0", "react-i18next": "^17.0.0",
@@ -75,35 +75,38 @@ Convention : `entite:action`. Zéro chaîne de canal en dur hors de ce fichier.
                      "eslint-plugin-react-hooks": "^7.0.0", "eslint": "^10.0.0", "prettier": "^3.8.0" }
 ```
 
-Notes de versioning :
-- `@fortawesome/fontawesome-free` : **gelé à `^6.5.0`** — FA 7.x (7.2.0 actuel) est sorti mais introduit des breaking changes sur les noms de classes CSS. Ne pas monter sans audit complet des classes utilisées dans `design-system.md` et `layout.md`.
-- `electron-vite ^5.0.0` : peer dep `vite@"^5.0.0 || ^6.0.0 || ^7.0.0"` — **Vite 8 non supporté**. Utiliser `vite ^7.0.0` + `@vitejs/plugin-react ^5.2.0` (supporte vite ^4 → ^8, compatible electron-vite 5).
-- `eslint-plugin-react-hooks` : la version 5.x n'a jamais existé — le package est passé de 4.6.x à 7.x. Dernière stable : `7.1.1`.
-- `eslint-plugin-react` : dernière stable `7.37.5`.
-- `typescript ^6.0.0` : `moduleResolution: classic` supprimé (electron-vite utilise `bundler` → sans impact), `esModuleInterop: false` interdit (déjà vrai par défaut). Safe pour tout nouveau projet.
-- `eslint ^10.0.0` : flat config obligatoire (`eslint.config.mjs` — déjà le format utilisé). Requiert Node ≥ 20.19.
-- `typescript-eslint ^8.0.0` : package unifié pour flat config — remplace les anciens `@typescript-eslint/eslint-plugin` + `@typescript-eslint/parser` séparés. Peer dep TypeScript : `>=4.8.4 <6.1.0`.
-- `better-sqlite3` : module natif — recompilé pour Electron via `electron-builder install-app-deps` chaîné après `ensure-electron.cjs` dans `postinstall` (voir section dédiée). À inclure dans les instructions du dernier lot si SQLite retenue.
+Versioning notes:
+- `@fortawesome/fontawesome-free`: **frozen at `^6.5.0`** — FA 7.x (currently 7.2.0) is out but introduces breaking changes on CSS class names. Do not bump without a full audit of the classes used in `design-system.md` and `layout.md`.
+- `electron-vite ^5.0.0`: peer dep `vite@"^5.0.0 || ^6.0.0 || ^7.0.0"` — **Vite 8 not supported** by the current stable (verified 2026-06: `vite` latest is 8.x, but `electron-vite@5.0.0` — the latest stable, 6.x is beta-only — still caps at vite 7). Stay on `vite ^7.0.0`. Note: a newer `vite` major being out does *not* mean it is usable here — what matters is electron-vite's peer range. Pair with `@vitejs/plugin-react ^5.2.0` (peer `vite ^4 → ^8`). **Do not** bump `@vitejs/plugin-react` to 6.x — that line requires `vite ^8` and is incompatible with vite 7 / electron-vite 5.
+- `eslint-plugin-react-hooks`: version 5.x never existed — the package went from 4.6.x to 7.x. Latest stable: `7.1.1`.
+- `eslint-plugin-react`: latest stable `7.37.5`.
+- `typescript ^6.0.0`: `moduleResolution: classic` removed (electron-vite uses `bundler` → no impact), `esModuleInterop: false` forbidden (already true by default). Safe for any new project.
+- `eslint ^10.0.0`: flat config mandatory (`eslint.config.mjs` — already the format used). Requires Node ≥ 20.19.
+- `typescript-eslint ^8.0.0`: unified package for flat config — replaces the old separate `@typescript-eslint/eslint-plugin` + `@typescript-eslint/parser`. TypeScript peer dep: `>=4.8.4 <6.1.0`.
+- `better-sqlite3`: native module — recompiled for Electron via `electron-builder install-app-deps` chained after `ensure-electron.cjs` in `postinstall` (see the dedicated section). To include in the last batch instructions if SQLite is selected. Versioned migrations: see `@rules/db.md`.
+- **Tests (if Phase 1 Q6 = Yes)** — add to `devDependencies`: `vitest`, `@testing-library/react`, `@testing-library/jest-dom`, `jsdom`, plus the `"test": "vitest run"` script. Detail: `@rules/tests.md`.
 
-## Postinstall — fiabilisation du binaire Electron
+> **Version maintenance**: this table and these notes reflect the state validated at the time of writing. Before pinning in a new project, re-confirm the current minor versions and the breaking-change notes above (`npm outdated`, the package release notes) — they age. The caret rule and the structure stay; the numbers and notes are refreshed per project in Phase 1.
 
-Le `postinstall` officiel du package `electron` télécharge le binaire (`electron.exe` sur Windows, `Electron` sur macOS/Linux) puis l'extrait dans `node_modules/electron/dist/` et écrit `node_modules/electron/path.txt`. Cette extraction **échoue silencieusement** dans plusieurs cas réels :
-- Antivirus (Windows Defender en tête) bloque l'écriture de `electron.exe` par `node.exe` pendant l'extraction.
-- Permission ou verrou sur `node_modules/electron/dist/`.
-- Interruption réseau pendant le téléchargement (zip incomplet en cache).
+## Postinstall — Electron binary reliability
 
-Symptôme : `Error: Electron uninstall` au lancement de `electron-vite dev` ou de tout autre wrapper. Le script `install.js` d'Electron ne propage pas l'erreur — `npm install` retourne donc succès.
+Electron's official `postinstall` downloads the binary (`electron.exe` on Windows, `Electron` on macOS/Linux) then extracts it into `node_modules/electron/dist/` and writes `node_modules/electron/path.txt`. This extraction **fails silently** in several real cases:
+- Antivirus (Windows Defender chief among them) blocks `node.exe` writing `electron.exe` during extraction.
+- Permission or lock on `node_modules/electron/dist/`.
+- Network interruption during the download (incomplete zip in cache).
 
-**Solution obligatoire** : tout projet généré inclut `scripts/ensure-electron.cjs` ci-dessous + le hook `postinstall` correspondant dans `package.json`. Le script :
-- No-op si `path.txt` et le binaire sont déjà présents.
-- Sinon : recherche le zip dans le cache local Electron (`%LOCALAPPDATA%\electron\Cache` / `~/Library/Caches/electron` / `~/.cache/electron`), l'extrait dans `node_modules/electron/dist/`, écrit `path.txt`.
-- Sinon : message d'erreur explicite avec cause probable et action à mener.
+Symptom: `Error: Electron uninstall` when launching `electron-vite dev` or any other wrapper. Electron's `install.js` does not propagate the error — so `npm install` returns success.
 
-Dépendances : Node std lib + `extract-zip` (dépendance transitive d'`@electron/get`, donc déjà dans `node_modules` après l'installation d'Electron). Aucune dépendance directe à ajouter à `package.json`.
+**Mandatory solution**: every generated project includes `scripts/ensure-electron.cjs` below + the matching `postinstall` hook in `package.json`. The script:
+- No-op if `path.txt` and the binary are already present.
+- Otherwise: looks for the zip in the local Electron cache (`%LOCALAPPDATA%\electron\Cache` / `~/Library/Caches/electron` / `~/.cache/electron`), extracts it into `node_modules/electron/dist/`, writes `path.txt`.
+- Otherwise: explicit error message with probable cause and action to take.
 
-Couvre Windows, macOS et Linux (x64 et arm64).
+Dependencies: Node std lib + `extract-zip` (transitive dependency of `@electron/get`, therefore already in `node_modules` after installing Electron). No direct dependency to add to `package.json`.
 
-### Fichier `scripts/ensure-electron.cjs`
+Covers Windows, macOS, and Linux (x64 and arm64).
+
+### File `scripts/ensure-electron.cjs`
 
 ```js
 #!/usr/bin/env node
@@ -238,41 +241,41 @@ main().catch((err) => {
 
 ## TypeScript
 
-- `strict: true` dans tous les tsconfig. `noUnusedLocals`, `noUnusedParameters` activés.
-- Trois configs (modèle electron-vite) : `tsconfig.node.json` (main + preload), `tsconfig.web.json` (renderer), `tsconfig.json` (références).
-- `any` interdit sauf justification en commentaire. Les payloads IPC entrants sont `unknown` puis validés.
-- TSDoc sur classes exportées et méthodes publiques.
+- `strict: true` in all tsconfig. `noUnusedLocals`, `noUnusedParameters` enabled.
+- Three configs (electron-vite model): `tsconfig.node.json` (main + preload), `tsconfig.web.json` (renderer), `tsconfig.json` (references).
+- `any` forbidden unless justified with a comment. Incoming IPC payloads are `unknown` then validated.
+- TSDoc on exported classes and public methods.
 
-## Internationalisation (si activée en Phase 1)
+## Internationalization (if enabled in Phase 1)
 
-- `i18next` + `react-i18next`, ressources JSON : `src/renderer/src/i18n/fr.json` et `en.json`.
-- Toutes les chaînes visibles passent par `t("cle")` dans les views (`useTranslation`).
-- Clés en notation pointée par entité : `record.saved`, `nav.settings`.
-- Langue chargée au démarrage depuis les préférences (via IPC), FR par défaut.
-- Changement de langue : à chaud via `i18n.changeLanguage()` (pas de redémarrage — avantage vs QTranslator), persisté en préférences.
-- Zéro chaîne visible en dur dans views, controllers ou models. Si i18n non activée : chaînes FR centralisées dans `src/renderer/src/i18n/fr.json` quand même (bascule future à coût nul) — exception : projet "Petit" où un objet `LABELS` dans `shared/config.ts` suffit.
+- `i18next` + `react-i18next`, JSON resources: `src/renderer/src/i18n/fr.json` and `en.json`.
+- All visible strings go through `t("key")` in the views (`useTranslation`).
+- Dotted-notation keys per entity: `record.saved`, `nav.settings`.
+- Language loaded at startup from preferences (via IPC), FR by default.
+- Language change: hot via `i18n.changeLanguage()` (no restart — advantage vs QTranslator), persisted in preferences.
+- Zero visible hardcoded string in views, controllers, or models. If i18n not enabled: centralized FR strings in `src/renderer/src/i18n/fr.json` anyway (future toggle at zero cost) — exception: a "Small" project where a `LABELS` object in `shared/config.ts` is enough.
 
-## Logging (sur demande uniquement)
+## Logging (on request only)
 
-Si activé pour un projet : `electron-log ^5.4.0` (à valider en Phase 1 — Node n'a pas d'équivalent stdlib avec handler fichier).
+If enabled for a project: `electron-log ^5.4.0` (to validate in Phase 1 — Node has no stdlib equivalent with a file handler).
 
 ```ts
 // src/main/index.ts
 import log from "electron-log/main";
 log.initialize();
 log.transports.file.level = "info";
-// fichier : app.getPath("userData")/logs/main.log
+// file: app.getPath("userData")/logs/main.log
 ```
 
-Format par défaut electron-log : `{y}-{m}-{d} {h}:{i}:{s}.{ms} [{level}] {text}` — suffisant pour usage personnel. Renderer : `electron-log/renderer` si nécessaire.
+Default electron-log format: `{y}-{m}-{d} {h}:{i}:{s}.{ms} [{level}] {text}` — enough for personal use. Renderer: `electron-log/renderer` if needed.
 
-## Packaging Windows (`.exe`)
+## Windows packaging (`.exe`)
 
-Outil : **electron-builder**. Fichier `electron-builder.yml` à la racine :
+Tool: **electron-builder**. `electron-builder.yml` file at the root:
 
 ```yaml
-appId: com.[utilisateur].[nomapp]
-productName: NomApp
+appId: com.[user].[appname]
+productName: AppName
 directories:
   output: release
 files:
@@ -285,11 +288,11 @@ nsis:
   allowToChangeInstallationDirectory: true
 ```
 
-Commande : `npm run dist`. Livré dans le dernier lot **sur demande explicite** : `electron-builder.yml` commenté + instructions.
+Command: `npm run dist`. Delivered in the last batch **on explicit request**: commented `electron-builder.yml` + instructions.
 
-### Icône applicative
+### Application icon
 
-- Fichier : `resources/icon.ico`, multi-résolutions (16→256px, 256 obligatoire).
-- Fenêtre (dev/taskbar) : option `icon` du BrowserWindow → `join(__dirname, "../../resources/icon.ico")`.
-- Exécutable : `win.icon` dans `electron-builder.yml` (déjà présent).
-- Si l'utilisateur ne fournit pas d'icône en Phase 1 : icône Electron par défaut, signalé dans le README généré.
+- File: `resources/icon.ico`, multi-resolution (16→256px, 256 mandatory).
+- Window (dev/taskbar): BrowserWindow `icon` option → `join(__dirname, "../../resources/icon.ico")`.
+- Executable: `win.icon` in `electron-builder.yml` (already present).
+- If the user provides no icon in Phase 1: default Electron icon, noted in the generated README.

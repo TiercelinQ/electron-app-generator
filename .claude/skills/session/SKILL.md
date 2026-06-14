@@ -1,16 +1,28 @@
 ---
 name: session
-description: Sauvegarder l'état complet de la session de génération dans claude-sessions/SESSION_NomApp_SN.md — phase, lots, décisions verrouillées, contrat, points ouverts. Invoquer en fin de session.
+description: Save the full state of the generation session into claude-sessions/SESSION_AppName_SN.md — phase, batches, locked decisions, open points, referencing the specs. Invoke at the end of a session.
+model: haiku
 ---
 
-# /session — Sauvegarde de session
+# /session — Session save
 
-1. Créer le dossier `claude-sessions/` à la racine du projet s'il n'existe pas.
-2. Déterminer N = numéro de session suivant (fichiers existants + 1).
-3. Écrire `claude-sessions/SESSION_[nom_app]_S[N].md` :
+## Role
+Session archivist.
+
+## Goal
+Persist enough state to resume the project exactly where it stopped.
+
+## Deliverable
+`claude-sessions/SESSION_[app_name]_S[N].md` (French).
+
+---
+
+1. Create the `claude-sessions/` folder at the project root if it does not exist.
+2. Determine N = next session number (existing files + 1).
+3. Write `claude-sessions/SESSION_[app_name]_S[N].md` (in French):
 
 ```markdown
-# SESSION_S[N] — [NOM_APP] · [Phase terminée]
+# SESSION_S[N] — [APP_NAME] · [Phase terminée]
 
 ## Statut
 
@@ -22,7 +34,7 @@ Lot suivant : [X+1/total] (si Phase 5)
 
 - OS : Windows · Stack : Electron + React + TypeScript (electron-vite)
 - DB : [valeur]
-- Préférences persistantes : [Oui/Non] · i18n : [Oui/Non]
+- Préférences persistantes : [Oui/Non] · i18n : [Oui/Non] · Icône : [fournie/défaut]
 - Couleur primaire : [valeur]
 - Calibrage : [Petit 3 lots / Moyen-Grand 4 lots]
 - Fonctionnalités retenues : [liste]
@@ -30,9 +42,10 @@ Lot suivant : [X+1/total] (si Phase 5)
 - Layout retenu : [description]
 - Bibliothèques validées : [liste]
 
-## Contrat architectural
+## Specs
 
-[Arborescence complète + canaux IPC]
+Référence : docs/specs/01-cadrage.md · 02-analyse.md · 03-layout.md · 04-contrat.md
+(le contrat verrouillé dans 04-contrat.md fait foi — ne pas le dupliquer ici)
 
 ## Lots livrés
 
@@ -46,5 +59,7 @@ Lot suivant : [X+1/total] (si Phase 5)
 [liste ou "aucun"]
 ```
 
-4. Confirmer : `Session sauvegardée : claude-sessions/SESSION_[nom_app]_S[N].md`
-5. Ne pas ajouter le rappel `/session · /statut · /contrat` après cette réponse.
+> If `docs/specs/04-contrat.md` exists, reference it instead of duplicating the full tree + IPC channels. Only summarize the locked decisions here.
+
+4. Confirm: `Session sauvegardée : claude-sessions/SESSION_[app_name]_S[N].md`
+5. Do not append the `/session · /statut · /contrat` reminder after this reply.

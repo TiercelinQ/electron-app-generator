@@ -1,11 +1,23 @@
 ---
 name: statut
-description: Afficher l'état courant du projet de génération — phase, lot, prochaine action, décisions verrouillées, points ouverts.
+description: Show the current state of the generation project — phase, batch, next action, locked decisions, open points.
+model: haiku
 ---
 
-# /statut — État courant
+# /statut — Current state
 
-Afficher uniquement :
+## Role
+Status reporter.
+
+## Goal
+Give a one-glance state of the project.
+
+## Deliverable
+The status block (French).
+
+---
+
+Show only (in French):
 
 ```
 Phase : [nom] | Lot : [X/total] | Prochain : [action attendue]
@@ -13,4 +25,4 @@ Décisions verrouillées : [liste]
 Points ouverts : [liste ou "aucun"]
 ```
 
-Ne pas ajouter le rappel `/session · /statut · /contrat` après cette réponse.
+Do not append the `/session · /statut · /contrat` reminder after this reply.

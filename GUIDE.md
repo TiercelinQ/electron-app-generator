@@ -1,106 +1,84 @@
-# Guide d'utilisation — Electron App Generator
+# Guide d'utilisation — Electron App Generator (unifié)
+
+> Version unifiée : pipeline de génération + skills de maintenance, rôle explicite par skill, specs persistées, vérification exécutable, mémoire native.
 
 ---
 
-## Structure du projet
+## Structure du framework
 
 ```
-electron-app-generator/
-├── .claude/
-│   ├── CLAUDE.md                              # Instructions core
-│   ├── design-system.md                       # Référence visuelle contraignante (tokens CSS)
-│   ├── layout.md                              # Référence layout contraignante
-│   ├── rules/
-│   │   ├── mvc.md                             # Séparation MVC main/preload/renderer, lots, nettoyage
-│   │   ├── css.md                             # Tokens, data-theme, flat design, organisation CSS
-│   │   ├── errors.md                          # Protocole erreurs Model→IPC→View, toasts
-│   │   ├── config.md                          # shared/config.ts, package.json, i18n, logging, packaging
-│   │   └── security.md                        # Sécurité Electron — non négociable
-│   └── skills/
-│       ├── electron-app/    /electron-app     # Menu démarrage / reprise
-│       ├── phase1-cadrage/  /phase1-cadrage   # Cadrage — 5 questions + couleur primaire
-│       ├── phase2-analyse/  /phase2-analyse   # Fiche besoins structurée
-│       ├── phase3-layout/   /phase3-layout    # Proposition layout + personnalisation
-│       ├── phase4-contrat/  /phase4-contrat   # Contrat architectural verrouillé
-│       ├── phase5-developpement/ /phase5-...  # Livraison par lots + README.md
-│       ├── charger-projet/  /charger-projet   # Chargement d'un projet existant
-│       ├── generate-readme/ /generate-readme  # Génération README.md projet existant
-│       ├── session/         /session          # Sauvegarde de session
-│       ├── statut/          /statut           # État courant du projet
-│       ├── contrat/         /contrat          # Arborescence du contrat validé
-│       └── memoriser/       /memoriser        # Mémorisation erreurs / décisions
-├── .gitignore
-├── GUIDE.md                                   # Ce fichier
-└── README.md                                  # Présentation du repo GitHub
+claude-electron-framework/
+├── CLAUDE.md                 # Instructions core (EN) · persona · communication FR · index commandes · calibrage
+├── design-system.md          # Référence visuelle contraignante (tokens CSS) — source de vérité unique
+├── layout.md                 # Référence layout contraignante — shell, topbar, drawer, statusbar, toasts
+├── rules/
+│   ├── mvc.md                # main=Models · preload+IPC=Controllers · renderer=Views, livraison par lots
+│   ├── css.md                # Tokens CSS, thème data-theme, flat design, nommage
+│   ├── errors.md             # Contrat IpcResult<T>, toasts, Error Boundary + uncaughtException
+│   ├── security.md           # Sécurité Electron verrouillée (webPreferences, CSP, validation IPC)
+│   ├── config.md             # config.ts, versioning, postinstall ensure-electron.cjs, packaging
+│   ├── db.md                 # Accès better-sqlite3, migrations versionnées
+│   ├── tests.md              # Vitest + Testing Library, couverture par couche
+│   └── verification.md       # Vérification EXÉCUTABLE centralisée + intégrité statique
+├── skills/
+│   ├── electron-app/         # Menu démarrage / reprise / maintenance (4 options)
+│   ├── phase1-cadrage/       # Cadrage — 5 questions + couleur → docs/specs/01-cadrage.md
+│   ├── phase2-analyse/       # Fiche besoins → docs/specs/02-analyse.md
+│   ├── phase3-layout/        # Proposition layout → docs/specs/03-layout.md
+│   ├── phase4-contrat/       # Contrat architectural verrouillé → docs/specs/04-contrat.md
+│   ├── phase5-developpement/ # Livraison par lots (enchaînement auto)
+│   ├── implement/            # Ajouter une feature à un projet livré (respect contrat + sécurité)
+│   ├── analyze/              # Tracer une fonctionnalité renderer→preload→controller→model
+│   ├── fix/                  # Corriger un bug — arbre de décision, cause racine
+│   ├── refactor/             # Restructurer sous validation explicite uniquement
+│   ├── test/                 # Vérification exécutable (typecheck, lint, build)
+│   ├── charger-projet/       # Chargement d'un projet existant
+│   ├── generate-readme/      # Génération README.md projet existant
+│   ├── session/              # Sauvegarde de session
+│   ├── statut/               # État courant du projet
+│   ├── contrat/              # Arborescence du contrat validé
+│   └── memoriser/            # Persiste dans la mémoire native Claude Code
+├── settings.json             # Permissions d'exécution (npm, npx, node)
+├── GUIDE.md                  # Ce fichier
+└── README.md                 # Présentation du repo GitHub (EN)
 ```
+
+> Structure **plate** : un seul `design-system.md` et un seul `layout.md` (source de vérité unique). `CLAUDE.md` les importe via `@`.
 
 ---
 
-## Installation depuis GitHub
+## Nouveautés de la version unifiée
+
+| Apport                        | Détail                                                                          |
+| ----------------------------- | ------------------------------------------------------------------------------- |
+| **Rôle par skill**            | Chaque skill ouvre sur un persona ciblé (Role / Goal / Deliverable).            |
+| **Specs persistées**          | Phases 1→4 écrivent `docs/specs/01-cadrage.md` … `04-contrat.md` (en français). |
+| **Contrat = source de vérité**| `docs/specs/04-contrat.md` relu par `/charger-projet`, `/contrat`, `/implement`, `/refactor`. |
+| **Skills de maintenance**     | `analyze`, `implement`, `fix`, `refactor`, `test` avec arbres de décision et anti-patterns. |
+| **Vérification exécutable**   | `rules/verification.md` : typecheck, lint, build — échec bloquant.              |
+| **Mémoire native**            | `/memoriser` écrit dans la mémoire native Claude Code + `MEMORY.md`.            |
+
+---
+
+## Installation
 
 ```bash
-git clone https://github.com/[utilisateur]/electron-app-generator.git
-cd electron-app-generator
+# Démarrer Claude Code depuis le dossier du framework (ou copier dans le projet cible).
+claude
 ```
 
 ### Prérequis
 
 ```bash
-# Claude Code CLI installé et connecté
-claude --version
-
-# Node.js 22 LTS+ (pour exécuter les apps générées)
-node --version
-npm --version
+claude --version      # Claude Code CLI installé et connecté
+node --version        # Node.js 22 LTS+ (pour exécuter les apps générées)
 ```
-
-### Démarrage
-
-```bash
-# Depuis le dossier electron-app-generator/
-claude
-```
-
-Claude Code détecte `.claude/CLAUDE.md` automatiquement. `design-system.md` et `layout.md`
-sont dans `.claude/` et importés via `@` — chargés à chaque session.
 
 ### Activer la mémoire (une seule fois, par machine)
 
 ```
-/config
-→ Memory → Enable auto memory → On
+/config → Memory → Enable auto memory → On
 ```
-
-Sans cette activation, `/memoriser` formule les notes mais ne les persiste pas entre sessions.
-
----
-
-## Fichiers ignorés par git (.gitignore)
-
-| Fichier / Dossier             | Raison                                     |
-| ----------------------------- | ------------------------------------------ |
-| `.claude/settings.local.json` | Permissions et hooks personnels            |
-| `.claude/agent-memory/`       | Mémoire auto Claude Code — personnelle     |
-| `claude-sessions/`            | Fichiers SESSION propres à chaque projet   |
-| `preferences.json`            | Préférences utilisateur des apps générées  |
-| `*.db`                        | Données applicatives                       |
-| `node_modules/`               | Dépendances locales                        |
-| `out/` · `dist/` · `release/` | Builds electron-vite / electron-builder    |
-
-> **Note** : `.claude/settings.json` (sans `.local`) peut être commité pour partager
-> des permissions ou hooks communs à tous les utilisateurs du repo.
-
----
-
-## Effort recommandé par modèle
-
-| Skill                                                                                                                                            | Modèle | Effort recommandé     |
-| ------------------------------------------------------------------------------------------------------------------------------------------------ | ------ | --------------------- |
-| `/electron-app` · `/statut` · `/contrat` · `/session` · `/memoriser`                                                                             | Haiku  | — (tâches mécaniques) |
-| `/phase1-cadrage` · `/phase2-analyse` · `/phase3-layout` · `/phase4-contrat` · `/phase5-developpement` · `/charger-projet` · `/generate-readme`  | Sonnet | `medium`              |
-
-`high` : justifié pour la Phase 4 (contrat complexe, canaux IPC) ou le débogage multi-fichiers / main↔renderer.
-Changer l'effort en session : `/effort medium` ou `/effort high`.
 
 ---
 
@@ -112,161 +90,90 @@ Changer l'effort en session : `/effort medium` ou `/effort high`.
 
 ### Phase 1 — Cadrage
 
-Claude pose 5 questions en un seul bloc :
+6 questions en un seul bloc : objectif · base de données (SQLite better-sqlite3 / JSON / CSV / aucune) · préférences persistantes · i18n FR/EN · icône `.ico` · tests (Vitest + Testing Library). Puis choix de couleur primaire (3 propositions + Slate Blue par défaut). Calibrage annoncé.
 
-1. Objectif de l'application
-2. Base de données (SQLite via better-sqlite3 / JSON / CSV / aucune)
-3. Préférences persistantes entre sessions (Oui / Non)
-4. Internationalisation FR/EN (Oui / Non)
-5. Icône applicative : fichier .ico fourni ? (Oui avec chemin / Non — défaut Electron)
+| Taille        | Lots (sans tests) | Lots (avec tests) |
+| ------------- | ----------------- | ----------------- |
+| Petit         | 3                 | 4                 |
+| Moyen / Grand | 4                 | 5                 |
 
-Puis propose 3 couleurs primaires adaptées au contexte + l'option Slate Blue par défaut.
-Toute bibliothèque hors stack est validée ici.
-Annonce le calibrage (Petit : 3 lots / Moyen-Grand : 4 lots) — figé après cette phase.
+Écrit `docs/specs/01-cadrage.md`.
 
 ### Phase 2 — Analyse des besoins
 
-Fiche structurée : objectif, fonctionnalités retenues, hors périmètre, contraintes techniques.
-**→ Validation explicite requise avant Phase 3.**
+Fiche structurée + calibrage figé. Validation bloquante avant Phase 3. Écrit `docs/specs/02-analyse.md`.
 
-### Phase 3 — Proposition de layout
+### Phase 3 — Layout
 
-Claude propose une structure issue de `layout.md` puis pose les questions de personnalisation
-en un seul bloc :
-
-1. Position des onglets (gauche après logo / centrés)
-2. Panneau secondaire (Drawer / Modale / Aucun)
-3. Largeur du drawer si sélectionné (fixe 320px / fixe personnalisée / dynamique)
-   ou taille de la modale si sélectionnée (fixe / dynamique)
-4. Disposition interne de la modale si sélectionnée :
-   - Header + contenu + footer
-   - Header + 2 colonnes + footer
-   - Header + contenu (sans footer)
-   - Autre → Claude pose 3 questions pour aider à choisir, propose 2 dispositions avec recommandation
-5. Les toasts sont en haut-droit (position unique définie dans `layout.md §5`)
-
-Produit une synthèse complète du layout validé.
-**→ Validation explicite requise avant Phase 4.**
+Proposition issue de `layout.md` + personnalisation (onglets topbar, drawer/modale, position des toasts). Validation bloquante. Écrit `docs/specs/03-layout.md`.
 
 ### Phase 4 — Contrat architectural
 
-Arborescence complète + rôle de chaque fichier + tableau des canaux IPC + tableau tokens → règles CSS.
-**→ Verrouillé après validation. Tout écart impose : arrêt → déclaration → validation.**
+Arborescence + rôle de chaque fichier + **tableau des canaux IPC** (canal → controller → model → `window.api` → view) + tableau tokens → CSS. **Verrouillé après validation.** Écrit `docs/specs/04-contrat.md` (source de vérité).
 
 ### Phase 5 — Développement par lots
 
-Claude crée les dossiers et écrit les fichiers directement sur le disque — aucune action manuelle requise.
-Format d'annonce : `📦 Lot N/[total] — [contenu]`
-Enchaînement automatique entre les lots sans confirmation.
-
-**Contenu par taille de projet :**
-
-| Taille               | Lot 1                | Lot 2                                       | Lot 3                                  | Lot 4                                  |
-| -------------------- | -------------------- | ------------------------------------------- | -------------------------------------- | -------------------------------------- |
-| Petit (3 lots)       | `shared/` + `models/`| `controllers/` + `preload/` + `views/` + `hooks/` | entrées + `styles/` + `scripts/` + configs + README | —                                                   |
-| Moyen/Grand (4 lots) | `shared/` + `models/`| `views/` + `hooks/`                         | `controllers/` + `preload/`            | entrées + `styles/` + `scripts/` + configs + README |
-
-**Dernier lot — livrables supplémentaires obligatoires :**
-
-- `scripts/ensure-electron.cjs` écrit à la racine — fiabilisation du binaire Electron au `postinstall`
-- Instructions d'installation (`npm install`, `npm run dev`, `npm run typecheck`, `npm run build`, `npm run dist`)
-- `README.md` écrit automatiquement à la racine du projet
-
-> **Note** : Claude Code demandera la permission d'exécuter Bash la première fois.
-> Accepter pour tous les appels du projet pour ne pas être interrompu à chaque fichier.
+Fichiers écrits directement sur le disque. Annonce `Lot N/[total] — [contenu]`. Enchaînement automatique. Dernier lot : `scripts/ensure-electron.cjs`, instructions d'installation, `README.md`. Vérification exécutable appliquée.
 
 ---
 
-## Reprendre une session existante
-
-### Sauvegarder en fin de session
+## Reprendre une session
 
 ```
-/session
-```
-
-Claude crée automatiquement le dossier `claude-sessions/` (s'il n'existe pas) et écrit
-le fichier `SESSION_NomApp_SN.md` dedans.
-
-### Reprendre
-
-```
-/electron-app → 2
-```
-
-Claude demande le chemin du fichier SESSION, le lit automatiquement et reprend
-sans re-poser les questions résolues.
-
-```
-ex: C:\projets\mon-app\claude-sessions\SESSION_MonApp_S1.md
+/session             # sauvegarder en fin de session (claude-sessions/)
+/electron-app → 2    # reprendre : fournir le chemin du fichier SESSION
 ```
 
 ---
 
-## Travailler sur un projet existant (Phase 5 terminée)
+## Travailler sur un projet livré
 
-Le `.claude/` doit être présent à la racine du projet. Si ce n'est pas le cas :
+```
+/electron-app → 3     # ou directement /charger-projet depuis la racine du projet
+```
+
+Claude lit `docs/specs/04-contrat.md` (priorité), sinon le README, sinon le code, puis applique toutes les règles. Projet sans README : `/generate-readme`.
+
+### Maintenance (`/electron-app → 4`)
+
+| Besoin                          | Commande      |
+| ------------------------------- | ------------- |
+| Ajouter une fonctionnalité      | `/implement`   |
+| Comprendre / tracer le code     | `/analyze`     |
+| Corriger un bug                 | `/fix`         |
+| Restructurer (sous validation)  | `/refactor`    |
+| Vérifier le build / lancer les checks | `/test`  |
+
+---
+
+## Vérification exécutable
+
+`rules/verification.md` est la source unique. Commandes (échec bloquant quand l'environnement le permet) :
 
 ```bash
-# Copier le .claude/ dans le projet existant (Windows)
-xcopy /E /I electron-app-generator\.claude mon-projet\.claude
+npm install                  # + postinstall ensure-electron.cjs
+npm run typecheck            # tsc --noEmit (node + web)
+npm run lint                 # eslint
+npm run build                # electron-vite build
+npm run dist                 # packaging — sur demande
 ```
 
-Puis lancer Claude Code depuis la racine du projet :
+> Module natif `better-sqlite3` : `npx electron-builder install-app-deps` après l'installation.
+> `Error: Electron uninstall` → `npm run postinstall` (le script restaure le binaire depuis le cache).
 
-```bash
-cd mon-projet\
-claude
-```
+`/test` exécute cette échelle ; `/fix` y renvoie pour confirmer une correction.
 
-**Projet avec README.md :**
+---
 
-```
-/charger-projet
-```
+## Sécurité Electron
 
-Claude lit `README.md`, confirme la prise en charge et applique toutes les règles.
-
-**Projet sans README.md :**
-
-```
-/generate-readme
-```
-
-Claude analyse le code source et génère `README.md` automatiquement.
+`rules/security.md` est non négociable et appliqué à 100% : `contextIsolation: true`, `nodeIntegration: false`, `sandbox: true`, CSP stricte, validation de toute entrée IPC côté main, preload à surface minimale (fonctions nommées uniquement), zéro ressource distante. `/fix` et `/implement` y renvoient systématiquement.
 
 ---
 
 ## Gestion des anomalies et mémoire
 
-### Résolution d'anomalie
-
-Après chaque correction, Claude produit :
-
-```
-Anomalie résolue. Éléments à retirer des tentatives précédentes :
-Fichier [nom] : [lignes / blocs / canaux IPC / règles CSS à supprimer]
-```
-
-Puis propose : `Veux-tu mémoriser ce point ? /memoriser`
-
-### /memoriser
-
-```
-/memoriser
-```
-
-Claude demande ce qu'il faut retenir :
-
-- A. Erreur à ne plus reproduire
-- B. Décision structurante
-- C. Préférence de génération
-- D. Autre
-
-Consigne une note datée et catégorisée dans `~/.claude/agent-memory/`.
-Disponible dans toutes les sessions suivantes sur ce projet.
-
-> La mémoire est stockée localement sur ta machine — elle n'est pas commitée dans le repo.
+Après correction (`/fix` ou Phase 5), Claude produit un bilan de nettoyage puis propose `Veux-tu mémoriser ce point ? /memoriser`. `/memoriser` catégorise et écrit dans la **mémoire native Claude Code** (+ `MEMORY.md`).
 
 ---
 
@@ -274,18 +181,23 @@ Disponible dans toutes les sessions suivantes sur ce projet.
 
 | Commande                | Modèle | Action                                               |
 | ----------------------- | ------ | ---------------------------------------------------- |
-| `/electron-app`         | Haiku  | Menu démarrage / reprise / chargement projet         |
-| `/phase1-cadrage`       | Sonnet | Cadrage — 5 questions + couleur primaire             |
-| `/phase2-analyse`       | Sonnet | Fiche besoins structurée                             |
+| `/electron-app`         | Haiku  | Menu démarrage / reprise / maintenance               |
+| `/phase1-cadrage`       | Sonnet | Cadrage — 5 questions + couleur                      |
+| `/phase2-analyse`       | Sonnet | Fiche besoins                                        |
 | `/phase3-layout`        | Sonnet | Proposition layout + personnalisation                |
-| `/phase4-contrat`       | Sonnet | Contrat architectural verrouillé                     |
-| `/phase5-developpement` | Sonnet | Livraison par lots — fichiers écrits sur le disque   |
-| `/charger-projet`       | Sonnet | Charger un projet existant depuis son README.md      |
+| `/phase4-contrat`       | Sonnet | Contrat architectural verrouillé (canaux IPC)        |
+| `/phase5-developpement` | Sonnet | Livraison par lots — enchaînement automatique        |
+| `/implement`            | Sonnet | Ajouter une feature à un projet livré                |
+| `/analyze`              | Sonnet | Tracer une fonctionnalité à travers les couches      |
+| `/fix`                  | Sonnet | Corriger un bug — cause racine                       |
+| `/refactor`             | Sonnet | Restructurer sous validation                         |
+| `/test`                 | Sonnet | Vérification exécutable                               |
+| `/charger-projet`       | Sonnet | Charger un projet existant                           |
 | `/generate-readme`      | Sonnet | Générer README.md d'un projet existant               |
-| `/session`              | Haiku  | Sauvegarder la session dans `claude-sessions/`       |
-| `/statut`               | Haiku  | État courant (phase, lot, décisions, points ouverts) |
-| `/contrat`              | Haiku  | Arborescence du contrat architectural validé         |
-| `/memoriser`            | Haiku  | Mémoriser une erreur, décision ou préférence         |
+| `/session`              | Haiku  | Sauvegarder la session                               |
+| `/statut`               | Haiku  | État courant                                         |
+| `/contrat`              | Haiku  | Contrat architectural validé                         |
+| `/memoriser`            | Haiku  | Persister dans la mémoire native                     |
 
 ---
 
@@ -293,59 +205,29 @@ Disponible dans toutes les sessions suivantes sur ce projet.
 
 ```
 mon-app/
-├── package.json                   # Dépendances ^, scripts dev/build/dist
-├── electron.vite.config.ts        # Build main/preload/renderer
-├── tsconfig.json · tsconfig.node.json · tsconfig.web.json
-├── eslint.config.mjs · .prettierrc
-├── electron-builder.yml           # Packaging Windows (si demandé)
-├── README.md                      # Généré automatiquement en fin de Phase 5
-├── claude-sessions/               # Fichiers SESSION (gitignorés)
-├── resources/                     # icon.ico
-├── scripts/
-│   └── ensure-electron.cjs        # postinstall — fiabilisation binaire Electron
+├── package.json · electron.vite.config.ts · tsconfig*.json · eslint.config.mjs
+├── electron-builder.yml · README.md
+├── CLAUDE.md                      # Identité projet (origine, contexte, écarts) — généré en fin de Phase 5
+├── .claude/settings.json          # Garde-fous + hook de vérification (app auto-contrôlée)
+├── docs/specs/                    # Specs de génération (FR)
+├── resources/                     # icône .ico, assets packaging
+├── scripts/ensure-electron.cjs    # Fiabilisation du binaire Electron (postinstall)
 └── src/
-    ├── shared/
-    │   ├── config.ts              # Constantes applicatives
-    │   ├── types.ts               # DTOs, IpcResult, interface WindowApi
-    │   └── ipc-channels.ts        # Noms de canaux IPC centralisés
-    ├── main/
-    │   ├── index.ts               # Point d'entrée, BrowserWindow, sécurité
-    │   ├── models/
-    │   │   ├── errors.ts          # Erreurs métier nommées
-    │   │   ├── preferences.model.ts
-    │   │   └── [entite].model.ts
-    │   └── controllers/
-    │       ├── index.ts           # registerAllControllers()
-    │       └── [entite].controller.ts
-    ├── preload/
-    │   └── index.ts               # contextBridge — API window.api
+    ├── shared/                    # config.ts, types.ts (WindowApi), ipc-channels.ts
+    ├── main/                      # index.ts (sécurité), models/, controllers/
+    ├── preload/index.ts           # contextBridge (surface minimale)
     └── renderer/
-        ├── index.html             # CSP stricte
-        └── src/
-            ├── main.tsx · App.tsx
-            ├── views/
-            │   ├── layout/        # Topbar, Statusbar, Drawer, Modal
-            │   ├── ToastManager.tsx
-            │   └── [Entite]View.tsx
-            ├── hooks/             # useTheme, useToast…
-            ├── utils/helpers.ts   # Fonctions pures
-            ├── i18n/              # fr.json, en.json (si activée)
-            └── styles/
-                ├── tokens.css     # :root + [data-theme="dark"] — tous tokens
-                └── styles.css     # Règles consommant var(--token)
+        ├── index.html             # CSP meta
+        └── src/                   # main.tsx, App.tsx, views/, hooks/, utils/, i18n/, styles/
 ```
-
-Données d'exécution (`preferences.json`, `*.db`, logs) : dans `%APPDATA%/[NomApp]` (`app.getPath("userData")`), jamais dans le dossier du projet.
 
 ---
 
 ## Points de vigilance
 
-- `design-system.md` et `layout.md` sont dans `.claude/` — ne pas les déplacer ni modifier.
-- Les couleurs d'icônes Font Awesome passent par les tokens CSS (`--icon-*`) — pas de constante de config (différence vs générateur Python).
-- Le contrat architectural (Phase 4) est verrouillé. Tout changement structurel impose le protocole de déclaration.
-- Les règles de sécurité Electron (`rules/security.md`) sont non négociables — `contextIsolation`, `sandbox`, CSP, validation IPC.
-- `better-sqlite3` est un module natif : `electron-builder install-app-deps` est chaîné dans le `postinstall` après `ensure-electron.cjs` — déclenché automatiquement par `npm install`.
-- `/charger-projet` et `/generate-readme` doivent être invoqués depuis la racine du projet cible.
-- La mémoire (`~/.claude/agent-memory/`) est locale à ta machine — non commitée, non partagée.
-- `.claude/settings.local.json` est gitignorée — chaque utilisateur configure ses propres permissions locales.
+- `design-system.md` et `layout.md` sont la **source de vérité unique** — ne pas les dupliquer.
+- Sécurité Electron (`rules/security.md`) non négociable — jamais affaiblie, même temporairement.
+- Les canaux IPC sont centralisés dans `src/shared/ipc-channels.ts` — zéro chaîne de canal en dur ailleurs.
+- Le contrat (`docs/specs/04-contrat.md`) est verrouillé. Tout changement structurel passe par `/implement` ou le protocole de déclaration d'écart.
+- `/charger-projet`, `/generate-readme`, `/implement`, `/analyze`, `/fix`, `/refactor`, `/test` s'invoquent depuis la racine du projet cible.
+- Aucune ressource distante (CDN) — tout est embarqué via npm (contrainte CSP).

@@ -1,12 +1,24 @@
 ---
 name: contrat
-description: Afficher l'arborescence complète du contrat architectural validé en Phase 4, avec le rôle de chaque fichier et les canaux IPC.
+description: Show the complete validated architectural contract (Phase 4) — tree with the role of each file and the IPC channels. Reads docs/specs/04-contrat.md.
+model: haiku
 ---
 
-# /contrat — Contrat architectural validé
+# /contrat — Validated architectural contract
 
-Afficher l'arborescence complète du contrat validé en Phase 4 avec le rôle de chaque fichier, suivie du tableau des canaux IPC.
+## Role
+Contract reporter.
 
-Si aucun contrat n'est encore validé : `Aucun contrat validé — Phase 4 non atteinte.`
+## Goal
+Display the locked contract from the source of truth.
 
-Ne pas ajouter le rappel `/session · /statut · /contrat` après cette réponse.
+## Deliverable
+The contract on screen (French).
+
+---
+
+Read `docs/specs/04-contrat.md` (the locked source of truth) and display the complete validated tree with the role of each file, followed by the IPC channels table.
+
+If `docs/specs/04-contrat.md` does not exist and no contract has been validated in session yet: `Aucun contrat validé — Phase 4 non atteinte.`
+
+Do not append the `/session · /statut · /contrat` reminder after this reply.

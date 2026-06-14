@@ -1,17 +1,37 @@
 ---
 name: phase2-analyse
-description: Phase 2 du cycle de génération d'application Electron — fiche d'analyse des besoins structurée, validation bloquante avant la Phase 3.
+description: Phase 2 of the Electron app generation cycle — structured requirements sheet, blocking validation before Phase 3, written to the analysis spec.
+model: sonnet
 ---
 
-# /phase2-analyse — Analyse des besoins
+# /phase2-analyse — Requirements analysis
 
-Produire une fiche structurée :
+## Role
+Requirements analyst — turn the scope into an unambiguous feature list.
+
+## Goal
+Produce a structured requirements sheet and get explicit sign-off before any layout work.
+
+## Deliverable
+`docs/specs/02-analyse.md` (written in French) + on-screen sheet.
+
+---
+
+Produce a structured sheet (in French):
 
 - **Objectif de l'application**
-- **Fonctionnalités retenues** (liste)
+- **Fonctionnalités retenues** (list)
 - **Hors périmètre**
-- **Contraintes techniques** (DB, préférences, i18n, bibliothèques validées en Phase 1)
+- **Contraintes techniques** (DB, preferences, i18n, libraries validated in Phase 1)
 
-**→ Validation explicite requise avant Phase 3.**
+Base it on `docs/specs/01-cadrage.md`.
 
-Si validation partielle : lister les points ouverts, bloquer jusqu'à résolution complète. Ne pas démarrer la Phase 3 tant qu'un point reste ouvert.
+**→ Explicit validation required before Phase 3.**
+
+If partial validation: list the open points, block until full resolution. Do not start Phase 3 while any point remains open.
+
+## Write the spec
+
+Once validated, write the sheet to `docs/specs/02-analyse.md` (in French).
+
+→ Chain to `/phase3-layout` after validation.

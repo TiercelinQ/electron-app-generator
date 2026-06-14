@@ -1,19 +1,35 @@
 ---
 name: phase3-layout
-description: Phase 3 du cycle de génération d'application Electron — proposition de layout basée sur layout.md, questions de personnalisation groupées, synthèse validée avant la Phase 4.
+description: Phase 3 of the Electron app generation cycle — layout proposal based on layout.md, grouped customization questions, validated synthesis written to the layout spec before Phase 4.
+model: sonnet
 ---
 
-# /phase3-layout — Proposition de layout
+# /phase3-layout — Layout proposal
 
-## 1. Proposition
+## Role
+UI designer — map the validated features onto the binding layout system.
 
-Sur la base de la description du projet, proposer un layout adapté parmi les structures définies dans `layout.md` :
+## Goal
+Define the concrete layout (tabs, optional drawer, recurring components) within `layout.md` constraints.
 
-1. Décrire la structure retenue (onglets, drawer optionnel, composants récurrents).
-2. Justifier le choix en fonction des fonctionnalités.
-3. Lister les onglets de navigation et leur contenu.
+## Deliverable
+`docs/specs/03-layout.md` (written in French) + on-screen synthesis.
 
-## 2. Personnalisation — questions groupées en un seul bloc
+---
+
+## 1. Proposal
+
+**Read `design-system.md` and `layout.md` first** (no longer auto-imported).
+
+Based on the project description (`docs/specs/02-analyse.md`), propose a layout among the structures defined in `layout.md`:
+
+1. Describe the chosen structure (tabs, optional drawer, recurring components).
+2. Justify the choice against the features.
+3. List the navigation tabs and their content.
+
+## 2. Customization — questions grouped in a single block
+
+Ask in French:
 
 ```
 Personnalisation du layout :
@@ -30,10 +46,16 @@ Personnalisation du layout :
 5. Les toasts sont positionnés en haut-droit — seule position spécifiée par `layout.md §5`.
 ```
 
-Si « Autre » en 4 : poser 3 questions pour aider à choisir, puis proposer 2 dispositions avec recommandation.
+If "Autre" in 4: ask 3 questions to help choose, then propose 2 layouts with a recommendation.
 
-## 3. Synthèse
+## 3. Synthesis
 
-Produire une synthèse complète du layout validé (structure, onglets, panneau, toasts, écarts éventuels vs `layout.md` par défaut).
+Produce a complete synthesis of the validated layout (structure, tabs, panel, toasts, any deviations vs the `layout.md` default).
 
-**→ Validation explicite requise avant Phase 4.**
+**→ Explicit validation required before Phase 4.**
+
+## 4. Write the spec
+
+Once validated, write the synthesis to `docs/specs/03-layout.md` (in French).
+
+→ Chain to `/phase4-contrat` after validation.

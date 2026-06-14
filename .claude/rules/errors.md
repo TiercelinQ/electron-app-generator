@@ -1,15 +1,15 @@
-# Règles de gestion des erreurs
+# Error handling rules
 
-## Convention de remontée Model → Controller → View (à travers l'IPC)
+## Model → Controller → View escalation convention (across the IPC)
 
-- **Model** : lève des erreurs métier explicites (classes héritant d'`Error`, définies dans `src/main/models/errors.ts`, avec `name` fixé).
-- **Controller** : intercepte via `try/catch` dans le handler `ipcMain.handle`. **Ne propage jamais d'exception brute à travers l'IPC** (Electron sérialise mal les classes d'erreur). Retourne un résultat structuré.
-- **Preload** : transmet le résultat tel quel. Zéro logique d'erreur.
-- **View** : lit le résultat, appelle le toast via le hook `useToast`. Ne gère aucune logique d'erreur.
+- **Model**: raises explicit business errors (classes extending `Error`, defined in `src/main/models/errors.ts`, with a fixed `name`).
+- **Controller**: intercepts via `try/catch` in the `ipcMain.handle` handler. **Never propagates a raw exception across the IPC** (Electron serializes error classes poorly). Returns a structured result.
+- **Preload**: passes the result through as-is. Zero error logic.
+- **View**: reads the result, calls the toast via the `useToast` hook. Handles no error logic.
 
-## Contrat de résultat IPC
+## IPC result contract
 
-Type unique dans `src/shared/types.ts` :
+Single type in `src/shared/types.ts`:
 
 ```ts
 export type IpcResult<T> =
@@ -19,7 +19,7 @@ export type IpcResult<T> =
 export type ToastType = "success" | "info" | "warning" | "danger";
 ```
 
-## Exemple complet
+## Full example
 
 ```ts
 // src/main/models/errors.ts
@@ -44,7 +44,7 @@ ipcMain.handle(IPC.RECORD_SAVE, async (_e, payload: unknown): Promise<IpcResult<
     if (err instanceof DatabaseError) {
       return { ok: false, error: { type: "danger", message: "Erreur base de données", description: err.message } };
     }
-    throw err; // erreur inattendue → handler global main
+    throw err; // unexpected error → global main handler
   }
 });
 ```
@@ -56,12 +56,21 @@ if (!result.ok) { toast(result.error); return; }
 toast({ type: "success", message: t("record.saved") });
 ```
 
-## Règles
+## Rules
 
-- Zéro `dialog.showMessageBox`, `alert()`, `confirm()` pour les erreurs métier — **toasts uniquement** (types, durées et anatomie : `layout.md §5`).
-- Zéro bandeau inline.
-- Confirmations destructives (suppression…) : modale stylée (`layout.md §8`), jamais `confirm()`.
-- Gestion d'erreurs sur toutes les opérations critiques : I/O fichiers, base de données, IPC, parsing JSON.
-- Erreurs inattendues du main : handler global (`process.on("uncaughtException")` + log) — l'application ne crashe pas silencieusement.
-- Erreurs inattendues du renderer : Error Boundary React au niveau de `App.tsx` → toast `danger` persistant.
-- Messages d'erreur visibles : passent par i18n si activée.
+- Zero `dialog.showMessageBox`, `alert()`, `confirm()` for business errors — **toasts only** (types, durations, anatomy: `layout.md §5`).
+- Zero inline banner.
+- Destructive confirmations (deletion…): styled modal (`layout.md §8`), never `confirm()`.
+- Error handling on all critical operations: file I/O, database, IPC, JSON parsing.
+- Unexpected main errors: global handler (`process.on("uncaughtException")` + log) — the app does not crash silently.
+- Unexpected renderer errors: React Error Boundary at `App.tsx` level → persistent `danger` toast.
+- Visible error messages: go through i18n if enabled.
+
+## Anti-patterns — what NOT to do
+
+- **Do not** call `alert()`, `confirm()`, or `dialog.showMessageBox` for a business error or a confirmation — toast or styled modal only.
+- **Do not** `throw` a raw exception out of an `ipcMain.handle` handler for a known business error — return `{ ok: false, error: {...} }`.
+- **Do not** build the user-facing message in the model — the model raises a typed error; the controller decides the toast wording (via i18n).
+- **Do not** swallow an error silently (`catch (_) {}`) — map it to an `IpcResult` error or let it reach the global handler.
+- **Do not** handle business error logic in a view — the view only reads `result.ok` and toasts.
+- **Do not** forget the global main handler (`uncaughtException`) and the renderer Error Boundary — both are mandatory.

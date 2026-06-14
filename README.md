@@ -1,51 +1,57 @@
-# Electron App Generator
+# Electron App Generator — unified
 
-> Claude Code generator for **Windows desktop apps** — Node.js · Electron · TypeScript · React · electron-vite.
+> Claude Code generator for **Windows desktop apps** — Node.js · Electron · React · TypeScript.
 
-Part of a family of Claude Code generators. See also [python-app-generator](https://github.com/TiercelinQ/python-app-generator) and [flutter-app-generator](https://github.com/TiercelinQ/flutter-app-generator).
+Part of a family of Claude Code generators. See also [claude-python-app-generator](https://github.com/TiercelinQ/claude-python-app-generator) and [flutter-app-generator](https://github.com/TiercelinQ/flutter-app-generator).
+
+Unified edition: the full generation pipeline **plus** post-delivery maintenance skills, an explicit role per skill, persisted specs, centralized executable verification, and native memory.
 
 ---
 
 ## What it does
 
-A structured prompt system that generates complete, production-ready Electron applications through a 5-phase cycle:
+A structured prompt system that generates complete, production-ready Electron/React desktop applications through a 5-phase cycle, then maintains them:
 
-1. **Scoping** — stack decisions, primary color, library validation, lot sizing
-2. **Requirements** — structured feature sheet, explicit out-of-scope
-3. **Layout** — navigation, drawer/modal, toast position
-4. **Architecture contract** — full file tree, IPC channel map, CSS token table — locked before any code is written
-5. **Development** — files written directly to disk in batches, no manual steps
+1. **Scoping** — 6 questions (objective, DB, prefs, i18n, icon, tests) + primary color
+2. **Requirements** — structured feature sheet, explicit out-of-scope, locked sizing
+3. **Layout** — topbar tabs, drawer/modal, toast position
+4. **Architecture contract** — full file tree, IPC channel table, tokens→CSS table — locked before any code is written
+5. **Development** — auto-chained batch delivery
 
-Every generated app enforces the same visual design system, security rules, and MVC architecture.
+Each phase writes a French spec to `docs/specs/` (`01-cadrage` … `04-contrat`); the contract is the source of truth.
+
+**Maintenance commands**: `/implement` (add a feature, contract-compliant), `/analyze` (trace behavior), `/fix` (root-cause debugging with a decision tree), `/refactor` (validated, behavior-preserving), `/test` (executable verification). Plus `/charger-projet` and `/generate-readme` to load/document existing apps.
+
+Every generated app enforces the same visual design system, strict MVC architecture, and locked Electron security.
 
 ---
 
 ## Generated app stack
 
-| Element   | Value                                   |
-| --------- | --------------------------------------- |
-| Runtime   | Node.js 22 LTS+ · Electron stable (≥42) |
-| Language  | TypeScript strict                       |
-| Renderer  | React 19                                |
-| Build     | electron-vite                           |
-| Styling   | Centralized CSS — tokens + data-theme   |
-| Icons     | Font Awesome Free (npm, local — no CDN) |
-| i18n      | i18next FR/EN                           |
-| Database  | better-sqlite3 (optional)               |
-| Packaging | electron-builder (NSIS + portable)      |
-| Quality   | ESLint · Prettier · TypeScript strict   |
+| Element        | Value                                                       |
+| -------------- | ----------------------------------------------------------- |
+| Target OS      | Windows                                                     |
+| Runtime        | Node.js 22 LTS+ · Electron stable (≥ 42)                    |
+| Language       | TypeScript strict                                          |
+| Renderer       | React 19 — functional components + hooks                    |
+| Build          | electron-vite                                               |
+| Architecture   | Strict MVC — main = Models · renderer = Views · IPC = Controllers |
+| Styling        | Centralized CSS — `tokens.css` + `styles.css`               |
+| Icons          | Font Awesome Free (local npm)                               |
+| i18n           | i18next + react-i18next FR/EN (opt-in)                      |
+| DB             | better-sqlite3 — versioned migrations (opt-in)             |
+| Tests          | Vitest + Testing Library (opt-in)                          |
+| Packaging      | electron-builder (NSIS + portable)                          |
+| Security       | contextIsolation · sandbox · no nodeIntegration · strict CSP |
+| Quality        | ESLint + Prettier · JSDoc/TSDoc · IpcResult<T> error contract |
 
 ---
 
 ## Requirements
 
 ```bash
-# Claude Code CLI — installed and authenticated
-claude --version
-
-# Node.js 22 LTS+
-node --version
-npm --version
+claude --version    # Claude Code CLI — installed and authenticated
+node --version      # Node.js 22 LTS+
 ```
 
 ---
@@ -68,20 +74,25 @@ Then in Claude Code:
 
 ## Commands
 
-| Command                 | Action                                      |
-| ----------------------- | ------------------------------------------- |
-| `/electron-app`         | Start menu / resume / load existing project |
-| `/phase1-cadrage`       | Scoping — questions + primary color         |
-| `/phase2-analyse`       | Structured requirements sheet               |
-| `/phase3-layout`        | Layout proposal + customization             |
-| `/phase4-contrat`       | Locked architecture contract                |
-| `/phase5-developpement` | Batch delivery — files written to disk      |
-| `/charger-projet`       | Load an existing project from its README.md |
-| `/generate-readme`      | Generate README.md for an existing project  |
-| `/session`              | Save current session state                  |
-| `/statut`               | Current project status                      |
-| `/contrat`              | Display locked architecture contract        |
-| `/memoriser`            | Memorize an error, decision, or preference  |
+| Command                 | Action                                             |
+| ----------------------- | -------------------------------------------------- |
+| `/electron-app`         | Start menu (4 entry points incl. maintenance)      |
+| `/phase1-cadrage`       | Scoping — 5 questions + primary color              |
+| `/phase2-analyse`       | Requirements sheet + locked sizing                 |
+| `/phase3-layout`        | Layout proposal + customization                    |
+| `/phase4-contrat`       | Locked architecture contract (IPC channels)        |
+| `/phase5-developpement` | Auto-chained batch delivery                        |
+| `/implement`            | Add a feature to a shipped project                 |
+| `/analyze`              | Trace a feature across the MVC/IPC layers          |
+| `/fix`                  | Fix a bug — decision tree, root cause              |
+| `/refactor`             | Refactor under explicit validation only            |
+| `/test`                 | Executable verification (typecheck, lint, build)   |
+| `/charger-projet`       | Load an existing project from its specs/README     |
+| `/generate-readme`      | Generate README.md for an existing project         |
+| `/session`              | Save current session state                         |
+| `/statut`               | Current project status                             |
+| `/contrat`              | Display locked architecture contract               |
+| `/memoriser`            | Persist a note in Claude Code native memory        |
 
 ---
 
@@ -89,80 +100,60 @@ Then in Claude Code:
 
 ```
 my-app/
-├── package.json
-├── electron.vite.config.ts
-├── tsconfig.json · tsconfig.node.json · tsconfig.web.json
-├── eslint.config.mjs · .prettierrc
-├── electron-builder.yml
-├── README.md
-├── resources/                     # icon.ico
-├── scripts/
-│   └── ensure-electron.cjs        # Electron binary install guard (postinstall)
+├── package.json · electron.vite.config.ts · tsconfig*.json · eslint.config.mjs
+├── electron-builder.yml · README.md
+├── CLAUDE.md                      # Project identity (origin, business context, deviations)
+├── .claude/settings.json          # Guardrails + verification hook (self-enforced app)
+├── docs/specs/                    # Generation specs (FR): 01-cadrage … 04-contrat
+├── resources/                     # .ico icon, packaging assets
+├── scripts/ensure-electron.cjs    # Electron binary reliability (postinstall)
 └── src/
-    ├── shared/
-    │   ├── config.ts              # App constants
-    │   ├── types.ts               # DTOs · IpcResult · WindowApi interface
-    │   └── ipc-channels.ts        # Centralized IPC channel names
-    ├── main/
-    │   ├── index.ts               # BrowserWindow · security setup
-    │   ├── models/                # Business logic · data access
-    │   └── controllers/           # ipcMain handlers
-    ├── preload/
-    │   └── index.ts               # contextBridge — window.api
+    ├── shared/                    # config.ts · types.ts (WindowApi) · ipc-channels.ts
+    ├── main/                      # index.ts (security) · models/ · controllers/
+    ├── preload/index.ts           # contextBridge (minimal surface)
     └── renderer/
-        ├── index.html             # Strict CSP
-        └── src/
-            ├── views/             # React components
-            ├── hooks/
-            ├── utils/helpers.ts
-            ├── i18n/
-            └── styles/
-                ├── tokens.css     # :root + [data-theme="dark"]
-                └── styles.css     # var(--token) only — no hard-coded values
+        ├── index.html             # CSP meta
+        └── src/                   # main.tsx · App.tsx · views/ · hooks/ · utils/ · i18n/ · styles/
 ```
 
 ---
 
 ## Design system
 
-All generated apps share the same visual system, defined in `.claude/design-system.md`:
+All generated apps share the same visual system, defined in `design-system.md`:
 
 - **Flat design** — zero border-radius, zero shadows, zero gradients
-- **CSS custom properties** — all colors, sizes and durations are tokens; light/dark theme via `data-theme` attribute on `<html>`
+- **CSS tokens** — all colors, sizes and durations are `var(--token)`; full light/dark theme via a single `[data-theme="dark"]` block
 - **Segoe UI** typography (Windows native)
 - **Slate Blue** primary color by default — 4 token values to change the entire app color
-- **Toasts only** — no inline banners, no `alert()`, no `dialog.showMessageBox` for business errors
+- **Toasts only** — no inline banners, no `dialog.showMessageBox`/`alert`/`confirm` for business errors
 
 ---
 
 ## Security
 
-Enforced on every generated app (`rules/security.md`):
-
-- `contextIsolation: true` · `nodeIntegration: false` · `sandbox: true`
-- Strict CSP in `index.html`
-- All IPC inputs validated as `unknown` before use
-- Parametrized SQL only — no string interpolation
-- No remote module, no deprecated Electron APIs
+`rules/security.md` is non-negotiable, applied to 100% of generated apps: locked `webPreferences` (`contextIsolation`, `nodeIntegration: false`, `sandbox`), strict CSP, every IPC input validated on the main side, minimal preload surface (named functions only), zero remote resource. `/fix` and `/implement` always route through it.
 
 ---
 
 ## Documentation
 
-- [GUIDE.md](GUIDE.md) — full usage guide
-- `.claude/design-system.md` — visual token reference
-- `.claude/layout.md` — layout reference (topbar, toasts, drawer, modal, table, pagination)
-- `.claude/rules/` — domain rules (MVC, CSS, errors, config, security)
+- [GUIDE.md](GUIDE.md) — full usage guide (FR)
+- `design-system.md` — visual token reference
+- `layout.md` — layout reference (shell, topbar, drawer, statusbar, toasts)
+- `rules/` — domain rules:
+  - `mvc.md` · `css.md` · `errors.md` · `security.md` · `config.md` · `db.md` · `tests.md`
+  - `verification.md` — single source of truth for executable + static checks
 
 ---
 
 ## Generator family
 
-| Generator                                                                         | Stack                           | Target          |
-| --------------------------------------------------------------------------------- | ------------------------------- | --------------- |
-| [claude-python-app-generator](https://github.com/TiercelinQ/python-app-generator) | Python · PyQt6 · QSS            | Windows desktop |
-| [electron-app-generator](https://github.com/TiercelinQ/electron-app-generator)    | Node.js · Electron · React · TS | Windows desktop |
-| [flutter-app-generator](https://github.com/TiercelinQ/flutter-app-generator)      | Flutter · Dart · Riverpod       | Android         |
+| Generator | Stack | Target |
+| --------- | ----- | ------ |
+| [claude-python-app-generator](https://github.com/TiercelinQ/claude-python-app-generator) | Python · PyQt6 · QSS | Windows desktop |
+| [electron-app-generator](https://github.com/TiercelinQ/electron-app-generator) | Node.js · Electron · React · TS | Windows desktop |
+| [flutter-app-generator](https://github.com/TiercelinQ/flutter-app-generator) | Flutter · Dart · Riverpod | Android |
 
 ---
 

@@ -1,40 +1,52 @@
 ---
 name: generate-readme
-description: Analyser le code source d'un projet Electron existant et générer automatiquement son README.md (objectif, stack, arborescence, canaux IPC, conventions, installation). Invoquer depuis la racine du projet cible.
+description: Analyze the specs and source of an existing Electron project and generate its README.md (objective, stack, tree, IPC channels, conventions, installation). Invoke from the target project root.
+model: sonnet
 ---
 
-# /generate-readme — Génération du README.md
+# /generate-readme — Generate the README.md
 
-Pré-requis : invoqué depuis la racine du projet cible.
+## Role
+Technical writer — produce an accurate project README from specs + code.
 
-1. Analyser : `package.json`, `src/shared/` (config, ipc-channels, types), `src/main/models/`, `src/main/controllers/`, `src/preload/`, `src/renderer/src/views/`, `src/renderer/src/styles/`.
-2. Générer `README.md` à la racine :
+## Goal
+Write a README that reflects what was actually built.
+
+## Deliverable
+`README.md` at the project root.
+
+---
+
+Prerequisite: invoked from the target project root.
+
+1. **Sources, in priority**: `docs/specs/*` (especially `04-contrat.md`) for the intended structure, then the real code — `package.json`, `src/shared/` (config, ipc-channels, types), `src/main/models/`, `src/main/controllers/`, `src/preload/`, `src/renderer/src/views/`, `src/renderer/src/styles/`. When specs and code disagree, the code is what shipped — describe the code and note the divergence.
+2. Generate `README.md` at the root:
 
 ```markdown
-# [NOM_APP]
+# [APP_NAME]
 
-[Objectif déduit du code — 2 phrases max]
+[Objective inferred from specs/code — 2 sentences max]
 
 ## Stack
-[tableau : Electron, React, TypeScript, DB, i18n, packaging]
+[table: Electron, React, TypeScript, DB, i18n, packaging]
 
-## Arborescence
-[arborescence réelle avec rôle de chaque fichier]
+## Tree
+[real tree with the role of each file]
 
-## Canaux IPC
-[tableau canal → controller → model → usage renderer]
+## IPC channels
+[table channel → controller → model → renderer usage]
 
 ## Conventions
-[MVC, tokens CSS, toasts, sécurité — renvoi aux règles]
+[MVC, CSS tokens, toasts, security — pointer to the rules]
 
 ## Installation
 npm install
-npm run dev          # développement
-npm run typecheck    # vérification TypeScript
-npm run build        # build sans packaging
-npm run dist         # packaging Windows (si demandé)
+npm run dev          # development
+npm run typecheck    # TypeScript verification
+npm run build        # build without packaging
+npm run dist         # Windows packaging (if requested)
 ```
-<!-- Si better-sqlite3 : exécuter `electron-builder install-app-deps` après `npm install` -->
+<!-- If better-sqlite3: run `npx electron-builder install-app-deps` after `npm install` -->
 
-3. Écrire le fichier sur le disque, confirmer en une ligne.
-4. Si des informations sont indéterminables depuis le code : poser les questions groupées en un seul bloc avant d'écrire.
+3. Write the file to disk, confirm in one line (French).
+4. If anything is undeterminable from specs + code: ask grouped questions (single block, French) before writing.

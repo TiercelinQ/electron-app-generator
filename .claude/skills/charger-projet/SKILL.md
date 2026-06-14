@@ -1,23 +1,39 @@
 ---
 name: charger-projet
-description: Charger un projet Electron existant (Phase 5 terminée) depuis son README.md — prise en charge des règles du générateur sur un code déjà livré. Invoquer depuis la racine du projet cible.
+description: Load an existing Electron project (Phase 5 complete) from its specs and README — bring the generator rules to bear on already-delivered code. Invoke from the target project root.
+model: sonnet
 ---
 
-# /charger-projet — Chargement d'un projet existant
+# /charger-projet — Load an existing project
 
-Pré-requis : invoqué depuis la racine du projet cible, `.claude/` présent.
+## Role
+Onboarding analyst — take charge of a delivered codebase under the generator rules.
 
-1. Lire `README.md` à la racine. S'il est absent : proposer `/generate-readme` et s'arrêter.
-2. Lire `package.json` + parcourir `src/` pour confirmer la structure (shared / main / preload / renderer).
-3. Confirmer la prise en charge :
+## Goal
+Understand the project's structure and confirm the rules apply to any later change.
+
+## Deliverable
+A one-block confirmation (French) of the loaded project.
+
+---
+
+Prerequisite: invoked from the target project root, `.claude/` present.
+
+1. **Read the source of truth in priority order:**
+   - `docs/specs/04-contrat.md` (locked contract — most reliable). If present, it is authoritative for the structure and the IPC channels.
+   - Other `docs/specs/*` for the scoping/analysis/layout decisions.
+   - `README.md` at the root. If both specs and README are absent: offer `/generate-readme` and stop.
+2. Read `package.json` + walk `src/` to confirm the structure (shared / main / preload / renderer).
+3. Confirm take-over (in French):
 
 ```
-Projet chargé : [NOM_APP] v[VERSION]
+Projet chargé : [APP_NAME] v[VERSION]
 Stack : Electron [v] · React [v] · TypeScript
-Entités détectées : [liste]
-Canaux IPC : [nombre]
+Entités détectées : [list]
+Canaux IPC : [count]
+Specs : [docs/specs présent : oui/non]
 Règles du générateur appliquées.
 ```
 
-4. Appliquer toutes les règles (`CLAUDE.md`, `rules/`, `design-system.md`, `layout.md`) à toute modification ultérieure.
-5. Tout écart structurel détecté entre le code et les règles : le signaler, ne pas corriger sans demande.
+4. Read and apply all rules (`CLAUDE.md`, `rules/mvc.md` · `rules/css.md` · `rules/errors.md` · `rules/config.md` · `rules/security.md` · `rules/verification.md`, `design-system.md`, `layout.md`) to any later change. The `rules/*` are not auto-imported: read them before any code change.
+5. Any structural or security deviation detected between the code and the rules (or vs `docs/specs/04-contrat.md`): report it, do not fix without a request (hand off to `/fix` or `/refactor`).
