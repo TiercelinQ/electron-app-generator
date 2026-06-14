@@ -1,6 +1,6 @@
-# Electron App Generator — unified
+# Electron App Generator - Unified
 
-> Claude Code generator for **Windows desktop apps** — Node.js · Electron · React · TypeScript.
+> Claude Code generator for **Windows desktop apps** - Node.js · Electron · React · TypeScript.
 
 Part of a family of Claude Code generators. See also [python-app-generator](https://github.com/TiercelinQ/python-app-generator) and [flutter-app-generator](https://github.com/TiercelinQ/flutter-app-generator).
 
@@ -12,11 +12,11 @@ Unified edition: the full generation pipeline **plus** post-delivery maintenance
 
 A structured prompt system that generates complete, production-ready Electron/React desktop applications through a 5-phase cycle, then maintains them:
 
-1. **Scoping** — 6 questions (objective, DB, prefs, i18n, icon, tests) + primary color
-2. **Featuring** — structured feature sheet, explicit out-of-scope, locked sizing
-3. **Designing** — topbar tabs, drawer/modal, toast position
-4. **Architect** — full file tree, IPC channel table, tokens→CSS table — locked before any code is written
-5. **Development** — auto-chained batch delivery, seed script if a DB is used
+1. **Scoping** - 6 questions (objective, DB, prefs, i18n, icon, tests) + primary color
+2. **Featuring** - structured feature sheet, explicit out-of-scope, locked sizing
+3. **Designing** - topbar tabs, drawer/modal, toast position
+4. **Architect** - full file tree, IPC channel table, tokens→CSS table - locked before any code is written
+5. **Development** - auto-chained batch delivery, seed script if a DB is used
 
 Each phase writes a French spec to `docs/specs/` (`01-scoping` … `04-architect`); the contract is the source of truth.
 
@@ -33,13 +33,13 @@ Every generated app enforces the same visual design system, strict MVC architect
 | Target OS      | Windows                                                     |
 | Runtime        | Node.js 22 LTS+ · Electron stable (≥ 42)                    |
 | Language       | TypeScript strict                                          |
-| Renderer       | React 19 — functional components + hooks                    |
+| Renderer       | React 19 - functional components + hooks                    |
 | Build          | electron-vite                                               |
-| Architecture   | Strict MVC — main = Models · renderer = Views · IPC = Controllers |
-| Styling        | Centralized CSS — `tokens.css` + `styles.css`               |
+| Architecture   | Strict MVC - main = Models · renderer = Views · IPC = Controllers |
+| Styling        | Centralized CSS - `tokens.css` + `styles.css`               |
 | Icons          | Font Awesome Free (local npm)                               |
 | i18n           | i18next + react-i18next FR/EN (opt-in)                      |
-| DB             | better-sqlite3 — versioned migrations (opt-in)             |
+| DB             | better-sqlite3 - versioned migrations (opt-in)             |
 | Tests          | Vitest + Testing Library (opt-in)                          |
 | Packaging      | electron-builder (NSIS + portable)                          |
 | Security       | contextIsolation · sandbox · no nodeIntegration · strict CSP |
@@ -50,7 +50,7 @@ Every generated app enforces the same visual design system, strict MVC architect
 ## Requirements
 
 ```bash
-claude --version    # Claude Code CLI — installed and authenticated
+claude --version    # Claude Code CLI - installed and authenticated
 node --version      # Node.js 22 LTS+
 ```
 
@@ -77,14 +77,14 @@ Then in Claude Code:
 | Command                 | Action                                             |
 | ----------------------- | -------------------------------------------------- |
 | `/electron-app`         | Start menu (4 entry points incl. maintenance)      |
-| `/p1-scoping`       | Scoping — 6 questions + primary color              |
-| `/p2-featuring`       | Featuring — requirements sheet + locked sizing     |
-| `/p3-designing`        | Designing — layout proposal + customization        |
-| `/p4-architect`       | Architect — locked architecture contract (IPC)     |
+| `/p1-scoping`       | Scoping - 6 questions + primary color              |
+| `/p2-featuring`       | Featuring - requirements sheet + locked sizing     |
+| `/p3-designing`        | Designing - layout proposal + customization        |
+| `/p4-architect`       | Architect - locked architecture contract (IPC)     |
 | `/p5-development` | Auto-chained batch delivery                        |
 | `/feature-add`            | Add a feature to a shipped project                 |
 | `/analyze`              | Trace a feature across the MVC/IPC layers          |
-| `/fix`                  | Fix a bug — decision tree, root cause              |
+| `/fix`                  | Fix a bug - decision tree, root cause              |
 | `/refactor`             | Refactor under explicit validation only            |
 | `/test`                 | Executable verification (typecheck, lint, build)   |
 | `/charger-projet`       | Load an existing project from its specs/README     |
@@ -122,11 +122,11 @@ my-app/
 
 All generated apps share the same visual system, defined in `design-system.md`:
 
-- **Flat design** — zero border-radius, zero shadows, zero gradients
-- **CSS tokens** — all colors, sizes and durations are `var(--token)`; full light/dark theme via a single `[data-theme="dark"]` block
+- **Flat design** - zero border-radius, zero shadows, zero gradients
+- **CSS tokens** - all colors, sizes and durations are `var(--token)`; full light/dark theme via a single `[data-theme="dark"]` block
 - **Segoe UI** typography (Windows native)
-- **Slate Blue** primary color recommended by default (+ 4 contextual proposals) — 4 token values to change the entire app color
-- **Toasts only** — no inline banners, no `dialog.showMessageBox`/`alert`/`confirm` for business errors
+- **Slate Blue** primary color recommended by default (+ 4 contextual proposals) - 4 token values to change the entire app color
+- **Toasts only** - no inline banners, no `dialog.showMessageBox`/`alert`/`confirm` for business errors
 
 ---
 
@@ -138,12 +138,12 @@ All generated apps share the same visual system, defined in `design-system.md`:
 
 ## Documentation
 
-- [GUIDE.md](GUIDE.md) — full usage guide (FR)
-- `design-system.md` — visual token reference
-- `layout.md` — layout reference (shell, topbar, drawer, statusbar, toasts)
-- `rules/` — domain rules:
+- [GUIDE.md](GUIDE.md) - full usage guide (FR)
+- `design-system.md` - visual token reference
+- `layout.md` - layout reference (shell, topbar, drawer, statusbar, toasts)
+- `rules/` - domain rules:
   - `mvc.md` · `css.md` · `errors.md` · `security.md` · `config.md` · `db.md` · `tests.md`
-  - `verification.md` — single source of truth for executable + static checks
+  - `verification.md` - single source of truth for executable + static checks
 
 ---
 
