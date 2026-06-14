@@ -90,7 +90,7 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 - No library that was not validated in Phase 1.
 - At project finalization (last batch of Phase 5): generate a `CLAUDE.md` at the generated project root — origin (framework + version), business context, framework deviations. See `/p5-development`.
 - After resolving an anomaly, offer: "Veux-tu mémoriser ce point ? `/memoriser`"
-
+- NEVER read and write `settings.json`. ONLY read and write in `settings.local.json`
 Per-domain rule detail (loaded on demand by `/p4-architect`, `/p5-development`, and the maintenance skills — not auto-imported): @rules/mvc.md · @rules/css.md · @rules/errors.md · @rules/config.md · @rules/security.md · @rules/db.md · @rules/tests.md · @rules/verification.md
 
 ---
