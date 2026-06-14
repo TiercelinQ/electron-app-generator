@@ -1,7 +1,7 @@
 # Layout System — v2.1 (Electron)
 
 > Binding reference for all Node.js/Electron/React applications.
-> Built on `design-system.md v1.1 (Electron)`. The two files are inseparable.
+> Built on `design-system.md v1.2 (Electron)`. The two files are inseparable.
 
 ## Changelog
 
@@ -94,7 +94,7 @@ Mandatory HTML skeleton (`App.tsx` component):
 | ------------------ | ------------------------ |
 | height             | `--topbar-height` = 48px |
 | light mode bg      | `--bg` = #FFFFFF         |
-| dark mode bg       | `--bg` = #111827         |
+| dark mode bg       | `--bg` = #1A1A1F         |
 | bottom border      | 1px `--border`           |
 | horizontal padding | `--spacing-4` = 16px     |
 
@@ -142,7 +142,7 @@ Mandatory HTML skeleton (`App.tsx` component):
 | Token               | Value                            |
 | ------------------- | -------------------------------- |
 | light mode bg       | `--bg` = #FFFFFF                 |
-| dark mode bg        | `--bg` = #111827                 |
+| dark mode bg        | `--bg` = #1A1A1F                 |
 | inner padding       | `--spacing-6` = 24px             |
 | scroll              | vertical — `overflow-y: auto`    |
 | max content width   | `--content-xl` = 1024px (centered) |
@@ -221,7 +221,7 @@ Component: `views/ToastManager.tsx` — queue in React state, `#toast-container`
 | width            | `--drawer-width` = 320px                                                           |
 | animation        | slide from the right, `--transition-slow` = 250ms (`transform: translateX`)         |
 | light mode bg    | `--bg-elevated` = #FFFFFF                                                          |
-| dark mode bg     | `--bg-elevated` = #1F2937                                                          |
+| dark mode bg     | `--bg-elevated` = #2A2A35                                                          |
 | left border      | 1px `--border`                                                                     |
 | padding          | `--spacing-6` = 24px                                                               |
 | overlay bg       | `--text` 40% opacity                                                               |
@@ -239,7 +239,7 @@ Component: `views/ToastManager.tsx` — queue in React state, `#toast-container`
 | ------------------ | ----------------------------- |
 | height             | `--statusbar-height` = 28px   |
 | light mode bg      | `--bg-muted` = #F3F4F6        |
-| dark mode bg       | `--bg-muted` = #374151        |
+| dark mode bg       | `--bg-muted` = #313140        |
 | top border         | 1px `--border`                |
 | horizontal padding | `--spacing-4` = 16px          |
 | font               | `--weight-normal` `--font-xs` |
@@ -318,7 +318,7 @@ Controlled React component (state `isOpen`) — `<div class="modal-overlay"><div
 | ---------------- | ---------------------------------- |
 | width            | dynamic per content, min 480px     |
 | light mode bg    | `--bg` = #FFFFFF                   |
-| dark mode bg     | `--bg` = #111827                   |
+| dark mode bg     | `--bg` = #1A1A1F                   |
 | border           | 1px `--border`                     |
 | padding          | `--spacing-6` = 24px               |
 | overlay bg       | `--text` 40% opacity               |
@@ -382,7 +382,7 @@ Implementation: `keydown` listeners in the renderer. Global shortcuts do not go 
 
 ## 11. DESIGN SYSTEM CROSS-REFERENCE
 
-This file does not redefine tokens — it consumes them. Every visual value is traced to `design-system.md v1.1 (Electron)`.
+This file does not redefine tokens — it consumes them. Every visual value is traced to `design-system.md v1.2 (Electron)`.
 
 | Need                       | Token                                              |
 | -------------------------- | -------------------------------------------------- |

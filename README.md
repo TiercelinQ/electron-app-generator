@@ -125,7 +125,7 @@ All generated apps share the same visual system, defined in `design-system.md`:
 - **Flat design** - zero border-radius, zero shadows, zero gradients
 - **CSS tokens** - all colors, sizes and durations are `var(--token)`; full light/dark theme via a single `[data-theme="dark"]` block
 - **Segoe UI** typography (Windows native)
-- **Slate Blue** primary color recommended by default (+ 4 contextual proposals) - 4 token values to change the entire app color
+- **Steel Blue** primary color recommended by default (+ 4 contextual proposals) - 4 token values to change the entire app color
 - **Toasts only** - no inline banners, no `dialog.showMessageBox`/`alert`/`confirm` for business errors
 
 ---

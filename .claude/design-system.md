@@ -1,4 +1,4 @@
-# Design System — v1.1 (Electron)
+# Design System — v1.2 (Electron)
 
 > Binding reference for all Node.js/Electron/React applications.
 > Use: Windows desktop applications, personal and professional use.
@@ -9,10 +9,11 @@
 
 | Version | Date       | Main change                                                                                       |
 | ------- | ---------- | ------------------------------------------------------------------------------------------------- |
+| v1.2    | 2026-06-14 | dark theme re-skin (theme-dark.md palette): 4-step dark surface ramp · dark neutrals/borders/semantic/icons/selection · Steel Blue primary (both modes) |
 | v1.1    | 2026-06-14 | line-height · dark semantic backgrounds · primary/danger hover-pressed stops · `color-scheme` · WCAG AA target · layering scale · dark surface ramp fix · icon warning/info · selection/opacity/border-width tokens |
 | v1.0    | initial    | CSS custom properties port: typography, colors, spacing, components, states                        |
 
-> Aligns with the Python generator `design-system.md v1.2` (shared palette). Per-file versions: CSS rules in `rules/css.md`, layout in `layout.md`.
+> Aligns with the Python generator `design-system.md v1.3` (shared palette). Per-file versions: CSS rules in `rules/css.md`, layout in `layout.md`.
 
 Every generated application references the active version in its `README.md`.
 
@@ -71,18 +72,18 @@ Every generated application references the active version in its `README.md`.
 
 | Token             | Value   | Usage                  |
 | ----------------- | ------- | ---------------------- |
-| `--bg`            | #111827 | Main background, topbar |
-| `--bg-subtle`     | #1F2937 | Secondary areas        |
-| `--bg-elevated`   | #1F2937 | Drawer, modals         |
-| `--bg-muted`      | #374151 | Statusbar, hover       |
-| `--text`          | #F9FAFB | Primary text           |
-| `--text-subtle`   | #9CA3AF | Secondary text         |
-| `--text-muted`    | #6B7280 | Disabled text          |
-| `--border`        | #374151 | Standard borders       |
-| `--border-subtle` | #1F2937 | Discreet separators    |
-| `--border-strong` | #4B5563 | Table headers          |
+| `--bg`            | #1A1A1F | Main background, topbar |
+| `--bg-subtle`     | #22222A | Secondary areas        |
+| `--bg-elevated`   | #2A2A35 | Drawer, modals         |
+| `--bg-muted`      | #313140 | Statusbar, hover       |
+| `--text`          | #D4D4D4 | Primary text           |
+| `--text-subtle`   | #9A9AB0 | Secondary text         |
+| `--text-muted`    | #5A5A72 | Disabled text          |
+| `--border`        | #3A3A4A | Standard borders       |
+| `--border-subtle` | #2E2E3A | Discreet separators    |
+| `--border-strong` | #4A4A5E | Table headers          |
 
-> Dark surface ramp: `--bg` #111827 < {`--bg-subtle`, `--bg-elevated`} #1F2937 < `--bg-muted` #374151. `--bg-muted` is the lightest so that hover stays visible on every surface, including inside drawers and modals.
+> Dark surface ramp: `--bg` #1A1A1F < `--bg-subtle` #22222A < `--bg-elevated` #2A2A35 < `--bg-muted` #313140. `--bg-muted` is the lightest so that hover stays visible on every surface, including inside drawers and modals.
 
 ### Native color scheme
 
@@ -93,18 +94,18 @@ Declare `color-scheme` per theme so native controls (scrollbars, `<select>`, `<p
 [data-theme="dark"]  { color-scheme: dark; }
 ```
 
-### Primary color — Slate Blue
+### Primary color — Steel Blue
 
 | Token           | Light   | Dark    | Usage                               |
 | --------------- | ------- | ------- | ----------------------------------- |
-| `--primary-50`  | #EEF2FF | —       | Selection / active bg (light)       |
-| `--primary-400` | —       | #818CF8 | Active text/border (dark)           |
-| `--primary-600` | #4F46E5 | —       | Active text/border, primary btn (light) |
-| `--primary-700` | #4338CA | #4338CA | Primary button hover (both modes)   |
-| `--primary-800` | #3730A3 | #3730A3 | Primary button pressed (both modes) |
-| `--primary-900` | —       | #312E81 | Selection / active bg (dark)        |
+| `--primary-50`  | #EDF3F8 | —       | Selection / active bg (light)       |
+| `--primary-400` | —       | #5A9FD4 | Active text/border (dark)           |
+| `--primary-600` | #4682B4 | #4682B4 | Primary button fill (both modes); active text/border (light) |
+| `--primary-700` | #396A93 | #396A93 | Primary button hover (both modes)   |
+| `--primary-800` | #2F5879 | #2F5879 | Primary button pressed (both modes) |
+| `--primary-900` | —       | #2A4F72 | Selection / active bg (dark)        |
 
-> Modification: replacing `--primary-50/400/600/700/800/900` in `tokens.css` is enough to change the primary color across the whole application. The 6 stops derive from `--primary-600` by the same HSL rule used by the Python generator (same H/S, lightness varies: 95/70/—/50/42/25%). `--primary-700`/`--primary-800` are mode-agnostic (one value each).
+> Modification: replacing `--primary-50/400/600/700/800/900` in `tokens.css` is enough to change the primary color across the whole application. `--primary-700`/`--primary-800` are mode-agnostic (one value each). For a custom color the 6 stops derive from `--primary-600` by the same HSL rule used by the Python generator (same H/S, lightness 95/70/—/50/42/25%); Steel Blue is a preset whose explicit values win over that rule (its `--primary-600` already sits near L 49%, so `--primary-700/800` are darkened past the generic stops to keep the hover/pressed darken visible).
 
 Implementation: derived usage tokens, redefined per theme (or fixed) — these are the ones `styles.css` consumes.
 
@@ -118,16 +119,16 @@ Implementation: derived usage tokens, redefined per theme (or fixed) — these a
 
 | Token             | Light   | Dark    | Usage                  |
 | ----------------- | ------- | ------- | ---------------------- |
-| `--success-50`    | #F0FDF4 | #14532D | Success toast bg       |
-| `--success-600`   | #16A34A | #4ADE80 | Success border, icon   |
-| `--warning-50`    | #FFFBEB | #78350F | Warning toast bg       |
-| `--warning-600`   | #D97706 | #FCD34D | Warning border, icon   |
-| `--danger-50`     | #FFF1F2 | #7F1D1D | Danger toast bg        |
-| `--danger-600`    | #DC2626 | #F87171 | Danger border, icon    |
+| `--success-50`    | #F0FDF4 | #1D3F2A | Success toast bg       |
+| `--success-600`   | #16A34A | #4A9E6A | Success border, icon   |
+| `--warning-50`    | #FFFBEB | #483B13 | Warning toast bg       |
+| `--warning-600`   | #D97706 | #CCA840 | Warning border, icon   |
+| `--danger-50`     | #FFF1F2 | #441818 | Danger toast bg        |
+| `--danger-600`    | #DC2626 | #C04A4A | Danger border, icon    |
 | `--danger-700`    | #B91C1C | #B91C1C | Danger button hover    |
 | `--danger-800`    | #991B1B | #991B1B | Danger button pressed  |
-| `--info-50`       | #EFF6FF | #1E3A8A | Info toast bg          |
-| `--info-600`      | #2563EB | #60A5FA | Info border, icon      |
+| `--info-50`       | #EFF6FF | #1A3042 | Info toast bg          |
+| `--info-600`      | #2563EB | #4682B4 | Info border, icon      |
 
 > Naming note: `--*-50` is a **role** ("semantic surface / toast background"), not a fixed luminance level. Light = pale tint, Dark = deep tint of the same hue, redefined in the `[data-theme="dark"]` block. Without the dark redefinition the `var()` keeps the light value and the toast breaks in dark mode. Toast message text uses `--text`; border/icon use `--*-600`.
 
@@ -274,7 +275,7 @@ Applies to **transparent-background interactive elements**: tabs, list/table/tre
 
 | Variant    | Class            | Background     | Text                  | Border              |
 | ---------- | ---------------- | -------------- | --------------------- | ------------------- |
-| Primary    | `.btn-primary`   | `--primary`    | `--text-on-primary`   | none                |
+| Primary    | `.btn-primary`   | `--primary-600`| `--text-on-primary`   | none                |
 | Secondary  | `.btn-secondary` | transparent    | `--text`              | 1px `--border`      |
 | Danger     | `.btn-danger`    | `--danger-600` | `--text-on-primary`   | none                |
 | Ghost      | `.btn-ghost`     | transparent    | `--text-subtle`       | none                |
@@ -289,6 +290,8 @@ Applies to **transparent-background interactive elements**: tabs, list/table/tre
 | Ghost     | `--bg-muted` bg     | `--bg-muted` bg      | `var(--opacity-disabled)` |
 
 > Colored buttons darken on hover/pressed via their own stops, never the neutral `--bg-muted` rule of §8. `:focus-visible` shows the `--focus-ring` on every variant.
+
+> Primary button fill uses `--primary-600` (#4682B4 in both modes), **not** the `--primary` usage token — so the button stays mid-steel in dark mode and white text reaches 4.11:1 (AA for UI / large text). The brighter `--primary` (`--primary-400` #5A9FD4 in dark) is reserved for foreground accents (active text/border, icons, focus) that must read on dark surfaces; using it as a button fill would drop white text to 2.86:1.
 
 **Dynamic sizing** — the size results from content + padding:
 
@@ -311,13 +314,13 @@ Single import in the renderer: `import "@fortawesome/fontawesome-free/css/all.mi
 
 | Token            | Light (`:root`)        | Dark (`[data-theme="dark"]`) |
 | ---------------- | ---------------------- | ------------------------------ |
-| `--icon-default` | #6B7280 (text-subtle)  | #9CA3AF                        |
-| `--icon-active`  | #4F46E5 (primary-600)  | #818CF8                        |
-| `--icon-success` | #16A34A (success-600)  | #4ADE80                        |
-| `--icon-warning` | #D97706 (warning-600)  | #FCD34D                        |
-| `--icon-danger`  | #DC2626 (danger-600)   | #F87171                        |
-| `--icon-info`    | #2563EB (info-600)     | #60A5FA                        |
-| `--icon-muted`   | #9CA3AF (text-muted)   | #6B7280                        |
+| `--icon-default` | #6B7280 (text-subtle)  | #9A9AB0                        |
+| `--icon-active`  | #4682B4 (primary-600)  | #5A9FD4                        |
+| `--icon-success` | #16A34A (success-600)  | #4A9E6A                        |
+| `--icon-warning` | #D97706 (warning-600)  | #CCA840                        |
+| `--icon-danger`  | #DC2626 (danger-600)   | #C04A4A                        |
+| `--icon-info`    | #2563EB (info-600)     | #4682B4                        |
+| `--icon-muted`   | #9CA3AF (text-muted)   | #5A5A72                        |
 
 **Sizes**: `font-size` via tokens `--icon-sm` (16px), `--icon-md` (20px), `--icon-lg` (24px).
 

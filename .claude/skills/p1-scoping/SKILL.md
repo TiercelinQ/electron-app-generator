@@ -41,16 +41,16 @@ After receiving the answers, propose (in French):
 ```
 Couleur primaire pour ce projet :
 
-A. Slate Blue — #4F46E5 / #818CF8          — professionnel, tech, sobre (recommandé)
+A. Steel Blue — #4682B4 / #5A9FD4          — professionnel, tech, sobre (recommandé)
 B. [Color 1] — [light hex] / [dark hex] — [character in 3 words]
 C. [Color 2] — [light hex] / [dark hex] — [character in 3 words]
 D. [Color 3] — [light hex] / [dark hex] — [character in 3 words]
 E. [Color 4] — [light hex] / [dark hex] — [character in 3 words]
 ```
 
-- Slate Blue is always option A and the recommended default. Propose 4 professional colors (options B-E) suited to the described application context.
+- Steel Blue is always option A and the recommended default. Propose 4 professional colors (options B-E) suited to the described application context.
 - If B, C, D or E: the `--primary-50`, `--primary-400`, `--primary-600`, `--primary-900` values are set for this project in `tokens.css`. The global `design-system.md` stays unchanged.
-- If A or no answer: Slate Blue by default.
+- If A or no answer: Steel Blue by default.
 
 ## 3. Calibration — announced at the end of Phase 1
 

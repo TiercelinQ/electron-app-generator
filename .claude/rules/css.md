@@ -38,7 +38,7 @@ await window.api.savePreference("theme", theme);
 ```css
 /* ============================================================
    tokens.css — [APP_NAME] v[VERSION]
-   Reference: design-system.md v1.1 (Electron)
+   Reference: design-system.md v1.2 (Electron)
    ============================================================ */
 
 :root {
@@ -68,7 +68,7 @@ await window.api.savePreference("theme", theme);
 ```css
 /* ============================================================
    styles.css — [APP_NAME] v[VERSION]
-   Reference: design-system.md v1.1 (Electron) · layout.md v2.1
+   Reference: design-system.md v1.2 (Electron) · layout.md v2.1
    ============================================================ */
 
 /* --- BASE ----------------------------------------------- */
@@ -154,7 +154,7 @@ progress::-webkit-progress-value { background: var(--primary); }
 
 ## Per-project primary color
 
-If a color was chosen in Phase 1 (≠ Slate Blue): only the 6 `--primary-50/400/600/700/800/900` values change in the project's `tokens.css` (the usage tokens `--primary`, `--primary-bg`, `--primary-hover`, `--primary-pressed` reference them and stay unchanged). The global `design-system.md` stays unchanged.
+If a color was chosen in Phase 1 (≠ Steel Blue): only the 6 `--primary-50/400/600/700/800/900` values change in the project's `tokens.css` (the usage tokens `--primary`, `--primary-bg`, `--primary-hover`, `--primary-pressed` reference them and stay unchanged). The global `design-system.md` stays unchanged.
 
 ## Anti-patterns — what NOT to do
 
