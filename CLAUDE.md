@@ -45,7 +45,7 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 | 3 - Designing  | `docs/specs/03-designing.md`    |
 | 4 - Architect  | `docs/specs/04-architect.md` (locked architectural contract) |
 
-`docs/specs/04-architect.md` is the **source of truth** for the project structure - re-read by `/charger-projet`, `/contrat`, `/feature-add`, and `/refactor`.
+`docs/specs/04-architect.md` is the **source of truth** for the project structure - re-read by `/load-project`, `/contrat`, `/feature-add`, and `/refactor`.
 
 ---
 
@@ -124,7 +124,7 @@ All commands below are Claude Code skills invocable with `/`:
 
 | Command            | Skill                     | Action                                          |
 | ------------------ | ------------------------- | ----------------------------------------------- |
-| `/charger-projet`  | `skills/charger-projet/`  | Load an existing delivered project              |
+| `/load-project`  | `skills/load-project/`  | Load an existing delivered project              |
 | `/generate-readme` | `skills/generate-readme/` | Generate the README.md of an existing project   |
 | `/session`         | `skills/session/`         | Generate the session save file                  |
 | `/statut`          | `skills/statut/`          | Current project state                           |

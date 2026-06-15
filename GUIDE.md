@@ -32,7 +32,7 @@ claude-electron-framework/
 │   ├── fix/                  # Corriger un bug — arbre de décision, cause racine
 │   ├── refactor/             # Restructurer sous validation explicite uniquement
 │   ├── test/                 # Vérification exécutable (typecheck, lint, build)
-│   ├── charger-projet/       # Chargement d'un projet existant
+│   ├── load-project/       # Chargement d'un projet existant
 │   ├── generate-readme/      # Génération README.md projet existant
 │   ├── session/              # Sauvegarde de session
 │   ├── statut/               # État courant du projet
@@ -53,7 +53,7 @@ claude-electron-framework/
 | ----------------------------- | ------------------------------------------------------------------------------- |
 | **Rôle par skill**            | Chaque skill ouvre sur un persona ciblé (Role / Goal / Deliverable).            |
 | **Specs persistées**          | Phases 1→4 écrivent `docs/specs/01-scoping.md` … `04-architect.md` (en français). |
-| **Contrat = source de vérité**| `docs/specs/04-architect.md` relu par `/charger-projet`, `/contrat`, `/feature-add`, `/refactor`. |
+| **Contrat = source de vérité**| `docs/specs/04-architect.md` relu par `/load-project`, `/contrat`, `/feature-add`, `/refactor`. |
 | **Skills de maintenance**     | `analyze`, `implement`, `fix`, `refactor`, `test` avec arbres de décision et anti-patterns. |
 | **Vérification exécutable**   | `rules/verification.md` : typecheck, lint, build — échec bloquant.              |
 | **Mémoire native**            | `/memoriser` écrit dans la mémoire native Claude Code + `MEMORY.md`.            |
@@ -129,7 +129,7 @@ Fichiers écrits directement sur le disque. Annonce `Lot N/[total] — [contenu]
 ## Travailler sur un projet livré
 
 ```
-/electron-app → 3     # ou directement /charger-projet depuis la racine du projet
+/electron-app → 3     # ou directement /load-project depuis la racine du projet
 ```
 
 Claude lit `docs/specs/04-architect.md` (priorité), sinon le README, sinon le code, puis applique toutes les règles. Projet sans README : `/generate-readme`.
@@ -192,7 +192,7 @@ Après correction (`/fix` ou Phase 5), Claude produit un bilan de nettoyage puis
 | `/fix`                  | Sonnet | Corriger un bug — cause racine                       |
 | `/refactor`             | Sonnet | Restructurer sous validation                         |
 | `/test`                 | Sonnet | Vérification exécutable                               |
-| `/charger-projet`       | Sonnet | Charger un projet existant                           |
+| `/load-project`       | Sonnet | Charger un projet existant                           |
 | `/generate-readme`      | Sonnet | Générer README.md d'un projet existant               |
 | `/session`              | Haiku  | Sauvegarder la session                               |
 | `/statut`               | Haiku  | État courant                                         |
@@ -229,5 +229,5 @@ mon-app/
 - Sécurité Electron (`rules/security.md`) non négociable — jamais affaiblie, même temporairement.
 - Les canaux IPC sont centralisés dans `src/shared/ipc-channels.ts` — zéro chaîne de canal en dur ailleurs.
 - Le contrat (`docs/specs/04-architect.md`) est verrouillé. Tout changement structurel passe par `/feature-add` ou le protocole de déclaration d'écart.
-- `/charger-projet`, `/generate-readme`, `/feature-add`, `/analyze`, `/fix`, `/refactor`, `/test` s'invoquent depuis la racine du projet cible.
+- `/load-project`, `/generate-readme`, `/feature-add`, `/analyze`, `/fix`, `/refactor`, `/test` s'invoquent depuis la racine du projet cible.
 - Aucune ressource distante (CDN) — tout est embarqué via npm (contrainte CSP).

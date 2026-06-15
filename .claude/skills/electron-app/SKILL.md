@@ -44,12 +44,12 @@ Store this path as the project root — all generated files and specs (`docs/spe
 
 If a SESSION block is pasted directly into the message: apply the resume protocol without showing the menu.
 
-**3 — Load a delivered project**: ask for the project root to load, then chain to `/charger-projet` (`.claude/` present at that root):
+**3 — Load a delivered project**: ask for the project root to load, then chain to `/load-project` (`.claude/` present at that root):
 ```
 Racine du projet à charger ? (chemin du dossier, ex: C:\projets\MonApp)
 ```
 
-**4 — Maintain a delivered project**: ask for the project root, first ensure the project is loaded (`/charger-projet` if not already), then route to the right maintenance skill based on the user's intent:
+**4 — Maintain a delivered project**: ask for the project root, first ensure the project is loaded (`/load-project` if not already), then route to the right maintenance skill based on the user's intent:
 ```
 Racine du projet à maintenir ? (chemin du dossier, ex: C:\projets\MonApp)
 ```

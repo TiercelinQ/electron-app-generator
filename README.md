@@ -20,7 +20,7 @@ A structured prompt system that generates complete, production-ready Electron/Re
 
 Each phase writes a French spec to `docs/specs/` (`01-scoping` … `04-architect`); the contract is the source of truth.
 
-**Maintenance commands**: `/feature-add` (add a feature, contract-compliant), `/analyze` (trace behavior), `/fix` (root-cause debugging with a decision tree), `/refactor` (validated, behavior-preserving), `/test` (executable verification). Plus `/charger-projet` and `/generate-readme` to load/document existing apps.
+**Maintenance commands**: `/feature-add` (add a feature, contract-compliant), `/analyze` (trace behavior), `/fix` (root-cause debugging with a decision tree), `/refactor` (validated, behavior-preserving), `/test` (executable verification). Plus `/load-project` and `/generate-readme` to load/document existing apps.
 
 Every generated app enforces the same visual design system, strict MVC architecture, and locked Electron security.
 
@@ -87,7 +87,7 @@ Then in Claude Code:
 | `/fix`                  | Fix a bug - decision tree, root cause              |
 | `/refactor`             | Refactor under explicit validation only            |
 | `/test`                 | Executable verification (typecheck, lint, build)   |
-| `/charger-projet`       | Load an existing project from its specs/README     |
+| `/load-project`       | Load an existing project from its specs/README     |
 | `/generate-readme`      | Generate README.md for an existing project         |
 | `/session`              | Save current session state                         |
 | `/statut`               | Current project status                             |
