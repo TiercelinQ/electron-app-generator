@@ -90,8 +90,8 @@ Then in Claude Code:
 | `/load-project`       | Load an existing project from its specs/README     |
 | `/generate-readme`      | Generate README.md for an existing project         |
 | `/session`              | Save current session state                         |
-| `/statut`               | Current project status                             |
-| `/contrat`              | Display locked architecture contract               |
+| `/show-state`               | Current project status                             |
+| `/show-contract`              | Display locked architecture contract               |
 | `/memoriser`            | Persist a note in Claude Code native memory        |
 
 ---

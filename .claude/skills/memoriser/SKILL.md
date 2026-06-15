@@ -60,4 +60,4 @@ Procedure:
 
 If auto-memory is not enabled: say so (`/config → Memory`), still formulate the entry. Confirm in one line (French).
 
-Do not append the `/session · /statut · /contrat` reminder after this reply.
+Do not append the `/session · /show-state · /show-contract` reminder after this reply.

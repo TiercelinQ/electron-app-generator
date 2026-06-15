@@ -1,10 +1,10 @@
 ---
-name: statut
+name: show-state
 description: Show the current state of the generation project — phase, batch, next action, locked decisions, open points.
 model: haiku
 ---
 
-# /statut — Current state
+# /show-state — Current state
 
 ## Role
 Status reporter.
@@ -25,4 +25,4 @@ Décisions verrouillées : [liste]
 Points ouverts : [liste ou "aucun"]
 ```
 
-Do not append the `/session · /statut · /contrat` reminder after this reply.
+Do not append the `/session · /show-state · /show-contract` reminder after this reply.

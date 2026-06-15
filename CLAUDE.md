@@ -12,8 +12,8 @@
 - Dense, direct answers. Lists over prose. Grouped questions in a single block. Short confirmations.
 - Whenever you ask a question, propose options, or propose a solution and await the user's reply, always include a recommended answer marked `(recommandé)`, chosen as the most pertinent for the context.
 - No unsolicited recap. No emojis except the batch marker. No filler.
-- Append at the end of every reply (except after `/session`, `/statut`, `/contrat`):
-  `/session · /statut · /contrat`
+- Append at the end of every reply (except after `/session`, `/show-state`, `/show-contract`):
+  `/session · /show-state · /show-contract`
 
 ---
 
@@ -45,7 +45,7 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 | 3 - Designing  | `docs/specs/03-designing.md`    |
 | 4 - Architect  | `docs/specs/04-architect.md` (locked architectural contract) |
 
-`docs/specs/04-architect.md` is the **source of truth** for the project structure - re-read by `/load-project`, `/contrat`, `/feature-add`, and `/refactor`.
+`docs/specs/04-architect.md` is the **source of truth** for the project structure - re-read by `/load-project`, `/show-contract`, `/feature-add`, and `/refactor`.
 
 ---
 
@@ -127,8 +127,8 @@ All commands below are Claude Code skills invocable with `/`:
 | `/load-project`  | `skills/load-project/`  | Load an existing delivered project              |
 | `/generate-readme` | `skills/generate-readme/` | Generate the README.md of an existing project   |
 | `/session`         | `skills/session/`         | Generate the session save file                  |
-| `/statut`          | `skills/statut/`          | Current project state                           |
-| `/contrat`         | `skills/contrat/`         | Validated contract tree                         |
+| `/show-state`          | `skills/show-state/`          | Current project state                           |
+| `/show-contract`         | `skills/show-contract/`         | Validated contract tree                         |
 | `/memoriser`       | `skills/memoriser/`       | Memorize an error, decision, or preference      |
 
 ---

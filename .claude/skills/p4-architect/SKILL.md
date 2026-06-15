@@ -45,6 +45,6 @@ Any deviation (merge, split, rename, addition, removal of a file, IPC channel, o
 
 ## Write the spec
 
-Once validated, write the full contract to `docs/specs/04-architect.md` (in French). This file is the **locked source of truth** re-read by `/p5-development`, `/load-project`, `/contrat`, `/feature-add`, and `/refactor`.
+Once validated, write the full contract to `docs/specs/04-architect.md` (in French). This file is the **locked source of truth** re-read by `/p5-development`, `/load-project`, `/show-contract`, `/feature-add`, and `/refactor`.
 
 → Chain to `/p5-development` after validation.
