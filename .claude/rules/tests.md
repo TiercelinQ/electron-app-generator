@@ -90,7 +90,7 @@ Mock `window.api` in a setup file: `globalThis.window.api = { saveRecord: vi.fn(
 - **Do not** use arbitrary `setTimeout` waits — fake timers or `findBy*`.
 - **Do not** test a controller without mocking its model / DB.
 - **Do not** go beyond smoke for views (render + key role/label).
-- **Do not** create a test suite when Phase 1 Q6 = No (and `/test` never scaffolds one unasked).
+- **Do not** create a test suite when Phase 1 Q6 = No (and `/run-tests` never scaffolds one unasked).
 
 ## Integrity verification
 

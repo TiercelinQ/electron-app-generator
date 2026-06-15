@@ -1,10 +1,10 @@
 ---
-name: memoriser
+name: save-memory
 description: Memorize an error not to repeat, a structural decision, or a generation preference — persisted into Claude Code native memory (project memory folder + MEMORY.md index), available in later sessions.
 model: haiku
 ---
 
-# /memoriser — Memorization
+# /save-memory — Memorization
 
 ## Role
 Memory keeper.
@@ -60,4 +60,4 @@ Procedure:
 
 If auto-memory is not enabled: say so (`/config → Memory`), still formulate the entry. Confirm in one line (French).
 
-Do not append the `/session · /show-state · /show-contract` reminder after this reply.
+Do not append the `/save-session · /show-state · /show-contract` reminder after this reply.

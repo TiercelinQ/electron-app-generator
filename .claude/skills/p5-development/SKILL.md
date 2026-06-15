@@ -112,4 +112,4 @@ Add a final dedicated batch: announce `Lot [final]/[total] — test/ + dev depen
 ## Post-delivery adjustments
 
 Isolated fix on the affected file + direct dependencies. Deliver the complete fixed file.
-After resolving an anomaly: cleanup report (`rules/mvc.md`) then offer `Veux-tu mémoriser ce point ? /memoriser`.
+After resolving an anomaly: cleanup report (`rules/mvc.md`) then offer `Veux-tu mémoriser ce point ? /save-memory`.

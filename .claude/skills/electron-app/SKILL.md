@@ -53,10 +53,10 @@ Racine du projet à charger ? (chemin du dossier, ex: C:\projets\MonApp)
 ```
 Racine du projet à maintenir ? (chemin du dossier, ex: C:\projets\MonApp)
 ```
-- understand / trace how something works → `/analyze`
-- add a feature → `/feature-add`
-- fix a bug → `/fix`
-- restructure existing code → `/refactor`
-- verify the build / run checks → `/test`
+- understand / trace how something works → `/trace-feature`
+- add a feature → `/add-feature`
+- fix a bug → `/fix-issue`
+- restructure existing code → `/refactor-code`
+- verify the build / run checks → `/run-tests`
 
 If `/electron-app` is typed mid-project: show the menu only, without resetting the current state.

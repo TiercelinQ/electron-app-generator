@@ -160,7 +160,7 @@ Fichier [nom] :
 - List only the elements added during the failed attempts that are no longer needed.
 - Cover all affected files: TS/TSX, CSS, shared, configs.
 - Deliver the complete cleaned files if the user confirms.
-- Then offer: "Veux-tu mémoriser ce point ? `/memoriser`"
+- Then offer: "Veux-tu mémoriser ce point ? `/save-memory`"
 
 ## Deletions
 

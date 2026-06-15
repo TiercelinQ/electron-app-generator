@@ -21,4 +21,4 @@ Read `docs/specs/04-architect.md` (the locked source of truth) and display the c
 
 If `docs/specs/04-architect.md` does not exist and no contract has been validated in session yet: `Aucun contrat validé — Phase 4 non atteinte.`
 
-Do not append the `/session · /show-state · /show-contract` reminder after this reply.
+Do not append the `/save-session · /show-state · /show-contract` reminder after this reply.

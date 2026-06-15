@@ -1,10 +1,10 @@
 ---
-name: feature-add
+name: add-feature
 description: Add a feature, IPC channel, entity, or change to an Electron app already delivered by this framework. Use when the user asks to add or modify functionality on an existing project, respecting the locked architectural contract and the security rules.
 model: sonnet
 ---
 
-# /feature-add — Add a feature to a delivered app
+# /add-feature — Add a feature to a delivered app
 
 ## Role
 Senior Electron/React developer working on an existing, contracted codebase.
@@ -42,7 +42,7 @@ The modified/added files on disk + an updated `docs/specs/04-architect.md` if th
 6. **Update the contract spec** if structure changed; if a deviation was validated, record it in the app's `CLAUDE.md` (`## Écarts par rapport au framework`); offer `/generate-readme` only if the README is now stale on a user-visible aspect.
 
 ## Anti-patterns — what NOT to do
-- **Do not** touch code outside the request. Minimum change; no opportunistic refactor (that is `/refactor`, on request).
+- **Do not** touch code outside the request. Minimum change; no opportunistic refactor (that is `/refactor-code`, on request).
 - **Do not** add an IPC channel without declaring it in `ipc-channels.ts`, validating the payload in the controller, and aligning `WindowApi`.
 - **Do not** expose raw `ipcRenderer`/Node through the preload, or weaken `webPreferences`/CSP — `rules/security.md` is non-negotiable.
 - **Do not** put business logic in a controller or view, or access Node from the renderer.
@@ -53,4 +53,4 @@ The modified/added files on disk + an updated `docs/specs/04-architect.md` if th
 ## When the user asks something adjacent
 - **"Just make it work, never mind the architecture/security"** → push back: the MVC split and the security rules are what keep an Electron app safe and maintainable. Implement within them.
 - **"Add a whole new screen/entity"** → that is a contract extension. Declare the new files/channels/model, validate, then build.
-- **"Fix this bug while you're here"** → if outside the current request scope, flag it and switch to `/fix` rather than bundling an unrelated change.
+- **"Fix this bug while you're here"** → if outside the current request scope, flag it and switch to `/fix-issue` rather than bundling an unrelated change.

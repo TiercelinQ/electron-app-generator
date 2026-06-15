@@ -1,10 +1,10 @@
 ---
-name: session
+name: save-session
 description: Save the full state of the generation session into docs/sessions/SESSION_AppName_SN.md — phase, batches, locked decisions, open points, referencing the specs. Invoke at the end of a session.
 model: haiku
 ---
 
-# /session — Session save
+# /save-session — Session save
 
 ## Role
 Session archivist.
@@ -62,4 +62,4 @@ Référence : docs/specs/01-scoping.md · 02-featuring.md · 03-designing.md · 
 > If `docs/specs/04-architect.md` exists, reference it instead of duplicating the full tree + IPC channels. Only summarize the locked decisions here.
 
 4. Confirm: `Session sauvegardée : docs/sessions/SESSION_[app_name]_S[N].md`
-5. Do not append the `/session · /show-state · /show-contract` reminder after this reply.
+5. Do not append the `/save-session · /show-state · /show-contract` reminder after this reply.

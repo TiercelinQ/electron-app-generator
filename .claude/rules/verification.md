@@ -1,6 +1,6 @@
 # Verification rules — single source of truth
 
-> Centralized, reusable verification for the whole framework. Referenced by `/p5-development`, `/feature-add`, `/fix`, and `/test` — never duplicated in those skills.
+> Centralized, reusable verification for the whole framework. Referenced by `/p5-development`, `/add-feature`, `/fix-issue`, and `/run-tests` — never duplicated in those skills.
 > Two parts: **executable verification** (run real commands) and **static integrity** (read the code). Run silently; report only on a discrepancy.
 
 ---

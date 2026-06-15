@@ -25,4 +25,4 @@ Décisions verrouillées : [liste]
 Points ouverts : [liste ou "aucun"]
 ```
 
-Do not append the `/session · /show-state · /show-contract` reminder after this reply.
+Do not append the `/save-session · /show-state · /show-contract` reminder after this reply.
