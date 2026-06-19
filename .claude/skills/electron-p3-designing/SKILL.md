@@ -33,7 +33,6 @@ For each question offering a choice, mark the option you recommend with `(recomm
 
 Ask in French:
 
-```
 Personnalisation du layout :
 
 1. Position des onglets : gauche après logo / centrés ?
@@ -46,7 +45,6 @@ Personnalisation du layout :
    - Header + contenu (sans footer)
    - Autre
 5. Les toasts sont positionnés en haut-droit — seule position spécifiée par `layout.md §5`.
-```
 
 If "Autre" in 4: ask 3 questions to help choose, then propose 2 layouts with a recommendation.
 

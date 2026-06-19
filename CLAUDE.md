@@ -104,7 +104,7 @@ All commands below are Claude Code skills invocable with `/`:
 | Command                 | Skill                          | Action                                       |
 | ----------------------- | ------------------------------ | -------------------------------------------- |
 | `/electron-app`         | `skills/electron-app/`         | Start / resume / maintenance menu            |
-| `/electron-p1-scoping`       | `skills/electron-p1-scoping/`       | Scoping - 6 questions + primary color        |
+| `/electron-p1-scoping`       | `skills/electron-p1-scoping/`       | Scoping - 6 questions + color palette        |
 | `/electron-p2-featuring`       | `skills/electron-p2-featuring/`       | Structured requirements sheet                |
 | `/electron-p3-designing`        | `skills/electron-p3-designing/`        | Layout proposal                              |
 | `/electron-p4-architect`       | `skills/electron-p4-architect/`       | Locked architectural contract                |

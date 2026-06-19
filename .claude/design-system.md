@@ -1,4 +1,4 @@
-# Design System — v1.2 (Electron)
+# Design System — v1.3 (Electron)
 
 > Binding reference for all Node.js/Electron/React applications.
 > Use: Windows desktop applications, personal and professional use.
@@ -9,11 +9,12 @@
 
 | Version | Date       | Main change                                                                                       |
 | ------- | ---------- | ------------------------------------------------------------------------------------------------- |
+| v1.3    | 2026-06-19 | full **palette** model (5 roles/theme: fond principal, fond secondaire, accent, texte, détails) replaces the primary-only choice · light theme chosen, dark + supporting tokens derived · named palette catalog + custom palette · semantic/icons/charts kept fixed · WCAG AA check (warn) |
 | v1.2    | 2026-06-14 | dark theme re-skin (theme-dark.md palette): 4-step dark surface ramp · dark neutrals/borders/semantic/icons/selection · Steel Blue primary (both modes) |
 | v1.1    | 2026-06-14 | line-height · dark semantic backgrounds · primary/danger hover-pressed stops · `color-scheme` · WCAG AA target · layering scale · dark surface ramp fix · icon warning/info · selection/opacity/border-width tokens |
 | v1.0    | initial    | CSS custom properties port: typography, colors, spacing, components, states                        |
 
-> Aligns with the Python generator `design-system.md v1.3` (shared palette). Per-file versions: CSS rules in `rules/css.md`, layout in `layout.md`.
+> Aligns with the Python generator `design-system.md v1.4` (shared palette model). Per-file versions: CSS rules in `rules/css.md`, layout in `layout.md`.
 
 Every generated application references the active version in its `README.md`.
 
@@ -53,7 +54,49 @@ Every generated application references the active version in its `README.md`.
 
 ## 2. COLORS
 
-### Light mode (`:root`)
+A project's colors come from a **palette**: 5 roles chosen per project, **light theme only** — the dark theme and every supporting token are **derived**. The default palette is the set of values in the tables below (neutrals + Steel Blue), so a project that keeps the default renders exactly as before.
+
+### Palette roles → tokens
+
+| Role (palette)   | Drives          | Also derives                                                                                  |
+| ---------------- | --------------- | --------------------------------------------------------------------------------------------- |
+| Fond principal   | `--bg`          | `--bg-elevated` (= `--bg` in light)                                                            |
+| Fond secondaire  | `--bg-subtle`   | `--bg-muted` (`--bg-subtle` darkened ~3 % L)                                                   |
+| Accent           | `--primary-600` | `--primary-50/400/700/800/900`, `--primary`, `--primary-bg`, `--selection-bg`, focus, `--text-on-primary` |
+| Texte            | `--text`        | `--text-subtle` (mix text→bg ~45 %), `--text-muted` (mix text→bg ~62 %)                        |
+| Détails          | `--border`      | `--border-subtle` (mix border→bg ~50 %), `--border-strong` (mix border→text ~12 %)            |
+
+The **semantic colors** (success/warning/danger/info), the **icon tokens**, and the **chart palette** are **fixed** — independent of the palette, they carry meaning (see below).
+
+### Derivation rules (computed by Claude in Phase 1, written as literal hex in `tokens.css`)
+
+- **Supporting light tokens**: the sRGB mixes in the role table above.
+- **Accent stops** (HSL rule from the accent, same H/S, lightness varies): `--primary-50` L≈95 %, `--primary-400` L≈70 %, `--primary-700` L≈50 %, `--primary-800` L≈42 %, `--primary-900` L≈25 %. Usage tokens: `--primary` = `--primary-600` (light) / `--primary-400` (dark); `--primary-bg` = `--primary-50` (light) / `--primary-900` (dark). Same `colorsys` method as the Python generator. `--text-on-primary` = `#FFFFFF` or near-black, whichever wins contrast on the accent.
+- **Dark theme** (from the light palette, keeping each role's hue/saturation, re-targeting lightness):
+
+| Token         | Dark L | Token             | Dark L          |
+| ------------- | ------ | ----------------- | --------------- |
+| `--bg`        | ≈10 %  | `--text`          | ≈83 %           |
+| `--bg-subtle` | ≈14 %  | `--text-subtle`   | ≈66 %           |
+| `--bg-elevated` | ≈18 % | `--text-muted`   | ≈40 %           |
+| `--bg-muted`  | ≈22 % (lightest) | `--border` / `--border-subtle` / `--border-strong` | ≈26 % / ≈20 % / ≈33 % |
+| accent        | `--primary-400` (L≈60-70 %) | semantic / icons / charts | fixed |
+
+> Harmony: dark surfaces carry a low saturation (≈8-12 %) of the accent hue for depth, not a flat grey. The dark surface ramp stays ascending. The **default palette** ships explicit values for both themes (the tables below); like Steel Blue today, its explicit values win over the rule and guarantee the current rendering. Named presets and custom palettes derive the dark theme by the rule.
+
+### Named palettes (Phase 1 catalog)
+
+`/electron-p1-scoping` presents these; each lists its 5 **light** roles (dark derived). The user can also enter a **custom palette** (5 light hex). Phase 1 then checks WCAG AA (text/bg, text-subtle/bg, accent/bg, text-on-primary/accent) and reports failures without blocking (`§12`).
+
+| Name             | Fond principal | Fond secondaire | Accent  | Texte   | Détails |
+| ---------------- | -------------- | --------------- | ------- | ------- | ------- |
+| Acier (default)  | #FFFFFF        | #F9FAFB         | #4682B4 | #111827 | #E5E7EB |
+| Forêt            | #FFFFFF        | #F6F8F6         | #059669 | #14201A | #DCE5DF |
+| Ardoise          | #FFFFFF        | #F8FAFC         | #4F46E5 | #1E293B | #E2E8F0 |
+| Ambre            | #FFFDFB        | #FBF6EF         | #B45309 | #1C1917 | #ECE3D8 |
+| Rubis            | #FFFFFF        | #FAF7F7         | #BE123C | #1A1212 | #EAE0E1 |
+
+### Light mode — default palette (`:root`)
 
 | Token             | Value   | Usage                          |
 | ----------------- | ------- | ------------------------------ |
@@ -68,7 +111,7 @@ Every generated application references the active version in its `README.md`.
 | `--border-subtle` | #F3F4F6 | Discreet separators            |
 | `--border-strong` | #D1D5DB | Table headers                  |
 
-### Dark mode (`[data-theme="dark"]`)
+### Dark mode — default palette (`[data-theme="dark"]`, derived)
 
 | Token             | Value   | Usage                  |
 | ----------------- | ------- | ---------------------- |
@@ -94,7 +137,7 @@ Declare `color-scheme` per theme so native controls (scrollbars, `<select>`, `<p
 [data-theme="dark"]  { color-scheme: dark; }
 ```
 
-### Primary color — Steel Blue
+### Accent — Steel Blue (default palette)
 
 | Token           | Light   | Dark    | Usage                               |
 | --------------- | ------- | ------- | ----------------------------------- |
@@ -105,7 +148,7 @@ Declare `color-scheme` per theme so native controls (scrollbars, `<select>`, `<p
 | `--primary-800` | #2F5879 | #2F5879 | Primary button pressed (both modes) |
 | `--primary-900` | —       | #2A4F72 | Selection / active bg (dark)        |
 
-> Modification: replacing `--primary-50/400/600/700/800/900` in `tokens.css` is enough to change the primary color across the whole application. `--primary-700`/`--primary-800` are mode-agnostic (one value each). For a custom color the 6 stops derive from `--primary-600` by the same HSL rule used by the Python generator (same H/S, lightness 95/70/—/50/42/25%); Steel Blue is a preset whose explicit values win over that rule (its `--primary-600` already sits near L 49%, so `--primary-700/800` are darkened past the generic stops to keep the hover/pressed darken visible).
+> Modification: replacing `--primary-50/400/600/700/800/900` in `tokens.css` is enough to change the **accent** across the whole application. `--primary-700`/`--primary-800` are mode-agnostic (one value each). For a custom color the 6 stops derive from `--primary-600` by the same HSL rule used by the Python generator (same H/S, lightness 95/70/—/50/42/25%); Steel Blue is a preset whose explicit values win over that rule (its `--primary-600` already sits near L 49%, so `--primary-700/800` are darkened past the generic stops to keep the hover/pressed darken visible).
 
 Implementation: derived usage tokens, redefined per theme (or fixed) — these are the ones `styles.css` consumes.
 
@@ -115,7 +158,7 @@ Implementation: derived usage tokens, redefined per theme (or fixed) — these a
 [data-theme="dark"]  { --primary: var(--primary-400); --primary-bg: var(--primary-900); }
 ```
 
-### Semantic colors
+### Semantic colors (fixed — outside the palette)
 
 | Token             | Light   | Dark    | Usage                  |
 | ----------------- | ------- | ------- | ---------------------- |
@@ -369,7 +412,7 @@ Target: **WCAG 2.1 level AA**.
 | Focus visibility    | `:focus-visible` ring always visible, never removed (`outline: none` forbidden without replacement) |
 | Reduced motion      | `@media (prefers-reduced-motion: reduce)` disables transitions (see `rules/css.md`)            |
 
-> Contrast figures are computed estimates, not tool-measured. Re-check with a contrast checker before shipping a new primary color.
+> Contrast figures are computed estimates, not tool-measured. Re-check with a contrast checker before shipping a custom palette (Phase 1 runs the AA check).
 
 ---
 

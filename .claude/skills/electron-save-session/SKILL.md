@@ -35,7 +35,7 @@ Lot suivant : [X+1/total] (si Phase 5)
 - OS : Windows · Stack : Electron + React + TypeScript (electron-vite)
 - DB : [valeur]
 - Préférences persistantes : [Oui/Non] · i18n : [Oui/Non] · Icône : [fournie/défaut]
-- Couleur primaire : [valeur]
+- Palette : [nom ou custom ; 5 rôles clair + dérivés]
 - Calibrage : [Petit 3 lots / Moyen-Grand 4 lots]
 - Fonctionnalités retenues : [liste]
 - Hors périmètre : [liste]

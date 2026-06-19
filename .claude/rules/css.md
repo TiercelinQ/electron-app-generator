@@ -38,7 +38,7 @@ await window.api.savePreference("theme", theme);
 ```css
 /* ============================================================
    tokens.css — [APP_NAME] v[VERSION]
-   Reference: design-system.md v1.2 (Electron)
+   Reference: design-system.md v1.3 (Electron) — project palette
    ============================================================ */
 
 :root {
@@ -68,7 +68,7 @@ await window.api.savePreference("theme", theme);
 ```css
 /* ============================================================
    styles.css — [APP_NAME] v[VERSION]
-   Reference: design-system.md v1.2 (Electron) · layout.md v2.1
+   Reference: design-system.md v1.3 (Electron) · layout.md v2.1
    ============================================================ */
 
 /* --- BASE ----------------------------------------------- */
@@ -152,9 +152,9 @@ progress::-webkit-progress-value { background: var(--primary); }
 }
 ```
 
-## Per-project primary color
+## Per-project palette
 
-If a color was chosen in Phase 1 (≠ Steel Blue): only the 6 `--primary-50/400/600/700/800/900` values change in the project's `tokens.css` (the usage tokens `--primary`, `--primary-bg`, `--primary-hover`, `--primary-pressed` reference them and stay unchanged). The global `design-system.md` stays unchanged.
+In Phase 1 the project picks a **palette** (named or custom) = 5 light roles: fond principal → `--bg`, fond secondaire → `--bg-subtle`, accent → `--primary-600`, texte → `--text`, détails → `--border`. Claude derives the supporting neutrals, the accent stops, `--text-on-primary`, and the **whole dark theme** (`design-system.md §2`), then writes the resolved hex into `tokens.css`: the neutrals in `:root` and the full `[data-theme="dark"]` block, the accent in the 6 `--primary-*` stops (the usage tokens `--primary`, `--primary-bg`, `--primary-hover`, `--primary-pressed` reference them and stay unchanged). The default palette is what the global `design-system.md` documents — a custom palette replaces these values in `tokens.css` only; `design-system.md` stays unchanged. Semantic and icon tokens stay fixed across palettes.
 
 ## Anti-patterns — what NOT to do
 

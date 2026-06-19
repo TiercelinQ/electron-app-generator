@@ -19,7 +19,6 @@ The menu, then a handoff to the selected skill.
 
 Show this menu (in French):
 
-```
 Que faire ?
 
 1. Nouvelle application
@@ -28,12 +27,9 @@ Que faire ?
 4. Maintenir un projet livré (corriger / ajouter / analyser)
 
 → Réponds 1, 2, 3 ou 4, ou fournis directement ton fichier SESSION.
-```
 
 **1 — New application**: ask for the destination folder, then start `/electron-p1-scoping`:
-```
 Où créer l'application ? (chemin du dossier de destination, ex: C:\projets\MonApp)
-```
 Store this path as the project root — all generated files and specs (`docs/specs/`) are written there.
 
 **2 — Resume**: ask for the SESSION file path (`docs/sessions/SESSION_AppName_SN.md`), read it fully. The project root is the folder containing `docs/` (two levels up from the SESSION file); confirm it. Then apply the resume protocol:
@@ -45,14 +41,10 @@ Store this path as the project root — all generated files and specs (`docs/spe
 If a SESSION block is pasted directly into the message: apply the resume protocol without showing the menu.
 
 **3 — Load a delivered project**: ask for the project root to load, then chain to `/electron-load-project` (`.claude/` present at that root):
-```
 Racine du projet à charger ? (chemin du dossier, ex: C:\projets\MonApp)
-```
 
 **4 — Maintain a delivered project**: ask for the project root, first ensure the project is loaded (`/electron-load-project` if not already), then route to the right maintenance skill based on the user's intent:
-```
 Racine du projet à maintenir ? (chemin du dossier, ex: C:\projets\MonApp)
-```
 - understand / trace how something works → `/electron-trace-feature`
 - add a feature → `/electron-add-feature`
 - fix a bug → `/electron-fix-issue`

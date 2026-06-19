@@ -12,7 +12,7 @@ Unified edition: the full generation pipeline **plus** post-delivery maintenance
 
 A structured prompt system that generates complete, production-ready Electron/React desktop applications through a 5-phase cycle, then maintains them:
 
-1. **Scoping** - 6 questions (objective, DB, prefs, i18n, icon, tests) + primary color
+1. **Scoping** - 6 questions (objective, DB, prefs, i18n, icon, tests) + color palette (named or custom; 5 roles, dark + supporting tokens derived, WCAG AA check)
 2. **Featuring** - structured feature sheet, explicit out-of-scope, locked sizing
 3. **Designing** - topbar tabs, drawer/modal, toast position
 4. **Architect** - full file tree, IPC channel table, tokens→CSS table - locked before any code is written
@@ -77,7 +77,7 @@ Then in Claude Code:
 | Command                 | Action                                             |
 | ----------------------- | -------------------------------------------------- |
 | `/electron-app`         | Start menu (4 entry points incl. maintenance)      |
-| `/electron-p1-scoping`       | Scoping - 6 questions + primary color              |
+| `/electron-p1-scoping`       | Scoping - 6 questions + color palette              |
 | `/electron-p2-featuring`       | Featuring - requirements sheet + locked sizing     |
 | `/electron-p3-designing`        | Designing - layout proposal + customization        |
 | `/electron-p4-architect`       | Architect - locked architecture contract (IPC)     |
@@ -125,7 +125,7 @@ All generated apps share the same visual system, defined in `design-system.md`:
 - **Flat design** - zero border-radius, zero shadows, zero gradients
 - **CSS tokens** - all colors, sizes and durations are `var(--token)`; full light/dark theme via a single `[data-theme="dark"]` block
 - **Segoe UI** typography (Windows native)
-- **Steel Blue** primary color recommended by default (+ 4 contextual proposals) - 4 token values to change the entire app color
+- **Color palette** - 5 roles (fond principal, fond secondaire, accent, texte, détails) chosen for the light theme; dark theme and all supporting tokens derived. Default "Acier" (Steel Blue) + 4 named palettes + custom palette; semantic colors stay fixed
 - **Toasts only** - no inline banners, no `dialog.showMessageBox`/`alert`/`confirm` for business errors
 
 ---

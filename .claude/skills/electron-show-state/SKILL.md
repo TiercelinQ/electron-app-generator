@@ -19,10 +19,8 @@ The status block (French).
 
 Show only (in French):
 
-```
 Phase : [nom] | Lot : [X/total] | Prochain : [action attendue]
 Décisions verrouillées : [liste]
 Points ouverts : [liste ou "aucun"]
-```
 
 Do not append the `/electron-save-session · /electron-show-state · /electron-show-contract` reminder after this reply.
