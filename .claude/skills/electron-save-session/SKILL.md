@@ -21,7 +21,6 @@ Persist enough state to resume the project exactly where it stopped.
 2. Determine N = next session number (existing files + 1).
 3. Write `docs/sessions/SESSION_[app_name]_S[N].md` (in French):
 
-```markdown
 # SESSION_S[N] — [APP_NAME] · [Phase terminée]
 
 ## Statut
@@ -57,7 +56,6 @@ Référence : docs/specs/01-scoping.md · 02-featuring.md · 03-designing.md · 
 ## Points ouverts
 
 [liste ou "aucun"]
-```
 
 > If `docs/specs/04-architect.md` exists, reference it instead of duplicating the full tree + IPC channels. Only summarize the locked decisions here.
 

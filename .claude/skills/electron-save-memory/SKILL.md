@@ -21,14 +21,12 @@ A native memory file + a one-line pointer in `MEMORY.md`.
 
 Ask what to retain (in French):
 
-```
 Que veux-tu retenir ?
 
 A. Une erreur à ne plus reproduire — décrire l'erreur et la solution retenue
 B. Une décision structurante — décrire le choix et la raison
 C. Une préférence de génération — décrire le comportement souhaité
 D. Autre — décrire librement
-```
 
 ## Step 2 — Persist via Claude Code native memory
 

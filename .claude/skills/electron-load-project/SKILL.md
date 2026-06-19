@@ -28,14 +28,12 @@ Prerequisite: invoked from the target project root, `.claude/` present.
 2. Read `package.json` + walk `src/` to confirm the structure (shared / main / preload / renderer).
 3. Confirm take-over (in French):
 
-```
 Projet chargé : [APP_NAME] v[VERSION]
 Stack : Electron [v] · React [v] · TypeScript
 Entités détectées : [list]
 Canaux IPC : [count]
 Specs : [docs/specs présent : oui/non]
 Règles du générateur appliquées.
-```
 
 4. Read and apply all rules (`CLAUDE.md`, `rules/mvc.md` · `rules/css.md` · `rules/errors.md` · `rules/config.md` · `rules/security.md` · `rules/verification.md`, `design-system.md`, `layout.md`) to any later change. The `rules/*` are not auto-imported: read them before any code change.
 5. Any structural or security deviation detected between the code and the rules (or vs `docs/specs/04-architect.md`): report it, do not fix without a request (hand off to `/electron-fix-issue` or `/electron-refactor-code`).
