@@ -116,7 +116,7 @@ Delivered in the last phase of generation as a standalone script `scripts/seed.t
 - Single responsibility: populate the DB with a coherent demo dataset via the main-process models (`src/main/models/`) / `getDb()`, never raw SQL outside `db.ts`.
 - Idempotent: check the target tables are empty before inserting; re-running must not duplicate rows.
 - FK integrity: insert parents before children, reuse the returned ids.
-- Volume: ~5-15 rows per entity, realistic French values.
+- Volume: ~5-15 rows per entity, realistic values in the user's language.
 - Never run automatically (no call from `src/main/index.ts`); run manually with `npm run seed`.
 
 ---

@@ -13,51 +13,51 @@ Session archivist.
 Persist enough state to resume the project exactly where it stopped.
 
 ## Deliverable
-`docs/sessions/SESSION_[app_name]_S[N].md` (French).
+`docs/sessions/SESSION_[app_name]_S[N].md` (in the user's language).
 
 ---
 
 1. Create the `docs/sessions/` folder at the project root if it does not exist.
 2. Determine N = next session number (existing files + 1).
-3. Write `docs/sessions/SESSION_[app_name]_S[N].md` (in French):
+3. Write `docs/sessions/SESSION_[app_name]_S[N].md` (in the user's language):
 
-# SESSION_S[N] — [APP_NAME] · [Phase terminée]
+# SESSION_S[N] — [APP_NAME] · [completed phase]
 
-## Statut
+## Status
 
-Phase terminée : [N — nom]
-Phase suivante : [N+1 — nom]
-Lot suivant : [X+1/total] (si Phase 5)
+Completed phase: [N — name]
+Next phase: [N+1 — name]
+Next batch: [X+1/total] (if Phase 5)
 
-## Décisions verrouillées
+## Locked decisions
 
-- OS : Windows · Stack : Electron + React + TypeScript (electron-vite)
-- DB : [valeur]
-- Préférences persistantes : [Oui/Non] · i18n : [Oui/Non] · Icône : [fournie/défaut]
-- Palette : [nom ou custom ; 5 rôles clair + dérivés]
-- Calibrage : [Petit 3 lots / Moyen-Grand 4 lots]
-- Fonctionnalités retenues : [liste]
-- Hors périmètre : [liste]
-- Layout retenu : [description]
-- Bibliothèques validées : [liste]
+- OS: Windows · Stack: Electron + React + TypeScript (electron-vite)
+- DB: [value]
+- Persistent preferences: [Yes/No] · i18n: [Yes/No] · Icon: [provided/default]
+- Palette: [name or custom; 5 light roles + derived]
+- Calibration: [Small 3 batches / Medium-Large 4 batches]
+- Selected features: [list]
+- Out of scope: [list]
+- Chosen layout: [description]
+- Validated libraries: [list]
 
 ## Specs
 
-Référence : docs/specs/01-scoping.md · 02-featuring.md · 03-designing.md · 04-architect.md
-(le contrat verrouillé dans 04-architect.md fait foi — ne pas le dupliquer ici)
+Reference: docs/specs/01-scoping.md · 02-featuring.md · 03-designing.md · 04-architect.md
+(the locked contract in 04-architect.md is authoritative — do not duplicate it here)
 
-## Lots livrés
+## Delivered batches
 
-- [x] Lot 1/[total] — [contenu]
-- [ ] Lot 2/[total] — [contenu]
-- [ ] Lot 3/[total] — [contenu]
-- [ ] Lot 4/[total] — [contenu]  ← inclure uniquement si Moyen/Grand (4 lots)
+- [x] Batch 1/[total] — [content]
+- [ ] Batch 2/[total] — [content]
+- [ ] Batch 3/[total] — [content]
+- [ ] Batch 4/[total] — [content]  ← include only if Medium/Large (4 batches)
 
-## Points ouverts
+## Open points
 
-[liste ou "aucun"]
+[list or "none"]
 
 > If `docs/specs/04-architect.md` exists, reference it instead of duplicating the full tree + IPC channels. Only summarize the locked decisions here.
 
-4. Confirm: `Session sauvegardée : docs/sessions/SESSION_[app_name]_S[N].md`
+4. Confirm: `Session saved: docs/sessions/SESSION_[app_name]_S[N].md`
 5. Do not append the `/electron-save-session · /electron-show-state · /electron-show-contract` reminder after this reply.

@@ -19,14 +19,14 @@ A native memory file + a one-line pointer in `MEMORY.md`.
 
 ## Step 1 — Categorize
 
-Ask what to retain (in French):
+Ask what to retain (in the user's language):
 
-Que veux-tu retenir ?
+What do you want to remember?
 
-A. Une erreur à ne plus reproduire — décrire l'erreur et la solution retenue
-B. Une décision structurante — décrire le choix et la raison
-C. Une préférence de génération — décrire le comportement souhaité
-D. Autre — décrire librement
+A. An error not to repeat — describe the error and the chosen fix
+B. A structural decision — describe the choice and the reason
+C. A generation preference — describe the desired behavior
+D. Other — describe freely
 
 ## Step 2 — Persist via Claude Code native memory
 
@@ -56,6 +56,6 @@ Procedure:
 
 ## Step 3 — Confirmation
 
-If auto-memory is not enabled: say so (`/config → Memory`), still formulate the entry. Confirm in one line (French).
+If auto-memory is not enabled: say so (`/config → Memory`), still formulate the entry. Confirm in one line (in the user's language).
 
 Do not append the `/electron-save-session · /electron-show-state · /electron-show-contract` reminder after this reply.

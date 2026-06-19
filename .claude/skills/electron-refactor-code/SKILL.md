@@ -21,7 +21,7 @@ A validated plan, then the refactored files on disk + a passing verification + a
 
 **No refactor without an explicitly validated plan.** This skill never edits code on first contact. It signals → proposes a plan → waits → only then applies. (Aligned with the global behavior rules.)
 
-> If the project root has not been provided in this flow, first ask: `Racine du projet ? (chemin du dossier)`.
+> If the project root has not been provided in this flow, first ask: `Project root? (folder path)`.
 
 ## Steps
 
@@ -33,7 +33,7 @@ A validated plan, then the refactored files on disk + a passing verification + a
    - **Factorize** when the blocks express the **same intent** (same operation, same data shape), are non-trivial (> ~5 meaningful lines of real logic), and a natural home exists (a `utils/helpers.ts` pure function, a shared hook, a shared type in `shared/`) **without** forcing a long bag of options or a `mode`/`kind` flag to fork behavior.
    - **Leave** when the blocks are coincidentally similar but conceptually independent, when factoring would cross the main/renderer boundary just to share a few lines, or when the shape will diverge soon. When in doubt, leave it.
 
-4. **Propose the plan** (in French): the findings, the proposed change per finding (factorize/leave + where the helper lives), the files touched, and the explicit promise of **zero behavior change** and **zero security regression**. Wait for validation.
+4. **Propose the plan** (in the user's language): the findings, the proposed change per finding (factorize/leave + where the helper lives), the files touched, and the explicit promise of **zero behavior change** and **zero security regression**. Wait for validation.
 
 5. **Apply** only after validation. Minimum diff. Respect the layers, the contract, and `rules/security.md`.
 

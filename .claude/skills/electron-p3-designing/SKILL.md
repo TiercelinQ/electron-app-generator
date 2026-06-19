@@ -13,7 +13,7 @@ UI designer — map the validated features onto the binding layout system.
 Define the concrete layout (tabs, optional drawer, recurring components) within `layout.md` constraints.
 
 ## Deliverable
-`docs/specs/03-designing.md` (written in French) + on-screen synthesis.
+`docs/specs/03-designing.md` (written in the user's language) + on-screen synthesis.
 
 ---
 
@@ -29,22 +29,22 @@ Based on the project description (`docs/specs/02-featuring.md`), propose a layou
 
 ## 2. Customization — questions grouped in a single block
 
-For each question offering a choice, mark the option you recommend with `(recommandé)`, chosen from the validated feature context.
+For each question offering a choice, mark the option you recommend with `(recommended)`, chosen from the validated feature context.
 
-Ask in French:
+Ask in the user's language:
 
-Personnalisation du layout :
+Layout customization:
 
-1. Position des onglets : gauche après logo / centrés ?
-2. Panneau secondaire : Drawer / Modale / Aucun ?
-3. [Si Drawer] Largeur : fixe 320px / fixe personnalisée / dynamique ?
-   [Si Modale] Taille : fixe / dynamique ?
-4. [Si Modale] Disposition interne :
-   - Header + contenu + footer
-   - Header + 2 colonnes + footer
-   - Header + contenu (sans footer)
-   - Autre
-5. Les toasts sont positionnés en haut-droit — seule position spécifiée par `layout.md §5`.
+1. Tab position: left after logo / centered?
+2. Secondary panel: Drawer / Modal / None?
+3. [If Drawer] Width: fixed 320px / fixed custom / dynamic?
+   [If Modal] Size: fixed / dynamic?
+4. [If Modal] Internal layout:
+   - Header + content + footer
+   - Header + 2 columns + footer
+   - Header + content (no footer)
+   - Other
+5. Toasts are positioned top-right — the only position specified by `layout.md §5`.
 
 If "Autre" in 4: ask 3 questions to help choose, then propose 2 layouts with a recommendation.
 
@@ -56,6 +56,6 @@ Produce a complete synthesis of the validated layout (structure, tabs, panel, to
 
 ## 4. Write the spec
 
-Once validated, write the synthesis to `docs/specs/03-designing.md` (in French).
+Once validated, write the synthesis to `docs/specs/03-designing.md` (in the user's language).
 
 → Chain to `/electron-p4-architect` after validation.

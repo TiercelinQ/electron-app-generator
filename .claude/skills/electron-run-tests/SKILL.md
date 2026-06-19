@@ -13,11 +13,11 @@ QA engineer — prove the project is clean and buildable with real commands.
 Run the verification ladder, surface any failure with its output, and confirm a clean state or hand off failures to `/electron-fix-issue`.
 
 ## Deliverable
-A short French report stating what passed, with command output as proof; or a list of failures.
+A short report in the user's language stating what passed, with command output as proof; or a list of failures.
 
 ---
 
-> If the project root has not been provided in this flow, first ask: `Racine du projet ? (chemin du dossier)`.
+> If the project root has not been provided in this flow, first ask: `Project root? (folder path)`.
 
 ## Steps
 
@@ -32,7 +32,7 @@ A short French report stating what passed, with command output as proof; or a li
    - better-sqlite3 present → `npx electron-builder install-app-deps` after install.
    - `Error: Electron uninstall` → `npm run postinstall`.
 2. **Capture output**. A non-zero exit or any reported error is a failure — quote the relevant lines.
-3. **Report** (French): which commands passed, with proof. On failure: name the command, the `file:line`, and hand off to `/electron-fix-issue` for the root cause (do not patch here unless the user asks).
+3. **Report** (in the user's language): which commands passed, with proof. On failure: name the command, the `file:line`, and hand off to `/electron-fix-issue` for the root cause (do not patch here unless the user asks).
 4. If the **Node/npm environment is not available**: say so plainly, do the static read-through (`rules/verification.md §B`), and list the exact commands the user must run themselves. Never claim a clean typecheck you could not execute.
 
 ## Test creation policy

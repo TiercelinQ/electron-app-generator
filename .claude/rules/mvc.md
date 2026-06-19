@@ -57,7 +57,7 @@ my-app/
 ├── electron-builder.yml
 ├── README.md
 ├── docs/
-│   └── specs/                      # generation specs (French): 01-scoping … 04-architect
+│   └── specs/                      # generation specs (user's language): 01-scoping … 04-architect
 ├── resources/                      # .ico icon, packaging assets
 ├── scripts/
 │   └── ensure-electron.cjs         # postinstall — Electron binary reliability
@@ -121,7 +121,7 @@ my-app/
 Add a final dedicated batch — `test/` (mirroring `src/`) + `vitest.config.ts` + dev dependencies (`vitest`, `@testing-library/react`, `@testing-library/jest-dom`, `jsdom`) + the `"test"` script. → Small 4 batches / Medium-Large 5 batches. Patterns and coverage: `@rules/tests.md`.
 
 ### Delivery format
-- Announcement: `Lot N/[total] — [content]`
+- Announcement: `Batch N/[total] — [content]`
 - Files written directly to disk, complete and self-contained blocks.
 - Automatic chaining between batches without confirmation.
 - Last batch: install instructions (`npm install`, `npm run dev`, `npm run typecheck`, `npm run build`, `npm run dist`) + `electron-builder install-app-deps` note if better-sqlite3 + `README.md` at the root.
@@ -150,9 +150,9 @@ Requested by the user after execution. Isolated fix on the affected file + its d
 When an anomaly requires several attempts before being resolved, as soon as the definitive solution is identified and delivered, produce a mandatory cleanup report:
 
 ```
-Anomalie résolue. Éléments à retirer des tentatives précédentes :
+Anomaly resolved. Elements to remove from the previous attempts:
 
-Fichier [nom] :
+File [name]:
 - [line / block / import / IPC channel / className / CSS rule to delete]
 - ...
 ```
@@ -160,7 +160,7 @@ Fichier [nom] :
 - List only the elements added during the failed attempts that are no longer needed.
 - Cover all affected files: TS/TSX, CSS, shared, configs.
 - Deliver the complete cleaned files if the user confirms.
-- Then offer: "Veux-tu mémoriser ce point ? `/electron-save-memory`"
+- Then offer: "Do you want to remember this point? `/electron-save-memory`"
 
 ## Deletions
 

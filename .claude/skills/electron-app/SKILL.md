@@ -17,34 +17,34 @@ The menu, then a handoff to the selected skill.
 
 ---
 
-Show this menu (in French):
+Show this menu (in the user's language):
 
-Que faire ?
+What do you want to do?
 
-1. Nouvelle application
-2. Reprendre une application existante (fichier SESSION)
-3. Charger un projet déjà livré (Phase 5 terminée)
-4. Maintenir un projet livré (corriger / ajouter / analyser)
+1. New application
+2. Resume an existing application (SESSION file)
+3. Load an already-delivered project (Phase 5 complete)
+4. Maintain a delivered project (fix / add / analyze)
 
-→ Réponds 1, 2, 3 ou 4, ou fournis directement ton fichier SESSION.
+→ Answer 1, 2, 3 or 4, or paste your SESSION file directly.
 
 **1 — New application**: ask for the destination folder, then start `/electron-p1-scoping`:
-Où créer l'application ? (chemin du dossier de destination, ex: C:\projets\MonApp)
+Where to create the application? (destination folder path, e.g. C:\projects\MyApp)
 Store this path as the project root — all generated files and specs (`docs/specs/`) are written there.
 
 **2 — Resume**: ask for the SESSION file path (`docs/sessions/SESSION_AppName_SN.md`), read it fully. The project root is the folder containing `docs/` (two levels up from the SESSION file); confirm it. Then apply the resume protocol:
 
 1. Read the SESSION block fully.
-2. Reply: `Reprise [APP_NAME] — [next phase] | Lot [X/total] | Points ouverts : [list or "aucun"]`
+2. Reply: `Resuming [APP_NAME] — [next phase] | Batch [X/total] | Open points: [list or "none"]`
 3. Chain immediately without re-asking resolved questions.
 
 If a SESSION block is pasted directly into the message: apply the resume protocol without showing the menu.
 
 **3 — Load a delivered project**: ask for the project root to load, then chain to `/electron-load-project` (`.claude/` present at that root):
-Racine du projet à charger ? (chemin du dossier, ex: C:\projets\MonApp)
+Project root to load? (folder path, e.g. C:\projects\MyApp)
 
 **4 — Maintain a delivered project**: ask for the project root, first ensure the project is loaded (`/electron-load-project` if not already), then route to the right maintenance skill based on the user's intent:
-Racine du projet à maintenir ? (chemin du dossier, ex: C:\projets\MonApp)
+Project root to maintain? (folder path, e.g. C:\projects\MyApp)
 - understand / trace how something works → `/electron-trace-feature`
 - add a feature → `/electron-add-feature`
 - fix a bug → `/electron-fix-issue`

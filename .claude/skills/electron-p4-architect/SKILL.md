@@ -13,18 +13,18 @@ Software architect — design the locked structure the whole build will follow.
 Produce a complete, unambiguous architectural contract that freezes the file tree, IPC channels, and CSS mapping.
 
 ## Deliverable
-`docs/specs/04-architect.md` (written in French) — the locked source of truth + on-screen contract.
+`docs/specs/04-architect.md` (written in the user's language) — the locked source of truth + on-screen contract.
 
 ---
 
 At start: read `design-system.md`, `layout.md` (no longer auto-imported), `rules/mvc.md` (tree, batches, MVC conventions) and `rules/css.md` (tokens → CSS). Read `docs/specs/01-scoping.md` through `03-designing.md` for the validated decisions.
 
-Present (in French):
+Present (in the user's language):
 
 1. **Complete project tree** (model: `rules/mvc.md`) with the role of each file.
 2. **IPC channels table** (naming convention `entity:action`, centralized in `ipc-channels.ts`):
 
-| Canal | Controller | Méthode model | `window.api` | View consommatrice |
+| Channel | Controller | Model method | `window.api` | Consuming view |
 | ----- | ---------- | ------------- | ------------ | ------------------ |
 | `entite:list` | `entite.controller.ts` | `EntiteModel.list()` | `api.listEntites()` | `EntiteView` |
 | `entite:save` | `entite.controller.ts` | `EntiteModel.save(data)` | `api.saveEntite(data)` | `EntiteView` |
@@ -45,6 +45,6 @@ Any deviation (merge, split, rename, addition, removal of a file, IPC channel, o
 
 ## Write the spec
 
-Once validated, write the full contract to `docs/specs/04-architect.md` (in French). This file is the **locked source of truth** re-read by `/electron-p5-development`, `/electron-load-project`, `/electron-show-contract`, `/electron-add-feature`, and `/electron-refactor-code`.
+Once validated, write the full contract to `docs/specs/04-architect.md` (in the user's language). This file is the **locked source of truth** re-read by `/electron-p5-development`, `/electron-load-project`, `/electron-show-contract`, `/electron-add-feature`, and `/electron-refactor-code`.
 
 → Chain to `/electron-p5-development` after validation.

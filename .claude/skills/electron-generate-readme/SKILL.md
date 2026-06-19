@@ -48,5 +48,5 @@ npm run dist         # Windows packaging (if requested)
 ```
 <!-- If better-sqlite3: run `npx electron-builder install-app-deps` after `npm install` -->
 
-3. Write the file to disk, confirm in one line (French).
-4. If anything is undeterminable from specs + code: ask grouped questions (single block, French) before writing.
+3. Write the file to disk, confirm in one line (in the user's language).
+4. If anything is undeterminable from specs + code: ask grouped questions (single block, in the user's language) before writing.

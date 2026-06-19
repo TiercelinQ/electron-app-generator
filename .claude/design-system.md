@@ -9,7 +9,7 @@
 
 | Version | Date       | Main change                                                                                       |
 | ------- | ---------- | ------------------------------------------------------------------------------------------------- |
-| v1.3    | 2026-06-19 | full **palette** model (5 roles/theme: fond principal, fond secondaire, accent, texte, détails) replaces the primary-only choice · light theme chosen, dark + supporting tokens derived · named palette catalog + custom palette · semantic/icons/charts kept fixed · WCAG AA check (warn) |
+| v1.3    | 2026-06-19 | full **palette** model (5 roles/theme: main background, secondary background, accent, text, details) replaces the primary-only choice · light theme chosen, dark + supporting tokens derived · named palette catalog + custom palette · semantic/icons/charts kept fixed · WCAG AA check (warn) |
 | v1.2    | 2026-06-14 | dark theme re-skin (theme-dark.md palette): 4-step dark surface ramp · dark neutrals/borders/semantic/icons/selection · Steel Blue primary (both modes) |
 | v1.1    | 2026-06-14 | line-height · dark semantic backgrounds · primary/danger hover-pressed stops · `color-scheme` · WCAG AA target · layering scale · dark surface ramp fix · icon warning/info · selection/opacity/border-width tokens |
 | v1.0    | initial    | CSS custom properties port: typography, colors, spacing, components, states                        |
@@ -60,11 +60,11 @@ A project's colors come from a **palette**: 5 roles chosen per project, **light 
 
 | Role (palette)   | Drives          | Also derives                                                                                  |
 | ---------------- | --------------- | --------------------------------------------------------------------------------------------- |
-| Fond principal   | `--bg`          | `--bg-elevated` (= `--bg` in light)                                                            |
-| Fond secondaire  | `--bg-subtle`   | `--bg-muted` (`--bg-subtle` darkened ~3 % L)                                                   |
+| Main background   | `--bg`          | `--bg-elevated` (= `--bg` in light)                                                            |
+| Secondary background  | `--bg-subtle`   | `--bg-muted` (`--bg-subtle` darkened ~3 % L)                                                   |
 | Accent           | `--primary-600` | `--primary-50/400/700/800/900`, `--primary`, `--primary-bg`, `--selection-bg`, focus, `--text-on-primary` |
-| Texte            | `--text`        | `--text-subtle` (mix text→bg ~45 %), `--text-muted` (mix text→bg ~62 %)                        |
-| Détails          | `--border`      | `--border-subtle` (mix border→bg ~50 %), `--border-strong` (mix border→text ~12 %)            |
+| Text            | `--text`        | `--text-subtle` (mix text→bg ~45 %), `--text-muted` (mix text→bg ~62 %)                        |
+| Details          | `--border`      | `--border-subtle` (mix border→bg ~50 %), `--border-strong` (mix border→text ~12 %)            |
 
 The **semantic colors** (success/warning/danger/info), the **icon tokens**, and the **chart palette** are **fixed** — independent of the palette, they carry meaning (see below).
 
@@ -88,13 +88,13 @@ The **semantic colors** (success/warning/danger/info), the **icon tokens**, and 
 
 `/electron-p1-scoping` presents these; each lists its 5 **light** roles (dark derived). The user can also enter a **custom palette** (5 light hex). Phase 1 then checks WCAG AA (text/bg, text-subtle/bg, accent/bg, text-on-primary/accent) and reports failures without blocking (`§12`).
 
-| Name             | Fond principal | Fond secondaire | Accent  | Texte   | Détails |
+| Name             | Main background | Secondary background | Accent  | Text   | Details |
 | ---------------- | -------------- | --------------- | ------- | ------- | ------- |
-| Acier (default)  | #FFFFFF        | #F9FAFB         | #4682B4 | #111827 | #E5E7EB |
-| Forêt            | #FFFFFF        | #F6F8F6         | #059669 | #14201A | #DCE5DF |
-| Ardoise          | #FFFFFF        | #F8FAFC         | #4F46E5 | #1E293B | #E2E8F0 |
-| Ambre            | #FFFDFB        | #FBF6EF         | #B45309 | #1C1917 | #ECE3D8 |
-| Rubis            | #FFFFFF        | #FAF7F7         | #BE123C | #1A1212 | #EAE0E1 |
+| Steel (default)  | #FFFFFF        | #F9FAFB         | #4682B4 | #111827 | #E5E7EB |
+| Forest            | #FFFFFF        | #F6F8F6         | #059669 | #14201A | #DCE5DF |
+| Slate          | #FFFFFF        | #F8FAFC         | #4F46E5 | #1E293B | #E2E8F0 |
+| Amber            | #FFFDFB        | #FBF6EF         | #B45309 | #1C1917 | #ECE3D8 |
+| Ruby            | #FFFFFF        | #FAF7F7         | #BE123C | #1A1212 | #EAE0E1 |
 
 ### Light mode — default palette (`:root`)
 

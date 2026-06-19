@@ -40,7 +40,7 @@ If disabled:
 ## Conventions
 
 - File naming: `[module].test.ts` / `[Component].test.tsx` next to the source or under `test/` mirroring `src/`.
-- Test names: explicit French behavior, e.g. `rejette_un_payload_sans_email`.
+- Test names: explicit French behavior — always French, independent of the user's interface language — e.g. `rejette_un_payload_sans_email`.
 - No `expect(true).toBe(true)`, no empty test, no `any` in test code without justification.
 - No real network, no real filesystem DB — mock `better-sqlite3` and IPC. Use `vi.mock`.
 - No arbitrary `setTimeout` waits — use `await`, fake timers (`vi.useFakeTimers()`), or Testing Library `findBy*`.

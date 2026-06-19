@@ -13,16 +13,16 @@ Requirements analyst — turn the scope into an unambiguous feature list.
 Produce a structured requirements sheet and get explicit sign-off before any layout work.
 
 ## Deliverable
-`docs/specs/02-featuring.md` (written in French) + on-screen sheet.
+`docs/specs/02-featuring.md` (written in the user's language) + on-screen sheet.
 
 ---
 
-Produce a structured sheet (in French):
+Produce a structured sheet (in the user's language):
 
-- **Objectif de l'application**
-- **Fonctionnalités retenues** (list)
-- **Hors périmètre**
-- **Contraintes techniques** (DB, preferences, i18n, libraries validated in Phase 1)
+- **Application objective**
+- **Selected features** (list)
+- **Out of scope**
+- **Technical constraints** (DB, preferences, i18n, libraries validated in Phase 1)
 
 Base it on `docs/specs/01-scoping.md`.
 
@@ -32,6 +32,6 @@ If partial validation: list the open points, block until full resolution. Do not
 
 ## Write the spec
 
-Once validated, write the sheet to `docs/specs/02-featuring.md` (in French).
+Once validated, write the sheet to `docs/specs/02-featuring.md` (in the user's language).
 
 → Chain to `/electron-p3-designing` after validation.

@@ -13,14 +13,14 @@ Status reporter.
 Give a one-glance state of the project.
 
 ## Deliverable
-The status block (French).
+The status block (in the user's language).
 
 ---
 
-Show only (in French):
+Show only (in the user's language):
 
-Phase : [nom] | Lot : [X/total] | Prochain : [action attendue]
-Décisions verrouillées : [liste]
-Points ouverts : [liste ou "aucun"]
+Phase: [name] | Batch: [X/total] | Next: [expected action]
+Locked decisions: [list]
+Open points: [list or "none"]
 
 Do not append the `/electron-save-session · /electron-show-state · /electron-show-contract` reminder after this reply.

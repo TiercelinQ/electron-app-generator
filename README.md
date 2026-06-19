@@ -18,7 +18,7 @@ A structured prompt system that generates complete, production-ready Electron/Re
 4. **Architect** - full file tree, IPC channel table, tokens→CSS table - locked before any code is written
 5. **Development** - auto-chained batch delivery, seed script if a DB is used
 
-Each phase writes a French spec to `docs/specs/` (`01-scoping` … `04-architect`); the contract is the source of truth.
+Each phase writes a spec in the user's language to `docs/specs/` (`01-scoping` … `04-architect`); the contract is the source of truth.
 
 **Maintenance commands**: `/electron-add-feature` (add a feature, contract-compliant), `/electron-trace-feature` (trace behavior), `/electron-fix-issue` (root-cause debugging with a decision tree), `/electron-refactor-code` (validated, behavior-preserving), `/electron-run-tests` (executable verification). Plus `/electron-load-project` and `/electron-generate-readme` to load/document existing apps.
 
@@ -104,7 +104,7 @@ my-app/
 ├── electron-builder.yml · README.md
 ├── CLAUDE.md                      # Project identity (origin, business context, deviations)
 ├── .claude/settings.json          # Guardrails + verification hook (self-enforced app)
-├── docs/specs/                    # Generation specs (FR): 01-scoping … 04-architect
+├── docs/specs/                    # Generation specs (user's language): 01-scoping … 04-architect
 ├── resources/                     # .ico icon, packaging assets
 ├── scripts/ensure-electron.cjs    # Electron binary reliability (postinstall)
 └── src/
@@ -125,7 +125,7 @@ All generated apps share the same visual system, defined in `design-system.md`:
 - **Flat design** - zero border-radius, zero shadows, zero gradients
 - **CSS tokens** - all colors, sizes and durations are `var(--token)`; full light/dark theme via a single `[data-theme="dark"]` block
 - **Segoe UI** typography (Windows native)
-- **Color palette** - 5 roles (fond principal, fond secondaire, accent, texte, détails) chosen for the light theme; dark theme and all supporting tokens derived. Default "Acier" (Steel Blue) + 4 named palettes + custom palette; semantic colors stay fixed
+- **Color palette** - 5 roles (main background, secondary background, accent, text, details) chosen for the light theme; dark theme and all supporting tokens derived. Default "Steel" (Steel Blue) + 4 named palettes + custom palette; semantic colors stay fixed
 - **Toasts only** - no inline banners, no `dialog.showMessageBox`/`alert`/`confirm` for business errors
 
 ---
