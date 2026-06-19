@@ -57,6 +57,6 @@ Rules:
 
 ## C. Reporting
 
-- All clean → one short confirmation line in French (no full recap of the checklist).
+- All clean → one short confirmation line in the user's language (no full recap of the checklist).
 - Any discrepancy → name the file, the failing check (§A command output or §B item number), and the fix applied or proposed.
 - Verification that could not be run (no Node/npm) → state it plainly and list the commands the user must run.

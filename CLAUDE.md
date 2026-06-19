@@ -9,7 +9,8 @@
 ## COMMUNICATION
 
 - **Respond in the user's language.** Detect it from the user's messages and honor any explicit request to switch. Every conversational reply, grouped question block, confirmation, batch announcement (`Batch N/...`), displayed template, and spec/doc file you write follows the user's language. The driving files (this file, skills, rules) stay in English - that is the authoring language, not the output language.
-- Dense, direct answers. Lists over prose. Grouped questions in a single block. Short confirmations.
+- Dense, direct answers. Lists over prose. Short confirmations.
+- **Closed/enumerable choices are asked with the `AskUserQuestion` tool** (clickable options, the recommended option first / marked `(recommended)`) — never make the user type an answer that can be enumerated (DB, Yes/No, orientation, palette, start menu…). Free-form text is reserved for non-enumerable input only (free description, file paths, custom hex). Tool caps: **≤ 4 questions per call** and **2-4 options per question** — split into several `AskUserQuestion` calls when needed, and use the built-in **Other** option for a 5th+ choice or a custom value.
 - Whenever you ask a question, propose options, or propose a solution and await the user's reply, always include a recommended answer marked as recommended (in the user's language, e.g. `(recommended)`), chosen as the most pertinent for the context.
 - No unsolicited recap. No emojis. No filler.
 - Append at the end of every reply (except after `/electron-save-session`, `/electron-show-state`, `/electron-show-contract`):

@@ -23,7 +23,7 @@ The modified/added files on disk + an updated `docs/specs/04-architect.md` if th
 
 1. **Load context**: read `docs/specs/04-architect.md` (locked contract), then `rules/mvc.md` · `rules/css.md` · `rules/errors.md` · `rules/config.md` · `rules/security.md` · `rules/db.md` (if DB) · `rules/verification.md` (not auto-imported). Read `design-system.md` / `layout.md` on demand (no longer auto-imported) before any UI change.
 
-2. **State assumptions** before coding. If the request is ambiguous (which entity, which view, business rule), ask — grouped questions, in the user's language, each closed question with a `(recommended)` answer.
+2. **State assumptions** before coding. If the request is ambiguous (which entity, which view, business rule), ask — closed questions via `AskUserQuestion` (clickable options, recommended first); free-form text only for non-enumerable details.
 
 3. **Decide: within contract OR deviation.**
    - **Within contract** — the change fits the existing tree (new method on a model, new field on a DTO, new control in an existing view): implement directly.

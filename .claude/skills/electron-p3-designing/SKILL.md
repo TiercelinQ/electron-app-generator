@@ -27,7 +27,7 @@ Based on the project description (`docs/specs/02-featuring.md`), propose a layou
 2. Justify the choice against the features.
 3. List the navigation tabs and their content.
 
-## 2. Customization — questions grouped in a single block
+## 2. Customization — questions via `AskUserQuestion`
 
 For each question offering a choice, mark the option you recommend with `(recommended)`, chosen from the validated feature context.
 

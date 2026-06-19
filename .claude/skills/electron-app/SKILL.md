@@ -17,16 +17,13 @@ The menu, then a handoff to the selected skill.
 
 ---
 
-Show this menu (in the user's language):
+Present the start menu with the `AskUserQuestion` tool (single question, 4 clickable options — do not make the user type a number):
+- New application
+- Resume an existing application (SESSION file)
+- Load an already-delivered project (Phase 5 complete)
+- Maintain a delivered project (fix / add / analyze)
 
-What do you want to do?
-
-1. New application
-2. Resume an existing application (SESSION file)
-3. Load an already-delivered project (Phase 5 complete)
-4. Maintain a delivered project (fix / add / analyze)
-
-→ Answer 1, 2, 3 or 4, or paste your SESSION file directly.
+Map the chosen option to the routing below; a pasted SESSION block still triggers the resume protocol directly. The folder/SESSION-path prompts stay free-form text.
 
 **1 — New application**: ask for the destination folder, then start `/electron-p1-scoping`:
 Where to create the application? (destination folder path, e.g. C:\projects\MyApp)
