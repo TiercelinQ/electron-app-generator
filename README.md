@@ -20,7 +20,7 @@ A structured prompt system that generates complete, production-ready Electron/Re
 
 Each phase writes a French spec to `docs/specs/` (`01-scoping` … `04-architect`); the contract is the source of truth.
 
-**Maintenance commands**: `/add-feature` (add a feature, contract-compliant), `/trace-feature` (trace behavior), `/fix-issue` (root-cause debugging with a decision tree), `/refactor-code` (validated, behavior-preserving), `/run-tests` (executable verification). Plus `/load-project` and `/generate-readme` to load/document existing apps.
+**Maintenance commands**: `/electron-add-feature` (add a feature, contract-compliant), `/electron-trace-feature` (trace behavior), `/electron-fix-issue` (root-cause debugging with a decision tree), `/electron-refactor-code` (validated, behavior-preserving), `/electron-run-tests` (executable verification). Plus `/electron-load-project` and `/electron-generate-readme` to load/document existing apps.
 
 Every generated app enforces the same visual design system, strict MVC architecture, and locked Electron security.
 
@@ -77,22 +77,22 @@ Then in Claude Code:
 | Command                 | Action                                             |
 | ----------------------- | -------------------------------------------------- |
 | `/electron-app`         | Start menu (4 entry points incl. maintenance)      |
-| `/p1-scoping`       | Scoping - 6 questions + primary color              |
-| `/p2-featuring`       | Featuring - requirements sheet + locked sizing     |
-| `/p3-designing`        | Designing - layout proposal + customization        |
-| `/p4-architect`       | Architect - locked architecture contract (IPC)     |
-| `/p5-development` | Auto-chained batch delivery                        |
-| `/add-feature`            | Add a feature to a shipped project                 |
-| `/trace-feature`              | Trace a feature across the MVC/IPC layers          |
-| `/fix-issue`                  | Fix a bug - decision tree, root cause              |
-| `/refactor-code`             | Refactor under explicit validation only            |
-| `/run-tests`                 | Executable verification (typecheck, lint, build)   |
-| `/load-project`       | Load an existing project from its specs/README     |
-| `/generate-readme`      | Generate README.md for an existing project         |
-| `/save-session`              | Save current session state                         |
-| `/show-state`               | Current project status                             |
-| `/show-contract`              | Display locked architecture contract               |
-| `/save-memory`            | Persist a note in Claude Code native memory        |
+| `/electron-p1-scoping`       | Scoping - 6 questions + primary color              |
+| `/electron-p2-featuring`       | Featuring - requirements sheet + locked sizing     |
+| `/electron-p3-designing`        | Designing - layout proposal + customization        |
+| `/electron-p4-architect`       | Architect - locked architecture contract (IPC)     |
+| `/electron-p5-development` | Auto-chained batch delivery                        |
+| `/electron-add-feature`            | Add a feature to a shipped project                 |
+| `/electron-trace-feature`              | Trace a feature across the MVC/IPC layers          |
+| `/electron-fix-issue`                  | Fix a bug - decision tree, root cause              |
+| `/electron-refactor-code`             | Refactor under explicit validation only            |
+| `/electron-run-tests`                 | Executable verification (typecheck, lint, build)   |
+| `/electron-load-project`       | Load an existing project from its specs/README     |
+| `/electron-generate-readme`      | Generate README.md for an existing project         |
+| `/electron-save-session`              | Save current session state                         |
+| `/electron-show-state`               | Current project status                             |
+| `/electron-show-contract`              | Display locked architecture contract               |
+| `/electron-save-memory`            | Persist a note in Claude Code native memory        |
 
 ---
 
@@ -132,7 +132,7 @@ All generated apps share the same visual system, defined in `design-system.md`:
 
 ## Security
 
-`rules/security.md` is non-negotiable, applied to 100% of generated apps: locked `webPreferences` (`contextIsolation`, `nodeIntegration: false`, `sandbox`), strict CSP, every IPC input validated on the main side, minimal preload surface (named functions only), zero remote resource. `/fix-issue` and `/add-feature` always route through it.
+`rules/security.md` is non-negotiable, applied to 100% of generated apps: locked `webPreferences` (`contextIsolation`, `nodeIntegration: false`, `sandbox`), strict CSP, every IPC input validated on the main side, minimal preload surface (named functions only), zero remote resource. `/electron-fix-issue` and `/electron-add-feature` always route through it.
 
 ---
 

@@ -12,8 +12,8 @@
 - Dense, direct answers. Lists over prose. Grouped questions in a single block. Short confirmations.
 - Whenever you ask a question, propose options, or propose a solution and await the user's reply, always include a recommended answer marked `(recommandé)`, chosen as the most pertinent for the context.
 - No unsolicited recap. No emojis except the batch marker. No filler.
-- Append at the end of every reply (except after `/save-session`, `/show-state`, `/show-contract`):
-  `/save-session · /show-state · /show-contract`
+- Append at the end of every reply (except after `/electron-save-session`, `/electron-show-state`, `/electron-show-contract`):
+  `/electron-save-session · /electron-show-state · /electron-show-contract`
 
 ---
 
@@ -45,13 +45,13 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 | 3 - Designing  | `docs/specs/03-designing.md`    |
 | 4 - Architect  | `docs/specs/04-architect.md` (locked architectural contract) |
 
-`docs/specs/04-architect.md` is the **source of truth** for the project structure - re-read by `/load-project`, `/show-contract`, `/add-feature`, and `/refactor-code`.
+`docs/specs/04-architect.md` is the **source of truth** for the project structure - re-read by `/electron-load-project`, `/electron-show-contract`, `/electron-add-feature`, and `/electron-refactor-code`.
 
 ---
 
 ## BINDING REFERENCES
 
-`design-system.md` and `layout.md` are binding references for every generated interface. They are **not** auto-imported (to keep the session context lean) - the UI skills (`/p3-designing`, `/p4-architect`, `/p5-development`, `/add-feature`, `/fix-issue`, `/refactor-code`, `/trace-feature`) read them on demand before producing or altering any UI.
+`design-system.md` and `layout.md` are binding references for every generated interface. They are **not** auto-imported (to keep the session context lean) - the UI skills (`/electron-p3-designing`, `/electron-p4-architect`, `/electron-p5-development`, `/electron-add-feature`, `/electron-fix-issue`, `/electron-refactor-code`, `/electron-trace-feature`) read them on demand before producing or altering any UI.
 
 ---
 
@@ -88,10 +88,10 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 - If a database is used (Phase 1 Q2 ≠ none): single access point + versioned migrations - see @rules/db.md
 - If tests enabled in Phase 1 (Q6): test suite mandatory (Vitest + Testing Library) - see @rules/tests.md
 - No library that was not validated in Phase 1.
-- At project finalization (last batch of Phase 5): generate a `CLAUDE.md` at the generated project root - origin (framework + version), business context, framework deviations. See `/p5-development`.
-- After resolving an anomaly, offer: "Veux-tu mémoriser ce point ? `/save-memory`"
+- At project finalization (last batch of Phase 5): generate a `CLAUDE.md` at the generated project root - origin (framework + version), business context, framework deviations. See `/electron-p5-development`.
+- After resolving an anomaly, offer: "Veux-tu mémoriser ce point ? `/electron-save-memory`"
 - NEVER read and write `settings.json`. ONLY read and write in `settings.local.json`
-Per-domain rule detail (loaded on demand by `/p4-architect`, `/p5-development`, and the maintenance skills - not auto-imported): @rules/mvc.md · @rules/css.md · @rules/errors.md · @rules/config.md · @rules/security.md · @rules/db.md · @rules/tests.md · @rules/verification.md
+Per-domain rule detail (loaded on demand by `/electron-p4-architect`, `/electron-p5-development`, and the maintenance skills - not auto-imported): @rules/mvc.md · @rules/css.md · @rules/errors.md · @rules/config.md · @rules/security.md · @rules/db.md · @rules/tests.md · @rules/verification.md
 
 ---
 
@@ -104,32 +104,32 @@ All commands below are Claude Code skills invocable with `/`:
 | Command                 | Skill                          | Action                                       |
 | ----------------------- | ------------------------------ | -------------------------------------------- |
 | `/electron-app`         | `skills/electron-app/`         | Start / resume / maintenance menu            |
-| `/p1-scoping`       | `skills/p1-scoping/`       | Scoping - 6 questions + primary color        |
-| `/p2-featuring`       | `skills/p2-featuring/`       | Structured requirements sheet                |
-| `/p3-designing`        | `skills/p3-designing/`        | Layout proposal                              |
-| `/p4-architect`       | `skills/p4-architect/`       | Locked architectural contract                |
-| `/p5-development` | `skills/p5-development/` | Batch delivery                               |
+| `/electron-p1-scoping`       | `skills/electron-p1-scoping/`       | Scoping - 6 questions + primary color        |
+| `/electron-p2-featuring`       | `skills/electron-p2-featuring/`       | Structured requirements sheet                |
+| `/electron-p3-designing`        | `skills/electron-p3-designing/`        | Layout proposal                              |
+| `/electron-p4-architect`       | `skills/electron-p4-architect/`       | Locked architectural contract                |
+| `/electron-p5-development` | `skills/electron-p5-development/` | Batch delivery                               |
 
 ### Post-delivery maintenance
 
 | Command       | Skill                | Action                                                  |
 | ------------- | -------------------- | ------------------------------------------------------- |
-| `/trace-feature`    | `skills/trace-feature/`    | Trace a feature across the MVC/IPC layers, report       |
-| `/add-feature`  | `skills/add-feature/`  | Add a feature to a delivered app (contract-compliant)   |
-| `/fix-issue`        | `skills/fix-issue/`        | Fix a bug - decision tree, root cause                   |
-| `/refactor-code`   | `skills/refactor-code/`   | Refactor under explicit validation only                 |
-| `/run-tests`       | `skills/run-tests/`       | Run executable verification (typecheck, lint, build)    |
+| `/electron-trace-feature`    | `skills/electron-trace-feature/`    | Trace a feature across the MVC/IPC layers, report       |
+| `/electron-add-feature`  | `skills/electron-add-feature/`  | Add a feature to a delivered app (contract-compliant)   |
+| `/electron-fix-issue`        | `skills/electron-fix-issue/`        | Fix a bug - decision tree, root cause                   |
+| `/electron-refactor-code`   | `skills/electron-refactor-code/`   | Refactor under explicit validation only                 |
+| `/electron-run-tests`       | `skills/electron-run-tests/`       | Run executable verification (typecheck, lint, build)    |
 
 ### State / utilities
 
 | Command            | Skill                     | Action                                          |
 | ------------------ | ------------------------- | ----------------------------------------------- |
-| `/load-project`  | `skills/load-project/`  | Load an existing delivered project              |
-| `/generate-readme` | `skills/generate-readme/` | Generate the README.md of an existing project   |
-| `/save-session`         | `skills/save-session/`         | Generate the session save file                  |
-| `/show-state`          | `skills/show-state/`          | Current project state                           |
-| `/show-contract`         | `skills/show-contract/`         | Validated contract tree                         |
-| `/save-memory`       | `skills/save-memory/`       | Memorize an error, decision, or preference      |
+| `/electron-load-project`  | `skills/electron-load-project/`  | Load an existing delivered project              |
+| `/electron-generate-readme` | `skills/electron-generate-readme/` | Generate the README.md of an existing project   |
+| `/electron-save-session`         | `skills/electron-save-session/`         | Generate the session save file                  |
+| `/electron-show-state`          | `skills/electron-show-state/`          | Current project state                           |
+| `/electron-show-contract`         | `skills/electron-show-contract/`         | Validated contract tree                         |
+| `/electron-save-memory`       | `skills/electron-save-memory/`       | Memorize an error, decision, or preference      |
 
 ---
 
