@@ -90,7 +90,8 @@ Versioning notes:
 
 ## Postinstall — Electron binary reliability
 
-Electron's official `postinstall` downloads the binary (`electron.exe` on Windows, `Electron` on macOS/Linux) then extracts it into `node_modules/electron/dist/` and writes `node_modules/electron/path.txt`. This extraction **fails silently** in several real cases:
+Electron's official `postinstall` downloads the binary (`electron.exe` on Windows, `Electron` on macOS/Linux) then extracts it into `node_modules/electron/dist/` and writes `node_modules/electron/path.txt`. This **fails silently** in several real cases:
+- **`ELECTRON_RUN_AS_NODE=1` in the environment** (set by Electron-based shells/IDEs — VS Code, Cursor — on their child node processes). Under this flag Electron's `install.js` no-ops the download: exit 0, **no zip cached**, no binary. This is the most common cause inside an editor terminal and the one a cache-only fallback cannot fix (nothing to restore).
 - Antivirus (Windows Defender chief among them) blocks `node.exe` writing `electron.exe` during extraction.
 - Permission or lock on `node_modules/electron/dist/`.
 - Network interruption during the download (incomplete zip in cache).
@@ -99,7 +100,8 @@ Symptom: `Error: Electron uninstall` when launching `electron-vite dev` or any o
 
 **Mandatory solution**: every generated project includes `scripts/ensure-electron.cjs` below + the matching `postinstall` hook in `package.json`. The script:
 - No-op if `path.txt` and the binary are already present.
-- Otherwise: looks for the zip in the local Electron cache (`%LOCALAPPDATA%\electron\Cache` / `~/Library/Caches/electron` / `~/.cache/electron`), extracts it into `node_modules/electron/dist/`, writes `path.txt`.
+- Else, if `ELECTRON_RUN_AS_NODE` is set: re-run Electron's own `install.js` with a **cleaned environment** (that variable deleted) so the download actually runs, then re-check.
+- Else: looks for the zip in the local Electron cache (`%LOCALAPPDATA%\electron\Cache` / `~/Library/Caches/electron` / `~/.cache/electron`), extracts it into `node_modules/electron/dist/`, writes `path.txt`.
 - Otherwise: explicit error message with probable cause and action to take.
 
 Dependencies: Node std lib + `extract-zip` (transitive dependency of `@electron/get`, therefore already in `node_modules` after installing Electron). No direct dependency to add to `package.json`.
@@ -119,6 +121,7 @@ Covers Windows, macOS, and Linux (x64 and arm64).
 const fs = require("node:fs");
 const path = require("node:path");
 const os = require("node:os");
+const { execFileSync } = require("node:child_process");
 
 const ELECTRON_DIR = path.join(__dirname, "..", "node_modules", "electron");
 const DIST_DIR = path.join(ELECTRON_DIR, "dist");
@@ -161,6 +164,23 @@ function isInstalled() {
   );
 }
 
+// Dans un shell lancé par une app Electron (VS Code, Cursor…),
+// ELECTRON_RUN_AS_NODE=1 est hérité par les process node enfants. Sous ce
+// flag, l'installeur officiel d'Electron (install.js) avale le téléchargement
+// du binaire (sortie 0, aucun zip mis en cache). On relance donc l'installeur
+// avec un environnement nettoyé avant toute restauration depuis le cache.
+function retryDownloadWithCleanEnv() {
+  const installer = path.join(ELECTRON_DIR, "install.js");
+  if (!fs.existsSync(installer)) return;
+  const env = { ...process.env };
+  delete env.ELECTRON_RUN_AS_NODE;
+  try {
+    execFileSync(process.execPath, [installer], { stdio: "inherit", env });
+  } catch {
+    // install.js n'échoue pas en sortie non nulle : on vérifie via isInstalled().
+  }
+}
+
 function findCachedZip(version) {
   const dir = cacheDir();
   if (!fs.existsSync(dir)) return null;
@@ -183,10 +203,22 @@ async function main() {
     process.exit(1);
   }
 
+  // 1) Relancer le téléchargement officiel avec un env nettoyé.
+  if (process.env.ELECTRON_RUN_AS_NODE) {
+    retryDownloadWithCleanEnv();
+    if (isInstalled()) {
+      console.log(
+        "[ensure-electron] Binaire téléchargé après nettoyage de ELECTRON_RUN_AS_NODE."
+      );
+      return;
+    }
+  }
+
   const { version } = JSON.parse(
     fs.readFileSync(path.join(ELECTRON_DIR, "package.json"), "utf8")
   );
 
+  // 2) Sinon, restaurer depuis le cache local (extraction échouée).
   const zipPath = findCachedZip(version);
   if (!zipPath) {
     console.error(
