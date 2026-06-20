@@ -9,41 +9,44 @@
 ```
 claude-electron-framework/
 ├── CLAUDE.md                 # Instructions core (EN) · persona · communication FR · index commandes · calibrage
-├── design-system.md          # Référence visuelle contraignante (tokens CSS) — source de vérité unique
-├── layout.md                 # Référence layout contraignante — shell, topbar, drawer, statusbar, toasts
-├── rules/
-│   ├── mvc.md                # main=Models · preload+IPC=Controllers · renderer=Views, livraison par lots
-│   ├── css.md                # Tokens CSS, thème data-theme, flat design, nommage
-│   ├── errors.md             # Contrat IpcResult<T>, toasts, Error Boundary + uncaughtException
-│   ├── security.md           # Sécurité Electron verrouillée (webPreferences, CSP, validation IPC)
-│   ├── config.md             # config.ts, versioning, postinstall ensure-electron.cjs, packaging
-│   ├── db.md                 # Accès better-sqlite3, migrations versionnées
-│   ├── tests.md              # Vitest + Testing Library, couverture par couche
-│   └── verification.md       # Vérification EXÉCUTABLE centralisée + intégrité statique
-├── skills/
-│   ├── electron-app/         # Menu démarrage / reprise / maintenance (4 options)
-│   ├── electron-p1-scoping/       # Scoping — 6 questions + couleur → docs/specs/01-scoping.md
-│   ├── electron-p2-featuring/       # Fiche besoins → docs/specs/02-featuring.md
-│   ├── electron-p3-designing/        # Proposition layout → docs/specs/03-designing.md
-│   ├── electron-p4-architect/       # Contrat architectural verrouillé → docs/specs/04-architect.md
-│   ├── electron-p5-development/ # Livraison par lots (enchaînement auto)
-│   ├── implement/            # Ajouter une feature à un projet livré (respect contrat + sécurité)
-│   ├── electron-trace-feature/              # Tracer une fonctionnalité renderer→preload→controller→model
-│   ├── electron-fix-issue/                  # Corriger un bug — arbre de décision, cause racine
-│   ├── electron-refactor-code/             # Restructurer sous validation explicite uniquement
-│   ├── electron-run-tests/                 # Vérification exécutable (typecheck, lint, build)
-│   ├── electron-load-project/       # Chargement d'un projet existant
-│   ├── electron-generate-readme/      # Génération README.md projet existant
-│   ├── electron-save-session/              # Sauvegarde de session
-│   ├── electron-show-state/               # État courant du projet
-│   ├── electron-show-contract/              # Arborescence du contrat validé
-│   └── electron-save-memory/            # Persiste dans la mémoire native Claude Code
-├── settings.json             # Permissions d'exécution (npm, npx, node)
 ├── GUIDE.md                  # Ce fichier
-└── README.md                 # Présentation du repo GitHub (EN)
+├── README.md                 # Présentation du repo GitHub (EN)
+├── LICENSE.txt
+└── .claude/
+    ├── design-system.md      # Référence visuelle contraignante (tokens CSS) — source de vérité unique
+    ├── layout.md             # Référence layout contraignante — shell, topbar, drawer, statusbar, toasts
+    ├── rules/
+    │   ├── mvc.md            # main=Models · preload+IPC=Controllers · renderer=Views, livraison par lots
+    │   ├── css.md            # Tokens CSS, thème data-theme, flat design, nommage
+    │   ├── errors.md         # Contrat IpcResult<T>, toasts, Error Boundary + uncaughtException
+    │   ├── security.md       # Sécurité Electron verrouillée (webPreferences, CSP, validation IPC)
+    │   ├── config.md         # config.ts, versioning, postinstall ensure-electron.cjs, packaging
+    │   ├── db.md             # Accès better-sqlite3, migrations versionnées
+    │   ├── tests.md          # Vitest + Testing Library, couverture par couche
+    │   └── verification.md   # Vérification EXÉCUTABLE centralisée + intégrité statique
+    ├── skills/
+    │   ├── electron-app/            # Menu démarrage / reprise / maintenance (4 options)
+    │   ├── electron-p1-scoping/     # Scoping — 6 questions + couleur → docs/specs/01-scoping.md
+    │   ├── electron-p2-featuring/   # Fiche besoins → docs/specs/02-featuring.md
+    │   ├── electron-p3-designing/   # Proposition layout → docs/specs/03-designing.md
+    │   ├── electron-p4-architect/   # Contrat architectural verrouillé → docs/specs/04-architect.md
+    │   ├── electron-p5-development/ # Livraison par lots (enchaînement auto)
+    │   ├── electron-add-feature/    # Ajouter une feature à un projet livré (respect contrat + sécurité)
+    │   ├── electron-trace-feature/  # Tracer une fonctionnalité renderer→preload→controller→model
+    │   ├── electron-fix-issue/      # Corriger un bug — arbre de décision, cause racine
+    │   ├── electron-refactor-code/  # Restructurer sous validation explicite uniquement
+    │   ├── electron-run-tests/      # Vérification exécutable (typecheck, lint, build)
+    │   ├── electron-load-project/   # Chargement d'un projet existant
+    │   ├── electron-generate-readme/ # Génération README.md projet existant
+    │   ├── electron-save-session/   # Sauvegarde de session
+    │   ├── electron-show-state/     # État courant du projet
+    │   ├── electron-show-contract/  # Arborescence du contrat validé
+    │   └── electron-save-memory/    # Persiste dans la mémoire native Claude Code
+    ├── settings.json         # Permissions d'exécution (npm, npx, node) + garde-fous deny (.env, secrets, artefacts)
+    └── settings.local.json   # Overrides locaux (non versionné)
 ```
 
-> Structure **plate** : un seul `design-system.md` et un seul `layout.md` (source de vérité unique). `CLAUDE.md` les importe via `@`.
+> Source de vérité **unique** : un seul `design-system.md` et un seul `layout.md`, sous `.claude/`. `CLAUDE.md` les importe via `@`.
 
 ---
 
@@ -54,7 +57,7 @@ claude-electron-framework/
 | **Rôle par skill**            | Chaque skill ouvre sur un persona ciblé (Role / Goal / Deliverable).            |
 | **Specs persistées**          | Phases 1→4 écrivent `docs/specs/01-scoping.md` … `04-architect.md` (dans la langue de l'utilisateur). |
 | **Contrat = source de vérité**| `docs/specs/04-architect.md` relu par `/electron-load-project`, `/electron-show-contract`, `/electron-add-feature`, `/electron-refactor-code`. |
-| **Skills de maintenance**     | `electron-trace-feature`, `implement`, `electron-fix-issue`, `electron-refactor-code`, `electron-run-tests` avec arbres de décision et anti-patterns. |
+| **Skills de maintenance**     | `electron-trace-feature`, `electron-add-feature`, `electron-fix-issue`, `electron-refactor-code`, `electron-run-tests` avec arbres de décision et anti-patterns. |
 | **Vérification exécutable**   | `rules/verification.md` : typecheck, lint, build — échec bloquant.              |
 | **Mémoire native**            | `/electron-save-memory` écrit dans la mémoire native Claude Code + `MEMORY.md`.            |
 
@@ -209,7 +212,7 @@ mon-app/
 ├── electron-builder.yml · README.md
 ├── CLAUDE.md                      # Identité projet (origine, contexte, écarts) — généré en fin de Phase 5
 ├── .claude/settings.json          # Garde-fous + hook de vérification (app auto-contrôlée)
-├── docs/specs/                    # Specs de génération (FR)
+├── docs/specs/                    # Specs de génération (langue utilisateur)
 ├── resources/                     # icône .ico, assets packaging
 ├── scripts/ensure-electron.cjs    # Fiabilisation du binaire Electron (postinstall)
 └── src/
@@ -225,8 +228,8 @@ mon-app/
 
 ## Points de vigilance
 
-- `design-system.md` et `layout.md` sont la **source de vérité unique** — ne pas les dupliquer.
-- Sécurité Electron (`rules/security.md`) non négociable — jamais affaiblie, même temporairement.
+- `.claude/design-system.md` et `.claude/layout.md` sont la **source de vérité unique** — ne pas les dupliquer.
+- Sécurité Electron (`.claude/rules/security.md`) non négociable — jamais affaiblie, même temporairement.
 - Les canaux IPC sont centralisés dans `src/shared/ipc-channels.ts` — zéro chaîne de canal en dur ailleurs.
 - Le contrat (`docs/specs/04-architect.md`) est verrouillé. Tout changement structurel passe par `/electron-add-feature` ou le protocole de déclaration d'écart.
 - `/electron-load-project`, `/electron-generate-readme`, `/electron-add-feature`, `/electron-trace-feature`, `/electron-fix-issue`, `/electron-refactor-code`, `/electron-run-tests` s'invoquent depuis la racine du projet cible.

@@ -39,7 +39,7 @@ Every generated app enforces the same visual design system, strict MVC architect
 | Styling        | Centralized CSS - `tokens.css` + `styles.css`               |
 | Icons          | Font Awesome Free (local npm)                               |
 | i18n           | i18next + react-i18next FR/EN (opt-in)                      |
-| DB             | better-sqlite3 - versioned migrations (opt-in)             |
+| DB             | SQLite (better-sqlite3, versioned migrations) · JSON · CSV · none (opt-in) |
 | Tests          | Vitest + Testing Library (opt-in)                          |
 | Packaging      | electron-builder (NSIS + portable)                          |
 | Security       | contextIsolation · sandbox · no nodeIntegration · strict CSP |
@@ -120,7 +120,7 @@ my-app/
 
 ## Design system
 
-All generated apps share the same visual system, defined in `design-system.md`:
+All generated apps share the same visual system, defined in `.claude/design-system.md`:
 
 - **Flat design** - zero border-radius, zero shadows, zero gradients
 - **CSS tokens** - all colors, sizes and durations are `var(--token)`; full light/dark theme via a single `[data-theme="dark"]` block
@@ -132,16 +132,16 @@ All generated apps share the same visual system, defined in `design-system.md`:
 
 ## Security
 
-`rules/security.md` is non-negotiable, applied to 100% of generated apps: locked `webPreferences` (`contextIsolation`, `nodeIntegration: false`, `sandbox`), strict CSP, every IPC input validated on the main side, minimal preload surface (named functions only), zero remote resource. `/electron-fix-issue` and `/electron-add-feature` always route through it.
+`.claude/rules/security.md` is non-negotiable, applied to 100% of generated apps: locked `webPreferences` (`contextIsolation`, `nodeIntegration: false`, `sandbox`), strict CSP, every IPC input validated on the main side, minimal preload surface (named functions only), zero remote resource. `/electron-fix-issue` and `/electron-add-feature` always route through it.
 
 ---
 
 ## Documentation
 
 - [GUIDE.md](GUIDE.md) - full usage guide (FR)
-- `design-system.md` - visual token reference
-- `layout.md` - layout reference (shell, topbar, drawer, statusbar, toasts)
-- `rules/` - domain rules:
+- `.claude/design-system.md` - visual token reference
+- `.claude/layout.md` - layout reference (shell, topbar, drawer, statusbar, toasts)
+- `.claude/rules/` - domain rules:
   - `mvc.md` · `css.md` · `errors.md` · `security.md` · `config.md` · `db.md` · `tests.md`
   - `verification.md` - single source of truth for executable + static checks
 
