@@ -17,6 +17,8 @@ The full project source on disk + `README.md` + verified build.
 
 ---
 
+**Phase banner (show first)** — before anything else, output the phase banner as plain Markdown in the user's language, **never inside a code block or fenced block**. Three blocks, each on its own line: (1) H2 heading: Phase 5/5 — Development; (2) progress line: Scoping ✓ · Features ✓ · Design ✓ · Architecture ✓ · ▶ Development; (3) intent in italics: Deliver the app in batches. See `## PIPELINE` in `CLAUDE.md`.
+
 ## Code rules
 
 At start, read and fully apply: `rules/mvc.md` · `rules/css.md` · `rules/errors.md` · `rules/config.md` · `rules/security.md` · `rules/db.md` (if DB) · `rules/tests.md` (if tests) · `rules/verification.md` (not auto-imported). **Read `design-system.md` and `layout.md`** (no longer auto-imported) before producing any UI. Read `docs/specs/04-architect.md` — it is the locked contract this build follows.

@@ -10,7 +10,7 @@
 
 - **Respond in the user's language.** Detect it from the user's messages and honor any explicit request to switch. Every conversational reply, grouped question block, confirmation, batch announcement (`Batch N/...`), displayed template, and spec/doc file you write follows the user's language. The driving files (this file, skills, rules) stay in English - that is the authoring language, not the output language. The English prompts, question wording, and on-screen templates quoted inside the skills are authoring templates too: render them in the user's language when shown, never paste the English verbatim.
 - Dense, direct answers. Lists over prose. Short confirmations.
-- **Closed/enumerable choices are asked with the `AskUserQuestion` tool** (clickable options, the recommended option first / marked `(recommended)`) — never make the user type an answer that can be enumerated (DB, Yes/No, orientation, palette, start menu…). Free-form text is reserved for non-enumerable input only (free description, file paths, custom hex). Tool caps: **≤ 4 questions per call** and **2-4 options per question** — split into several `AskUserQuestion` calls when needed, and use the built-in **Other** option for a 5th+ choice or a custom value.
+- **Closed/enumerable choices are asked with the `AskUserQuestion` tool** (clickable options, the recommended option first / marked `(recommended)`) — never make the user type an answer that can be enumerated (DB, Yes/No, orientation, palette, start menu…). Free-form text is reserved for non-enumerable input only (free description, file paths, custom hex). Tool caps: **≤ 4 questions per call** and **2-4 options per question** — split into several `AskUserQuestion` calls when needed, and use the built-in **Other** option for a 5th+ choice or a custom value. **Never call `AskUserQuestion` for a free-form / non-enumerable prompt** (objective, folder name/location, file path, custom hex): the tool requires ≥ 2 options and errors otherwise — ask those as plain text.
 - Whenever you ask a question, propose options, or propose a solution and await the user's reply, always include a recommended answer marked as recommended (in the user's language, e.g. `(recommended)`), chosen as the most pertinent for the context.
 - No unsolicited recap. No emojis. No filler.
 - Append at the end of every reply (except after `/electron-save-session`, `/electron-show-state`, `/electron-show-contract`):
@@ -32,6 +32,34 @@
 ## ROLE PER SKILL
 
 Each skill opens with an explicit **Role / Goal / Deliverable** header that scopes Claude into a focused persona (scoper, requirements analyst, UI designer, software architect, senior Electron/React developer, debugger, QA). Adopt that persona for the duration of the skill. The personas are cumulative with - never override - the rules in this file. This header is internal scoping only: never display it (the skill title, Role, Goal, or Deliverable lines) to the user — go straight to the user-facing content.
+
+---
+
+## PIPELINE — USER-FACING PHASE BANNER
+
+The generation pipeline has 5 phases. Each phase skill **opens by displaying a visible banner** (rendered in the user's language) so the user knows where they are and follows the thread. This banner is the **visible counterpart** of the internal Role/Goal/Deliverable header (which stays hidden - see ROLE PER SKILL).
+
+Phases - user-facing name + one-line intent:
+1. **Scoping** - destination folder, project parameters, palette.
+2. **Features** - elicit, prioritize (MoSCoW), bound the v1.0 scope.
+3. **Design** - map the validated features onto the layout.
+4. **Architecture** - lock the file/structure contract.
+5. **Development** - deliver the app in batches.
+
+Banner format - **output it as plain Markdown, never inside a code block / fenced block** (a fenced block shows raw code-fence markers to the user). Three blocks, each on its own line, in the user's language:
+- an H2 heading: `## Phase N/5 — [Name]`
+- the progress map: completed phases followed by `✓`, the current phase preceded by `▶`, upcoming phases plain, joined with ` · `
+- the one-line intent, in *italics*
+
+Example for Phase 2 (renders as a heading + two lines, not a fenced block):
+
+> ## Phase 2/5 — Features
+> Scoping ✓ · ▶ Features · Design · Architecture · Development
+> *Elicit, prioritize (MoSCoW), and bound the v1.0 scope.*
+
+- Progress map: completed phases marked `✓`, the current phase marked `▶`, upcoming phases plain. These are **intentional progress markers** (not decorative - the no-emoji rule does not strip them).
+- Render every phase label and intent in the user's language.
+- **Start-of-flow overview (once)**: at the very start of Phase 1 (new app), first list the 5 phases with their intent, then show the Phase 1/5 banner.
 
 ---
 

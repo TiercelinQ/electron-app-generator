@@ -19,6 +19,8 @@ Define the concrete layout (tabs, optional drawer, recurring components) within 
 
 ## 1. Proposal
 
+**Phase banner (show first)** — before anything else, output the phase banner as plain Markdown in the user's language, **never inside a code block or fenced block**. Three blocks, each on its own line: (1) H2 heading: Phase 3/5 — Design; (2) progress line: Scoping ✓ · Features ✓ · ▶ Design · Architecture · Development; (3) intent in italics: Map the validated features onto the layout. See `## PIPELINE` in `CLAUDE.md`.
+
 **Read `design-system.md` and `layout.md` first** (no longer auto-imported).
 
 Based on the project description (`docs/specs/02-featuring.md`), propose a layout among the structures defined in `layout.md`:

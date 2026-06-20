@@ -19,6 +19,8 @@ Produce a prioritized feature list, set the v1.0 perimeter, confirm the calibrat
 
 ## Instructions — Phase 2: Requirements analysis
 
+**Phase banner (show first)** — before anything else, output the phase banner as plain Markdown in the user's language, **never inside a code block or fenced block**. Three blocks, each on its own line: (1) H2 heading: Phase 2/5 — Features; (2) progress line: Scoping ✓ · ▶ Features · Design · Architecture · Development; (3) intent in italics: Elicit, prioritize (MoSCoW), and bound the v1.0 scope. See `## PIPELINE` in `CLAUDE.md`.
+
 Read `docs/specs/01-scoping.md` first (objective + locked parameters). Work in the user's language. Each closed/enumerable choice uses `AskUserQuestion`; open input (feature ideas, custom name) stays free-form text.
 
 ### Step 1 — Application name

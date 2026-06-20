@@ -17,6 +17,8 @@ Produce a complete, unambiguous architectural contract that freezes the file tre
 
 ---
 
+**Phase banner (show first)** — before anything else, output the phase banner as plain Markdown in the user's language, **never inside a code block or fenced block**. Three blocks, each on its own line: (1) H2 heading: Phase 4/5 — Architecture; (2) progress line: Scoping ✓ · Features ✓ · Design ✓ · ▶ Architecture · Development; (3) intent in italics: Lock the file/structure contract. See `## PIPELINE` in `CLAUDE.md`.
+
 At start: read `design-system.md`, `layout.md` (no longer auto-imported), `rules/mvc.md` (tree, batches, MVC conventions) and `rules/css.md` (tokens → CSS). Read `docs/specs/01-scoping.md` through `03-designing.md` for the validated decisions.
 
 Present (in the user's language):

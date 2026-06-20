@@ -19,9 +19,11 @@ Lock the project parameters (DB, preferences, i18n, icon, calibration, palette) 
 
 ## 1. Questions
 
+**Phase banner (show first)** — on a new app, first list the 5 phases once (overview in `## PIPELINE` of `CLAUDE.md`). Then output the phase banner as plain Markdown in the user's language, **never inside a code block or fenced block**. Three blocks, each on its own line: (1) H2 heading: Phase 1/5 — Scoping; (2) progress line: ▶ Scoping · Features · Design · Architecture · Development; (3) intent in italics: Destination folder, project parameters, palette.
+
 Start with the objective, then establish the project root (folder name → location → creation), then ask the closed parameters with the `AskUserQuestion` tool (clickable options, the recommended one first). Cap = **4 questions per call** → **two calls**.
 
-1. **Objective** — free-form text: "Application objective? (free description)".
+1. **Objective** — plain text, **not** `AskUserQuestion` (free-form, non-enumerable): "Application objective? (free description)".
 
 ### Project root (folder name → location → creation)
 
