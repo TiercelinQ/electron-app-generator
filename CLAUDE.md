@@ -106,7 +106,7 @@ All commands below are Claude Code skills invocable with `/`:
 | ----------------------- | ------------------------------ | -------------------------------------------- |
 | `/electron-app`         | `skills/electron-app/`         | Start / resume / maintenance menu            |
 | `/electron-p1-scoping`       | `skills/electron-p1-scoping/`       | Scoping - 6 questions + color palette        |
-| `/electron-p2-featuring`       | `skills/electron-p2-featuring/`       | Structured requirements sheet                |
+| `/electron-p2-featuring`       | `skills/electron-p2-featuring/`       | App name + features (MoSCoW) + v1.0 scope + locked sizing |
 | `/electron-p3-designing`        | `skills/electron-p3-designing/`        | Layout proposal                              |
 | `/electron-p4-architect`       | `skills/electron-p4-architect/`       | Locked architectural contract                |
 | `/electron-p5-development` | `skills/electron-p5-development/` | Batch delivery                               |
@@ -134,7 +134,7 @@ All commands below are Claude Code skills invocable with `/`:
 
 ---
 
-## CALIBRATION (FROZEN AFTER PHASE 1)
+## CALIBRATION (FROZEN AFTER PHASE 2)
 
 Canonical source of the calibration. Skills refer to it - do not duplicate this table elsewhere.
 

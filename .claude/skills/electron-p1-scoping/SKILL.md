@@ -42,11 +42,11 @@ After the answers, propose the **palette** with `AskUserQuestion` (single questi
 - **Contrast check (WCAG AA, non-blocking)**: compute text/bg, text-subtle/bg, accent/bg, text-on-primary/accent; if a ratio fails AA, report it (`color — ratio — target`) and ask the user to confirm or adjust before continuing.
 - The global `design-system.md` stays unchanged.
 
-## 3. Calibration — announced at the end of Phase 1
+## 3. Provisional calibration — announced at the end of Phase 1
 
 Apply the CALIBRATION table in `CLAUDE.md` (canonical source): Small (< 10 files and ≤ 5 features) → 3 batches; Medium/Large (≥ 10 or > 5) → 4 batches; divergent criteria → the highest wins. **+1 batch if tests are enabled (Q6)** — Small 4 / Medium-Large 5.
 
-The number of batches is frozen after validation. No further modification possible.
+Announce it as **provisional**: the real feature count is not known yet (features are elicited in Phase 2). The calibration is **confirmed and locked at the end of Phase 2**, on the v1.0 feature count.
 
 ## 4. Libraries
 
@@ -54,6 +54,6 @@ Any library outside the stack (charts, zod, electron-log…) is proposed and val
 
 ## 5. Write the spec
 
-Write `docs/specs/01-scoping.md` (in the user's language) capturing: objective, DB choice, persistent preferences, i18n, icon, tests (Q6), the **palette** (name or custom; the 5 light roles + the derived dark theme + accent stops + text-on-primary; semantic kept fixed) and the contrast-check result, validated libraries, and the frozen calibration (size + number of batches). If `docs/specs/` does not exist yet, create it (it will live in the generated project root).
+Write `docs/specs/01-scoping.md` (in the user's language) capturing: objective, DB choice, persistent preferences, i18n, icon, tests (Q6), the **palette** (name or custom; the 5 light roles + the derived dark theme + accent stops + text-on-primary; semantic kept fixed) and the contrast-check result, validated libraries, and the provisional calibration (size + number of batches — confirmed in Phase 2). If `docs/specs/` does not exist yet, create it (it will live in the generated project root).
 
 → Chain to `/electron-p2-featuring` after validation.
