@@ -93,7 +93,7 @@ node --version        # Node.js 22 LTS+ (pour exécuter les apps générées)
 
 ### Phase 1 — Scoping
 
-6 questions en un seul bloc : objectif · base de données (SQLite better-sqlite3 / JSON / CSV / aucune) · préférences persistantes · i18n FR/EN · icône `.ico` · tests (Vitest + Testing Library). Puis choix de la **palette** : 5 rôles (fond principal, fond secondaire, accent, texte, détails) pour le thème clair, le sombre et les tokens secondaires étant dérivés. Palette « Steel » par défaut + 4 palettes nommées + palette personnalisée ; contrôle de contraste WCAG AA (averti). Sémantiques figées. Calibrage annoncé.
+6 questions en un seul bloc : objectif · base de données (SQLite better-sqlite3 / JSON / CSV / aucune) · préférences persistantes · i18n FR/EN · icône `.ico` · tests (Vitest + Testing Library). Puis choix de la **palette** : 5 rôles (fond principal, fond secondaire, accent, texte, détails) pour le thème clair, le sombre et les tokens secondaires étant dérivés. Palette « Teal » par défaut + 5 palettes nommées (Steel Blue, Forest, Slate, Amber, Ruby) + palette personnalisée ; contrôle de contraste WCAG AA (averti). Sémantiques figées. Calibrage annoncé.
 
 | Taille        | Lots (sans tests) | Lots (avec tests) |
 | ------------- | ----------------- | ----------------- |

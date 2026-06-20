@@ -1,4 +1,4 @@
-# Design System — v1.3 (Electron)
+# Design System — v1.5 (Electron)
 
 > Binding reference for all Node.js/Electron/React applications.
 > Use: Windows desktop applications, personal and professional use.
@@ -9,12 +9,14 @@
 
 | Version | Date       | Main change                                                                                       |
 | ------- | ---------- | ------------------------------------------------------------------------------------------------- |
+| v1.5    | 2026-06-20 | default accent → **Teal** `#0D9488` (chromatic in both themes, derived like the named palettes) · dark **surfaces** stay neutral grey · grey-accent dark special-case removed · `--text-on-primary` back to a single white value for the default · Steel Blue kept as a named palette |
+| v1.4    | 2026-06-20 | decouple Danger button text from the accent: new fixed `--text-on-danger` (white, both themes) · `--text-on-primary` is Primary-only and resolves to near-black `#1C1C1C` in dark · fixes the near-black-on-red contrast fail on the dark danger fill |
 | v1.3    | 2026-06-19 | full **palette** model (5 roles/theme: main background, secondary background, accent, text, details) replaces the primary-only choice · light theme chosen, dark + supporting tokens derived · named palette catalog + custom palette · semantic/icons/charts kept fixed · WCAG AA check (warn) |
 | v1.2    | 2026-06-14 | dark theme re-skin (theme-dark.md palette): 4-step dark surface ramp · dark neutrals/borders/semantic/icons/selection · Steel Blue primary (both modes) |
 | v1.1    | 2026-06-14 | line-height · dark semantic backgrounds · primary/danger hover-pressed stops · `color-scheme` · WCAG AA target · layering scale · dark surface ramp fix · icon warning/info · selection/opacity/border-width tokens |
 | v1.0    | initial    | CSS custom properties port: typography, colors, spacing, components, states                        |
 
-> Aligns with the Python generator `design-system.md v1.4` (shared palette model). Per-file versions: CSS rules in `rules/css.md`, layout in `layout.md`.
+> Aligns with the Python generator `design-system.md v1.5` (shared palette model). Per-file versions: CSS rules in `rules/css.md`, layout in `layout.md`.
 
 Every generated application references the active version in its `README.md`.
 
@@ -54,7 +56,7 @@ Every generated application references the active version in its `README.md`.
 
 ## 2. COLORS
 
-A project's colors come from a **palette**: 5 roles chosen per project, **light theme only** — the dark theme and every supporting token are **derived**. The default palette is the set of values in the tables below (neutrals + Steel Blue), so a project that keeps the default renders exactly as before.
+A project's colors come from a **palette**: 5 roles chosen per project, **light theme only** — the dark theme and every supporting token are **derived**. The default palette is the set of values in the tables below (neutral surfaces + the Teal accent).
 
 ### Palette roles → tokens
 
@@ -82,7 +84,7 @@ The **semantic colors** (success/warning/danger/info), the **icon tokens**, and 
 | `--bg-muted`  | ≈22 % (lightest) | `--border` / `--border-subtle` / `--border-strong` | ≈26 % / ≈20 % / ≈33 % |
 | accent        | `--primary-400` (L≈60-70 %) | semantic / icons / charts | fixed |
 
-> Harmony: for named presets and custom palettes, dark surfaces carry a low saturation (≈8-12 %) of the accent hue for depth. The **default palette** ships an explicit **neutral grey** dark theme (achromatic surfaces and accent — the tables below), and its explicit values win over the rule. The dark surface ramp stays ascending in every case. Named presets and custom palettes derive the dark theme by the rule.
+> Harmony: for named presets and custom palettes, dark surfaces carry a low saturation (≈8-12 %) of the accent hue for depth. The **default palette** ships neutral grey dark **surfaces** (achromatic — the tables below) with a chromatic Teal accent, and its explicit surface values win over the rule. The dark surface ramp stays ascending in every case. Named presets and custom palettes derive the dark theme by the rule.
 
 ### Named palettes (Phase 1 catalog)
 
@@ -90,7 +92,8 @@ The **semantic colors** (success/warning/danger/info), the **icon tokens**, and 
 
 | Name             | Main background | Secondary background | Accent  | Text   | Details |
 | ---------------- | -------------- | --------------- | ------- | ------- | ------- |
-| Steel (default)  | #FFFFFF        | #F9FAFB         | #4682B4 | #111827 | #E5E7EB |
+| Teal (default)   | #FFFFFF        | #F9FAFB         | #0D9488 | #111827 | #E5E7EB |
+| Steel Blue        | #FFFFFF        | #F9FAFB         | #4682B4 | #111827 | #E5E7EB |
 | Forest            | #FFFFFF        | #F6F8F6         | #059669 | #14201A | #DCE5DF |
 | Slate          | #FFFFFF        | #F8FAFC         | #4F46E5 | #1E293B | #E2E8F0 |
 | Amber            | #FFFDFB        | #FBF6EF         | #B45309 | #1C1917 | #ECE3D8 |
@@ -137,29 +140,29 @@ Declare `color-scheme` per theme so native controls (scrollbars, `<select>`, `<p
 [data-theme="dark"]  { color-scheme: dark; }
 ```
 
-### Accent — Steel Blue (default palette)
+### Accent — Teal (default palette)
 
-| Token           | Light   | Dark    | Usage                               |
-| --------------- | ------- | ------- | ----------------------------------- |
-| `--primary-50`  | #EDF3F8 | —       | Selection / active bg (light)       |
-| `--primary-400` | —       | #B3B3B3 | Active text/border (dark)           |
-| `--primary-600` | #4682B4 | #9E9E9E | Primary button fill; active text/border (light) |
-| `--primary-700` | #396A93 | #808080 | Primary button hover                |
-| `--primary-800` | #2F5879 | #6B6B6B | Primary button pressed              |
-| `--primary-900` | —       | #404040 | Selection / active bg (dark)        |
+A single chromatic ramp, used in **both** themes (like every named palette): the dark theme reuses these stops, only the usage tokens flip. No grey special-case.
 
-> `--text-on-primary` (primary-button text): #FFFFFF in light (on Steel Blue), #1C1C1C in dark (white fails AA on the #9E9E9E grey accent, 2.7:1; near-black = 6.4:1).
+| Token           | Value   | Usage                                                         |
+| --------------- | ------- | ------------------------------------------------------------- |
+| `--primary-50`  | #F0FDFA | Selection / active bg (light)                                 |
+| `--primary-400` | #2DD4BF | Active text/border (dark) — bright, reads ~9:1 on `#1C1C1C`   |
+| `--primary-600` | #0D9488 | Primary button fill (both themes); active text/border (light) |
+| `--primary-700` | #0F766E | Primary button hover                                          |
+| `--primary-800` | #115E59 | Primary button pressed                                        |
+| `--primary-900` | #134E4A | Selection / active bg (dark)                                  |
+
+> `--text-on-primary` (primary-button text): `#FFFFFF` in **both** themes — white on the teal `#0D9488` fill is 3.9:1 (AA for UI / large text). The dark foreground accent is the brighter `--primary-400 #2DD4BF`, not the button fill.
 >
-> Modification: replacing `--primary-50/400/600/700/800/900` in `tokens.css` is enough to change the **accent** across the whole application. For a custom color the 6 stops derive from `--primary-600` by the same HSL rule used by the Python generator (same H/S, lightness 95/70/—/50/42/25%), one hue across both themes. Default-palette specifics: Steel Blue (light) is a preset whose explicit values win over the rule (its `--primary-600` sits near L 49%, so `--primary-700/800` are darkened past the generic stops); the dark accent is a **neutral grey** (achromatic `#9E9E9E`), so the dark stops are pure greys and `--primary-600/700/800` are redefined per theme rather than mode-agnostic.
+> Modification: replacing `--primary-50/400/600/700/800/900` in `tokens.css` is enough to change the **accent** across the whole application. For a custom color the 6 stops derive from `--primary-600` by the same HSL rule used by the Python generator (same H/S, lightness 95/70/—/50/42/25%), one hue across both themes. Teal (default) is a preset whose explicit values win over the rule (its `--primary-600 #0D9488` sits near L 32%). The dark **surfaces** stay neutral grey; only the accent is chromatic.
 
-Implementation: derived usage tokens, redefined per theme (or fixed) — these are the ones `styles.css` consumes. The default palette's dark theme also redefines the accent stops `--primary-600/700/800` to greys (not just the usage tokens) and `--text-on-primary` to near-black.
+Implementation: the accent stops are mode-agnostic (one value each, written to `:root`); only the usage tokens (`--primary`, `--primary-bg`) flip per theme — these are the ones `styles.css` consumes.
 
 ```css
 :root                { --primary: var(--primary-600); --primary-bg: var(--primary-50);
                        --primary-hover: var(--primary-700); --primary-pressed: var(--primary-800); }
-[data-theme="dark"]  { --primary: var(--primary-400); --primary-bg: var(--primary-900);
-                       --primary-600: #9E9E9E; --primary-700: #808080; --primary-800: #6B6B6B;
-                       --text-on-primary: #1C1C1C; }
+[data-theme="dark"]  { --primary: var(--primary-400); --primary-bg: var(--primary-900); }
 ```
 
 ### Semantic colors (fixed — outside the palette)
@@ -197,13 +200,14 @@ Implementation: derived usage tokens, redefined per theme (or fixed) — these a
 | -------------------- | -------------------- | --------------------- | ------------------------------ |
 | `--selection-bg`     | `var(--primary-bg)`  | `var(--primary-bg)`   | Selected text background       |
 | `--selection-text`   | `var(--text)`        | `var(--text)`         | Selected text color            |
-| `--text-on-primary`  | #FFFFFF              | #FFFFFF               | Text on Primary / Danger buttons |
+| `--text-on-primary`  | #FFFFFF              | #FFFFFF               | Text on Primary button         |
+| `--text-on-danger`   | #FFFFFF              | #FFFFFF               | Text on Danger button (fixed)  |
 
 ```css
 ::selection { background: var(--selection-bg); color: var(--selection-text); }
 ```
 
-> `--text-on-primary` replaces the literal `#FFFFFF` in button rules, keeping `styles.css` free of literal values (`rules/css.md` rule 2).
+> `--text-on-primary` (Primary button) and `--text-on-danger` (Danger button) replace the literal `#FFFFFF` in button rules, keeping `styles.css` free of literal values (`rules/css.md` rule 2). Both are white in both themes for the default Teal accent (white on `#0D9488` 3.9:1; on the danger fills `#DC2626` 4.9:1 / `#C04A4A` 5.8:1). They stay separate tokens so a custom accent dark enough to need near-black `--text-on-primary` does not drag the Danger button along.
 
 ---
 
@@ -324,7 +328,7 @@ Applies to **transparent-background interactive elements**: tabs, list/table/tre
 | ---------- | ---------------- | -------------- | --------------------- | ------------------- |
 | Primary    | `.btn-primary`   | `--primary-600`| `--text-on-primary`   | none                |
 | Secondary  | `.btn-secondary` | transparent    | `--text`              | 1px `--border`      |
-| Danger     | `.btn-danger`    | `--danger-600` | `--text-on-primary`   | none                |
+| Danger     | `.btn-danger`    | `--danger-600` | `--text-on-danger`    | none                |
 | Ghost      | `.btn-ghost`     | transparent    | `--text-subtle`       | none                |
 
 **States per variant** (transition `--transition-default`):
@@ -338,7 +342,7 @@ Applies to **transparent-background interactive elements**: tabs, list/table/tre
 
 > Colored buttons darken on hover/pressed via their own stops, never the neutral `--bg-muted` rule of §8. `:focus-visible` shows the `--focus-ring` on every variant.
 
-> Primary button fill uses `--primary-600`, **not** the `--primary` usage token. In light it is Steel Blue #4682B4 with white text (4.11:1, AA for UI / large text). In dark (default palette) it is the neutral grey #9E9E9E with **near-black** `--text-on-primary` #1C1C1C (6.4:1) — white would fail on this grey (2.7:1). The `--primary` usage token (`--primary-400` #B3B3B3 in dark) is reserved for foreground accents (active text/border, icons, focus) that must read on dark surfaces.
+> Primary button fill uses `--primary-600`, **not** the `--primary` usage token. It is the teal `#0D9488` in **both** themes, with white `--text-on-primary` (3.9:1, AA for UI / large text). The `--primary` usage token (`--primary-400` #2DD4BF in dark) is reserved for foreground accents (active text/border, icons, focus) that must read on dark surfaces — brighter than the button fill.
 
 **Dynamic sizing** — the size results from content + padding:
 
@@ -362,7 +366,7 @@ Single import in the renderer: `import "@fortawesome/fontawesome-free/css/all.mi
 | Token            | Light (`:root`)        | Dark (`[data-theme="dark"]`) |
 | ---------------- | ---------------------- | ------------------------------ |
 | `--icon-default` | #6B7280 (text-subtle)  | #939393                        |
-| `--icon-active`  | #4682B4 (primary-600)  | #B3B3B3                        |
+| `--icon-active`  | #0D9488 (primary-600)  | #2DD4BF                        |
 | `--icon-success` | #16A34A (success-600)  | #4A9E6A                        |
 | `--icon-warning` | #D97706 (warning-600)  | #CCA840                        |
 | `--icon-danger`  | #DC2626 (danger-600)   | #C04A4A                        |
