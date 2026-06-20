@@ -82,7 +82,7 @@ The **semantic colors** (success/warning/danger/info), the **icon tokens**, and 
 | `--bg-muted`  | ≈22 % (lightest) | `--border` / `--border-subtle` / `--border-strong` | ≈26 % / ≈20 % / ≈33 % |
 | accent        | `--primary-400` (L≈60-70 %) | semantic / icons / charts | fixed |
 
-> Harmony: dark surfaces carry a low saturation (≈8-12 %) of the accent hue for depth, not a flat grey. The dark surface ramp stays ascending. The **default palette** ships explicit values for both themes (the tables below); like Steel Blue today, its explicit values win over the rule and guarantee the current rendering. Named presets and custom palettes derive the dark theme by the rule.
+> Harmony: for named presets and custom palettes, dark surfaces carry a low saturation (≈8-12 %) of the accent hue for depth. The **default palette** ships an explicit **neutral grey** dark theme (achromatic surfaces and accent — the tables below), and its explicit values win over the rule. The dark surface ramp stays ascending in every case. Named presets and custom palettes derive the dark theme by the rule.
 
 ### Named palettes (Phase 1 catalog)
 
@@ -115,18 +115,18 @@ The **semantic colors** (success/warning/danger/info), the **icon tokens**, and 
 
 | Token             | Value   | Usage                  |
 | ----------------- | ------- | ---------------------- |
-| `--bg`            | #1A1A1F | Main background, topbar |
-| `--bg-subtle`     | #22222A | Secondary areas        |
-| `--bg-elevated`   | #2A2A35 | Drawer, modals         |
-| `--bg-muted`      | #313140 | Statusbar, hover       |
-| `--text`          | #D4D4D4 | Primary text           |
-| `--text-subtle`   | #9A9AB0 | Secondary text         |
-| `--text-muted`    | #5A5A72 | Disabled text          |
-| `--border`        | #3A3A4A | Standard borders       |
-| `--border-subtle` | #2E2E3A | Discreet separators    |
-| `--border-strong` | #4A4A5E | Table headers          |
+| `--bg`            | #1C1C1C | Main background, topbar |
+| `--bg-subtle`     | #2B2B2B | Secondary areas        |
+| `--bg-elevated`   | #353535 | Drawer, modals         |
+| `--bg-muted`      | #3F3F3F | Statusbar, hover       |
+| `--text`          | #F5F5F5 | Primary text           |
+| `--text-subtle`   | #939393 | Secondary text         |
+| `--text-muted`    | #6E6E6E | Disabled text          |
+| `--border`        | #525252 | Standard borders       |
+| `--border-subtle` | #373737 | Discreet separators    |
+| `--border-strong` | #666666 | Table headers          |
 
-> Dark surface ramp: `--bg` #1A1A1F < `--bg-subtle` #22222A < `--bg-elevated` #2A2A35 < `--bg-muted` #313140. `--bg-muted` is the lightest so that hover stays visible on every surface, including inside drawers and modals.
+> Dark surface ramp: `--bg` #1C1C1C < `--bg-subtle` #2B2B2B < `--bg-elevated` #353535 < `--bg-muted` #3F3F3F. `--bg-muted` is the lightest so that hover stays visible on every surface, including inside drawers and modals.
 
 ### Native color scheme
 
@@ -142,20 +142,24 @@ Declare `color-scheme` per theme so native controls (scrollbars, `<select>`, `<p
 | Token           | Light   | Dark    | Usage                               |
 | --------------- | ------- | ------- | ----------------------------------- |
 | `--primary-50`  | #EDF3F8 | —       | Selection / active bg (light)       |
-| `--primary-400` | —       | #5A9FD4 | Active text/border (dark)           |
-| `--primary-600` | #4682B4 | #4682B4 | Primary button fill (both modes); active text/border (light) |
-| `--primary-700` | #396A93 | #396A93 | Primary button hover (both modes)   |
-| `--primary-800` | #2F5879 | #2F5879 | Primary button pressed (both modes) |
-| `--primary-900` | —       | #2A4F72 | Selection / active bg (dark)        |
+| `--primary-400` | —       | #B3B3B3 | Active text/border (dark)           |
+| `--primary-600` | #4682B4 | #9E9E9E | Primary button fill; active text/border (light) |
+| `--primary-700` | #396A93 | #808080 | Primary button hover                |
+| `--primary-800` | #2F5879 | #6B6B6B | Primary button pressed              |
+| `--primary-900` | —       | #404040 | Selection / active bg (dark)        |
 
-> Modification: replacing `--primary-50/400/600/700/800/900` in `tokens.css` is enough to change the **accent** across the whole application. `--primary-700`/`--primary-800` are mode-agnostic (one value each). For a custom color the 6 stops derive from `--primary-600` by the same HSL rule used by the Python generator (same H/S, lightness 95/70/—/50/42/25%); Steel Blue is a preset whose explicit values win over that rule (its `--primary-600` already sits near L 49%, so `--primary-700/800` are darkened past the generic stops to keep the hover/pressed darken visible).
+> `--text-on-primary` (primary-button text): #FFFFFF in light (on Steel Blue), #1C1C1C in dark (white fails AA on the #9E9E9E grey accent, 2.7:1; near-black = 6.4:1).
+>
+> Modification: replacing `--primary-50/400/600/700/800/900` in `tokens.css` is enough to change the **accent** across the whole application. For a custom color the 6 stops derive from `--primary-600` by the same HSL rule used by the Python generator (same H/S, lightness 95/70/—/50/42/25%), one hue across both themes. Default-palette specifics: Steel Blue (light) is a preset whose explicit values win over the rule (its `--primary-600` sits near L 49%, so `--primary-700/800` are darkened past the generic stops); the dark accent is a **neutral grey** (achromatic `#9E9E9E`), so the dark stops are pure greys and `--primary-600/700/800` are redefined per theme rather than mode-agnostic.
 
-Implementation: derived usage tokens, redefined per theme (or fixed) — these are the ones `styles.css` consumes.
+Implementation: derived usage tokens, redefined per theme (or fixed) — these are the ones `styles.css` consumes. The default palette's dark theme also redefines the accent stops `--primary-600/700/800` to greys (not just the usage tokens) and `--text-on-primary` to near-black.
 
 ```css
 :root                { --primary: var(--primary-600); --primary-bg: var(--primary-50);
                        --primary-hover: var(--primary-700); --primary-pressed: var(--primary-800); }
-[data-theme="dark"]  { --primary: var(--primary-400); --primary-bg: var(--primary-900); }
+[data-theme="dark"]  { --primary: var(--primary-400); --primary-bg: var(--primary-900);
+                       --primary-600: #9E9E9E; --primary-700: #808080; --primary-800: #6B6B6B;
+                       --text-on-primary: #1C1C1C; }
 ```
 
 ### Semantic colors (fixed — outside the palette)
@@ -334,7 +338,7 @@ Applies to **transparent-background interactive elements**: tabs, list/table/tre
 
 > Colored buttons darken on hover/pressed via their own stops, never the neutral `--bg-muted` rule of §8. `:focus-visible` shows the `--focus-ring` on every variant.
 
-> Primary button fill uses `--primary-600` (#4682B4 in both modes), **not** the `--primary` usage token — so the button stays mid-steel in dark mode and white text reaches 4.11:1 (AA for UI / large text). The brighter `--primary` (`--primary-400` #5A9FD4 in dark) is reserved for foreground accents (active text/border, icons, focus) that must read on dark surfaces; using it as a button fill would drop white text to 2.86:1.
+> Primary button fill uses `--primary-600`, **not** the `--primary` usage token. In light it is Steel Blue #4682B4 with white text (4.11:1, AA for UI / large text). In dark (default palette) it is the neutral grey #9E9E9E with **near-black** `--text-on-primary` #1C1C1C (6.4:1) — white would fail on this grey (2.7:1). The `--primary` usage token (`--primary-400` #B3B3B3 in dark) is reserved for foreground accents (active text/border, icons, focus) that must read on dark surfaces.
 
 **Dynamic sizing** — the size results from content + padding:
 
@@ -357,13 +361,13 @@ Single import in the renderer: `import "@fortawesome/fontawesome-free/css/all.mi
 
 | Token            | Light (`:root`)        | Dark (`[data-theme="dark"]`) |
 | ---------------- | ---------------------- | ------------------------------ |
-| `--icon-default` | #6B7280 (text-subtle)  | #9A9AB0                        |
-| `--icon-active`  | #4682B4 (primary-600)  | #5A9FD4                        |
+| `--icon-default` | #6B7280 (text-subtle)  | #939393                        |
+| `--icon-active`  | #4682B4 (primary-600)  | #B3B3B3                        |
 | `--icon-success` | #16A34A (success-600)  | #4A9E6A                        |
 | `--icon-warning` | #D97706 (warning-600)  | #CCA840                        |
 | `--icon-danger`  | #DC2626 (danger-600)   | #C04A4A                        |
 | `--icon-info`    | #2563EB (info-600)     | #4682B4                        |
-| `--icon-muted`   | #9CA3AF (text-muted)   | #5A5A72                        |
+| `--icon-muted`   | #9CA3AF (text-muted)   | #6E6E6E                        |
 
 **Sizes**: `font-size` via tokens `--icon-sm` (16px), `--icon-md` (20px), `--icon-lg` (24px).
 
