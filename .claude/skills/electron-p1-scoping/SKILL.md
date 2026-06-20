@@ -19,11 +19,20 @@ Lock the project parameters (DB, preferences, i18n, icon, calibration, palette) 
 
 ## 1. Questions
 
-> If invoked directly (not routed from `/electron-app`) without a destination folder set for this flow, first ask: `Where to create the application? (destination folder path)`.
-
-Ask Q1 (objective) as free-form text, then the closed parameters with the `AskUserQuestion` tool (clickable options, the recommended one first). Cap = **4 questions per call** → **two calls**.
+Start with the objective, then establish the project root (folder name → location → creation), then ask the closed parameters with the `AskUserQuestion` tool (clickable options, the recommended one first). Cap = **4 questions per call** → **two calls**.
 
 1. **Objective** — free-form text: "Application objective? (free description)".
+
+### Project root (folder name → location → creation)
+
+> Skip this block if a project root is already established for this flow.
+
+- **Folder name** — propose 2-4 candidate names derived from the objective, **in kebab-case** (e.g. `expense-tracker`), the recommended one first, with `AskUserQuestion` (the **Other** option carries a custom name as free-form text). The user selects a candidate or types their own. This is the **project directory name**, distinct from the application name chosen in Phase 2.
+- **Location** — free-form text: `Parent folder where to create the project? (path, e.g. C:\projects)`.
+- **Create the folder** — project root = `[parent]\[folder-name]`. Create it, then confirm: `Project root: [path]`. If it already exists and is not empty, warn and ask the user to confirm reuse or pick another name. Store this path as the project root — all generated files and specs (`docs/specs/`) are written there.
+
+### Closed parameters
+
 2. **`AskUserQuestion` — call 1** (4 questions, each with a recommended option):
    - **Database**: `SQLite` (recommended, better-sqlite3) · `JSON` · `CSV` · `none`.
    - **Persistent preferences** (theme, window…): `Yes` (recommended) · `No`.

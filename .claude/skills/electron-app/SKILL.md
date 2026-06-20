@@ -25,9 +25,7 @@ Present the start menu with the `AskUserQuestion` tool (single question, 4 click
 
 Map the chosen option to the routing below; a pasted SESSION block still triggers the resume protocol directly. The folder/SESSION-path prompts stay free-form text.
 
-**1 — New application**: ask for the destination folder, then start `/electron-p1-scoping`:
-Where to create the application? (destination folder path, e.g. C:\projects\MyApp)
-Store this path as the project root — all generated files and specs (`docs/specs/`) are written there.
+**1 — New application**: start `/electron-p1-scoping`, which handles the project folder name, location, and creation (the project root is established there).
 
 **2 — Resume**: ask for the SESSION file path (`docs/sessions/SESSION_AppName_SN.md`), read it fully. The project root is the folder containing `docs/` (two levels up from the SESSION file); confirm it. Then apply the resume protocol:
 
