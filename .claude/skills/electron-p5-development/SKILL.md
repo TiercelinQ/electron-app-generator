@@ -113,7 +113,7 @@ Add a final dedicated batch: announce `Batch [final]/[total] — test/ + dev dep
 
 ## Final delivery summary
 
-Once the last batch (plus the seed/test batches if any) is delivered, close Phase 5 with a **delivery summary** in the user's language. **Make every file and the project folder a clickable Markdown link** `[label](path)`, each path pointing to the real on-disk location under the project root (relative to the project root, or absolute if the project root lies outside the current workspace). List:
+Once the last batch (plus the seed/test batches if any) is delivered, close Phase 5 with a **delivery summary** in the user's language. **Make every file and the project folder a clickable Markdown link** `[label](path)`, each path pointing to the real on-disk location under the project root (relative to the project root, or absolute if the project root lies outside the current workspace). **Valid link syntax (mandatory)**: a Markdown link destination cannot contain spaces unless wrapped in angle brackets. When the path contains spaces (typical of absolute Windows paths), wrap the destination in `<…>` and use forward slashes, e.g. `[README.md](<D:/Documents/00 Mes Documents/.../my-app/README.md>)`. Without spaces, a plain relative path is fine. List:
 
 - **Project folder** — the project root (clickable).
 - **README.md** — how to run, stack, tree, conventions (clickable).
