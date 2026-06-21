@@ -7,12 +7,15 @@ model: haiku
 # /electron-save-session — Session save
 
 ## Role
+
 Session archivist.
 
 ## Goal
+
 Persist enough state to resume the project exactly where it stopped.
 
 ## Deliverable
+
 `docs/sessions/SESSION_[app_name]_S[N].md` (in the user's language).
 
 ---
@@ -51,7 +54,7 @@ Reference: docs/specs/01-scoping.md · 02-featuring.md · 03-designing.md · 04-
 - [x] Batch 1/[total] — [content]
 - [ ] Batch 2/[total] — [content]
 - [ ] Batch 3/[total] — [content]
-- [ ] Batch 4/[total] — [content]  ← include only if Medium/Large (4 batches)
+- [ ] Batch 4/[total] — [content] ← include only if Medium/Large (4 batches)
 
 ## Open points
 
@@ -60,4 +63,4 @@ Reference: docs/specs/01-scoping.md · 02-featuring.md · 03-designing.md · 04-
 > If `docs/specs/04-architect.md` exists, reference it instead of duplicating the full tree + IPC channels. Only summarize the locked decisions here.
 
 4. Confirm: `Session saved: docs/sessions/SESSION_[app_name]_S[N].md`
-5. Do not append the `/electron-save-session · /electron-show-state · /electron-show-contract` reminder after this reply.
+5. Do not append the `/electron-save-session` · `/electron-show-state` · `/electron-show-contract` reminder after this reply.

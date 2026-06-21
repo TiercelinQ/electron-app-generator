@@ -7,12 +7,15 @@ model: haiku
 # /electron-save-memory — Memorization
 
 ## Role
+
 Memory keeper.
 
 ## Goal
+
 Persist a durable lesson, decision, or preference into native memory.
 
 ## Deliverable
+
 A native memory file + a one-line pointer in `MEMORY.md`.
 
 ---
@@ -32,15 +35,17 @@ D. Other — describe freely
 
 Category → native memory type:
 
-| Choice | Memory type  | Expected content                                              |
-| ------ | ------------ | ------------------------------------------------------------- |
-| A      | `feedback`   | The note + **Why:** (why it was an error) and **How to apply:** (corrective rule) lines |
-| B      | `project`    | The decision + context (convert any relative date to absolute) |
-| C      | `feedback`   | The preference + **Why:** and **How to apply:**               |
-| D      | `reference`  | Pointer / free note                                           |
+| Choice | Memory type | Expected content                                                                        |
+| ------ | ----------- | --------------------------------------------------------------------------------------- |
+| A      | `feedback`  | The note + **Why:** (why it was an error) and **How to apply:** (corrective rule) lines |
+| B      | `project`   | The decision + context (convert any relative date to absolute)                          |
+| C      | `feedback`  | The preference + **Why:** and **How to apply:**                                         |
+| D      | `reference` | Pointer / free note                                                                     |
 
 Procedure:
+
 - Write a `<kebab-slug>.md` file in the project memory folder (managed by Claude Code), with the native frontmatter:
+
   ```markdown
   ---
   name: <kebab-slug>
@@ -51,6 +56,7 @@ Procedure:
 
   <dense note; for feedback, follow with **Why:** and **How to apply:**>
   ```
+
 - Add a one-line pointer in `MEMORY.md`: `- [Title](file.md) — hook`.
 - Before writing: check that no existing entry already covers the point → update it rather than duplicate.
 
@@ -58,4 +64,4 @@ Procedure:
 
 If auto-memory is not enabled: say so (`/config → Memory`), still formulate the entry. Confirm in one line (in the user's language).
 
-Do not append the `/electron-save-session · /electron-show-state · /electron-show-contract` reminder after this reply.
+Do not append the `/electron-save-session` · `/electron-show-state` · `/electron-show-contract` reminder after this reply.

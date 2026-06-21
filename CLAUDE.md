@@ -14,7 +14,7 @@
 - Whenever you ask a question, propose options, or propose a solution and await the user's reply, always include a recommended answer marked as recommended (in the user's language, e.g. `(recommended)`), chosen as the most pertinent for the context.
 - No unsolicited recap. No emojis. No filler.
 - Append at the end of every reply (except after `/electron-save-session`, `/electron-show-state`, `/electron-show-contract`):
-  `/electron-save-session · /electron-show-state · /electron-show-contract`
+  `/electron-save-session` · `/electron-show-state` · `/electron-show-contract`
 
 ---
 

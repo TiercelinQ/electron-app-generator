@@ -7,12 +7,15 @@ model: haiku
 # /electron-show-state — Current state
 
 ## Role
+
 Status reporter.
 
 ## Goal
+
 Give a one-glance state of the project.
 
 ## Deliverable
+
 The status block (in the user's language).
 
 ---
@@ -23,4 +26,4 @@ Phase: [name] | Batch: [X/total] | Next: [expected action]
 Locked decisions: [list]
 Open points: [list or "none"]
 
-Do not append the `/electron-save-session · /electron-show-state · /electron-show-contract` reminder after this reply.
+Do not append the `/electron-save-session` · `/electron-show-state` · `/electron-show-contract` reminder after this reply.
