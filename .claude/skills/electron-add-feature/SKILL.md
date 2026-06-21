@@ -39,7 +39,7 @@ The modified/added files on disk + an updated `docs/specs/04-architect.md` if th
 
 5. **Verify**: apply `rules/verification.md` (§A executable + §B static). A failing check is blocking. Security checks are not optional.
 
-6. **Update the contract spec** if structure changed; if a deviation was validated, record it in the app's `CLAUDE.md` (`## Deviations from the framework`); offer `/electron-generate-readme` only if the README is now stale on a user-visible aspect.
+6. **Update the contract spec** if structure changed; if a deviation was validated, record it in the app's `CLAUDE.md` (`## Deviations from the framework`); apply `rules/readme.md` — if the change touched a README-documented aspect, regenerate the README in the same delivery.
 
 ## Anti-patterns — what NOT to do
 - **Do not** touch code outside the request. Minimum change; no opportunistic refactor (that is `/electron-refactor-code`, on request).

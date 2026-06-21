@@ -37,7 +37,7 @@ A validated plan, then the refactored files on disk + a passing verification + a
 
 5. **Apply** only after validation. Minimum diff. Respect the layers, the contract, and `rules/security.md`.
 
-6. **Verify**: `rules/verification.md §A` — behavior unchanged, typecheck/lint clean. If the structure changed (new shared file, moved code, renamed channel), update `docs/specs/04-architect.md` and keep the IPC chain consistent end-to-end.
+6. **Verify**: `rules/verification.md §A` — behavior unchanged, typecheck/lint clean. If the structure changed (new shared file, moved code, renamed channel), update `docs/specs/04-architect.md`, regenerate the README (`rules/readme.md`), and keep the IPC chain consistent end-to-end.
 
 ## Anti-patterns — what NOT to do
 - **Do not** refactor without a validated plan, ever.

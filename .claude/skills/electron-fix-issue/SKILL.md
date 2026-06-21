@@ -54,7 +54,7 @@ Read `design-system.md` / `layout.md` on demand if the fix touches UI (no longer
 2. Classify with the tree above; read both the failing site and the declaration it depends on.
 3. **Ask: "knowing what I know now, what is the clean fix?"** Implement that, not the quickest patch. If the clean fix is larger than expected, say so before applying.
 4. Apply the minimum correct change. Respect the layers, the contract (`docs/specs/04-architect.md`), and the security rules.
-5. **Verify**: re-run `rules/verification.md §A` for the affected area; confirm the targeted failure is gone and nothing else broke.
+5. **Verify**: re-run `rules/verification.md §A` for the affected area; confirm the targeted failure is gone and nothing else broke. Then apply `rules/readme.md` — if the fix changed a README-documented aspect (DB schema/migration, dependency, structure), regenerate the README.
 6. If it took several attempts: produce the **cleanup report** (`rules/mvc.md` — list every dead element added during failed attempts), then offer `Do you want to remember this point? /electron-save-memory`.
 
 ## Anti-patterns — what NOT to do

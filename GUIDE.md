@@ -23,7 +23,8 @@ claude-electron-framework/
     │   ├── config.md         # config.ts, versioning, postinstall ensure-electron.cjs, packaging
     │   ├── db.md             # Accès better-sqlite3, migrations versionnées
     │   ├── tests.md          # Vitest + Testing Library, couverture par couche
-    │   └── verification.md   # Vérification EXÉCUTABLE centralisée + intégrité statique
+    │   ├── verification.md   # Vérification EXÉCUTABLE centralisée + intégrité statique
+    │   └── readme.md         # Synchro README post-livraison (régénération auto)
     ├── skills/
     │   ├── electron-app/            # Menu démarrage / reprise / maintenance (4 options)
     │   ├── electron-p1-scoping/     # Scoping — 6 questions + couleur → docs/specs/01-scoping.md
