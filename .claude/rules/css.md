@@ -38,7 +38,7 @@ await window.api.savePreference("theme", theme);
 ```css
 /* ============================================================
    tokens.css — [APP_NAME] v[VERSION]
-   Reference: design-system.md v1.5 (Electron) — project palette
+   Reference: design-system.md v1.6 (Electron) — project palette
    ============================================================ */
 
 :root {
@@ -68,7 +68,7 @@ await window.api.savePreference("theme", theme);
 ```css
 /* ============================================================
    styles.css — [APP_NAME] v[VERSION]
-   Reference: design-system.md v1.5 (Electron) · layout.md v2.1
+   Reference: design-system.md v1.6 (Electron) · layout.md v2.1
    ============================================================ */
 
 /* --- BASE ----------------------------------------------- */

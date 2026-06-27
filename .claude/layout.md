@@ -1,7 +1,7 @@
 # Layout System — v2.1 (Electron)
 
 > Binding reference for all Node.js/Electron/React applications.
-> Built on `design-system.md v1.5 (Electron)`. The two files are inseparable.
+> Built on `design-system.md v1.6 (Electron)`. The two files are inseparable.
 
 ## Changelog
 
@@ -382,7 +382,7 @@ Implementation: `keydown` listeners in the renderer. Global shortcuts do not go 
 
 ## 11. DESIGN SYSTEM CROSS-REFERENCE
 
-This file does not redefine tokens — it consumes them. Every visual value is traced to `design-system.md v1.5 (Electron)`.
+This file does not redefine tokens — it consumes them. Every visual value is traced to `design-system.md v1.6 (Electron)`.
 
 | Need                       | Token                                              |
 | -------------------------- | -------------------------------------------------- |
