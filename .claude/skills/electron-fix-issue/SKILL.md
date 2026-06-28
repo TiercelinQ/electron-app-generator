@@ -40,6 +40,11 @@ Read the actual error before touching code. Classify, then act in this order:
 ### 4. IPC desync (call does nothing / "no handler for channel")
 - Trace the channel **end-to-end**: `ipc-channels.ts` declaration ↔ `ipcMain.handle` in the controller ↔ preload named function ↔ `WindowApi` type ↔ renderer call. A mismatch in any link breaks it. Fix the broken link, keep the chain consistent.
 
+### 4b. Salesforce CLI failure (`sf:*` channels, if the integration is on)
+- `ENOENT` on spawn → `sf` not installed or not on PATH; point to the install + the `sfPath` preference. On Windows, confirm the runner uses `cross-spawn` (a bare `node:child_process` fails on the `sf.cmd` shim).
+- Non-JSON / unreadable output → CLI version drift or a command run without `--json`; verify the flags against the matching `sf-cli-reference/` section (`sf <cmd> --help`).
+- `status !== 0` in the envelope → read `message`/`name`, return it as an `IpcResult` error; never re-throw across the IPC. See @rules/sf-cli.md.
+
 ### 5. Security gap (`rules/security.md`)
 - Weakened `webPreferences`, raw `ipcRenderer` exposed, unvalidated IPC payload, CSP hole, `shell.openExternal` on renderer data, remote resource. These are never "acceptable for now" — fix to the rule.
 

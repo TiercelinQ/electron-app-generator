@@ -12,7 +12,7 @@ Unified edition: the full generation pipeline **plus** post-delivery maintenance
 
 A structured prompt system that generates complete, production-ready Electron/React desktop applications through a 5-phase cycle, then maintains them:
 
-1. **Scoping** - 6 questions (objective, DB, prefs, i18n, icon, tests) + color palette (named or custom; 5 roles, dark + supporting tokens derived, WCAG AA check)
+1. **Scoping** - 7 questions (objective, DB, prefs, i18n, icon, tests, Salesforce CLI opt-in) + color palette (named or custom; 5 roles, dark + supporting tokens derived, WCAG AA check)
 2. **Featuring** - structured feature sheet, explicit out-of-scope, locked sizing
 3. **Designing** - topbar tabs, drawer/modal, toast position
 4. **Architect** - full file tree, IPC channel table, tokens→CSS table - locked before any code is written
@@ -41,6 +41,7 @@ Every generated app enforces the same visual design system, strict MVC architect
 | i18n           | i18next + react-i18next FR/EN (opt-in)                      |
 | DB             | SQLite (better-sqlite3, versioned migrations) · JSON · CSV · none (opt-in) |
 | Tests          | Vitest + Testing Library (opt-in)                          |
+| Salesforce CLI | `sf` v2 wrapper via cross-spawn + starter Org Manager (opt-in) |
 | Packaging      | electron-builder (NSIS + portable)                          |
 | Security       | contextIsolation · sandbox · no nodeIntegration · strict CSP |
 | Quality        | ESLint + Prettier · JSDoc/TSDoc · IpcResult<T> error contract |
@@ -77,7 +78,7 @@ Then in Claude Code:
 | Command                 | Action                                             |
 | ----------------------- | -------------------------------------------------- |
 | `/electron-app`         | Start menu (4 entry points incl. maintenance)      |
-| `/electron-p1-scoping`       | Scoping - 6 questions + color palette              |
+| `/electron-p1-scoping`       | Scoping - 7 questions + color palette              |
 | `/electron-p2-featuring`       | Featuring - requirements sheet + locked sizing     |
 | `/electron-p3-designing`        | Designing - layout proposal + customization        |
 | `/electron-p4-architect`       | Architect - locked architecture contract (IPC)     |
@@ -142,8 +143,9 @@ All generated apps share the same visual system, defined in `.claude/design-syst
 - `.claude/design-system.md` - visual token reference
 - `.claude/layout.md` - layout reference (shell, topbar, drawer, statusbar, toasts)
 - `.claude/rules/` - domain rules:
-  - `mvc.md` · `css.md` · `errors.md` · `security.md` · `config.md` · `db.md` · `tests.md`
+  - `mvc.md` · `css.md` · `errors.md` · `security.md` · `config.md` · `db.md` · `sf-cli.md` (opt-in) · `tests.md`
   - `verification.md` - single source of truth for executable + static checks
+- `.claude/sf-cli-reference/` - `sf` v2 command/flag catalog (loaded by section when the Salesforce integration is on)
 
 ---
 

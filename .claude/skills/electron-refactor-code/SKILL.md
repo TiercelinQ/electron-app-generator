@@ -46,6 +46,7 @@ A validated plan, then the refactored files on disk + a passing verification + a
 - **Do not** change behavior under the cover of a refactor — if behavior must change, that is `/electron-add-feature`, declared separately.
 - **Do not** weaken security while "cleaning up" (e.g. broadening the preload surface, loosening validation).
 - **Do not** move a value out of `tokens.css`/`config.ts` into a local constant — refactors keep the centralization.
+- **Do not** move an `sf` call out of `src/main/models/sf-cli.ts` into a controller/view, or change a command/flag while refactoring — centralization is the injection guard (@rules/sf-cli.md; consult `sf-cli-reference/` by section to keep every command intact).
 - **Do not** touch pre-existing dead code unless the user asked to remove it.
 
 ## When the user asks something adjacent

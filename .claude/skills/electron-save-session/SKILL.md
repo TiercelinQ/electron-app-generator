@@ -37,6 +37,7 @@ Next batch: [X+1/total] (if Phase 5)
 - OS: Windows · Stack: Electron + React + TypeScript (electron-vite)
 - DB: [value]
 - Persistent preferences: [Yes/No] · i18n: [Yes/No] · Icon: [provided/default]
+- Salesforce CLI: [Yes/No]
 - Palette: [name or custom; 5 light roles + derived]
 - Calibration: [Small 3 batches / Medium-Large 4 batches]
 - Selected features: [list]

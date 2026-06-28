@@ -1,6 +1,6 @@
 ---
 name: electron-p1-scoping
-description: Phase 1 of the Electron app generation cycle — scoping in 6 grouped questions, full color palette choice, calibration announcement (number of batches), and writing of the scoping spec.
+description: Phase 1 of the Electron app generation cycle — scoping in 7 grouped questions (incl. Salesforce CLI opt-in), full color palette choice, calibration announcement (number of batches), and writing of the scoping spec.
 model: sonnet
 ---
 
@@ -35,13 +35,16 @@ Start with the objective, then establish the project root (folder name → locat
 
 ### Closed parameters
 
+> **Salesforce detection (before call 1)** — scan the objective text for the Salesforce cluster: `Salesforce`, `sf`/`sf CLI`, `org`, `scratch org`, `sandbox`, `Apex`, `SOQL`/`SOSL`, `sObject`, `metadata`/`deploy`/`retrieve`, `package`/`2GP`, `permission set`, `Dev Hub`, `Agentforce`. If any term is present, the **Salesforce CLI integration** question below switches its recommended default to `Yes` with a one-line rationale ("the objective mentions Salesforce"). The user still confirms — they may keep `No`. The single resolved Yes/No governs both @rules/sf-cli.md and the `sf-cli-reference/` catalog.
+
 2. **`AskUserQuestion` — call 1** (4 questions, each with a recommended option):
    - **Database**: `SQLite` (recommended, better-sqlite3) · `JSON` · `CSV` · `none`.
    - **Persistent preferences** (theme, window…): `Yes` (recommended) · `No`.
    - **FR/EN i18n** (FR by default): `No` (recommended, unless a real EN need) · `Yes`.
    - **Automated tests** (Vitest + Testing Library): `Yes` (recommended, pro use) · `No`.
-3. **`AskUserQuestion` — call 2** (1 question):
+3. **`AskUserQuestion` — call 2** (2 questions):
    - **Application icon**: `No` (recommended — Electron default, can be added later) · `Yes`. If `Yes`, ask the `.ico` path as free-form text.
+   - **Salesforce CLI integration** (`sf` v2): default `No` (general-purpose app) — but **flip the recommended option to `Yes` when the Salesforce detection above matched** (state the rationale). If `Yes`, @rules/sf-cli.md applies (it routes to the `sf-cli-reference/` command catalog) and the default scaffold adds the `sf` runner + typed helpers + a starter Org Manager (orgs list view). `sf` becomes a runtime prerequisite (detected); the official Salesforce tooling stays an optional recommendation, not a hard dependency.
 
 ## 2. Color palette
 
@@ -55,7 +58,7 @@ After the answers, propose the **palette** with `AskUserQuestion` (single questi
 
 ## 3. Provisional calibration — announced at the end of Phase 1
 
-Apply the CALIBRATION table in `CLAUDE.md` (canonical source): Small (< 10 files and ≤ 5 features) → 3 batches; Medium/Large (≥ 10 or > 5) → 4 batches; divergent criteria → the highest wins. **+1 batch if tests are enabled (Q6)** — Small 4 / Medium-Large 5.
+Apply the CALIBRATION table in `CLAUDE.md` (canonical source): Small (< 10 files and ≤ 5 features) → 3 batches; Medium/Large (≥ 10 or > 5) → 4 batches; divergent criteria → the highest wins. **+1 batch if tests are enabled (Q6)** — Small 4 / Medium-Large 5. The Salesforce CLI integration adds files (runner + Org Manager controller/view/channels) and pushes the size up (no dedicated batch — the runner ships in Batch 1).
 
 Announce it as **provisional**: the real feature count is not known yet (features are elicited in Phase 2). The calibration is **confirmed and locked at the end of Phase 2**, on the v1.0 feature count.
 
@@ -65,6 +68,6 @@ Any library outside the stack (charts, zod, electron-log…) is proposed and val
 
 ## 5. Write the spec
 
-Write `docs/specs/01-scoping.md` (in the user's language) capturing: objective, DB choice, persistent preferences, i18n, icon, tests (Q6), the **palette** (name or custom; the 5 light roles + the derived dark theme + accent stops + text-on-primary; semantic kept fixed) and the contrast-check result, validated libraries, and the provisional calibration (size + number of batches — confirmed in Phase 2). If `docs/specs/` does not exist yet, create it (it will live in the generated project root).
+Write `docs/specs/01-scoping.md` (in the user's language) capturing: objective, DB choice, persistent preferences, i18n, icon, tests (Q6), Salesforce CLI integration (Yes/No), the **palette** (name or custom; the 5 light roles + the derived dark theme + accent stops + text-on-primary; semantic kept fixed) and the contrast-check result, validated libraries, and the provisional calibration (size + number of batches — confirmed in Phase 2). If `docs/specs/` does not exist yet, create it (it will live in the generated project root).
 
 → Chain to `/electron-p2-featuring` after validation.

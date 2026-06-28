@@ -29,14 +29,14 @@ A structured report (in the user's language) with `file:line` references. Option
    - Contract & specs: `docs/specs/04-architect.md` (structure of truth), other `docs/specs/*`.
    - Shared: `src/shared/config.ts`, `src/shared/types.ts` (DTOs + `WindowApi`), `src/shared/ipc-channels.ts`.
    - Main entry / security: `src/main/index.ts`.
-   - Models: `src/main/models/[entity].model.ts`, `models/errors.ts`, `preferences.model.ts`.
+   - Models: `src/main/models/[entity].model.ts`, `models/errors.ts`, `preferences.model.ts`, `models/sf-cli.ts` (if the Salesforce integration is on: runner + typed helpers; `sf-cli-reference/INDEX.md` is the command/flag reference, consulted on demand).
    - Controllers: `src/main/controllers/[entity].controller.ts`, `controllers/index.ts`.
    - Preload: `src/preload/index.ts`.
    - Views: `src/renderer/src/App.tsx`, `views/[Entity]View.tsx`, `views/layout/`, `views/ToastManager.tsx`, `hooks/`.
    - Styles: `src/renderer/src/styles/tokens.css`, `styles.css`.
    - Binding refs (read on demand, not auto-imported): `design-system.md`, `layout.md` — for design-system/layout deviations.
 
-4. **Trace the flow** following the unidirectional path: view (`window.api.x()`) → preload (`ipcRenderer.invoke(channel)`) → controller (`ipcMain.handle`, validation) → model (logic, data). For errors: model throws → controller returns `IpcResult` → view toasts. For theming: token → `tokens.css` → `var(--token)` in `styles.css`. Cross-reference every IPC channel against `ipc-channels.ts`.
+4. **Trace the flow** following the unidirectional path: view (`window.api.x()`) → preload (`ipcRenderer.invoke(channel)`) → controller (`ipcMain.handle`, validation) → model (logic, data). For an `sf` feature: `OrgView` → `window.api.sfOrg*` → preload → `org.controller.ts` → `SfCli.*` → `cross-spawn` → `sf --json` → parsed envelope → `IpcResult`. For errors: model throws → controller returns `IpcResult` → view toasts. For theming: token → `tokens.css` → `var(--token)` in `styles.css`. Cross-reference every IPC channel against `ipc-channels.ts`.
 
 5. **Report** (in the user's language):
    - What the code does (behavior).

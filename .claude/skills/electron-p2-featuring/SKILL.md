@@ -31,6 +31,8 @@ Claude **proposes** 2-4 candidate names derived from the objective, then lets th
 
 From the objective, propose a base set of candidate features. Then loop, asking as free-form text: "Other features to add? (free description, or 'done')". Maintain the running candidate list; stop when the user signals no more ideas.
 
+> If the Salesforce CLI integration is on (Phase 1), the **starter Org Manager** (list orgs · add/remove/reconnect/set-default/refresh) is an already-included baseline feature — present it as such, and elicit only the Salesforce features built on top (queries, deploy/retrieve, Apex run…). See @rules/sf-cli.md.
+
 ### Step 3 — MoSCoW prioritization
 
 Propose a reasoned classification of every candidate into **Must / Should / Could / Won't**, shown as a table. Then: "Confirm or list the adjustments." Apply the user's moves.
@@ -71,6 +73,7 @@ Produce the sheet (in the user's language):
 - i18n: [Yes/No]
 - Icon: [Yes/No]
 - Tests: [Yes/No] — Vitest + Testing Library
+- Salesforce CLI: [Yes/No] — `sf` v2 runner + starter Org Manager (if Yes)
 - Validated libraries: [Phase 1 list]
 - Palette: [Phase 1 choice: name or custom, 5 roles]
 

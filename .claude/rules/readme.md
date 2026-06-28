@@ -4,7 +4,7 @@
 
 ## What the README documents
 
-objective · stack & dependencies · file tree · IPC channels · DB schema · conventions · installation. Exact sections: `/electron-generate-readme`.
+objective · stack & dependencies · file tree · IPC channels · DB schema · prerequisites (incl. the `sf` CLI + `sfPath` if the Salesforce integration is on) · conventions · installation. Exact sections: `/electron-generate-readme`.
 
 ## When to refresh (trigger)
 
@@ -13,6 +13,7 @@ Regenerate the README **iff** the change touched a documented aspect above:
 - the file tree changed (a file/view/model added, renamed, moved, or deleted),
 - an IPC channel or controller added or renamed,
 - the DB schema changed (table, column, version/migration),
+- a prerequisite changed (e.g. the `sf` integration toggled),
 - build or install steps changed.
 
 A purely internal change (a private method, the body of an existing controller, a token value, a bug fix with no structural impact) does **not** trigger a refresh.

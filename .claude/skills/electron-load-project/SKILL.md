@@ -32,8 +32,9 @@ Project loaded: [APP_NAME] v[VERSION]
 Stack : Electron [v] · React [v] · TypeScript
 Entities detected: [list]
 IPC channels: [count]
+Salesforce CLI: [enabled (sf v2 runner) | disabled]
 Specs: [docs/specs present: yes/no]
 Generator rules applied.
 
-4. Read and apply all rules (`CLAUDE.md`, `rules/mvc.md` · `rules/css.md` · `rules/errors.md` · `rules/config.md` · `rules/security.md` · `rules/verification.md`, `design-system.md`, `layout.md`) to any later change. The `rules/*` are not auto-imported: read them before any code change.
+4. Read and apply all rules (`CLAUDE.md`, `rules/mvc.md` · `rules/css.md` · `rules/errors.md` · `rules/config.md` · `rules/security.md` · `rules/sf-cli.md` (if the project has the Salesforce integration) · `rules/verification.md`, `design-system.md`, `layout.md`) to any later change. The `rules/*` are not auto-imported: read them before any code change.
 5. Any structural or security deviation detected between the code and the rules (or vs `docs/specs/04-architect.md`): report it, do not fix without a request (hand off to `/electron-fix-issue` or `/electron-refactor-code`).

@@ -38,10 +38,16 @@ export const IPC = {
   PREF_SET: "pref:set",
   RECORD_LIST: "record:list",
   RECORD_SAVE: "record:save",
+  // if Salesforce CLI (Phase 1) — @rules/sf-cli.md
+  SF_ORG_LIST: "sf:org:list",
+  SF_ORG_LOGIN: "sf:org:login",
+  SF_ORG_LOGOUT: "sf:org:logout",
+  SF_ORG_RECONNECT: "sf:org:reconnect",
+  SF_ORG_SET_DEFAULT: "sf:org:setDefault",
 } as const;
 ```
 
-Convention: `entity:action`. Zero hardcoded channel string outside this file.
+Convention: `entity:action`. Zero hardcoded channel string outside this file. The `sf` binary path, when overridden, is a **non-secret `sfPath` key in `preferences.json`** (`preferences.model.ts`), not a `config.ts` constant — see `@rules/sf-cli.md`.
 
 ## `package.json` — mandatory scripts
 
@@ -84,6 +90,7 @@ Versioning notes:
 - `eslint ^10.0.0`: flat config mandatory (`eslint.config.mjs` — already the format used). Requires Node ≥ 20.19.
 - `typescript-eslint ^8.0.0`: unified package for flat config — replaces the old separate `@typescript-eslint/eslint-plugin` + `@typescript-eslint/parser`. TypeScript peer dep: `>=4.8.4 <6.1.0`.
 - `better-sqlite3`: native module — recompiled for Electron via `electron-builder install-app-deps` chained after `ensure-electron.cjs` in `postinstall` (see the dedicated section). To include in the last batch instructions if SQLite is selected. Versioned migrations: see `@rules/db.md`.
+- **Salesforce CLI (if Phase 1 = Yes)** — add to `dependencies`: `cross-spawn ^7.0.6`; to `devDependencies`: `@types/cross-spawn ^6.0.6`. `electron-vite` bundles `cross-spawn` into the main bundle automatically; `esModuleInterop` is already on. No other runtime dependency (no `jsforce`/`@salesforce/core` — the `sf` CLI covers the v1 use cases). Detail: `@rules/sf-cli.md`.
 - **Tests (if Phase 1 Q6 = Yes)** — add to `devDependencies`: `vitest`, `@testing-library/react`, `@testing-library/jest-dom`, `jsdom`, plus the `"test": "vitest run"` script. Detail: `@rules/tests.md`.
 
 > **Version maintenance**: this table and these notes reflect the state validated at the time of writing. Before pinning in a new project, re-confirm the current minor versions and the breaking-change notes above (`npm outdated`, the package release notes) — they age. The caret rule and the structure stay; the numbers and notes are refreshed per project in Phase 1.

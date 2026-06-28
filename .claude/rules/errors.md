@@ -61,7 +61,7 @@ toast({ type: "success", message: t("record.saved") });
 - Zero `dialog.showMessageBox`, `alert()`, `confirm()` for business errors — **toasts only** (types, durations, anatomy: `layout.md §5`).
 - Zero inline banner.
 - Destructive confirmations (deletion…): styled modal (`layout.md §8`), never `confirm()`.
-- Error handling on all critical operations: file I/O, database, IPC, JSON parsing.
+- Error handling on all critical operations: file I/O, database, IPC, JSON parsing, `sf` CLI spawn (if the Salesforce integration is on — the runner maps `ENOENT`/non-zero status to an `IpcResult` error, never throws across the IPC; see `@rules/sf-cli.md`).
 - Unexpected main errors: global handler (`process.on("uncaughtException")` + log) — the app does not crash silently.
 - Unexpected renderer errors: React Error Boundary at `App.tsx` level → persistent `danger` toast.
 - Visible error messages: go through i18n if enabled.

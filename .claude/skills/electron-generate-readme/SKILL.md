@@ -39,6 +39,9 @@ Prerequisite: invoked from the target project root.
 ## Conventions
 [MVC, CSS tokens, toasts, security — pointer to the rules]
 
+## Prerequisites
+<!-- Only if the Salesforce CLI integration is on: the `sf` v2 CLI must be installed and on the PATH (or set the `sfPath` preference). The official standalone installer ships its own Node and avoids the npm `.cmd` shim. The Salesforce DX tooling is an optional recommendation, not required. -->
+
 ## Installation
 npm install
 npm run dev          # development

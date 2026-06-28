@@ -19,7 +19,7 @@ Produce a complete, unambiguous architectural contract that freezes the file tre
 
 **Phase banner (show first)** — before anything else, output the phase banner as plain Markdown in the user's language, **never inside a code block or fenced block**. Three blocks, each on its own line: (1) H2 heading: Phase 4/5 — Architecture; (2) progress line: Scoping ✓ · Features ✓ · Design ✓ · ▶ Architecture · Development; (3) intent in italics: Lock the file/structure contract. See `## PIPELINE` in `CLAUDE.md`.
 
-At start: read `design-system.md`, `layout.md` (no longer auto-imported), `rules/mvc.md` (tree, batches, MVC conventions) and `rules/css.md` (tokens → CSS). Read `docs/specs/01-scoping.md` through `03-designing.md` for the validated decisions.
+At start: read `design-system.md`, `layout.md` (no longer auto-imported), `rules/mvc.md` (tree, batches, MVC conventions) and `rules/css.md` (tokens → CSS). **If the Salesforce CLI integration is on (Phase 1), also read @rules/sf-cli.md** (runner, channels, Org Manager scaffold). Read `docs/specs/01-scoping.md` through `03-designing.md` for the validated decisions.
 
 Present (in the user's language):
 
@@ -33,9 +33,11 @@ Present (in the user's language):
 | `pref:get` | `preferences.controller.ts` | `PreferencesModel.get()` | `api.getPreferences()` | `App.tsx` |
 | `pref:set` | `preferences.controller.ts` | `PreferencesModel.set(key, val)` | `api.setPreference(key, val)` | `Topbar.tsx` |
 
+   **If the Salesforce CLI integration is on (Phase 1)**: include the `sf:org:*` channels (`sf:org:list`/`login`/`logout`/`reconnect`/`setDefault` → `org.controller.ts` → `SfCli.*` → `api.sfOrg*` → `OrgView`) in this table, and add the runner + Org Manager files to the tree. The `sf` runtime prerequisite and the `sfPath` preference are part of the contract. See @rules/sf-cli.md.
+
 3. **Tokens → planned CSS rules table** (`styles.css` selectors and the tokens they consume).
 
-4. **Source → test mapping** (only if tests enabled in Phase 1 Q6): each source module → its `*.test.ts(x)` file. See `rules/tests.md`.
+4. **Source → test mapping** (only if tests enabled in Phase 1 Q6): each source module → its `*.test.ts(x)` file (incl. `sf-cli.ts` / `org.controller.ts` if the Salesforce integration is on). See `rules/tests.md`.
 
 **→ Validation required. This contract is locked.**
 

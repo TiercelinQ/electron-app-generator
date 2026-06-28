@@ -32,6 +32,12 @@ new BrowserWindow({
 - File paths received from the renderer: resolved then checked (`path.resolve` + verify they stay under the allowed directory). Zero traversal.
 - SQL queries: **always** prepared/parameterized (`db.prepare(...).run(params)`) — zero concatenation.
 
+## 3b. Process execution (if Salesforce CLI or any external CLI)
+
+- Spawn with an **argument array** via **`cross-spawn`**, never `node:child_process.spawn("sf", …)` directly (the Windows `sf.cmd` shim fails with `ENOENT`), never `shell: true` with interpolated input. This is the command-injection guard.
+- User-provided values (org alias, SOQL, paths) go in as **separate array elements**, never spliced into a command string.
+- The runner lives in the **main process only** (`src/main/models/sf-cli.ts`) — never spawn from the renderer/preload. The binary is resolved from PATH or the `sfPath` preference (cross-OS, no platform branch). See `@rules/sf-cli.md`.
+
 ## 4. Navigation and content
 
 - Strict CSP in `<meta>` in `index.html`:

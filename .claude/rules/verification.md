@@ -38,7 +38,7 @@ Rules:
 4b. React Error Boundary present in `App.tsx`; `process.on("uncaughtException")` handler present in `src/main/index.ts` (see `rules/errors.md`).
 5. Node 22+ · Electron stable (≥ 42) · zero deprecated API (`remote`).
 6. `design-system.md` and `layout.md` compliance — zero hardcoded visual value in TS/TSX, zero inline `style={}`. See `rules/css.md` anti-patterns.
-7. `rules/security.md` respected (locked `webPreferences`, minimal preload, validated IPC inputs, strict CSP, no remote resource).
+7. `rules/security.md` respected (locked `webPreferences`, minimal preload, validated IPC inputs, strict CSP, no remote resource; any external CLI spawned via `cross-spawn` args array from the main process only).
 8. Errors: business errors raised in the model, caught in the controller, returned as `IpcResult<T>`, surfaced as toasts; no `alert()`/`confirm()`/`dialog.showMessageBox`. See `rules/errors.md`.
 
 ### Last batch only — cross-file
@@ -51,6 +51,7 @@ Rules:
 
 ### Per-domain (conditional — see the matching rule for detail)
 - **DB** (`rules/db.md`): `db.ts` single access point; `migrations.ts` called in `src/main/index.ts` before the window; `config.DB_SCHEMA_VERSION` == `max(MIGRATIONS)`; no DB access outside `models/`; SQL parameterized.
+- **sf-cli** (`rules/sf-cli.md`): if enabled, all `sf` calls via `src/main/models/sf-cli.ts` using `cross-spawn` with an args array (no `node:child_process` direct, no shell, no renderer/preload spawn); `sf` resolved from PATH or the `sfPath` preference; `ENOENT` → clear error toast; no token stored/logged; `sf:org:*` channels consistent end-to-end (`ipc-channels.ts` ↔ handlers ↔ preload ↔ `WindowApi` ↔ `OrgView`); Org Manager actions validate input and refresh the list; `cross-spawn` in `dependencies` (bundled by electron-vite).
 - **tests** (`rules/tests.md`): if enabled, each source module has a matching test (Phase 4 mapping); `npm test` exit 0; dev dependencies present.
 
 ---

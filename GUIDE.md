@@ -15,6 +15,7 @@ claude-electron-framework/
 └── .claude/
     ├── design-system.md      # Référence visuelle contraignante (tokens CSS) — source de vérité unique
     ├── layout.md             # Référence layout contraignante — shell, topbar, drawer, statusbar, toasts
+    ├── sf-cli-reference/     # Catalogue commandes/flags sf v2 (chargé par section si intégration Salesforce)
     ├── rules/
     │   ├── mvc.md            # main=Models · preload+IPC=Controllers · renderer=Views, livraison par lots
     │   ├── css.md            # Tokens CSS, thème data-theme, flat design, nommage
@@ -22,12 +23,13 @@ claude-electron-framework/
     │   ├── security.md       # Sécurité Electron verrouillée (webPreferences, CSP, validation IPC)
     │   ├── config.md         # config.ts, versioning, postinstall ensure-electron.cjs, packaging
     │   ├── db.md             # Accès better-sqlite3, migrations versionnées
+    │   ├── sf-cli.md         # Intégration Salesforce CLI opt-in (runner cross-spawn, Org Manager)
     │   ├── tests.md          # Vitest + Testing Library, couverture par couche
     │   ├── verification.md   # Vérification EXÉCUTABLE centralisée + intégrité statique
     │   └── readme.md         # Synchro README post-livraison (régénération auto)
     ├── skills/
     │   ├── electron-app/            # Menu démarrage / reprise / maintenance (4 options)
-    │   ├── electron-p1-scoping/     # Scoping — 6 questions + couleur → docs/specs/01-scoping.md
+    │   ├── electron-p1-scoping/     # Scoping — 7 questions + couleur → docs/specs/01-scoping.md
     │   ├── electron-p2-featuring/   # Fiche besoins → docs/specs/02-featuring.md
     │   ├── electron-p3-designing/   # Proposition layout → docs/specs/03-designing.md
     │   ├── electron-p4-architect/   # Contrat architectural verrouillé → docs/specs/04-architect.md
@@ -94,7 +96,7 @@ node --version        # Node.js 22 LTS+ (pour exécuter les apps générées)
 
 ### Phase 1 — Scoping
 
-6 questions en un seul bloc : objectif · base de données (SQLite better-sqlite3 / JSON / CSV / aucune) · préférences persistantes · i18n FR/EN · icône `.ico` · tests (Vitest + Testing Library). Puis choix de la **palette** : 5 rôles (fond principal, fond secondaire, accent, texte, détails) pour le thème clair, le sombre et les tokens secondaires étant dérivés. Palette « Steel Blue » par défaut + 5 palettes nommées (Teal, Forest, Slate, Amber, Ruby) + palette personnalisée ; contrôle de contraste WCAG AA (averti). Sémantiques figées. Calibrage annoncé.
+7 questions en un seul bloc : objectif · base de données (SQLite better-sqlite3 / JSON / CSV / aucune) · préférences persistantes · i18n FR/EN · icône `.ico` · tests (Vitest + Testing Library) · intégration Salesforce CLI (opt-in `sf` v2 ; défaut recommandé à Yes si l'objectif mentionne Salesforce). Puis choix de la **palette** : 5 rôles (fond principal, fond secondaire, accent, texte, détails) pour le thème clair, le sombre et les tokens secondaires étant dérivés. Palette « Steel Blue » par défaut + 5 palettes nommées (Teal, Forest, Slate, Amber, Ruby) + palette personnalisée ; contrôle de contraste WCAG AA (averti). Sémantiques figées. Calibrage annoncé.
 
 | Taille        | Lots (sans tests) | Lots (avec tests) |
 | ------------- | ----------------- | ----------------- |
@@ -186,7 +188,7 @@ Après correction (`/electron-fix-issue` ou Phase 5), Claude produit un bilan de
 | Commande                | Modèle | Action                                               |
 | ----------------------- | ------ | ---------------------------------------------------- |
 | `/electron-app`         | Haiku  | Menu démarrage / reprise / maintenance               |
-| `/electron-p1-scoping`       | Sonnet | Scoping — 6 questions + couleur                      |
+| `/electron-p1-scoping`       | Sonnet | Scoping — 7 questions + couleur                      |
 | `/electron-p2-featuring`       | Sonnet | Fiche besoins                                        |
 | `/electron-p3-designing`        | Sonnet | Proposition layout + personnalisation                |
 | `/electron-p4-architect`       | Sonnet | Contrat architectural verrouillé (canaux IPC)        |

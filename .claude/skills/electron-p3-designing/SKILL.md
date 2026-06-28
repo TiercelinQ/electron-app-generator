@@ -29,6 +29,8 @@ Based on the project description (`docs/specs/02-featuring.md`), propose a layou
 2. Justify the choice against the features.
 3. List the navigation tabs and their content.
 
+> If the Salesforce CLI integration is on (Phase 1), present the **Org Manager** surface as a baseline: a view listing the orgs (connected/disconnected state, default org marked) with add / remove / reconnect / set-default / refresh actions, typically its own tab. Confirm its placement in the layout. See @rules/sf-cli.md.
+
 ## 2. Customization — questions via `AskUserQuestion`
 
 For each question offering a choice, mark the option you recommend with `(recommended)`, chosen from the validated feature context.

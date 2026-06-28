@@ -21,7 +21,7 @@ The modified/added files on disk + an updated `docs/specs/04-architect.md` if th
 
 ## Steps
 
-1. **Load context**: read `docs/specs/04-architect.md` (locked contract), then `rules/mvc.md` · `rules/css.md` · `rules/errors.md` · `rules/config.md` · `rules/security.md` · `rules/db.md` (if DB) · `rules/verification.md` (not auto-imported). Read `design-system.md` / `layout.md` on demand (no longer auto-imported) before any UI change.
+1. **Load context**: read `docs/specs/04-architect.md` (locked contract), then `rules/mvc.md` · `rules/css.md` · `rules/errors.md` · `rules/config.md` · `rules/security.md` · `rules/db.md` (if DB) · `rules/sf-cli.md` (if the Salesforce CLI integration is on) · `rules/verification.md` (not auto-imported). Read `design-system.md` / `layout.md` on demand (no longer auto-imported) before any UI change. For an `sf`-related change, consult the matching `sf-cli-reference/` section file before writing any command/flag.
 
 2. **State assumptions** before coding. If the request is ambiguous (which entity, which view, business rule), ask — closed questions via `AskUserQuestion` (clickable options, recommended first); free-form text only for non-enumerable details.
 
@@ -46,6 +46,7 @@ The modified/added files on disk + an updated `docs/specs/04-architect.md` if th
 - **Do not** add an IPC channel without declaring it in `ipc-channels.ts`, validating the payload in the controller, and aligning `WindowApi`.
 - **Do not** expose raw `ipcRenderer`/Node through the preload, or weaken `webPreferences`/CSP — `rules/security.md` is non-negotiable.
 - **Do not** put business logic in a controller or view, or access Node from the renderer.
+- **Do not** call `sf` outside `src/main/models/sf-cli.ts` (no `spawn` in a controller/view, no renderer spawn) or invent a command/flag not in `sf-cli-reference/` — see @rules/sf-cli.md.
 - **Do not** introduce a library or remote resource not validated in Phase 1 without the deviation protocol.
 - **Do not** hardcode a string (i18n) or a visual value (tokens).
 - **Do not** silently exceed the contract — declare and validate first.

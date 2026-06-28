@@ -72,10 +72,12 @@ my-app/
 │   │   │   ├── errors.ts           # named business errors
 │   │   │   ├── db.ts               # single DB access point (if DB ≠ none) — @rules/db.md
 │   │   │   ├── migrations.ts       # versioned migrations (if DB ≠ none) — @rules/db.md
+│   │   │   ├── sf-cli.ts           # sf runner + typed helpers (if Salesforce CLI) — @rules/sf-cli.md
 │   │   │   ├── preferences.model.ts
 │   │   │   └── [entity].model.ts
 │   │   └── controllers/
 │   │       ├── index.ts            # registerAllControllers()
+│   │       ├── org.controller.ts   # Org Manager handlers, sf:org:* channels (if Salesforce CLI) — @rules/sf-cli.md
 │   │       └── [entity].controller.ts
 │   ├── preload/
 │   │   └── index.ts                # contextBridge
@@ -87,6 +89,7 @@ my-app/
 │           ├── views/
 │           │   ├── layout/         # Topbar.tsx, Statusbar.tsx, Drawer.tsx, Modal.tsx
 │           │   ├── ToastManager.tsx
+│           │   ├── OrgView.tsx     # Org Manager UI (if Salesforce CLI) — @rules/sf-cli.md
 │           │   └── [Entity]View.tsx
 │           ├── hooks/              # shared hooks (useTheme, useToast…)
 │           ├── utils/helpers.ts    # pure functions (formatting, validation)
@@ -116,6 +119,8 @@ my-app/
 | 2     | `src/renderer/src/views/` + `hooks/`                                                               |
 | 3     | `src/main/controllers/` + `src/preload/`                                                           |
 | 4     | `src/main/index.ts` + renderer entries + `utils/` + `styles/` + `i18n/` + `scripts/` + root configs + `package.json` + README + instructions |
+
+> **Salesforce CLI integration (if Phase 1 = Yes)** — no dedicated batch. `sf-cli.ts` (runner + helpers) ships in **Batch 1** with the other models; `org.controller.ts` and the preload methods ship with the controllers/preload batch; `OrgView.tsx` ships with the views batch. The `sf:org:*` channels go in `src/shared/ipc-channels.ts` (Batch 1). It counts toward the size (`## CALIBRATION` in `CLAUDE.md`). See `@rules/sf-cli.md`.
 
 ### Tests batch (only if Phase 1 Q6 = Yes)
 Add a final dedicated batch — `test/` (mirroring `src/`) + `vitest.config.ts` + dev dependencies (`vitest`, `@testing-library/react`, `@testing-library/jest-dom`, `jsdom`) + the `"test"` script. → Small 4 batches / Medium-Large 5 batches. Patterns and coverage: `@rules/tests.md`.
