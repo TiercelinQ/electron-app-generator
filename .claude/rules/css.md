@@ -6,8 +6,9 @@
 | --------------------------------------- | --------------------------------------------------------------- |
 | `src/renderer/src/styles/tokens.css`    | All tokens — `:root` (light) + `[data-theme="dark"]`            |
 | `src/renderer/src/styles/styles.css`    | All component rules — consumes only `var(--token)`              |
+| `src/renderer/src/styles/splash.css`    | Splash rules (if splash enabled) — consumes only `var(--token)`, linked by `splash.html` — @rules/splash.md |
 
-Imported once in `main.tsx`, in this order: `tokens.css` then `styles.css` then Font Awesome.
+Imported once in `main.tsx`, in this order: `tokens.css` then `styles.css` then Font Awesome. `splash.html` links `tokens.css` then `splash.css` (its own entry, not imported by `main.tsx`).
 
 ## Absolute rules
 

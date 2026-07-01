@@ -21,7 +21,7 @@ The full project source on disk + `README.md` + verified build.
 
 ## Code rules
 
-At start, read and fully apply: `rules/mvc.md` · `rules/css.md` · `rules/errors.md` · `rules/config.md` · `rules/security.md` · `rules/db.md` (if DB) · `rules/sf-cli.md` (if Salesforce CLI) · `rules/tests.md` (if tests) · `rules/verification.md` (not auto-imported). **Read `design-system.md` and `layout.md`** (no longer auto-imported) before producing any UI. Read `docs/specs/04-architect.md` — it is the locked contract this build follows.
+At start, read and fully apply: `rules/mvc.md` · `rules/css.md` · `rules/errors.md` · `rules/config.md` · `rules/security.md` · `rules/db.md` (if DB) · `rules/sf-cli.md` (if Salesforce CLI) · `rules/splash.md` (if splash screen enabled in Phase 3) · `rules/tests.md` (if tests) · `rules/verification.md` (not auto-imported). **Read `design-system.md` and `layout.md`** (no longer auto-imported) before producing any UI. Read `docs/specs/04-architect.md` — it is the locked contract this build follows.
 
 Critical reminders:
 - ESLint clean · Prettier · TypeScript strict · TSDoc on classes and public API.
@@ -96,6 +96,10 @@ Apply `rules/verification.md` — both the executable commands (§A, blocking wh
   ```
   The `Stop` hook runs the fast static check at the end of each turn. Note in the README that the user can tune or remove it. **If the Salesforce CLI integration is on**, add `"Bash(sf:*)"` to the `allow` list (so maintenance sessions can verify flags with `sf <cmd> --help`).
 - Confirm `docs/specs/` is present and consistent with the delivered code.
+
+## Splash screen — only if enabled in Phase 3
+
+No dedicated batch. Deliver, per `@rules/splash.md`: `SPLASH_MIN_DURATION_MS` in `src/shared/config.ts` (Batch 1), the splash assets `src/renderer/splash.html` + `src/renderer/src/styles/splash.css` + `src/renderer/src/splash.ts` and the second `rollupOptions.input` entry in `electron.vite.config.ts` (styles/entry batch — last non-test batch), and the splash orchestration in `src/main/index.ts` (main window `show: false` until `ready-to-show`, frameless splash window with locked `webPreferences`, no preload/IPC). If a splash icon path was provided in Phase 3, save it as `resources/icon.ico`. It counts toward the size, not a separate batch.
 
 ## Seed batch — only if DB ≠ none (Phase 1 Q2)
 

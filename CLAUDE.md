@@ -120,11 +120,12 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 - If a database is used (Phase 1 Q2 ≠ none): single access point + versioned migrations - see @rules/db.md
 - If the Salesforce CLI integration is enabled (Phase 1): all `sf` calls go through `src/main/models/sf-cli.ts` via **`cross-spawn`** (resolves the Windows `sf.cmd` shim) with an **argument array** - never `node:child_process` directly, never a concatenated shell string, never a spawn from the renderer/preload. See @rules/sf-cli.md
 - If tests enabled in Phase 1 (Q6): test suite mandatory (Vitest + Testing Library) - see @rules/tests.md
+- If a splash screen is enabled in Phase 3: a frameless splash window shown at launch until the main window is ready, following the design system, showing the app icon if one is defined - see @rules/splash.md
 - No library that was not validated in Phase 1.
 - At project finalization (last batch of Phase 5): generate a `CLAUDE.md` at the generated project root - origin (framework + version), business context, framework deviations. See `/electron-p5-development`.
 - After resolving an anomaly, offer: "Do you want to remember this point? `/electron-save-memory`"
 - NEVER read and write `settings.json`. ONLY read and write in `settings.local.json`
-Per-domain rule detail (loaded on demand by `/electron-p4-architect`, `/electron-p5-development`, and the maintenance skills - not auto-imported): @rules/mvc.md · @rules/css.md · @rules/errors.md · @rules/config.md · @rules/security.md · @rules/db.md · @rules/sf-cli.md · @rules/tests.md · @rules/verification.md · @rules/readme.md
+Per-domain rule detail (loaded on demand by `/electron-p4-architect`, `/electron-p5-development`, and the maintenance skills - not auto-imported): @rules/mvc.md · @rules/css.md · @rules/errors.md · @rules/config.md · @rules/security.md · @rules/db.md · @rules/sf-cli.md · @rules/splash.md · @rules/tests.md · @rules/verification.md · @rules/readme.md
 
 ---
 

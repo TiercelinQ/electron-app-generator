@@ -52,6 +52,7 @@ Rules:
 ### Per-domain (conditional — see the matching rule for detail)
 - **DB** (`rules/db.md`): `db.ts` single access point; `migrations.ts` called in `src/main/index.ts` before the window; `config.DB_SCHEMA_VERSION` == `max(MIGRATIONS)`; no DB access outside `models/`; SQL parameterized.
 - **sf-cli** (`rules/sf-cli.md`): if enabled, all `sf` calls via `src/main/models/sf-cli.ts` using `cross-spawn` with an args array (no `node:child_process` direct, no shell, no renderer/preload spawn); `sf` resolved from PATH or the `sfPath` preference; `ENOENT` → clear error toast; no token stored/logged; `sf:org:*` channels consistent end-to-end (`ipc-channels.ts` ↔ handlers ↔ preload ↔ `WindowApi` ↔ `OrgView`); Org Manager actions validate input and refresh the list; `cross-spawn` in `dependencies` (bundled by electron-vite).
+- **splash** (`rules/splash.md`): if enabled, `splash.html` + `styles/splash.css` + `splash.ts` present; `splash.html` registered as a second `rollupOptions.input` in `electron.vite.config.ts`; `SPLASH_MIN_DURATION_MS` in `config.ts`; splash created and dismissed in `src/main/index.ts` (main window `show: false` until `ready-to-show`); splash window `webPreferences` locked, no preload/IPC; `splash.css` consumes only tokens (no literal, save the commented `backgroundColor` in the main); splash CSP present; icon resolved to `resources/icon.ico` or text-only fallback.
 - **tests** (`rules/tests.md`): if enabled, each source module has a matching test (Phase 4 mapping); `npm test` exit 0; dev dependencies present.
 
 ---

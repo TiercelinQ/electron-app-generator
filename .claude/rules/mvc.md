@@ -83,8 +83,10 @@ my-app/
 │   │   └── index.ts                # contextBridge
 │   └── renderer/
 │       ├── index.html              # CSP meta included
+│       ├── splash.html             # splash markup (if splash enabled — @rules/splash.md)
 │       └── src/
 │           ├── main.tsx            # React entry
+│           ├── splash.ts           # splash theme bootstrap (if splash enabled) — @rules/splash.md
 │           ├── App.tsx             # shell: topbar, content, statusbar
 │           ├── views/
 │           │   ├── layout/         # Topbar.tsx, Statusbar.tsx, Drawer.tsx, Modal.tsx
@@ -96,7 +98,8 @@ my-app/
 │           ├── i18n/               # index.ts, fr.json, en.json
 │           └── styles/
 │               ├── tokens.css      # all tokens, :root + [data-theme="dark"]
-│               └── styles.css      # rules consuming var(--token)
+│               ├── styles.css      # rules consuming var(--token)
+│               └── splash.css      # splash rules, consumes tokens (if splash enabled) — @rules/splash.md
 ```
 
 `utils/helpers.ts`: pure functions only (date/number formatting, validation). Forbidden: business logic, data access, Electron/React imports.
@@ -121,6 +124,8 @@ my-app/
 | 4     | `src/main/index.ts` + renderer entries + `utils/` + `styles/` + `i18n/` + `scripts/` + root configs + `package.json` + README + instructions |
 
 > **Salesforce CLI integration (if Phase 1 = Yes)** — no dedicated batch. `sf-cli.ts` (runner + helpers) ships in **Batch 1** with the other models; `org.controller.ts` and the preload methods ship with the controllers/preload batch; `OrgView.tsx` ships with the views batch. The `sf:org:*` channels go in `src/shared/ipc-channels.ts` (Batch 1). It counts toward the size (`## CALIBRATION` in `CLAUDE.md`). See `@rules/sf-cli.md`.
+
+> **Splash screen (if Phase 3 = Yes)** — no dedicated batch. `SPLASH_MIN_DURATION_MS` ships in `src/shared/config.ts` (**Batch 1**); the splash assets (`splash.html`, `styles/splash.css`, `splash.ts`) and the second `rollupOptions.input` entry ship with the styles/entry batch (last non-test batch, alongside `src/main/index.ts` which orchestrates the splash). It counts toward the size. See `@rules/splash.md`.
 
 ### Tests batch (only if Phase 1 Q6 = Yes)
 Add a final dedicated batch — `test/` (mirroring `src/`) + `vitest.config.ts` + dev dependencies (`vitest`, `@testing-library/react`, `@testing-library/jest-dom`, `jsdom`) + the `"test"` script. → Small 4 batches / Medium-Large 5 batches. Patterns and coverage: `@rules/tests.md`.

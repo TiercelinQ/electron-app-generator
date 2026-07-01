@@ -43,6 +43,7 @@ new BrowserWindow({
 - Strict CSP in `<meta>` in `index.html`:
   `default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'`
   (`'unsafe-inline'` style tolerated only if required by a validated lib — otherwise removed.)
+- If a splash screen is enabled (Phase 3): `splash.html` carries the **same strict CSP** — its script (`splash.ts`) is same-origin (`script-src 'self'`) and the icon is a local `img-src 'self'` resource. The splash window keeps the locked `webPreferences` and needs no preload. See `@rules/splash.md`.
 - Block any unplanned navigation and window opening:
 
 ```ts

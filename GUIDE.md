@@ -24,6 +24,7 @@ claude-electron-framework/
     │   ├── config.md         # config.ts, versioning, postinstall ensure-electron.cjs, packaging
     │   ├── db.md             # Accès better-sqlite3, migrations versionnées
     │   ├── sf-cli.md         # Intégration Salesforce CLI opt-in (runner cross-spawn, Org Manager)
+    │   ├── splash.md         # Splash screen opt-in (fenêtre de démarrage, icône, thème)
     │   ├── tests.md          # Vitest + Testing Library, couverture par couche
     │   ├── verification.md   # Vérification EXÉCUTABLE centralisée + intégrité statique
     │   └── readme.md         # Synchro README post-livraison (régénération auto)
@@ -111,7 +112,9 @@ Fiche structurée + calibrage figé. Validation bloquante avant Phase 3. Écrit 
 
 ### Phase 3 — Designing
 
-Proposition issue de `layout.md` + personnalisation (onglets topbar, drawer/modale, position des toasts). Validation bloquante. Écrit `docs/specs/03-designing.md`.
+Proposition issue de `layout.md` + personnalisation (onglets topbar, drawer/modale, position des toasts, splash screen). Validation bloquante. Écrit `docs/specs/03-designing.md`.
+
+> **Splash screen (opt-in)** : question Oui/Non (Oui recommandé). Si Oui, fenêtre de démarrage sans cadre affichée jusqu'à ce que la fenêtre principale soit prête, suivant le design system (flat, palette, dark mode). Elle affiche l'icône de l'app si définie (Phase 1) ; sinon, un chemin d'icône optionnel est demandé en Phase 3, à défaut le splash montre le nom de l'app. Durée minimale d'affichage configurable (`SPLASH_MIN_DURATION_MS`). Détail : `rules/splash.md`.
 
 ### Phase 4 — Architect
 

@@ -24,6 +24,9 @@ export const WINDOW_MIN_WIDTH = 1024;
 export const WINDOW_MIN_HEIGHT = 768;
 export const WINDOW_DEFAULT_WIDTH = 1280;
 export const WINDOW_DEFAULT_HEIGHT = 800;
+
+// Splash (if enabled in Phase 3) — minimum on-screen time before dismissal — @rules/splash.md
+export const SPLASH_MIN_DURATION_MS = 1200;
 ```
 
 - Any constant reused in more than one file goes into `shared/config.ts`.
@@ -344,3 +347,24 @@ Command: `npm run dist`. Delivered in the last batch **on explicit request**: co
 - Window (dev/taskbar): BrowserWindow `icon` option → `join(__dirname, "../../resources/icon.ico")`.
 - Executable: `win.icon` in `electron-builder.yml` (already present).
 - If the user provides no icon in Phase 1: default Electron icon, noted in the generated README.
+- **Splash icon (if the splash screen is on, Phase 3)**: the splash reuses this `resources/icon.ico`. If no icon was set in Phase 1 and the user provides a splash icon path in Phase 3, save it as `resources/icon.ico` — it then serves the window/taskbar and packaging too. No icon at all → text-only splash. See `@rules/splash.md`.
+
+## Second renderer entry — splash (if the splash screen is on, Phase 3)
+
+When a splash screen is enabled, `src/renderer/splash.html` is a **second renderer entry** so electron-vite builds it alongside the main renderer:
+
+```ts
+// electron.vite.config.ts — renderer section
+renderer: {
+  build: {
+    rollupOptions: {
+      input: {
+        index: resolve(__dirname, "src/renderer/index.html"),
+        splash: resolve(__dirname, "src/renderer/splash.html"),
+      },
+    },
+  },
+},
+```
+
+The main process loads the built `splash.html` (`out/renderer/splash.html`). Splash assets, orchestration, and CSP: `@rules/splash.md`.

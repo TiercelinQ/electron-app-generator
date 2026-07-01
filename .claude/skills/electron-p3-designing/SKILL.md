@@ -52,9 +52,12 @@ Layout customization:
 
 If "Autre" in 4: ask 3 questions to help choose, then propose 2 layouts with a recommendation.
 
+6. **Splash screen** (`AskUserQuestion`): `Yes` (recommended) · `No`. A frameless splash window shown at launch until the main window is ready, following the design system (flat, palette, dark mode). See @rules/splash.md.
+   - **If `Yes` and no application icon was defined in Phase 1** (Q icon = No): ask, as free-form text, for an **optional** icon path (`.ico`/`.png`) to show on the splash — "Icon to display on the splash? (path, or leave empty for text-only)". A provided image is saved as `resources/icon.ico` and becomes the app icon everywhere; empty → text-only splash (app name). If the Phase 1 icon is already set, the splash reuses it (no extra question).
+
 ## 3. Synthesis
 
-Produce a complete synthesis of the validated layout (structure, tabs, panel, toasts, any deviations vs the `layout.md` default).
+Produce a complete synthesis of the validated layout (structure, tabs, panel, toasts, splash screen on/off + icon source, any deviations vs the `layout.md` default).
 
 **→ Explicit validation required before Phase 4.**
 
