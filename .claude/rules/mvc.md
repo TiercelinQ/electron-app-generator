@@ -54,7 +54,7 @@ my-app/
 ├── electron.vite.config.ts
 ├── tsconfig.json · tsconfig.node.json · tsconfig.web.json
 ├── eslint.config.mjs · .prettierrc
-├── electron-builder.yml
+├── electron-builder.yml            # if packaging (Phase 1 Q7) — @rules/config.md
 ├── README.md
 ├── docs/
 │   └── specs/                      # generation specs (user's language): 01-scoping … 04-architect
@@ -68,6 +68,7 @@ my-app/
 │   │   └── ipc-channels.ts         # centralized channel names
 │   ├── main/
 │   │   ├── index.ts                # main entry, BrowserWindow, security
+│   │   ├── logger.ts               # electron-log setup — @rules/logging.md
 │   │   ├── models/
 │   │   │   ├── errors.ts           # named business errors
 │   │   │   ├── db.ts               # single DB access point (if DB ≠ none) — @rules/db.md
@@ -112,7 +113,7 @@ my-app/
 | ----- | -------------------------------------------------------------------------------------------------- |
 | 1     | `src/shared/` + `src/main/models/`                                                                 |
 | 2     | `src/main/controllers/` + `src/preload/` + `src/renderer/src/views/` + `hooks/`                    |
-| 3     | `src/main/index.ts` + renderer entries + `utils/` + `styles/` + `i18n/` + `scripts/` + root configs + `package.json` + README + instructions |
+| 3     | `src/main/index.ts` + `src/main/logger.ts` + renderer entries + `utils/` + `styles/` + `i18n/` + `scripts/` + root configs + `package.json` + README + instructions |
 
 **Medium / Large project (4 batches):**
 
@@ -121,13 +122,13 @@ my-app/
 | 1     | `src/shared/` + `src/main/models/`                                                                 |
 | 2     | `src/renderer/src/views/` + `hooks/`                                                               |
 | 3     | `src/main/controllers/` + `src/preload/`                                                           |
-| 4     | `src/main/index.ts` + renderer entries + `utils/` + `styles/` + `i18n/` + `scripts/` + root configs + `package.json` + README + instructions |
+| 4     | `src/main/index.ts` + `src/main/logger.ts` + renderer entries + `utils/` + `styles/` + `i18n/` + `scripts/` + root configs + `package.json` + README + instructions |
 
 > **Salesforce CLI integration (if Phase 1 = Yes)** — no dedicated batch. `sf-cli.ts` (runner + helpers) ships in **Batch 1** with the other models; `org.controller.ts` and the preload methods ship with the controllers/preload batch; `OrgView.tsx` ships with the views batch. The `sf:org:*` channels go in `src/shared/ipc-channels.ts` (Batch 1). It counts toward the size (`## CALIBRATION` in `CLAUDE.md`). See `@rules/sf-cli.md`.
 
 > **Splash screen (if Phase 3 = Yes)** — no dedicated batch. `SPLASH_MIN_DURATION_MS` ships in `src/shared/config.ts` (**Batch 1**); the splash assets (`splash.html`, `styles/splash.css`, `splash.ts`) and the second `rollupOptions.input` entry ship with the styles/entry batch (last non-test batch, alongside `src/main/index.ts` which orchestrates the splash). It counts toward the size. See `@rules/splash.md`.
 
-### Tests batch (only if Phase 1 Q6 = Yes)
+### Tests batch (only if Phase 1 Q5 = Yes)
 Add a final dedicated batch — `test/` (mirroring `src/`) + `vitest.config.ts` + dev dependencies (`vitest`, `@testing-library/react`, `@testing-library/jest-dom`, `jsdom`) + the `"test"` script. → Small 4 batches / Medium-Large 5 batches. Patterns and coverage: `@rules/tests.md`.
 
 ### Delivery format

@@ -69,7 +69,7 @@ await window.api.savePreference("theme", theme);
 ```css
 /* ============================================================
    styles.css — [APP_NAME] v[VERSION]
-   Reference: design-system.md v1.6 (Electron) · layout.md v2.1
+   Reference: design-system.md v1.6 (Electron) · layout.md v2.2
    ============================================================ */
 
 /* --- BASE ----------------------------------------------- */

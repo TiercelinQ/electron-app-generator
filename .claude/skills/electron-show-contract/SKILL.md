@@ -20,7 +20,7 @@ The contract on screen (in the user's language).
 
 ---
 
-Read `docs/specs/04-architect.md` (the locked source of truth) and display the complete validated tree with the role of each file, followed by the IPC channels table.
+Read `docs/specs/04-architect.md` (the locked source of truth) and display the complete validated tree with the role of each file, followed by the IPC channels table, the tokens → CSS table, and (if tests) the source→test mapping.
 
 If `docs/specs/04-architect.md` does not exist and no contract has been validated in session yet: `No validated contract — Phase 4 not reached.`
 

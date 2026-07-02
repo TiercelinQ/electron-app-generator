@@ -14,7 +14,7 @@ npm install                  # dependencies resolve; postinstall (ensure-electro
 npm run typecheck            # tsc --noEmit on tsconfig.node.json AND tsconfig.web.json — MUST be clean
 npm run lint                 # eslint — clean
 npm run build                # electron-vite build — succeeds (main + preload + renderer bundles)
-npm run dist                 # electron-builder — last batch / packaging only, on request
+npm run dist                 # electron-builder — packaging only (Phase 1 Q7 = Yes, or on request)
 ```
 
 Rules:
@@ -23,7 +23,7 @@ Rules:
 - **`ensure-electron.cjs`**: if `npm run dev`/`build` reports `Error: Electron uninstall`, the binary extraction failed silently — run `npm run postinstall` (the script restores it from cache). See `rules/config.md`.
 - If Node/npm is **not** available in the environment, say so explicitly, fall back to the static checks below (read-through), and tell the user which commands they must run themselves before considering the work verified. Never claim a clean typecheck you could not run.
 - Quote the relevant command output as proof when reporting completion.
-- **`npm test`** (vitest): run only if tests were enabled in Phase 1 (Q6) / `test/` exists — exit code 0. Otherwise skip — **do not scaffold a suite**.
+- **`npm test`** (vitest): run only if tests were enabled in Phase 1 (Q5) / `test/` exists — exit code 0. Otherwise skip — **do not scaffold a suite**.
 - The generated app ships a `.claude/settings.json` (deny guards on secrets/artifacts + a `Stop` hook running `npm run lint`). These enforce the rules automatically in later maintenance sessions but **do not replace** this checklist.
 
 ---
@@ -36,7 +36,7 @@ Rules:
 3. MVC responsibilities respected (zero business logic in view/controller, zero UI in model). See `rules/mvc.md` anti-patterns.
 4. Zero `// TODO`, zero unjustified empty implementation, zero unjustified `any`.
 4b. React Error Boundary present in `App.tsx`; `process.on("uncaughtException")` handler present in `src/main/index.ts` (see `rules/errors.md`).
-5. Node 22+ · Electron stable (≥ 42) · zero deprecated API (`remote`).
+5. Node 24+ · Electron stable (≥ 42) · zero deprecated API (`remote`).
 6. `design-system.md` and `layout.md` compliance — zero hardcoded visual value in TS/TSX, zero inline `style={}`. See `rules/css.md` anti-patterns.
 7. `rules/security.md` respected (locked `webPreferences`, minimal preload, validated IPC inputs, strict CSP, no remote resource; any external CLI spawned via `cross-spawn` args array from the main process only).
 8. Errors: business errors raised in the model, caught in the controller, returned as `IpcResult<T>`, surfaced as toasts; no `alert()`/`confirm()`/`dialog.showMessageBox`. See `rules/errors.md`.
@@ -50,6 +50,7 @@ Rules:
 14. `docs/specs/` present and consistent with the delivered code.
 
 ### Per-domain (conditional — see the matching rule for detail)
+- **logging** (`rules/logging.md`): `src/main/logger.ts` present and conforming; `setupLogging()` called first in `src/main/index.ts`; `electron-log` in `dependencies`; no `console.log` in delivered `src/`; every non-re-throwing `catch` calls `log.error(...)`.
 - **DB** (`rules/db.md`): `db.ts` single access point; `migrations.ts` called in `src/main/index.ts` before the window; `config.DB_SCHEMA_VERSION` == `max(MIGRATIONS)`; no DB access outside `models/`; SQL parameterized.
 - **sf-cli** (`rules/sf-cli.md`): if enabled, all `sf` calls via `src/main/models/sf-cli.ts` using `cross-spawn` with an args array (no `node:child_process` direct, no shell, no renderer/preload spawn); `sf` resolved from PATH or the `sfPath` preference; `ENOENT` → clear error toast; no token stored/logged; `sf:org:*` channels consistent end-to-end (`ipc-channels.ts` ↔ handlers ↔ preload ↔ `WindowApi` ↔ `OrgView`); Org Manager actions validate input and refresh the list; `cross-spawn` in `dependencies` (bundled by electron-vite).
 - **splash** (`rules/splash.md`): if enabled, `splash.html` + `styles/splash.css` + `splash.ts` present; `splash.html` registered as a second `rollupOptions.input` in `electron.vite.config.ts`; `SPLASH_MIN_DURATION_MS` in `config.ts`; splash created and dismissed in `src/main/index.ts` (main window `show: false` until `ready-to-show`); splash window `webPreferences` locked, no preload/IPC; `splash.css` consumes only tokens (no literal, save the commented `backgroundColor` in the main); splash CSP present; icon resolved to `resources/icon.ico` or text-only fallback.

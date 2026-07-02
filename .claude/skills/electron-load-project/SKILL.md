@@ -25,16 +25,21 @@ Prerequisite: invoked from the target project root, `.claude/` present.
    - `docs/specs/04-architect.md` (locked contract — most reliable). If present, it is authoritative for the structure and the IPC channels.
    - Other `docs/specs/*` for the scoping/analysis/layout decisions.
    - `README.md` at the root. If both specs and README are absent: offer `/electron-generate-readme` and stop.
-2. Read `package.json` + walk `src/` to confirm the structure (shared / main / preload / renderer).
-3. Confirm take-over (in the user's language):
+2. **Detect `test/`** via `Glob` with the pattern `test/**/*.test.*` → count the files for the Tests line.
+3. Read `package.json` + walk `src/` to confirm the structure (shared / main / preload / renderer).
+4. Confirm take-over with this exact format (in the user's language):
 
 Project loaded: [APP_NAME] v[VERSION]
+
 Stack : Electron [v] · React [v] · TypeScript
+DB : [value]
 Entities detected: [list]
 IPC channels: [count]
+Tests : [present ([N] files) | absent]
 Salesforce CLI: [enabled (sf v2 runner) | disabled]
 Specs: [docs/specs present: yes/no]
-Generator rules applied.
 
-4. Read and apply all rules (`CLAUDE.md`, `rules/mvc.md` · `rules/css.md` · `rules/errors.md` · `rules/config.md` · `rules/security.md` · `rules/sf-cli.md` (if the project has the Salesforce integration) · `rules/verification.md`, `design-system.md`, `layout.md`) to any later change. The `rules/*` are not auto-imported: read them before any code change.
-5. Any structural or security deviation detected between the code and the rules (or vs `docs/specs/04-architect.md`): report it, do not fix without a request (hand off to `/electron-fix-issue` or `/electron-refactor-code`).
+Generator rules applied. Ready for: development · fixes · improvements · adjustments.
+
+5. Read and apply all rules (`CLAUDE.md`, `rules/mvc.md` · `rules/css.md` · `rules/errors.md` · `rules/config.md` · `rules/security.md` · `rules/logging.md` · `rules/tests.md` (if tests present) · `rules/sf-cli.md` (if the project has the Salesforce integration) · `rules/verification.md`, `design-system.md`, `layout.md`) to any later change. The `rules/*` are not auto-imported: read them before any code change.
+6. Any structural or security deviation detected between the code and the rules (or vs `docs/specs/04-architect.md`): report it, do not fix without a request (hand off to `/electron-fix-issue` or `/electron-refactor-code`).

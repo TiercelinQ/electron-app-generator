@@ -1,6 +1,6 @@
 ---
 name: electron-generate-readme
-description: Analyze the specs and source of an existing Electron project and generate its README.md (objective, stack, tree, IPC channels, conventions, installation). Invoke from the target project root.
+description: Analyze the specs and source of an existing Electron project and generate its README.md (objective, features, stack, tree, IPC channels, conventions, installation). Invoke from the target project root.
 model: sonnet
 ---
 
@@ -19,19 +19,33 @@ Write a README that reflects what was actually built.
 
 Prerequisite: invoked from the target project root.
 
-1. **Sources, in priority**: `docs/specs/*` (especially `04-architect.md`) for the intended structure, then the real code — `package.json`, `src/shared/` (config, ipc-channels, types), `src/main/models/`, `src/main/controllers/`, `src/preload/`, `src/renderer/src/views/`, `src/renderer/src/styles/`. When specs and code disagree, the code is what shipped — describe the code and note the divergence.
-2. Generate `README.md` at the root:
+Use the native Claude Code tools (no shell — Windows-compatible):
+
+1. **Sources, in priority**: `docs/specs/*` (especially `04-architect.md`) for the intended structure, then the real code:
+   - List source files via `Glob` `src/**/*` (exclude `node_modules/`, `out/`, `dist/`).
+   - Read `package.json`, `src/shared/` (config, ipc-channels, types), `src/main/models/`, `src/main/controllers/`, `src/preload/`, `src/renderer/src/views/`, `src/renderer/src/styles/`.
+   - Detect `test/` via `Glob` `test/**/*.test.*`.
+   - When specs and code disagree, the code is what shipped — describe the code and note the divergence.
+2. Generate `README.md` at the root via `Write`:
 
 ```markdown
-# [APP_NAME]
+# [APP_NAME] — v[VERSION]
 
-[Objective inferred from specs/code — 2 sentences max]
+## Objective
+[Inferred from docs/specs, config.ts and the structure — 2 sentences max]
 
-## Stack
-[table: Electron, React, TypeScript, DB, i18n, packaging]
+## Features
+- [Inferred from the present views/ and controllers/]
 
-## Tree
-[real tree with the role of each file]
+## Technical stack
+- OS: Windows · Runtime: Node.js 24 LTS+ · Electron ≥ 42 · React 19 · TypeScript strict · Icons: Font Awesome
+- DB: [inferred from package.json and models/]
+- i18n: [Yes/No — inferred from src/renderer/src/i18n/]
+- Salesforce CLI: [Yes/No — inferred from src/main/models/sf-cli.ts + the `sfPath` preference]
+- Tests: [Yes (Vitest + Testing Library) | No — inferred from the presence of test/]
+
+## Architecture
+[Actual file tree with the role of each file]
 
 ## IPC channels
 [table channel → controller → model → renderer usage]
@@ -47,9 +61,18 @@ npm install
 npm run dev          # development
 npm run typecheck    # TypeScript verification
 npm run build        # build without packaging
-npm run dist         # Windows packaging (if requested)
+npm run dist         # Windows packaging (if enabled)
+
+## Tests
+[Section included only if test/ detected]
+npm test
+
+## Palette
+[Name or custom; 5 roles (main background, secondary background, accent, text, details) inferred from tokens.css — otherwise default "Steel Blue" palette]
 ```
 <!-- If better-sqlite3: run `npx electron-builder install-app-deps` after `npm install` -->
 
-3. Write the file to disk, confirm in one line (in the user's language).
+3. Write the file via `Write` (never `cat`/heredoc — Windows-incompatible).
 4. If anything is undeterminable from specs + code: ask the closed questions with `AskUserQuestion` (clickable options) before writing.
+
+Confirm with: `README.md generated at the project root.`

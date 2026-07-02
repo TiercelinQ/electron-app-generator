@@ -21,11 +21,11 @@ The full project source on disk + `README.md` + verified build.
 
 ## Code rules
 
-At start, read and fully apply: `rules/mvc.md` · `rules/css.md` · `rules/errors.md` · `rules/config.md` · `rules/security.md` · `rules/db.md` (if DB) · `rules/sf-cli.md` (if Salesforce CLI) · `rules/splash.md` (if splash screen enabled in Phase 3) · `rules/tests.md` (if tests) · `rules/verification.md` (not auto-imported). **Read `design-system.md` and `layout.md`** (no longer auto-imported) before producing any UI. Read `docs/specs/04-architect.md` — it is the locked contract this build follows.
+At start, read and fully apply: `rules/mvc.md` · `rules/css.md` · `rules/errors.md` · `rules/config.md` · `rules/security.md` · `rules/logging.md` · `rules/db.md` (if DB) · `rules/sf-cli.md` (if Salesforce CLI) · `rules/splash.md` (if splash screen enabled in Phase 3) · `rules/tests.md` (if tests) · `rules/verification.md` (not auto-imported). **Read `design-system.md` and `layout.md`** (no longer auto-imported) before producing any UI. Read `docs/specs/04-architect.md` — it is the locked contract this build follows.
 
 Critical reminders:
 - ESLint clean · Prettier · TypeScript strict · TSDoc on classes and public API.
-- Error handling on all critical operations.
+- Error handling on all critical operations; global `uncaughtException` handler + React Error Boundary installed; file logging via electron-log (`rules/logging.md`).
 - Zero hardcoded visual value in TS/TSX — everything in `tokens.css` / `styles.css`.
 - Every styled element has a `className` matching a CSS rule.
 - No library that was not validated in Phase 1.
@@ -42,11 +42,11 @@ Critical reminders:
 
 ## Delivery
 
-- Write to the project root chosen at the start of the flow (via `/electron-app` or `/electron-p1-scoping`); if it was not set in this flow, ask for it once.
+- Write to the project root chosen at the start of the flow (via `/electron-app` or `/electron-p1-scoping`); if it was not set in this flow, ask for it once: `Destination folder for the files? (e.g. C:\projects\MyApp)`.
 - Create the folders and write the files **directly to disk** — no manual action required.
 - Announcement (in the user's language): `Batch N/[total] — [content]`
 - Automatic chaining between batches without confirmation.
-- Batch split: tables in `rules/mvc.md` (3 batches Small / 4 batches Medium-Large, frozen in Phase 1).
+- Batch split: tables in `rules/mvc.md` (3 batches Small / 4 batches Medium-Large, frozen in Phase 2).
 
 ## Verification
 
@@ -54,7 +54,9 @@ Apply `rules/verification.md` — both the executable commands (§A, blocking wh
 
 ## Last batch — mandatory extra deliverables
 
+- **`src/main/index.ts`** with the strict init order: `setupLogging()` (first — `@rules/logging.md`) → global `process.on("uncaughtException")` handler → `app.whenReady()` → `runMigrations()` (if DB, before any window) → frameless splash window shown (if splash enabled) → main `BrowserWindow` created with `show: false` + locked `webPreferences` → `registerAllControllers()` → renderer loaded → on `ready-to-show`: dismiss the splash after `SPLASH_MIN_DURATION_MS`, then `mainWindow.show()`. See `@rules/splash.md` and `@rules/security.md`.
 - `scripts/ensure-electron.cjs` written at the project root (see `rules/config.md §Postinstall`).
+- If packaging enabled (Phase 1 Q7): commented `electron-builder.yml` + `npm run dist` instructions (see `rules/config.md`).
 - Install and run instructions:
   ```
   npm install
@@ -62,7 +64,7 @@ Apply `rules/verification.md` — both the executable commands (§A, blocking wh
   npm run typecheck  # TypeScript verification
   npm run lint       # ESLint
   npm run build      # build without packaging
-  npm run dist       # Windows packaging (if requested)
+  npm run dist       # Windows packaging (if enabled in Phase 1 Q7)
   ```
   (+ `npx electron-builder install-app-deps` note if better-sqlite3.)
 - `README.md` written automatically at the project root: objective, stack, tree, IPC channels, conventions, installation.
@@ -111,7 +113,7 @@ If a database was selected, deliver a standalone seed script `scripts/seed.ts` t
 
 Announce `Batch [final]/[total] — scripts/seed.ts` (before the tests batch if both apply). See `@rules/db.md`.
 
-## Test batch — only if Phase 1 Q6 = Yes
+## Test batch — only if Phase 1 Q5 = Yes
 
 Add a final dedicated batch: announce `Batch [final]/[total] — test/ + dev dependencies`. Deliver `test/` mirroring `src/` (per `@rules/tests.md`: controller pattern with mocked model/DB via `vi`, renderer smoke via Testing Library, no network/real-DB), `vitest.config.ts`, the dev dependencies (`vitest`, `@testing-library/react`, `@testing-library/jest-dom`, `jsdom`) and the `"test": "vitest run"` script. Append the `npm test` instruction to the README.
 
@@ -129,7 +131,7 @@ Once the last batch (plus the seed/test batches if any) is delivered, close Phas
   npm install                            # + npx electron-builder install-app-deps if better-sqlite3
   npm run dev
   ```
-  (+ `npm run seed` if a DB was selected; `npm test` if tests enabled; `npm run dist` to package.)
+  (+ `npm run seed` if a DB was selected; `npm test` if tests enabled; `npm run dist` if packaging enabled.)
 
 The summary points to the documents; it does not restate them.
 

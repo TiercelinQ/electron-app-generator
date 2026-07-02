@@ -25,6 +25,13 @@ export const WINDOW_MIN_HEIGHT = 768;
 export const WINDOW_DEFAULT_WIDTH = 1280;
 export const WINDOW_DEFAULT_HEIGHT = 800;
 
+// Toast position — layout.md §5 (Phase 3 choice, persisted preference)
+export const TOAST_POSITION = "top-right";
+
+// Logging — @rules/logging.md
+export const LOG_LEVEL = "info";
+export const LOG_MAX_BYTES = 1_000_000; // 1 MB, electron-log file rotation
+
 // Splash (if enabled in Phase 3) — minimum on-screen time before dismissal — @rules/splash.md
 export const SPLASH_MIN_DURATION_MS = 1200;
 ```
@@ -77,7 +84,8 @@ Convention: `entity:action`. Zero hardcoded channel string outside this file. Th
 
 ```json
 "dependencies":    { "better-sqlite3": "^12.0.0", "i18next": "^26.0.0", "react-i18next": "^17.0.0",
-                     "react": "^19.0.0", "react-dom": "^19.0.0", "@fortawesome/fontawesome-free": "^6.5.0" },
+                     "react": "^19.0.0", "react-dom": "^19.0.0", "electron-log": "^5.4.0",
+                     "@fortawesome/fontawesome-free": "^6.7.2" },
 "devDependencies": { "electron": "^42.0.0", "electron-vite": "^5.0.0", "electron-builder": "^26.0.0",
                      "typescript": "^6.0.0", "vite": "^7.0.0", "@vitejs/plugin-react": "^5.2.0",
                      "typescript-eslint": "^8.0.0", "eslint-plugin-react": "^7.37.5",
@@ -85,7 +93,7 @@ Convention: `entity:action`. Zero hardcoded channel string outside this file. Th
 ```
 
 Versioning notes:
-- `@fortawesome/fontawesome-free`: **frozen at `^6.5.0`** — FA 7.x (currently 7.2.0) is out but introduces breaking changes on CSS class names. Do not bump without a full audit of the classes used in `design-system.md` and `layout.md`.
+- `@fortawesome/fontawesome-free`: **frozen on the 6.x line at `^6.7.2`** (last 6.x) — FA 7.x (currently 7.3.0) is out but introduces breaking changes on CSS class names. Do not bump to 7.x without a full audit of the classes used in `design-system.md` and `layout.md`.
 - `electron-vite ^5.0.0`: peer dep `vite@"^5.0.0 || ^6.0.0 || ^7.0.0"` — **Vite 8 not supported** by the current stable (verified 2026-06: `vite` latest is 8.x, but `electron-vite@5.0.0` — the latest stable, 6.x is beta-only — still caps at vite 7). Stay on `vite ^7.0.0`. Note: a newer `vite` major being out does *not* mean it is usable here — what matters is electron-vite's peer range. Pair with `@vitejs/plugin-react ^5.2.0` (peer `vite ^4 → ^8`). **Do not** bump `@vitejs/plugin-react` to 6.x — that line requires `vite ^8` and is incompatible with vite 7 / electron-vite 5.
 - `eslint-plugin-react-hooks`: version 5.x never existed — the package went from 4.6.x to 7.x. Latest stable: `7.1.1`.
 - `eslint-plugin-react`: latest stable `7.37.5`.
@@ -94,7 +102,8 @@ Versioning notes:
 - `typescript-eslint ^8.0.0`: unified package for flat config — replaces the old separate `@typescript-eslint/eslint-plugin` + `@typescript-eslint/parser`. TypeScript peer dep: `>=4.8.4 <6.1.0`.
 - `better-sqlite3`: native module — recompiled for Electron via `electron-builder install-app-deps` chained after `ensure-electron.cjs` in `postinstall` (see the dedicated section). To include in the last batch instructions if SQLite is selected. Versioned migrations: see `@rules/db.md`.
 - **Salesforce CLI (if Phase 1 = Yes)** — add to `dependencies`: `cross-spawn ^7.0.6`; to `devDependencies`: `@types/cross-spawn ^6.0.6`. `electron-vite` bundles `cross-spawn` into the main bundle automatically; `esModuleInterop` is already on. No other runtime dependency (no `jsforce`/`@salesforce/core` — the `sf` CLI covers the v1 use cases). Detail: `@rules/sf-cli.md`.
-- **Tests (if Phase 1 Q6 = Yes)** — add to `devDependencies`: `vitest`, `@testing-library/react`, `@testing-library/jest-dom`, `jsdom`, plus the `"test": "vitest run"` script. Detail: `@rules/tests.md`.
+- **Tests (if Phase 1 Q5 = Yes)** — add to `devDependencies`: `vitest ^4.1.0`, `@testing-library/react ^16.3.0`, `@testing-library/jest-dom`, `jsdom ^29.0.0`, plus the `"test": "vitest run"` script. Detail: `@rules/tests.md`.
+- **`electron-log ^5.4.0`**: mandatory in every project (file logging) — see `@rules/logging.md`.
 
 > **Version maintenance**: this table and these notes reflect the state validated at the time of writing. Before pinning in a new project, re-confirm the current minor versions and the breaking-change notes above (`npm outdated`, the package release notes) — they age. The caret rule and the structure stay; the numbers and notes are refreshed per project in Phase 1.
 
@@ -306,19 +315,13 @@ main().catch((err) => {
 - Language change: hot via `i18n.changeLanguage()` (no restart — advantage vs QTranslator), persisted in preferences.
 - Zero visible hardcoded string in views, controllers, or models. If i18n not enabled: centralized FR strings in `src/renderer/src/i18n/fr.json` anyway (future toggle at zero cost) — exception: a "Small" project where a `LABELS` object in `shared/config.ts` is enough.
 
-## Logging (on request only)
+## Logging
 
-If enabled for a project: `electron-log ^5.4.0` (to validate in Phase 1 — Node has no stdlib equivalent with a file handler).
+Summary — full detail in `@rules/logging.md`.
 
-```ts
-// src/main/index.ts
-import log from "electron-log/main";
-log.initialize();
-log.transports.file.level = "info";
-// file: app.getPath("userData")/logs/main.log
-```
-
-Default electron-log format: `{y}-{m}-{d} {h}:{i}:{s}.{ms} [{level}] {text}` — enough for personal use. Renderer: `electron-log/renderer` if needed.
+- `electron-log ^5.4.0` (mandatory dependency) + `src/main/logger.ts` (`setupLogging()`, called first in `src/main/index.ts`).
+- File transport: `app.getPath("userData")/logs/main.log`, capped at `LOG_MAX_BYTES`, level `LOG_LEVEL` (`debug` if env var `[APP_NAME]_DEBUG=1`).
+- Zero `console.log` in delivered code — only `log.*`.
 
 ## Windows packaging (`.exe`)
 
@@ -339,7 +342,7 @@ nsis:
   allowToChangeInstallationDirectory: true
 ```
 
-Command: `npm run dist`. Delivered in the last batch **on explicit request**: commented `electron-builder.yml` + instructions.
+Command: `npm run dist`. **Opt-in via Phase 1 Q7** — if `Yes`, the last batch delivers the commented `electron-builder.yml` + `dist` instructions (also available later on explicit request).
 
 ### Application icon
 

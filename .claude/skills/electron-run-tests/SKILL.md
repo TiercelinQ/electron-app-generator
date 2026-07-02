@@ -38,8 +38,8 @@ A short report in the user's language stating what passed, with command output a
 
 ## Test creation policy
 
-- Tests are opt-in at Phase 1 (Q6). If enabled, the suite (Vitest + Testing Library) was delivered in its dedicated batch — run it (`npm test`).
-- **Do not create a test suite if the project has none** (Q6 = No). The default verification is typecheck + lint + build.
+- Tests are opt-in at Phase 1 (Q5). If enabled, the suite (Vitest + Testing Library) was delivered in its dedicated batch — run it (`npm test`).
+- **Do not create a test suite if the project has none** (Q5 = No). The default verification is typecheck + lint + build.
 - If the user **explicitly asks** to add tests later: follow `@rules/tests.md` (Vitest + `@testing-library/react` + jsdom, layer coverage, mocked model/DB and `window.api`). Confirm scope, then add the dev dependencies + `vitest.config.ts` + the `"test"` script.
 
 ## Anti-patterns — what NOT to do

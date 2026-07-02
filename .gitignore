@@ -1,13 +1,28 @@
-# Claude Code — personnel par machine
+# Settings locaux Claude Code — personnels, jamais commités
 .claude/settings.local.json
+
+# Mémoire auto Claude Code — personnelle, jamais commitée
+.claude/agent-memory/
 
 # Données applicatives des apps générées
 preferences.json
 *.db
+*.log
+logs/
 
 # Node / builds
 node_modules/
 out/
 dist/
 release/
-*.log
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace

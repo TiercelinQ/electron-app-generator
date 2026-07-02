@@ -1,4 +1,4 @@
-# Layout System — v2.1 (Electron)
+# Layout System — v2.2 (Electron)
 
 > Binding reference for all Node.js/Electron/React applications.
 > Built on `design-system.md v1.6 (Electron)`. The two files are inseparable.
@@ -7,8 +7,11 @@
 
 | Version | Date       | Main change                                                                |
 | ------- | ---------- | -------------------------------------------------------------------------- |
+| v2.2    | 2026-07-02 | 6 toast positions (Phase 3 choice) · toast position preference — parity with the Python generator |
 | v2.1    | 2026-06-14 | statusbar text `--text-subtle` (WCAG) · dark surface ramp · layering reference |
 | v2.0    | initial    | Global structure, topbar, drawer, statusbar, recurring components           |
+
+Every generated application references the active version in its `README.md`.
 
 ---
 
@@ -164,16 +167,37 @@ Mandatory HTML skeleton (`App.tsx` component):
 Fully replaces the inline banner. No inline banner in the applications.
 Component: `views/ToastManager.tsx` — queue in React state, `#toast-container` container in `position: fixed`.
 
-| Token                   | Value                                                   |
-| ----------------------- | -------------------------------------------------------- |
-| position                | Top-right corner, overlaid on the content                |
-| width                   | 320px                                                    |
-| margin from edge        | `--spacing-4` = 16px                                     |
-| margin from topbar      | `--spacing-4` = 16px                                     |
-| spacing between toasts  | `--spacing-2` = 8px                                      |
-| stacking                | Vertical, queue, no overlap                              |
-| enter animation         | Slide from the right, `--transition-slow` = 250ms        |
-| exit animation          | Fade + slide right, `--transition-slow` = 250ms          |
+### Position — Phase 3 choice
+
+6 positions available. Default: `top-right`.
+
+| Position       | Anchor              | Enter animation                | Exit animation                  |
+| -------------- | ------------------- | ------------------------------ | ------------------------------- |
+| `top-right`    | top + right         | Slide from the right           | Fade + slide right              |
+| `top-left`     | top + left          | Slide from the left            | Fade + slide left               |
+| `top-center`   | top + center        | Slide from the top             | Fade + slide up                 |
+| `bottom-right` | bottom + right      | Slide from the right           | Fade + slide right              |
+| `bottom-left`  | bottom + left       | Slide from the left            | Fade + slide left               |
+| `bottom-center`| bottom + center     | Slide from the bottom          | Fade + slide down               |
+
+### Margins and stacking
+
+| Token                            | Value                                                  |
+| -------------------------------- | ------------------------------------------------------ |
+| width                            | 320px (fixed)                                          |
+| margin from edge                 | `--spacing-4` = 16px                                   |
+| margin from topbar / statusbar   | `--spacing-4` = 16px (per top/bottom anchor)           |
+| spacing between toasts           | `--spacing-2` = 8px                                    |
+| stacking                         | Vertical, queue, no overlap                            |
+| stacking direction (top)         | new toast on top, older ones descend                   |
+| stacking direction (bottom)      | new toast at bottom, older ones rise                   |
+| transition duration              | `--transition-slow` = 250ms                            |
+
+### Implementation
+
+- The `ToastManager` (`views/ToastManager.tsx`) anchors `#toast-container` per `TOAST_POSITION`.
+- `TOAST_POSITION` (`src/shared/config.ts`) = `"top-right"` by default, modified per Phase 3 choice.
+- Each anchor is a named CSS rule in `styles.css` (position classes on `#toast-container` — no inline style, `@rules/css.md`).
 
 ### Display durations
 
@@ -371,12 +395,14 @@ Implementation: `keydown` listeners in the renderer. Global shortcuts do not go 
 
 `preferences.json` file in `app.getPath("userData")` — read/written **only by the main process** (`preferences.model.ts`), exposed to the renderer via IPC.
 
-| Preference       | Default value     |
-| ---------------- | ----------------- |
-| theme            | OS system         |
-| window size      | 1280×800          |
-| window position  | centered          |
-| drawer state     | closed            |
+| Preference         | Default value     |
+| ------------------ | ----------------- |
+| theme              | OS system         |
+| window size        | 1280×800          |
+| window position    | centered          |
+| drawer state       | closed            |
+| language (if i18n) | fr                |
+| toast position     | top-right         |
 
 ---
 

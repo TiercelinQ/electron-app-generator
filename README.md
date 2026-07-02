@@ -12,9 +12,9 @@ Unified edition: the full generation pipeline **plus** post-delivery maintenance
 
 A structured prompt system that generates complete, production-ready Electron/React desktop applications through a 5-phase cycle, then maintains them:
 
-1. **Scoping** - 7 questions (objective, DB, prefs, i18n, icon, tests, Salesforce CLI opt-in) + color palette (named or custom; 5 roles, dark + supporting tokens derived, WCAG AA check)
+1. **Scoping** - 8 questions (objective, DB, prefs, i18n, tests, icon, packaging, Salesforce CLI opt-in) + color palette (named or custom; 5 roles, dark + supporting tokens derived, WCAG AA check)
 2. **Featuring** - structured feature sheet, explicit out-of-scope, locked sizing
-3. **Designing** - topbar tabs, drawer/modal, toast position
+3. **Designing** - topbar tabs, drawer/modal, toast position (6 positions), splash screen
 4. **Architect** - full file tree, IPC channel table, tokens→CSS table - locked before any code is written
 5. **Development** - auto-chained batch delivery, seed script if a DB is used
 
@@ -31,7 +31,7 @@ Every generated app enforces the same visual design system, strict MVC architect
 | Element        | Value                                                       |
 | -------------- | ----------------------------------------------------------- |
 | Target OS      | Windows                                                     |
-| Runtime        | Node.js 22 LTS+ · Electron stable (≥ 42)                    |
+| Runtime        | Node.js 24 LTS+ · Electron stable (≥ 42)                    |
 | Language       | TypeScript strict                                          |
 | Renderer       | React 19 - functional components + hooks                    |
 | Build          | electron-vite                                               |
@@ -40,9 +40,10 @@ Every generated app enforces the same visual design system, strict MVC architect
 | Icons          | Font Awesome Free (local npm)                               |
 | i18n           | i18next + react-i18next FR/EN (opt-in)                      |
 | DB             | SQLite (better-sqlite3, versioned migrations) · JSON · CSV · none (opt-in) |
+| Logging        | electron-log (file transport, mandatory)                    |
 | Tests          | Vitest + Testing Library (opt-in)                          |
 | Salesforce CLI | `sf` v2 wrapper via cross-spawn + starter Org Manager (opt-in) |
-| Packaging      | electron-builder (NSIS + portable)                          |
+| Packaging      | electron-builder (NSIS + portable, opt-in)                  |
 | Security       | contextIsolation · sandbox · no nodeIntegration · strict CSP |
 | Quality        | ESLint + Prettier · JSDoc/TSDoc · IpcResult<T> error contract |
 
@@ -52,7 +53,7 @@ Every generated app enforces the same visual design system, strict MVC architect
 
 ```bash
 claude --version    # Claude Code CLI - installed and authenticated
-node --version      # Node.js 22 LTS+
+node --version      # Node.js 24 LTS+
 ```
 
 ---
@@ -78,7 +79,7 @@ Then in Claude Code:
 | Command                 | Action                                             |
 | ----------------------- | -------------------------------------------------- |
 | `/electron-app`         | Start menu (4 entry points incl. maintenance)      |
-| `/electron-p1-scoping`       | Scoping - 7 questions + color palette              |
+| `/electron-p1-scoping`       | Scoping - 8 questions + color palette              |
 | `/electron-p2-featuring`       | Featuring - requirements sheet + locked sizing     |
 | `/electron-p3-designing`        | Designing - layout proposal + customization        |
 | `/electron-p4-architect`       | Architect - locked architecture contract (IPC)     |
@@ -121,7 +122,7 @@ my-app/
 
 ## Design system
 
-All generated apps share the same visual system, defined in `.claude/design-system.md`:
+All generated apps share the same visual system, defined in `.claude/design-system.md` (v1.6):
 
 - **Flat design** - zero border-radius, zero shadows, zero gradients
 - **CSS tokens** - all colors, sizes and durations are `var(--token)`; full light/dark theme via a single `[data-theme="dark"]` block

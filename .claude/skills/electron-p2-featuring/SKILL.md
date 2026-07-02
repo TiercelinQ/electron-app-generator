@@ -67,12 +67,13 @@ Produce the sheet (in the user's language):
 - Dropped — Won't (out of scope, deliberate): [list]
 
 **Technical constraints**
-- Runtime: Node 22+ · Electron stable (≥ 42) · TypeScript strict · React 19
+- Runtime: Node 24+ · Electron stable (≥ 42) · TypeScript strict · React 19
 - DB: [value chosen in Phase 1]
 - Preferences: [Yes/No]
 - i18n: [Yes/No]
-- Icon: [Yes/No]
 - Tests: [Yes/No] — Vitest + Testing Library
+- Icon: [Yes/No]
+- Packaging: [Yes/No] — electron-builder
 - Salesforce CLI: [Yes/No] — `sf` v2 runner + starter Org Manager (if Yes)
 - Validated libraries: [Phase 1 list]
 - Palette: [Phase 1 choice: name or custom, 5 roles]
