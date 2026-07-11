@@ -96,7 +96,15 @@ Apply `rules/verification.md` — both the executable commands (§A, blocking wh
     }
   }
   ```
-  The `Stop` hook runs the fast static check at the end of each turn. Note in the README that the user can tune or remove it. **If the Salesforce CLI integration is on**, add `"Bash(sf:*)"` to the `allow` list (so maintenance sessions can verify flags with `sf <cmd> --help`).
+  The `Stop` hook runs the fast static check at the end of each turn. Note in the README that the user can tune or remove it. **To skip it on doc-only turns** (make it conditional), replace the command with a tiny guard shipped as `scripts/stop-lint.cjs` and point the hook at `node scripts/stop-lint.cjs` (a bare inline `node -e`/shell guard is not portable across cmd/PowerShell/bash — use the script). The guard: `git status --porcelain`, run `npm run lint` **only** when a `.ts`/`.tsx` path is present, and **degrade to always-lint** if git is unavailable (no repo / error):
+  ```js
+  // scripts/stop-lint.cjs — Stop-hook guard: lint only when a TS source file has uncommitted changes.
+  const { execSync } = require("node:child_process");
+  let changed = true;
+  try { changed = /\.tsx?(\s|$)/m.test(execSync("git status --porcelain", { encoding: "utf8" })); } catch { /* no git → lint */ }
+  if (changed) execSync("npm run lint", { stdio: "inherit" });
+  ```
+  **If the Salesforce CLI integration is on**, add `"Bash(sf:*)"` to the `allow` list (so maintenance sessions can verify flags with `sf <cmd> --help`).
 - Confirm `docs/specs/` is present and consistent with the delivered code.
 
 ## Splash screen — only if enabled in Phase 3

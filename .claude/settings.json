@@ -6,17 +6,18 @@
       "Bash(node:*)",
       "Read",
       "Write",
-      "Edit",
-      "Bash(echo \"ensure-electron OK \\(exit $?\\)\")",
-      "PowerShell($env:ELECTRON_RUN_AS_NODE=$null; npm run typecheck; if \\($?\\) { npm run lint })"
+      "Edit"
     ],
     "deny": [
       "Read(**/.env)",
+      "Read(**/.env.*)",
+      "Read(**/secrets/**)",
       "Write(**/.env)",
       "Write(**/.env.*)",
+      "Write(**/secrets/**)",
       "Edit(**/.env)",
       "Edit(**/.env.*)",
-      "Write(**/secrets/**)",
+      "Edit(**/secrets/**)",
       "Write(**/node_modules/**)",
       "Write(**/out/**)",
       "Write(**/release/**)",

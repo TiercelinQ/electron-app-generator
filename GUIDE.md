@@ -11,7 +11,7 @@ claude-electron-framework/
 ├── CLAUDE.md                 # Instructions core (EN) · persona · communication FR · index commandes · calibrage
 ├── GUIDE.md                  # Ce fichier
 ├── README.md                 # Présentation du repo GitHub (EN)
-├── LICENSE.txt
+├── LICENSE
 └── .claude/
     ├── design-system.md      # Référence visuelle contraignante (v1.6, tokens CSS) — source de vérité unique
     ├── layout.md             # Référence layout contraignante — shell, topbar, drawer, statusbar, toasts
