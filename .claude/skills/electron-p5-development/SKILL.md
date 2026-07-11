@@ -17,7 +17,7 @@ The full project source on disk + `README.md` + verified build.
 
 ---
 
-**Phase banner (show first)** — before anything else, output the phase banner as plain Markdown in the user's language, **never inside a code block or fenced block**. Three blocks, each on its own line: (1) H2 heading: Phase 5/5 — Development; (2) progress line: Scoping ✓ · Features ✓ · Design ✓ · Architecture ✓ · ▶ Development; (3) intent in italics: Deliver the app in batches. See `## PIPELINE` in `CLAUDE.md`.
+**Phase banner (show first)** — before anything else, output the phase banner as plain Markdown in the user's language, **never inside a code block or fenced block**. Three blocks, each on its own line: (1) H2 heading: Phase 5/5 — Development; (2) progress line: Scoping ✓ · Features ✓ · Surfaces ✓ · Architecture ✓ · ▶ Development; (3) intent in italics: Deliver the app in batches. See `## PIPELINE` in `CLAUDE.md`.
 
 ## Code rules
 
@@ -124,7 +124,7 @@ Once the last batch (plus the seed/test batches if any) is delivered, close Phas
 - **Project folder** — the project root (clickable).
 - **README.md** — how to run, stack, tree, conventions (clickable).
 - **Generated `CLAUDE.md`** — the app identity for future sessions (clickable).
-- **Documentation — phase specs** — one clickable link each: `docs/specs/01-scoping.md`, `docs/specs/02-featuring.md`, `docs/specs/03-designing.md`, `docs/specs/04-architect.md` (and the latest `docs/sessions/SESSION_*.md` if one exists).
+- **Documentation — phase specs** — one clickable link each: `docs/specs/01-scoping.md`, `docs/specs/02-featuring.md`, `docs/specs/03-surfaces.md`, `docs/specs/04-architect.md` (and the latest `docs/sessions/SESSION_*.md` if one exists).
 - **How to run** — the key commands (also in the README):
 
   ```

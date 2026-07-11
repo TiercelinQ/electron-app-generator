@@ -14,7 +14,7 @@ A structured prompt system that generates complete, production-ready Electron/Re
 
 1. **Scoping** - 8 questions (objective, DB, prefs, i18n, tests, icon, packaging, Salesforce CLI opt-in) + color palette (named or custom; 5 roles, dark + supporting tokens derived, WCAG AA check)
 2. **Featuring** - structured feature sheet, explicit out-of-scope, locked sizing
-3. **Designing** - topbar tabs, drawer/modal, toast position (6 positions), splash screen
+3. **Surfaces** - topbar tabs, drawer/modal, toast position (6 positions), splash screen
 4. **Architect** - full file tree, IPC channel table, tokens→CSS table - locked before any code is written
 5. **Development** - auto-chained batch delivery, seed script if a DB is used
 
@@ -81,7 +81,7 @@ Then in Claude Code:
 | `/electron-app`         | Start menu (4 entry points incl. maintenance)      |
 | `/electron-p1-scoping`       | Scoping - 8 questions + color palette              |
 | `/electron-p2-featuring`       | Featuring - requirements sheet + locked sizing     |
-| `/electron-p3-designing`        | Designing - layout proposal + customization        |
+| `/electron-p3-surfaces`        | Surfaces - layout proposal + customization        |
 | `/electron-p4-architect`       | Architect - locked architecture contract (IPC)     |
 | `/electron-p5-development` | Auto-chained batch delivery                        |
 | `/electron-add-feature`            | Add a feature to a shipped project                 |

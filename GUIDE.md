@@ -33,7 +33,7 @@ claude-electron-framework/
     │   ├── electron-app/            # Menu démarrage / reprise / maintenance (4 options)
     │   ├── electron-p1-scoping/     # Scoping — 8 questions + couleur → docs/specs/01-scoping.md
     │   ├── electron-p2-featuring/   # Fiche besoins → docs/specs/02-featuring.md
-    │   ├── electron-p3-designing/   # Proposition layout → docs/specs/03-designing.md
+    │   ├── electron-p3-surfaces/   # Proposition layout → docs/specs/03-surfaces.md
     │   ├── electron-p4-architect/   # Contrat architectural verrouillé → docs/specs/04-architect.md
     │   ├── electron-p5-development/ # Livraison par lots (enchaînement auto)
     │   ├── electron-add-feature/    # Ajouter une feature à un projet livré (respect contrat + sécurité)
@@ -51,7 +51,7 @@ claude-electron-framework/
     └── settings.local.json   # Overrides locaux (non versionné)
 ```
 
-> Source de vérité **unique** : un seul `design-system.md` et un seul `layout.md`, sous `.claude/`. `CLAUDE.md` les importe via `@`.
+> Source de vérité **unique** : un seul `design-system.md` et un seul `layout.md`, sous `.claude/` (lus à la demande par les skills UI, non auto-importés — voir `CLAUDE.md` § BINDING REFERENCES).
 
 ---
 
@@ -113,9 +113,9 @@ Calibrage **provisoire** annoncé (figé après Phase 2) :
 
 Fiche structurée + calibrage **confirmé** à partir du compte réel. Validation bloquante avant Phase 3. Écrit `docs/specs/02-featuring.md`.
 
-### Phase 3 — Designing
+### Phase 3 — Surfaces
 
-Proposition issue de `layout.md` + personnalisation (onglets topbar, drawer/modale, 6 positions de toasts, splash screen). Validation bloquante. Écrit `docs/specs/03-designing.md`.
+Proposition issue de `layout.md` + personnalisation (onglets topbar, drawer/modale, 6 positions de toasts, splash screen). Validation bloquante. Écrit `docs/specs/03-surfaces.md`.
 
 > **Splash screen (opt-in)** : question Oui/Non (Oui recommandé). Si Oui, fenêtre de démarrage sans cadre affichée jusqu'à ce que la fenêtre principale soit prête, suivant le design system (flat, palette, dark mode). Elle affiche l'icône de l'app si définie (Phase 1) ; sinon, un chemin d'icône optionnel est demandé en Phase 3, à défaut le splash montre le nom de l'app. Durée minimale d'affichage configurable (`SPLASH_MIN_DURATION_MS`). Détail : `rules/splash.md`.
 
@@ -196,7 +196,7 @@ Après correction (`/electron-fix-issue` ou Phase 5), Claude produit un bilan de
 | `/electron-app`         | Haiku  | Menu démarrage / reprise / maintenance               |
 | `/electron-p1-scoping`       | Sonnet | Scoping — 8 questions + couleur                      |
 | `/electron-p2-featuring`       | Sonnet | Fiche besoins                                        |
-| `/electron-p3-designing`        | Sonnet | Proposition layout + personnalisation                |
+| `/electron-p3-surfaces`        | Sonnet | Proposition layout + personnalisation                |
 | `/electron-p4-architect`       | Sonnet | Contrat architectural verrouillé (canaux IPC)        |
 | `/electron-p5-development` | Sonnet | Livraison par lots — enchaînement automatique        |
 | `/electron-add-feature`            | Sonnet | Ajouter une feature à un projet livré                |

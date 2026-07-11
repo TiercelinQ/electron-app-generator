@@ -1,10 +1,10 @@
 ---
-name: electron-p3-designing
+name: electron-p3-surfaces
 description: Phase 3 of the Electron app generation cycle — layout proposal based on layout.md, grouped customization questions, validated synthesis written to the layout spec before Phase 4.
 model: sonnet
 ---
 
-# /electron-p3-designing — Layout proposal
+# /electron-p3-surfaces — Layout proposal
 
 ## Role
 UI designer — map the validated features onto the binding layout system.
@@ -13,13 +13,13 @@ UI designer — map the validated features onto the binding layout system.
 Define the concrete layout (tabs, drawer/modal, toast position, recurring components) within `layout.md` constraints.
 
 ## Deliverable
-`docs/specs/03-designing.md` (written in the user's language) + on-screen synthesis.
+`docs/specs/03-surfaces.md` (written in the user's language) + on-screen synthesis.
 
 ---
 
 ## 1. Proposal
 
-**Phase banner (show first)** — before anything else, output the phase banner as plain Markdown in the user's language, **never inside a code block or fenced block**. Three blocks, each on its own line: (1) H2 heading: Phase 3/5 — Design; (2) progress line: Scoping ✓ · Features ✓ · ▶ Design · Architecture · Development; (3) intent in italics: Map the validated features onto the layout. See `## PIPELINE` in `CLAUDE.md`.
+**Phase banner (show first)** — before anything else, output the phase banner as plain Markdown in the user's language, **never inside a code block or fenced block**. Three blocks, each on its own line: (1) H2 heading: Phase 3/5 — Surfaces; (2) progress line: Scoping ✓ · Features ✓ · ▶ Surfaces · Architecture · Development; (3) intent in italics: Map the validated features onto the layout. See `## PIPELINE` in `CLAUDE.md`.
 
 **Read `design-system.md` and `layout.md` first** (no longer auto-imported).
 
@@ -103,6 +103,6 @@ Produce the complete synthesis of the validated layout (in the user's language):
 
 ## 4. Write the spec
 
-Once validated, write the synthesis to `docs/specs/03-designing.md` (in the user's language).
+Once validated, write the synthesis to `docs/specs/03-surfaces.md` (in the user's language).
 
 → Chain to `/electron-p4-architect` after validation.
