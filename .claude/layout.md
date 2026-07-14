@@ -1,7 +1,8 @@
-# Layout System — v3.0 (Electron)
+# Layout System — v4.0 (Electron)
 
 > Companion layout reference — not a constraint. This file provides: (1) a **proposed default
-> composition** that Claude submits in Phase 3 and that the user may amend or replace freely;
+> composition** and a **catalog of alternative composition patterns** (§12) that Claude co-designs
+> from in Phase 3, the user amending or replacing freely;
 > (2) the **feedback spec** (toasts, modals) serving the error contract; (3) **defaults and
 > technical recommendations** (dimensions, behaviors) — never a composition restriction.
 > The retained composition is the one validated in `docs/specs/03-surfaces.md` and locked in
@@ -10,12 +11,13 @@
 
 ## Changelog
 
-| Version | Date       | Main change                                                                |
-| ------- | ---------- | -------------------------------------------------------------------------- |
-| v3.0    | 2026-07-13 | Non-binding composition: mandatory skeleton becomes the proposed default; caps become defaults/recommendations |
-| v2.2    | 2026-07-02 | 6 toast positions (Phase 3 choice) · toast position preference — parity with the Python generator |
-| v2.1    | 2026-06-14 | statusbar text `--text-subtle` (WCAG) · dark surface ramp · layering reference |
-| v2.0    | initial    | Global structure, topbar, drawer, statusbar, recurring components           |
+| Version | Date       | Main change                                                                                                                        |
+| ------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| v4.0    | 2026-07-14 | Composition pattern catalog (§12): vertical sidebar, menu bar, master-detail alternatives; Phase 3 becomes a guided co-design flow |
+| v3.0    | 2026-07-13 | Non-binding composition: mandatory skeleton becomes the proposed default; caps become defaults/recommendations                     |
+| v2.2    | 2026-07-02 | 6 toast positions (Phase 3 choice) · toast position preference — parity with the Python generator                                  |
+| v2.1    | 2026-06-14 | statusbar text `--text-subtle` (WCAG) · dark surface ramp · layering reference                                                     |
+| v2.0    | initial    | Global structure, topbar, drawer, statusbar, recurring components                                                                  |
 
 Every generated application references the active version in its `README.md`.
 
@@ -86,18 +88,18 @@ Proposed default HTML skeleton (`App.tsx` component):
 
 Default values — customizable in Phase 3.
 
-| Token / option      | Default                                                                 |
-| ------------------- | ----------------------------------------------------------------------- |
-| `minWidth`          | 1024                                                                    |
-| `minHeight`         | 768                                                                     |
-| state on launch     | restored (position + size) via preferences                              |
-| theme on launch     | follows the OS theme (`nativeTheme.shouldUseDarkColors`)                |
-| OS default theme    | light                                                                   |
-| `show`              | `false` then `ready-to-show` (zero white flash)                         |
-| `backgroundColor`   | current theme `--bg` (anti-flash)                                       |
-| `autoHideMenuBar`   | `true` — no native Windows menu                                         |
-| `webPreferences`    | locked — see `rules/security.md`                                        |
-| `icon`              | `resources/icon.ico` (provided by the user, otherwise Electron default) |
+| Token / option    | Default                                                                 |
+| ----------------- | ----------------------------------------------------------------------- |
+| `minWidth`        | 1024                                                                    |
+| `minHeight`       | 768                                                                     |
+| state on launch   | restored (position + size) via preferences                              |
+| theme on launch   | follows the OS theme (`nativeTheme.shouldUseDarkColors`)                |
+| OS default theme  | light                                                                   |
+| `show`            | `false` then `ready-to-show` (zero white flash)                         |
+| `backgroundColor` | current theme `--bg` (anti-flash)                                       |
+| `autoHideMenuBar` | `true` — no native Windows menu                                         |
+| `webPreferences`  | locked — see `rules/security.md`                                        |
+| `icon`            | `resources/icon.ico` (provided by the user, otherwise Electron default) |
 
 ---
 
@@ -117,11 +119,11 @@ Default values — customizable in Phase 3.
 [ Logo / App name ]  [ Navigation tabs ]  ···  [ Theme ]
 ```
 
-| Zone   | Content                         | Width       |
-| ------ | ------------------------------- | ----------- |
-| Left   | SVG logo 24px + app name        | fixed       |
-| Center | Navigation tabs (`<nav>`)       | flexible    |
-| Right  | Light/dark theme selector       | fixed — 40px |
+| Zone   | Content                   | Width        |
+| ------ | ------------------------- | ------------ |
+| Left   | SVG logo 24px + app name  | fixed        |
+| Center | Navigation tabs (`<nav>`) | flexible     |
+| Right  | Light/dark theme selector | fixed — 40px |
 
 ### Logo / App name
 
@@ -152,13 +154,13 @@ Default values — customizable in Phase 3.
 
 ## 4. MAIN CONTENT AREA
 
-| Token               | Default                          |
-| ------------------- | -------------------------------- |
-| light mode bg       | `--bg` = #FFFFFF                 |
-| dark mode bg        | `--bg` = #1C1C1C                 |
-| inner padding       | `--spacing-6` = 24px             |
-| scroll              | vertical — `overflow-y: auto`    |
-| max content width   | `--content-xl` = 1024px (centered) |
+| Token             | Default                            |
+| ----------------- | ---------------------------------- |
+| light mode bg     | `--bg` = #FFFFFF                   |
+| dark mode bg      | `--bg` = #1C1C1C                   |
+| inner padding     | `--spacing-6` = 24px               |
+| scroll            | vertical — `overflow-y: auto`      |
+| max content width | `--content-xl` = 1024px (centered) |
 
 ### Section header
 
@@ -181,27 +183,27 @@ Component: `views/ToastManager.tsx` — queue in React state, `#toast-container`
 
 6 positions available. Default: `top-right`.
 
-| Position       | Anchor              | Enter animation                | Exit animation                  |
-| -------------- | ------------------- | ------------------------------ | ------------------------------- |
-| `top-right`    | top + right         | Slide from the right           | Fade + slide right              |
-| `top-left`     | top + left          | Slide from the left            | Fade + slide left               |
-| `top-center`   | top + center        | Slide from the top             | Fade + slide up                 |
-| `bottom-right` | bottom + right      | Slide from the right           | Fade + slide right              |
-| `bottom-left`  | bottom + left       | Slide from the left            | Fade + slide left               |
-| `bottom-center`| bottom + center     | Slide from the bottom          | Fade + slide down               |
+| Position        | Anchor          | Enter animation       | Exit animation     |
+| --------------- | --------------- | --------------------- | ------------------ |
+| `top-right`     | top + right     | Slide from the right  | Fade + slide right |
+| `top-left`      | top + left      | Slide from the left   | Fade + slide left  |
+| `top-center`    | top + center    | Slide from the top    | Fade + slide up    |
+| `bottom-right`  | bottom + right  | Slide from the right  | Fade + slide right |
+| `bottom-left`   | bottom + left   | Slide from the left   | Fade + slide left  |
+| `bottom-center` | bottom + center | Slide from the bottom | Fade + slide down  |
 
 ### Margins and stacking
 
-| Token                            | Value                                                  |
-| -------------------------------- | ------------------------------------------------------ |
-| width                            | 320px (fixed)                                          |
-| margin from edge                 | `--spacing-4` = 16px                                   |
-| margin from topbar / statusbar   | `--spacing-4` = 16px (per top/bottom anchor)           |
-| spacing between toasts           | `--spacing-2` = 8px                                    |
-| stacking                         | Vertical, queue, no overlap                            |
-| stacking direction (top)         | new toast on top, older ones descend                   |
-| stacking direction (bottom)      | new toast at bottom, older ones rise                   |
-| transition duration              | `--transition-slow` = 250ms                            |
+| Token                          | Value                                        |
+| ------------------------------ | -------------------------------------------- |
+| width                          | 320px (fixed)                                |
+| margin from edge               | `--spacing-4` = 16px                         |
+| margin from topbar / statusbar | `--spacing-4` = 16px (per top/bottom anchor) |
+| spacing between toasts         | `--spacing-2` = 8px                          |
+| stacking                       | Vertical, queue, no overlap                  |
+| stacking direction (top)       | new toast on top, older ones descend         |
+| stacking direction (bottom)    | new toast at bottom, older ones rise         |
+| transition duration            | `--transition-slow` = 250ms                  |
 
 ### Implementation
 
@@ -211,12 +213,12 @@ Component: `views/ToastManager.tsx` — queue in React state, `#toast-container`
 
 ### Display durations
 
-| Type      | Duration   | Manual dismiss      |
-| --------- | ---------- | ------------------- |
-| `success` | 4s         | No                  |
-| `info`    | 4s         | No                  |
-| `warning` | 6s         | Yes (×)             |
-| `danger`  | persistent | Yes (×) mandatory   |
+| Type      | Duration   | Manual dismiss    |
+| --------- | ---------- | ----------------- |
+| `success` | 4s         | No                |
+| `info`    | 4s         | No                |
+| `warning` | 6s         | Yes (×)           |
+| `danger`  | persistent | Yes (×) mandatory |
 
 ### Toast anatomy
 
@@ -227,14 +229,14 @@ Component: `views/ToastManager.tsx` — queue in React state, `#toast-container`
 └────────────────────────────────────┘
 ```
 
-| Token              | Value                                            |
-| ------------------ | ------------------------------------------------ |
-| padding            | `--spacing-3` vertical, `--spacing-4` horizontal |
-| left border        | 4px semantic color                               |
-| bg                 | semantic bg (`--*-50`)                           |
-| message font       | `--weight-medium` `--font-sm` (14px)             |
-| description font   | `--weight-normal` `--font-xs`, `--text-subtle`   |
-| icon               | `--icon-md` = 20px                               |
+| Token            | Value                                            |
+| ---------------- | ------------------------------------------------ |
+| padding          | `--spacing-3` vertical, `--spacing-4` horizontal |
+| left border      | 4px semantic color                               |
+| bg               | semantic bg (`--*-50`)                           |
+| message font     | `--weight-medium` `--font-sm` (14px)             |
+| description font | `--weight-normal` `--font-xs`, `--text-subtle`   |
+| icon             | `--icon-md` = 20px                               |
 
 | Type      | Bg             | Border          | Icon (Font Awesome)       |
 | --------- | -------------- | --------------- | ------------------------- |
@@ -252,15 +254,15 @@ Component: `views/ToastManager.tsx` — queue in React state, `#toast-container`
 
 Optional component. Default values below.
 
-| Token            | Default                                                                            |
-| ---------------- | ---------------------------------------------------------------------------------- |
-| width            | `--drawer-width` = 320px                                                           |
-| animation        | slide from the right, `--transition-slow` = 250ms (`transform: translateX`)         |
-| light mode bg    | `--bg-elevated` = #FFFFFF                                                          |
-| dark mode bg     | `--bg-elevated` = #353535                                                          |
-| left border      | 1px `--border`                                                                     |
-| padding          | `--spacing-6` = 24px                                                               |
-| overlay bg       | `--text` 40% opacity                                                               |
+| Token         | Default                                                                     |
+| ------------- | --------------------------------------------------------------------------- |
+| width         | `--drawer-width` = 320px                                                    |
+| animation     | slide from the right, `--transition-slow` = 250ms (`transform: translateX`) |
+| light mode bg | `--bg-elevated` = #FFFFFF                                                   |
+| dark mode bg  | `--bg-elevated` = #353535                                                   |
+| left border   | 1px `--border`                                                              |
+| padding       | `--spacing-6` = 24px                                                        |
+| overlay bg    | `--text` 40% opacity                                                        |
 
 - Opened by explicit action only. Never automatically.
 - Close: click overlay, Escape key, or × button in the drawer.
@@ -352,14 +354,14 @@ Default values below.
 
 Controlled React component (state `isOpen`) — `<div class="modal-overlay"><div class="modal">`.
 
-| Token            | Default                            |
-| ---------------- | ---------------------------------- |
-| width            | dynamic per content, min 480px     |
-| light mode bg    | `--bg` = #FFFFFF                   |
-| dark mode bg     | `--bg` = #1C1C1C                   |
-| border           | 1px `--border`                     |
-| padding          | `--spacing-6` = 24px               |
-| overlay bg       | `--text` 40% opacity               |
+| Token         | Default                        |
+| ------------- | ------------------------------ |
+| width         | dynamic per content, min 480px |
+| light mode bg | `--bg` = #FFFFFF               |
+| dark mode bg  | `--bg` = #1C1C1C               |
+| border        | 1px `--border`                 |
+| padding       | `--spacing-6` = 24px           |
+| overlay bg    | `--text` 40% opacity           |
 
 - Opened by explicit action only.
 - Close: × button, Cancel, Escape key, or click overlay.
@@ -377,17 +379,17 @@ Shown below a table when it grows long — beyond ~50 rows by default.
                   Page 2 sur 12
 ```
 
-| Token                   | Default                                                  |
-| ----------------------- | -------------------------------------------------------- |
-| position                | below the table, aligned right                           |
-| spacing from table      | `--spacing-4` = 16px                                     |
-| page button             | dynamic per number, padding `--spacing-2` horizontal     |
-| active button           | `--primary-bg` bg, `--primary` text                      |
-| inactive button         | transparent, `--text-subtle` text                        |
-| button hover            | `--bg-muted` bg                                          |
-| ← → buttons             | `--icon-sm` icons, disabled on first/last page           |
-| page label              | `--weight-normal` `--font-xs`, `--text-muted`, centered  |
-| visible pages           | 5 numbers by default — `···` ellipsis beyond             |
+| Token              | Default                                                 |
+| ------------------ | ------------------------------------------------------- |
+| position           | below the table, aligned right                          |
+| spacing from table | `--spacing-4` = 16px                                    |
+| page button        | dynamic per number, padding `--spacing-2` horizontal    |
+| active button      | `--primary-bg` bg, `--primary` text                     |
+| inactive button    | transparent, `--text-subtle` text                       |
+| button hover       | `--bg-muted` bg                                         |
+| ← → buttons        | `--icon-sm` icons, disabled on first/last page          |
+| page label         | `--weight-normal` `--font-xs`, `--text-muted`, centered |
+| visible pages      | 5 numbers by default — `···` ellipsis beyond            |
 
 ---
 
@@ -411,14 +413,14 @@ Implementation: `keydown` listeners in the renderer. Global shortcuts do not go 
 
 `preferences.json` file in `app.getPath("userData")` — read/written **only by the main process** (`preferences.model.ts`), exposed to the renderer via IPC.
 
-| Preference         | Default value     |
-| ------------------ | ----------------- |
-| theme              | OS system         |
-| window size        | 1280×800          |
-| window position    | centered          |
-| drawer state       | closed            |
-| language (if i18n) | fr                |
-| toast position     | top-right         |
+| Preference         | Default value |
+| ------------------ | ------------- |
+| theme              | OS system     |
+| window size        | 1280×800      |
+| window position    | centered      |
+| drawer state       | closed        |
+| language (if i18n) | fr            |
+| toast position     | top-right     |
 
 ---
 
@@ -443,4 +445,158 @@ This file does not redefine tokens — it consumes them. Every visual value is t
 | Line-height                | `--leading-tight` 1.25 / `--leading-normal` 1.5    |
 | Overlay opacity            | `--opacity-overlay` 0.4 (`--text` color)           |
 | Stacking order             | `--z-*` layering scale (`design-system.md §13`)    |
+
+---
+
+## 12. COMPOSITION PATTERNS
+
+Catalog of alternative composition patterns for the Phase 3 co-design flow. The default composition (§1-§10) is pattern **P1**. Each pattern below is a starting point the user may amend or replace; dimensions are defaults. The retained composition is recorded in `docs/specs/03-surfaces.md` and locked in `docs/specs/04-architect.md`. The feedback spec (§5 toasts, §8 modals) applies to every pattern.
+
+### P1 — Topbar + tabs (default)
+
+Horizontal navigation embedded in the topbar — the composition proposed by default in Phase 3.
+
+**Structure**: see §1 (shell, drawer, toast overlay) and §3 (topbar zones, tabs, theme selector). Not repeated here.
+
+| Element         | Default                                                       |
+| --------------- | ------------------------------------------------------------- |
+| topbar          | `--topbar-height` = 48px — §3                                 |
+| navigation tabs | centered in the topbar, 5 visible at most (`···` beyond) — §3 |
+| statusbar       | `--statusbar-height` = 28px — §7                              |
+
+**When to recommend**: 2-5 top-level views of comparable weight, flat hierarchy, no sub-navigation.
+
+**Implementation notes**: anchors `#app-shell`, `#topbar`, `#topbar-tabs`, `#main-content`, `#statusbar` (§1). A single tab is mounted at a time (React `activeTab` state).
+
+**Interactions**: toasts (§5), drawer (§6), statusbar (§7), and modals (§8) unchanged. Master-detail (P4) may be used inside a tab.
+
+### P2 — Vertical sidebar
+
+Left navigation column — for many sections, or sections carrying sub-items.
+
+**Structure**
+
 ```
+┌──────────┬──────────────────────────────────────────┐
+│ SIDEBAR  │        TOPBAR (reduced, optional)        │
+│ (240px)  ├──────────────────────────────────────────┤
+│          │                                          │
+│ [ico] …  │            MAIN CONTENT                  │
+│ [ico] …  │            (scrollable area)             │
+│ [ico] …  │                                          │
+├──────────┴──────────────────────────────────────────┤
+│                 STATUSBAR (28px)                    │
+└─────────────────────────────────────────────────────┘
+```
+
+Proposed HTML skeleton (`App.tsx` component):
+
+```
+<div id="app-shell">          grid columns: 240px 1fr (sidebar default width)
+  <nav id="sidebar">
+  <header id="topbar">        reduced (title + global actions) — optional
+  <main id="main-content">
+  <footer id="statusbar">
+  <div id="toast-container">  overlaid (position: fixed)
+  <aside id="drawer">         overlaid (optional)
+</div>
+```
+
+| Element               | Default                                                                |
+| --------------------- | ---------------------------------------------------------------------- |
+| width (expanded)      | 240px                                                                  |
+| width (collapsed)     | icons only — `--icon-lg` + `--spacing-4` padding on each side          |
+| bg                    | `--bg-subtle`                                                          |
+| right border          | 1px `--border`                                                         |
+| item                  | icon `--icon-md` (20px) + label `--weight-medium` `--font-sm` (14px)   |
+| item vertical padding | `--spacing-2` = 8px                                                    |
+| active item           | `--primary` text, `--bg-muted` background                              |
+| inactive item         | `--text-subtle` text, transparent background                           |
+| hover                 | `--bg-muted` background, `--transition-default`                        |
+| collapse toggle       | optional — state persisted like the drawer (§10)                       |
+| topbar (if kept)      | reduced to app name + global actions (theme), `--topbar-height` = 48px |
+
+**When to recommend**: more than 5 top-level views; grouped sections or sub-items; long labels that would crowd a topbar; a navigation the user wants always visible.
+
+**Implementation notes**: anchor `#sidebar` (`<nav>`), items are `<button class="nav-item">` — never `<a href>` (technical constraint: single-page app, no real navigation, same as §3). `#app-shell` becomes a 2-column grid. The collapsed state is a persisted preference (§10), like the drawer.
+
+**Interactions**: toasts (§5) keep their 6 positions and their margins; the drawer (§6) still overlays the content; the statusbar (§7) spans the full width. Master-detail (P4) may compose inside `#main-content`.
+
+### P3 — Menu bar
+
+A classic File/Edit/View command bar above the content — for command-driven, document-oriented apps.
+
+**Structure**
+
+```
+┌─────────────────────────────────────────────────────┐
+│  File   Edit   View   Help          MENU BAR (32px) │
+├─────────────────────────────────────────────────────┤
+│              TOPBAR (optional)                      │
+├─────────────────────────────────────────────────────┤
+│            MAIN CONTENT                             │
+│            (scrollable area)                        │
+├─────────────────────────────────────────────────────┤
+│                STATUSBAR (28px)                     │
+└─────────────────────────────────────────────────────┘
+```
+
+| Element          | Default                                                                |
+| ---------------- | ---------------------------------------------------------------------- |
+| height           | 32px                                                                   |
+| bg               | `--bg`                                                                 |
+| bottom border    | 1px `--border`                                                         |
+| menu label       | `--weight-medium` `--font-sm` (14px), `--text`                         |
+| label padding    | `--spacing-2` vertical, `--spacing-3` horizontal                       |
+| label hover/open | `--bg-muted` background                                                |
+| open panel       | `--bg-elevated` bg, 1px `--border`, min-width 200px                    |
+| panel item       | `--font-sm`, padding `--spacing-2` / `--spacing-4`, hover `--bg-muted` |
+| separator        | 1px `--border-subtle`                                                  |
+| disabled item    | `--text-muted`, not clickable                                          |
+| layering         | `--z-*` scale (`design-system.md §13`) — never a hardcoded value       |
+
+**When to recommend**: many commands for few views (editor, document tool, admin console); actions that do not map onto navigation tabs; users expecting the File/Edit/View convention.
+
+**Implementation notes**: anchor `#menubar`. **Technical constraint**: this is a custom in-app menu styled with tokens, not the native OS menu — the native `Menu` cannot be styled and would break the design system, so `autoHideMenuBar: true` stays (§2). Panels open on click, close on Escape / outside click (§9), and read the `--z-*` tokens (no inline style, `@rules/css.md`). Menu items dispatch to renderer state or `window.api` — never to an Electron `role`-based native menu.
+
+**Interactions**: toasts (§5), drawer (§6), statusbar (§7), and modals (§8) unchanged. The menu bar is a **command** surface: it composes with a navigation surface (tabs P1 or sidebar P2) rather than replacing it.
+
+### P4 — Master-detail
+
+List panel + detail panel — for one dominant entity browsed and inspected item by item.
+
+**Structure**
+
+```
+┌─────────────────────────────────────────────────────┐
+│                     TOPBAR                          │
+├────────────────────┬────────────────────────────────┤
+│  MASTER LIST       │  DETAIL PANE                   │
+│  (320px)           │  (flexible)                    │
+│  [ item ]          │  [ title + item actions ]      │
+│  [ item selected ] │  [ fields / sections ]         │
+│  [ item ]          │                                │
+├────────────────────┴────────────────────────────────┤
+│                   STATUSBAR                         │
+└─────────────────────────────────────────────────────┘
+```
+
+| Element             | Default                                                    |
+| ------------------- | ---------------------------------------------------------- |
+| master list width   | 320px                                                      |
+| resizable split     | optional — 4px drag handle, `--border`                     |
+| list bg             | `--bg-subtle`                                              |
+| separator           | 1px `--border`                                             |
+| list item padding   | `--spacing-2` vertical, `--spacing-4` horizontal           |
+| list item separator | 1px `--border-subtle`                                      |
+| selected item       | `--primary-bg` background (same role as the table row, §8) |
+| item hover          | `--bg-muted` background                                    |
+| detail padding      | `--spacing-6` = 24px                                       |
+| empty state         | centered message, `--text-subtle` `--font-sm`              |
+| list header actions | add / refresh — top of the list panel                      |
+
+**When to recommend**: a dominant entity listed and inspected/edited one at a time (records, orgs, files); the user needs the list and the detail visible together; it replaces the table → modal round trip.
+
+**Implementation notes**: anchors `#master-list` and `#detail-pane`, two zones inside `#main-content` (flex or grid). Selection lives in React state; the detail pane renders the selected id and an explicit empty state when nothing is selected. Item actions live in the detail header, list-level actions in the list header.
+
+**Interactions**: composes inside the content area of P1, P2, or P3. Toasts (§5) and modals (§8) unchanged — a destructive confirmation stays a styled modal (§8). The right drawer (§6) is usually redundant with the detail pane: pick one.

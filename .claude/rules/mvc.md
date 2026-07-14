@@ -88,9 +88,9 @@ my-app/
 │       └── src/
 │           ├── main.tsx            # React entry
 │           ├── splash.ts           # splash theme bootstrap (if splash enabled) — @rules/splash.md
-│           ├── App.tsx             # shell: topbar, content, statusbar
+│           ├── App.tsx             # shell: topbar, content, statusbar (default pattern — components follow the retained composition, layout.md §12)
 │           ├── views/
-│           │   ├── layout/         # Topbar.tsx, Statusbar.tsx, Drawer.tsx, Modal.tsx
+│           │   ├── layout/         # Topbar.tsx, Statusbar.tsx, Drawer.tsx, Modal.tsx (default pattern — components follow the retained composition, layout.md §12)
 │           │   ├── ToastManager.tsx
 │           │   ├── OrgView.tsx     # Org Manager UI (if Salesforce CLI) — @rules/sf-cli.md
 │           │   └── [Entity]View.tsx

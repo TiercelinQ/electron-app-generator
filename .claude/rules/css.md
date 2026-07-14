@@ -17,7 +17,7 @@ Imported once in `main.tsx`, in this order: `tokens.css` then `styles.css` then 
 3. **Every rule carries a comment** indicating the source design-system token(s).
 4. **Dark mode**: a single `[data-theme="dark"]` block in `tokens.css` redefining all themed tokens. `styles.css` contains **no** `[data-theme]` selector, no `@media (prefers-color-scheme)`.
 5. **Strict flat design**: `border-radius: 0` everywhere, `box-shadow` forbidden, gradients forbidden, row alternation forbidden.
-6. **Naming conventions**: kebab-case classes (`.btn-primary`, `.data-table`), states prefixed `is-`/`has-` (`.is-active`, `.has-error`). `id` reserved for the unique shell anchors (`#topbar`, `#main-content`, `#statusbar`, `#toast-container`, `#drawer`, `#app-shell`).
+6. **Naming conventions**: kebab-case classes (`.btn-primary`, `.data-table`), states prefixed `is-`/`has-` (`.is-active`, `.has-error`). `id` reserved for the unique shell anchors of the **retained composition** (default pattern: `#topbar`, `#main-content`, `#statusbar`, `#toast-container`, `#drawer`, `#app-shell`; alternative patterns add theirs — `layout.md` §12).
 7. Zero CSS framework (Tailwind, Bootstrap…), zero CSS-in-JS, zero CSS Modules — centralized flat CSS only.
 8. **`color-scheme` declared per theme** in `tokens.css` (`:root` light, `[data-theme="dark"]` dark) so native controls (scrollbars, `<select>`, `<progress>`, checkbox/radio, pickers) follow the theme. Custom flat styling on top for scrollbars and `<progress>` (see `styles.css` organization).
 9. **No hardcoded `z-index`** — use the `--z-*` layering tokens (`design-system.md §13`). Overlays (`#toast-container`, drawer/modal overlays) read them.
@@ -69,7 +69,7 @@ await window.api.savePreference("theme", theme);
 ```css
 /* ============================================================
    styles.css — [APP_NAME] v[VERSION]
-   Reference: design-system.md v1.6 (Electron) · layout.md v3.0
+   Reference: design-system.md v1.6 (Electron) · layout.md v4.0
    ============================================================ */
 
 /* --- BASE ----------------------------------------------- */
@@ -80,6 +80,7 @@ body { ... }
 #app-shell { ... }
 
 /* --- TOPBAR ----------------------------------------------- */
+/* sections mirror the retained composition (layout.md §12) */
 /* token: bg / border / topbar-height */
 #topbar { ... }
 

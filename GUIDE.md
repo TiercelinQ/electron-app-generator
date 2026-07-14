@@ -14,7 +14,7 @@ electron-app-generator/
 ├── LICENSE
 └── .claude/
     ├── design-system.md      # Référence visuelle contraignante (v1.6, tokens CSS) — source de vérité unique
-    ├── layout.md             # Cadre layout d'accompagnement — composition par défaut (shell, topbar, drawer, statusbar) + spec toasts
+    ├── layout.md             # Cadre layout d'accompagnement — catalogue de patterns + composition par défaut + spec toasts
     ├── sf-cli-reference/     # Catalogue commandes/flags sf v2 (chargé par section si intégration Salesforce)
     ├── rules/
     │   ├── mvc.md            # main=Models · preload+IPC=Controllers · renderer=Views, livraison par lots
@@ -115,7 +115,7 @@ Fiche structurée + calibrage **confirmé** à partir du compte réel. Validatio
 
 ### Phase 3 — Surfaces
 
-Proposition issue de `layout.md`, composition librement amendable + personnalisation (onglets topbar, drawer/modale, 6 positions de toasts, splash screen). Validation bloquante. Écrit `docs/specs/03-surfaces.md`.
+Co-conception guidée. Questionnaire structurant (navigation horizontale ou verticale, organisation du contenu, formulaires et actions) appuyé sur le catalogue de patterns de `layout.md` §12 : topbar + onglets (défaut), sidebar verticale, barre de menus, master-detail. Puis proposition sur mesure, composition librement amendable, et questions de détail (position des onglets, drawer/modale, 6 positions de toasts, splash screen). Validation bloquante. Écrit `docs/specs/03-surfaces.md`.
 
 > **Splash screen (opt-in)** : question Oui/Non (Oui recommandé). Si Oui, fenêtre de démarrage sans cadre affichée jusqu'à ce que la fenêtre principale soit prête, suivant le design system (flat, palette, dark mode). Elle affiche l'icône de l'app si définie (Phase 1) ; sinon, un chemin d'icône optionnel est demandé en Phase 3, à défaut le splash montre le nom de l'app. Durée minimale d'affichage configurable (`SPLASH_MIN_DURATION_MS`). Détail : `rules/splash.md`.
 
