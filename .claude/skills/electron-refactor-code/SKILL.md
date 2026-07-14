@@ -25,7 +25,7 @@ A validated plan, then the refactored files on disk + a passing verification + a
 
 ## Steps
 
-1. **Load context**: `docs/specs/04-architect.md`, then `design-system.md`, `layout.md`, `rules/mvc.md` · `rules/css.md` · `rules/security.md` (not auto-imported).
+1. **Load context**: `docs/specs/04-architect.md`, then `design-system.md`, `layout.md`, `@rules/mvc.md` · `@rules/css.md` · `@rules/security.md` (not auto-imported).
 
 2. **Diagnose** what is actually wrong: duplication, a view doing business logic, a god-controller, a model leaking UI concerns, a hardcoded value bypassing a token, an IPC channel string duplicated outside `ipc-channels.ts`. Anchor each finding to `file:line`.
 
@@ -35,9 +35,9 @@ A validated plan, then the refactored files on disk + a passing verification + a
 
 4. **Propose the plan** (in the user's language): the findings, the proposed change per finding (factorize/leave + where the helper lives), the files touched, and the explicit promise of **zero behavior change** and **zero security regression**. Wait for validation.
 
-5. **Apply** only after validation. Minimum diff. Respect the layers, the contract, and `rules/security.md`.
+5. **Apply** only after validation. Minimum diff. Respect the layers, the contract, and `@rules/security.md`.
 
-6. **Verify**: `rules/verification.md §A` — behavior unchanged, typecheck/lint clean. If the structure changed (new shared file, moved code, renamed channel), update `docs/specs/04-architect.md`, regenerate the README (`rules/readme.md`), and keep the IPC chain consistent end-to-end.
+6. **Verify**: `@rules/verification.md §A` — behavior unchanged, typecheck/lint clean. If the structure changed (new shared file, moved code, renamed channel), update `docs/specs/04-architect.md`, regenerate the README (`@rules/readme.md`), and keep the IPC chain consistent end-to-end.
 
 ## Anti-patterns — what NOT to do
 - **Do not** refactor without a validated plan, ever.

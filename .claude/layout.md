@@ -1,12 +1,18 @@
-# Layout System — v2.2 (Electron)
+# Layout System — v3.0 (Electron)
 
-> Binding reference for all Node.js/Electron/React applications.
+> Companion layout reference — not a constraint. This file provides: (1) a **proposed default
+> composition** that Claude submits in Phase 3 and that the user may amend or replace freely;
+> (2) the **feedback spec** (toasts, modals) serving the error contract; (3) **defaults and
+> technical recommendations** (dimensions, behaviors) — never a composition restriction.
+> The retained composition is the one validated in `docs/specs/03-surfaces.md` and locked in
+> `docs/specs/04-architect.md`.
 > Built on `design-system.md v1.6 (Electron)`. The two files are inseparable.
 
 ## Changelog
 
 | Version | Date       | Main change                                                                |
 | ------- | ---------- | -------------------------------------------------------------------------- |
+| v3.0    | 2026-07-13 | Non-binding composition: mandatory skeleton becomes the proposed default; caps become defaults/recommendations |
 | v2.2    | 2026-07-02 | 6 toast positions (Phase 3 choice) · toast position preference — parity with the Python generator |
 | v2.1    | 2026-06-14 | statusbar text `--text-subtle` (WCAG) · dark surface ramp · layering reference |
 | v2.0    | initial    | Global structure, topbar, drawer, statusbar, recurring components           |
@@ -16,6 +22,8 @@ Every generated application references the active version in its `README.md`.
 ---
 
 ## 1. GLOBAL STRUCTURE
+
+Proposed default composition — submitted in Phase 3, amendable or replaceable by the user.
 
 ```
 ┌─────────────────────────────────────────────────────┐
@@ -31,7 +39,7 @@ Every generated application references the active version in its `README.md`.
 └─────────────────────────────────────────────────────┘
 ```
 
-Mandatory HTML skeleton (`App.tsx` component):
+Proposed default HTML skeleton (`App.tsx` component):
 
 ```
 <div id="app-shell">          grid rows: var(--topbar-height) 1fr var(--statusbar-height)
@@ -76,7 +84,9 @@ Mandatory HTML skeleton (`App.tsx` component):
 
 ## 2. WINDOW (BrowserWindow)
 
-| Token / option      | Value                                                                  |
+Default values — customizable in Phase 3.
+
+| Token / option      | Default                                                                 |
 | ------------------- | ----------------------------------------------------------------------- |
 | `minWidth`          | 1024                                                                    |
 | `minHeight`         | 768                                                                     |
@@ -93,7 +103,7 @@ Mandatory HTML skeleton (`App.tsx` component):
 
 ## 3. TOPBAR
 
-| Token              | Value                    |
+| Token              | Default                  |
 | ------------------ | ------------------------ |
 | height             | `--topbar-height` = 48px |
 | light mode bg      | `--bg` = #FFFFFF         |
@@ -121,9 +131,9 @@ Mandatory HTML skeleton (`App.tsx` component):
 
 ### Navigation tabs (`<nav id="topbar-tabs">`)
 
-- `<button class="tab">` buttons — never `<a href>` (no real navigation, single-page app).
+- `<button class="tab">` buttons — never `<a href>` (technical constraint: no real navigation, single-page app).
 - Embedded in the topbar, center-aligned.
-- Maximum 5 visible tabs. Beyond → `···` dropdown menu.
+- 5 visible tabs recommended at most; beyond, a `···` dropdown menu keeps the topbar readable.
 - Active tab (`.is-active`): `--primary` text, 2px `--primary` bottom border.
 - Inactive tab: `--text-subtle` text, transparent background.
 - Hover: `--bg-muted` background, `--transition-default` transition.
@@ -142,7 +152,7 @@ Mandatory HTML skeleton (`App.tsx` component):
 
 ## 4. MAIN CONTENT AREA
 
-| Token               | Value                            |
+| Token               | Default                          |
 | ------------------- | -------------------------------- |
 | light mode bg       | `--bg` = #FFFFFF                 |
 | dark mode bg        | `--bg` = #1C1C1C                 |
@@ -240,7 +250,9 @@ Component: `views/ToastManager.tsx` — queue in React state, `#toast-container`
 
 ## 6. RIGHT DRAWER
 
-| Token            | Value                                                                             |
+Optional component. Default values below.
+
+| Token            | Default                                                                            |
 | ---------------- | ---------------------------------------------------------------------------------- |
 | width            | `--drawer-width` = 320px                                                           |
 | animation        | slide from the right, `--transition-slow` = 250ms (`transform: translateX`)         |
@@ -259,7 +271,9 @@ Component: `views/ToastManager.tsx` — queue in React state, `#toast-container`
 
 ## 7. STATUSBAR
 
-| Token              | Value                         |
+Default values below.
+
+| Token              | Default                       |
 | ------------------ | ----------------------------- |
 | height             | `--statusbar-height` = 28px   |
 | light mode bg      | `--bg-muted` = #F3F4F6        |
@@ -296,7 +310,7 @@ Component: `views/ToastManager.tsx` — queue in React state, `#toast-container`
 - Selected row (`.is-selected`): `--primary-bg` bg.
 - Row hover: `--bg-muted` bg.
 - Row alternation: disabled (flat design).
-- Pagination below the table if > 50 rows.
+- Pagination below the table recommended beyond ~50 rows.
 
 ### Input form
 
@@ -338,7 +352,7 @@ Component: `views/ToastManager.tsx` — queue in React state, `#toast-container`
 
 Controlled React component (state `isOpen`) — `<div class="modal-overlay"><div class="modal">`.
 
-| Token            | Value                              |
+| Token            | Default                            |
 | ---------------- | ---------------------------------- |
 | width            | dynamic per content, min 480px     |
 | light mode bg    | `--bg` = #FFFFFF                   |
@@ -356,14 +370,14 @@ Controlled React component (state `isOpen`) — `<div class="modal-overlay"><div
 
 ### Pagination
 
-Shown below a table containing more than 50 rows.
+Shown below a table when it grows long — beyond ~50 rows by default.
 
 ```
 [ ← ]  [ 1 ]  [ 2 ]  [ 3 ]  ···  [ 12 ]  [ → ]
                   Page 2 sur 12
 ```
 
-| Token                   | Value                                                    |
+| Token                   | Default                                                  |
 | ----------------------- | -------------------------------------------------------- |
 | position                | below the table, aligned right                           |
 | spacing from table      | `--spacing-4` = 16px                                     |
@@ -373,11 +387,13 @@ Shown below a table containing more than 50 rows.
 | button hover            | `--bg-muted` bg                                          |
 | ← → buttons             | `--icon-sm` icons, disabled on first/last page           |
 | page label              | `--weight-normal` `--font-xs`, `--text-muted`, centered  |
-| max visible pages       | 5 numbers — `···` ellipsis beyond                        |
+| visible pages           | 5 numbers by default — `···` ellipsis beyond             |
 
 ---
 
 ## 9. GLOBAL KEYBOARD NAVIGATION
+
+Default shortcuts — customizable in Phase 3.
 
 | Shortcut            | Action                                 |
 | ------------------- | -------------------------------------- |
@@ -428,4 +444,3 @@ This file does not redefine tokens — it consumes them. Every visual value is t
 | Overlay opacity            | `--opacity-overlay` 0.4 (`--text` color)           |
 | Stacking order             | `--z-*` layering scale (`design-system.md §13`)    |
 ```
-

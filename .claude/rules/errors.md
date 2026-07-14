@@ -34,7 +34,7 @@ export class DatabaseError extends Error {
 ```ts
 // src/main/controllers/record.controller.ts
 ipcMain.handle(IPC.RECORD_SAVE, async (_e, payload: unknown): Promise<IpcResult<Record>> => {
-  const data = validateRecordPayload(payload); // rules/security.md
+  const data = validateRecordPayload(payload); // @rules/security.md
   try {
     return { ok: true, data: recordModel.save(data) };
   } catch (err) {
@@ -74,3 +74,7 @@ toast({ type: "success", message: t("record.saved") });
 - **Do not** swallow an error silently (`catch (_) {}`) — map it to an `IpcResult` error or let it reach the global handler.
 - **Do not** handle business error logic in a view — the view only reads `result.ok` and toasts.
 - **Do not** forget the global main handler (`uncaughtException`) and the renderer Error Boundary — both are mandatory.
+
+## Integrity verification
+
+Detailed in `@rules/verification.md`. Key points: business errors raised in the model (`models/errors.ts`), caught in the controller, returned as `IpcResult<T>`, surfaced as toasts; no raw exception propagated across the IPC; no `alert()` / `confirm()` / `dialog.showMessageBox` for a business error or a confirmation; global `uncaughtException` handler in `src/main/index.ts` and React Error Boundary in `App.tsx` both present; no silently swallowed `catch`.

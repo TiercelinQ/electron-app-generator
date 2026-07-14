@@ -10,7 +10,7 @@ model: sonnet
 Debugger — find the root cause and fix it cleanly, never paper over it.
 
 ## Goal
-Resolve the failure so the relevant `rules/verification.md` checks pass, with the minimum correct change.
+Resolve the failure so the relevant `@rules/verification.md` checks pass, with the minimum correct change.
 
 ## Deliverable
 The corrected file(s) on disk + a passing verification + (after a multi-attempt anomaly) a cleanup report.
@@ -28,7 +28,7 @@ Read the actual error before touching code. Classify, then act in this order:
 - Fix the cause. **Do not** add `// eslint-disable` or `as any` to silence it unless genuinely wrong and justified in a comment.
 
 ### 2. Build failure (`npm run dev` / `npm run build`)
-- `Error: Electron uninstall` → the binary extraction failed silently; run `npm run postinstall` (`ensure-electron.cjs` restores it from cache). See `rules/config.md`.
+- `Error: Electron uninstall` → the binary extraction failed silently; run `npm run postinstall` (`ensure-electron.cjs` restores it from cache). See `@rules/config.md`.
 - `better-sqlite3` native error → run `npx electron-builder install-app-deps` (recompile for Electron).
 - Otherwise: electron-vite config, import path, or a TS error surfacing at build — trace to the declaration.
 
@@ -45,11 +45,11 @@ Read the actual error before touching code. Classify, then act in this order:
 - Non-JSON / unreadable output → CLI version drift or a command run without `--json`; verify the flags against the matching `sf-cli-reference/` section (`sf <cmd> --help`).
 - `status !== 0` in the envelope → read `message`/`name`, return it as an `IpcResult` error; never re-throw across the IPC. See @rules/sf-cli.md.
 
-### 5. Security gap (`rules/security.md`)
+### 5. Security gap (`@rules/security.md`)
 - Weakened `webPreferences`, raw `ipcRenderer` exposed, unvalidated IPC payload, CSP hole, `shell.openExternal` on renderer data, remote resource. These are never "acceptable for now" — fix to the rule.
 
 ### 6. CSS / design deviation (visual bug)
-- Hardcoded color/size, inline `style={}`, missing dark-mode token, `box-shadow`/`border-radius`, `alert()`/`confirm()`/`dialog.showMessageBox`. Route the value through `tokens.css`/`styles.css`, or replace the native dialog with the styled modal/toast. See `rules/css.md` / `rules/errors.md`.
+- Hardcoded color/size, inline `style={}`, missing dark-mode token, `box-shadow`/`border-radius`, `alert()`/`confirm()`/`dialog.showMessageBox`. Route the value through `tokens.css`/`styles.css`, or replace the native dialog with the styled modal/toast. See `@rules/css.md` / `@rules/errors.md`.
 
 ## Steps
 
@@ -59,12 +59,12 @@ Read `design-system.md` / `layout.md` on demand if the fix touches UI (no longer
 2. Classify with the tree above; read both the failing site and the declaration it depends on.
 3. **Ask: "knowing what I know now, what is the clean fix?"** Implement that, not the quickest patch. If the clean fix is larger than expected, say so before applying.
 4. Apply the minimum correct change. Respect the layers, the contract (`docs/specs/04-architect.md`), and the security rules.
-5. **Verify**: re-run `rules/verification.md §A` for the affected area; confirm the targeted failure is gone and nothing else broke. Then apply `rules/readme.md` — if the fix changed a README-documented aspect (DB schema/migration, dependency, structure), regenerate the README.
-6. If it took several attempts: produce the **cleanup report** (`rules/mvc.md` — list every dead element added during failed attempts), then offer `Do you want to remember this point? /electron-save-memory`.
+5. **Verify**: re-run `@rules/verification.md §A` for the affected area; confirm the targeted failure is gone and nothing else broke. Then apply `@rules/readme.md` — if the fix changed a README-documented aspect (DB schema/migration, dependency, structure), regenerate the README.
+6. If it took several attempts: produce the **cleanup report** (`@rules/mvc.md` — list every dead element added during failed attempts), then offer `Do you want to remember this point? /electron-save-memory`.
 
 ## Anti-patterns — what NOT to do
 - **Do not** silence a typecheck/lint finding with `as any` / `// eslint-disable` instead of fixing the cause.
-- **Do not** weaken Electron security to make an error disappear — fix the actual cause within `rules/security.md`.
+- **Do not** weaken Electron security to make an error disappear — fix the actual cause within `@rules/security.md`.
 - **Do not** wrap a bug in a `try/catch {}` that hides it.
 - **Do not** hardcode a value to "make it look right" — fix it through the tokens.
 - **Do not** patch only one link of a desynced IPC channel and leave the chain inconsistent.

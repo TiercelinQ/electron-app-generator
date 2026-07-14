@@ -21,24 +21,24 @@ The full project source on disk + `README.md` + verified build.
 
 ## Code rules
 
-At start, read and fully apply: `rules/mvc.md` · `rules/css.md` · `rules/errors.md` · `rules/config.md` · `rules/security.md` · `rules/logging.md` · `rules/db.md` (if DB) · `rules/sf-cli.md` (if Salesforce CLI) · `rules/splash.md` (if splash screen enabled in Phase 3) · `rules/tests.md` (if tests) · `rules/verification.md` (not auto-imported). **Read `design-system.md` and `layout.md`** (no longer auto-imported) before producing any UI. Read `docs/specs/04-architect.md` — it is the locked contract this build follows.
+At start, read and fully apply: `@rules/mvc.md` · `@rules/css.md` · `@rules/errors.md` · `@rules/config.md` · `@rules/security.md` · `@rules/logging.md` · `@rules/db.md` (if DB) · `@rules/sf-cli.md` (if Salesforce CLI) · `@rules/splash.md` (if splash screen enabled in Phase 3) · `@rules/tests.md` (if tests) · `@rules/verification.md` (not auto-imported). **Read `design-system.md` and `layout.md`** (no longer auto-imported) before producing any UI. Read `docs/specs/04-architect.md` — it is the locked contract this build follows.
 
 Critical reminders:
 - ESLint clean · Prettier · TypeScript strict · TSDoc on classes and public API.
-- Error handling on all critical operations; global `uncaughtException` handler + React Error Boundary installed; file logging via electron-log (`rules/logging.md`).
+- Error handling on all critical operations; global `uncaughtException` handler + React Error Boundary installed; file logging via electron-log (`@rules/logging.md`).
 - Zero hardcoded visual value in TS/TSX — everything in `tokens.css` / `styles.css`.
 - Every styled element has a `className` matching a CSS rule.
 - No library that was not validated in Phase 1.
-- Electron security: `rules/security.md` at 100%.
+- Electron security: `@rules/security.md` at 100%.
 
 ## Anti-patterns — what NOT to do
 
-- **Do not** deviate from `docs/specs/04-architect.md` silently — any structural change triggers the deviation protocol (stop, declare, validate) from `rules/mvc.md`.
-- **Do not** weaken Electron security to make something work (`rules/security.md`) — locked `webPreferences`, validated IPC inputs, strict CSP.
+- **Do not** deviate from `docs/specs/04-architect.md` silently — any structural change triggers the deviation protocol (stop, declare, validate) from `@rules/mvc.md`.
+- **Do not** weaken Electron security to make something work (`@rules/security.md`) — locked `webPreferences`, validated IPC inputs, strict CSP.
 - **Do not** expose raw `ipcRenderer` in the preload, hardcode an IPC channel, or put business logic in a controller/view.
 - **Do not** leave a `// TODO`, an empty body, or a placeholder. Each batch is complete and self-contained.
 - **Do not** introduce a library or a remote resource not in the contract.
-- **Do not** mark the work done while `rules/verification.md §A` is failing (see Verification below).
+- **Do not** mark the work done while `@rules/verification.md §A` is failing (see Verification below).
 
 ## Delivery
 
@@ -46,17 +46,17 @@ Critical reminders:
 - Create the folders and write the files **directly to disk** — no manual action required.
 - Announcement (in the user's language): `Batch N/[total] — [content]`
 - Automatic chaining between batches without confirmation.
-- Batch split: tables in `rules/mvc.md` (3 batches Small / 4 batches Medium-Large, frozen in Phase 2).
+- Batch split: tables in `@rules/mvc.md` (3 batches Small / 4 batches Medium-Large, frozen in Phase 2).
 
 ## Verification
 
-Apply `rules/verification.md` — both the executable commands (§A, blocking when the env is available) and the static integrity checks (§B). Silent — reported only on a discrepancy. Cross-file checks run on the last batch.
+Apply `@rules/verification.md` — both the executable commands (§A, blocking when the env is available) and the static integrity checks (§B). Silent — reported only on a discrepancy. Cross-file checks run on the last batch.
 
 ## Last batch — mandatory extra deliverables
 
 - **`src/main/index.ts`** with the strict init order: `setupLogging()` (first — `@rules/logging.md`) → global `process.on("uncaughtException")` handler → `app.whenReady()` → `runMigrations()` (if DB, before any window) → frameless splash window shown (if splash enabled) → main `BrowserWindow` created with `show: false` + locked `webPreferences` → `registerAllControllers()` → renderer loaded → on `ready-to-show`: dismiss the splash after `SPLASH_MIN_DURATION_MS`, then `mainWindow.show()`. See `@rules/splash.md` and `@rules/security.md`.
-- `scripts/ensure-electron.cjs` written at the project root (see `rules/config.md §Postinstall`).
-- If packaging enabled (Phase 1 Q7): commented `electron-builder.yml` + `npm run dist` instructions (see `rules/config.md`).
+- `scripts/ensure-electron.cjs` written at the project root (see `@rules/config.md §Postinstall`).
+- If packaging enabled (Phase 1 Q7): commented `electron-builder.yml` + `npm run dist` instructions (see `@rules/config.md`).
 - Install and run instructions:
   ```
   npm install
@@ -89,7 +89,7 @@ Apply `rules/verification.md` — both the executable commands (§A, blocking wh
   {
     "permissions": {
       "allow": ["Bash(npm:*)", "Bash(npx:*)", "Bash(node:*)", "Read", "Write", "Edit"],
-      "deny": ["Read(**/.env)", "Write(**/.env)", "Write(**/.env.*)", "Edit(**/.env)", "Edit(**/.env.*)", "Write(**/secrets/**)", "Write(**/node_modules/**)", "Write(**/out/**)", "Write(**/release/**)", "Write(**/dist/**)"]
+      "deny": ["Read(**/.env)", "Read(**/.env.*)", "Read(**/secrets/**)", "Write(**/.env)", "Write(**/.env.*)", "Write(**/secrets/**)", "Edit(**/.env)", "Edit(**/.env.*)", "Edit(**/secrets/**)", "Write(**/node_modules/**)", "Write(**/out/**)", "Write(**/release/**)", "Write(**/dist/**)"]
     },
     "hooks": {
       "Stop": [{ "hooks": [{ "type": "command", "command": "npm run lint" }] }]
@@ -146,4 +146,4 @@ The summary points to the documents; it does not restate them.
 ## Post-delivery adjustments
 
 Isolated fix on the affected file + direct dependencies. Deliver the complete fixed file.
-After resolving an anomaly: cleanup report (`rules/mvc.md`) then offer `Do you want to remember this point? /electron-save-memory`.
+After resolving an anomaly: cleanup report (`@rules/mvc.md`) then offer `Do you want to remember this point? /electron-save-memory`.

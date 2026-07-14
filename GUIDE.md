@@ -7,14 +7,14 @@
 ## Structure du framework
 
 ```
-claude-electron-framework/
+electron-app-generator/
 ├── CLAUDE.md                 # Instructions core (EN) · persona · communication FR · index commandes · calibrage
 ├── GUIDE.md                  # Ce fichier
 ├── README.md                 # Présentation du repo GitHub (EN)
 ├── LICENSE
 └── .claude/
     ├── design-system.md      # Référence visuelle contraignante (v1.6, tokens CSS) — source de vérité unique
-    ├── layout.md             # Référence layout contraignante — shell, topbar, drawer, statusbar, toasts
+    ├── layout.md             # Cadre layout d'accompagnement — composition par défaut (shell, topbar, drawer, statusbar) + spec toasts
     ├── sf-cli-reference/     # Catalogue commandes/flags sf v2 (chargé par section si intégration Salesforce)
     ├── rules/
     │   ├── mvc.md            # main=Models · preload+IPC=Controllers · renderer=Views, livraison par lots
@@ -51,7 +51,7 @@ claude-electron-framework/
     └── settings.local.json   # Overrides locaux (non versionné)
 ```
 
-> Source de vérité **unique** : un seul `design-system.md` et un seul `layout.md`, sous `.claude/` (lus à la demande par les skills UI, non auto-importés — voir `CLAUDE.md` § BINDING REFERENCES).
+> Source de vérité **unique** : un seul `design-system.md` et un seul `layout.md`, sous `.claude/` (lus à la demande par les skills UI, non auto-importés — voir `CLAUDE.md` § BINDING REFERENCES). `design-system.md` est contraignant (skin) ; la composition décrite par `layout.md` est un **défaut modifiable**, co-défini en Phase 3 et verrouillé dans `docs/specs/04-architect.md`.
 
 ---
 
@@ -115,7 +115,7 @@ Fiche structurée + calibrage **confirmé** à partir du compte réel. Validatio
 
 ### Phase 3 — Surfaces
 
-Proposition issue de `layout.md` + personnalisation (onglets topbar, drawer/modale, 6 positions de toasts, splash screen). Validation bloquante. Écrit `docs/specs/03-surfaces.md`.
+Proposition issue de `layout.md`, composition librement amendable + personnalisation (onglets topbar, drawer/modale, 6 positions de toasts, splash screen). Validation bloquante. Écrit `docs/specs/03-surfaces.md`.
 
 > **Splash screen (opt-in)** : question Oui/Non (Oui recommandé). Si Oui, fenêtre de démarrage sans cadre affichée jusqu'à ce que la fenêtre principale soit prête, suivant le design system (flat, palette, dark mode). Elle affiche l'icône de l'app si définie (Phase 1) ; sinon, un chemin d'icône optionnel est demandé en Phase 3, à défaut le splash montre le nom de l'app. Durée minimale d'affichage configurable (`SPLASH_MIN_DURATION_MS`). Détail : `rules/splash.md`.
 
@@ -237,7 +237,7 @@ mon-app/
 
 ## Points de vigilance
 
-- `.claude/design-system.md` et `.claude/layout.md` sont la **source de vérité unique** — ne pas les dupliquer.
+- `.claude/design-system.md` et `.claude/layout.md` sont la **source de vérité unique** — ne pas les dupliquer. La composition portée par `layout.md` est un défaut modifiable (retenue validée en Phase 3) ; le skin de `design-system.md` reste contraignant.
 - Sécurité Electron (`.claude/rules/security.md`) non négociable — jamais affaiblie, même temporairement.
 - Les canaux IPC sont centralisés dans `src/shared/ipc-channels.ts` — zéro chaîne de canal en dur ailleurs.
 - Le contrat (`docs/specs/04-architect.md`) est verrouillé. Tout changement structurel passe par `/electron-add-feature` ou le protocole de déclaration d'écart.

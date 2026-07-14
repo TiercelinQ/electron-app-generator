@@ -19,8 +19,8 @@
 ### Controllers — `src/main/controllers/`
 - One file per entity: `[entity].controller.ts`.
 - Register the `ipcMain.handle(channel, …)` handlers.
-- Validate every IPC input (type, bounds, format) before calling the Model — see `rules/security.md`.
-- Intercept business errors and return a structured result (see `rules/errors.md`). **Never propagate a raw exception across the IPC.**
+- Validate every IPC input (type, bounds, format) before calling the Model — see `@rules/security.md`.
+- Intercept business errors and return a structured result (see `@rules/errors.md`). **Never propagate a raw exception across the IPC.**
 - **Forbidden**: business logic, direct data access, UI construction.
 
 ### Preload — `src/preload/index.ts`
@@ -137,10 +137,6 @@ Add a final dedicated batch — `test/` (mirroring `src/`) + `vitest.config.ts` 
 - Automatic chaining between batches without confirmation.
 - Last batch: install instructions (`npm install`, `npm run dev`, `npm run typecheck`, `npm run build`, `npm run dist`) + `electron-builder install-app-deps` note if better-sqlite3 + `README.md` at the root.
 
-## Integrity verification
-
-Per-batch and cross-file integrity checks (MVC responsibilities, unidirectional imports, end-to-end IPC channels, `WindowApi`, security, tokens, contract) live in **`rules/verification.md`** — the single source of truth for verification. Run them silently every batch; report only on a discrepancy. Cross-file checks run on the last batch.
-
 ## Anti-patterns — what NOT to do (MVC / IPC)
 
 - **Do not** expose `ipcRenderer` raw, `require`, or any Node object through the preload `contextBridge`. Expose only named functions, one per declared channel.
@@ -148,7 +144,7 @@ Per-batch and cross-file integrity checks (MVC responsibilities, unidirectional 
 - **Do not** access Node/Electron from the renderer — only `window.api`.
 - **Do not** hardcode an IPC channel string outside `src/shared/ipc-channels.ts`.
 - **Do not** import `controllers/`, `preload/`, or `renderer/` from a model. Models are framework-free Node.
-- **Do not** propagate a raw exception across the IPC — return a structured `IpcResult<T>` (`rules/errors.md`).
+- **Do not** propagate a raw exception across the IPC — return a structured `IpcResult<T>` (`@rules/errors.md`).
 - **Do not** spread one entity across more files than `model + controller + view`. If it grows, that is a contract change → declare the deviation (Phase 4 protocol).
 - **Do not** put a shared constant in only one layer — promote it to `src/shared/config.ts`.
 
@@ -176,3 +172,7 @@ File [name]:
 ## Deletions
 
 Total deletion across all files: code, imports, IPC channels (declaration + handler + preload + calls), types, classNames, CSS rules, i18n keys. Forbidden: commented-out code, empty implementations, residue. Deliver the complete modified files.
+
+## Integrity verification
+
+Detailed in `@rules/verification.md`. Key points: MVC responsibilities respected (zero business logic in view/controller, zero UI in model); unidirectional imports (`renderer → preload → controllers → models`, `shared/` importable by all); IPC channels consistent end-to-end (`ipc-channels.ts` ↔ handlers ↔ preload ↔ renderer calls) and `WindowApi` aligned; architectural contract (`docs/specs/04-architect.md`) respected. Run silently every batch; cross-file checks on the last batch.

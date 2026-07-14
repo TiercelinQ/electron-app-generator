@@ -25,7 +25,7 @@ If the project root has not been provided in this flow, first ask: `Project root
 
 If no contract is known: stop and ask for `/electron-load-project`.
 
-**Load context**: read `docs/specs/04-architect.md` (locked contract), then `rules/mvc.md` · `rules/css.md` · `rules/errors.md` · `rules/config.md` · `rules/security.md` · `rules/db.md` (if DB) · `rules/sf-cli.md` (if the Salesforce CLI integration is on) · `rules/verification.md` (not auto-imported). Read `design-system.md` / `layout.md` on demand (no longer auto-imported) before any UI change. For an `sf`-related change, consult the matching `sf-cli-reference/` section file before writing any command/flag.
+**Load context**: read `docs/specs/04-architect.md` (locked contract), then `@rules/mvc.md` · `@rules/css.md` · `@rules/errors.md` · `@rules/config.md` · `@rules/security.md` · `@rules/db.md` (if DB) · `@rules/sf-cli.md` (if the Salesforce CLI integration is on) · `@rules/verification.md` (not auto-imported). Read `design-system.md` / `layout.md` on demand (no longer auto-imported) before any UI change. For an `sf`-related change, consult the matching `sf-cli-reference/` section file before writing any command/flag.
 
 ## Step 1 — Light feature scoping
 
@@ -74,7 +74,7 @@ Produce (in the user's language):
 - No modification not listed in the validated diff. No opportunistic improvement of adjacent code.
 - Implementation across the layers (a new feature usually touches all four):
   - Model: business logic / data access; raise named errors (`models/errors.ts`).
-  - IPC channel: declare in `src/shared/ipc-channels.ts` (never hardcode); add the `ipcMain.handle` in the controller with **input validation** (`rules/security.md`); return `IpcResult<T>`.
+  - IPC channel: declare in `src/shared/ipc-channels.ts` (never hardcode); add the `ipcMain.handle` in the controller with **input validation** (`@rules/security.md`); return `IpcResult<T>`.
   - Preload: add one named function mapping the channel; update the `WindowApi` interface in `src/shared/types.ts`.
   - View: call `window.api.x()`, handle `result.ok`, toast on error; styled with `className` + tokens only.
 - DB migration needed → increment `DB_SCHEMA_VERSION`, add a `MIGRATIONS` entry in `src/main/models/migrations.ts`.
@@ -97,7 +97,7 @@ If the user reports an anomaly after delivery, apply the `@rules/mvc.md` cleanup
 ## Anti-patterns — what NOT to do
 - **Do not** write anything not listed in the validated diff, or improve adjacent code (that is `/electron-refactor-code`, on request).
 - **Do not** add an IPC channel without declaring it in `ipc-channels.ts`, validating the payload in the controller, and aligning `WindowApi`.
-- **Do not** expose raw `ipcRenderer`/Node through the preload, or weaken `webPreferences`/CSP — `rules/security.md` is non-negotiable.
+- **Do not** expose raw `ipcRenderer`/Node through the preload, or weaken `webPreferences`/CSP — `@rules/security.md` is non-negotiable.
 - **Do not** put business logic in a controller or view, or access Node from the renderer.
 - **Do not** call `sf` outside `src/main/models/sf-cli.ts` (no `spawn` in a controller/view, no renderer spawn) or invent a command/flag not in `sf-cli-reference/` — see @rules/sf-cli.md.
 - **Do not** introduce a library or remote resource not validated in Phase 1 without the deviation protocol.
@@ -106,7 +106,7 @@ If the user reports an anomaly after delivery, apply the `@rules/mvc.md` cleanup
 
 ## Verification
 
-Apply `rules/verification.md` (§A executable + §B static — a failing check is blocking; security checks are not optional). Key points: all created/modified files match the validated diff; IPC channels consistent end-to-end (`ipc-channels.ts` ↔ handler ↔ preload ↔ `WindowApi` ↔ renderer calls); no import regression (existing files stay functional); if tests, `npm test` exit 0 on the **whole** project. Then apply `rules/readme.md` — regenerate the README if the change touched a README-documented aspect.
+Apply `@rules/verification.md` (§A executable + §B static — a failing check is blocking; security checks are not optional). Key points: all created/modified files match the validated diff; IPC channels consistent end-to-end (`ipc-channels.ts` ↔ handler ↔ preload ↔ `WindowApi` ↔ renderer calls); no import regression (existing files stay functional); if tests, `npm test` exit 0 on the **whole** project. Then apply `@rules/readme.md` — regenerate the README if the change touched a README-documented aspect.
 
 ## When the user asks something adjacent
 - **"Just make it work, never mind the architecture/security"** → push back: the MVC split and the security rules are what keep an Electron app safe and maintainable. Implement within them.

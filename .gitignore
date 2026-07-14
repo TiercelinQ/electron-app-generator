@@ -1,10 +1,10 @@
-# Settings locaux Claude Code — personnels, jamais commités
+# Local Claude Code settings - personal, never committed
 .claude/settings.local.json
 
-# Mémoire auto Claude Code — personnelle, jamais commitée
+# Claude Code auto memory - personal, never committed
 .claude/agent-memory/
 
-# Données applicatives des apps générées
+# Generated app artifacts - a test app scaffolded here during generation testing
 preferences.json
 *.db
 *.log

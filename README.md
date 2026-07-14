@@ -142,9 +142,9 @@ All generated apps share the same visual system, defined in `.claude/design-syst
 
 - [GUIDE.md](GUIDE.md) - full usage guide (FR)
 - `.claude/design-system.md` - visual token reference
-- `.claude/layout.md` - layout reference (shell, topbar, drawer, statusbar, toasts)
+- `.claude/layout.md` - layout companion (proposed default composition + toast spec)
 - `.claude/rules/` - domain rules:
-  - `mvc.md` · `css.md` · `errors.md` · `security.md` · `config.md` · `db.md` · `sf-cli.md` (opt-in) · `tests.md`
+  - `mvc.md` · `css.md` · `errors.md` · `security.md` · `config.md` · `db.md` · `sf-cli.md` (opt-in) · `splash.md` (opt-in) · `tests.md` (opt-in) · `logging.md` · `readme.md`
   - `verification.md` - single source of truth for executable + static checks
 - `.claude/sf-cli-reference/` - `sf` v2 command/flag catalog (loaded by section when the Salesforce integration is on)
 

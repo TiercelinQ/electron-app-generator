@@ -371,3 +371,7 @@ renderer: {
 ```
 
 The main process loads the built `splash.html` (`out/renderer/splash.html`). Splash assets, orchestration, and CSP: `@rules/splash.md`.
+
+## Integrity verification
+
+Detailed in `@rules/verification.md`. Key points: every constant reused in more than one file lives in `src/shared/config.ts` (zero color there — colors are tokens); zero hardcoded IPC channel string outside `src/shared/ipc-channels.ts`; `postinstall` → `scripts/ensure-electron.cjs` present in `package.json` (chained with `electron-builder install-app-deps` if `better-sqlite3`); dependency versions re-confirmed at generation and caret-pinned inside the documented peer ranges; `electron-builder.yml` + `dist` script only when packaging is enabled (Phase 1 Q7); `splash.html` registered as a second renderer entry when the splash is on (Phase 3).

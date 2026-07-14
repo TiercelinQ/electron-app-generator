@@ -69,7 +69,7 @@ await window.api.savePreference("theme", theme);
 ```css
 /* ============================================================
    styles.css — [APP_NAME] v[VERSION]
-   Reference: design-system.md v1.6 (Electron) · layout.md v2.2
+   Reference: design-system.md v1.6 (Electron) · layout.md v3.0
    ============================================================ */
 
 /* --- BASE ----------------------------------------------- */
@@ -169,3 +169,7 @@ In Phase 1 the project picks a **palette** (named or custom) = 5 light roles: fo
 - **Do not** ship dark mode without `color-scheme` — native controls (scrollbars, `<select>`, `<progress>`) would stay light.
 - **Do not** hardcode a `z-index` — use the `--z-*` tokens.
 - **Do not** rely on the native `title` tooltip where flat styling is required — use the `.tooltip` rule.
+
+## Integrity verification
+
+Detailed in `@rules/verification.md`. Key points: zero hardcoded visual value in TS/TSX and zero inline `style={}`; `styles.css` consumes only `var(--token)` (no literal value, no `[data-theme]` selector, no `prefers-color-scheme`); dark mode confined to the single `[data-theme="dark"]` block of `tokens.css`, with `color-scheme` declared per theme; flat design held (no `border-radius > 0`, no `box-shadow`, no gradient); no CSS framework / CSS-in-JS / CSS Modules; `z-index` read from the `--z-*` tokens.

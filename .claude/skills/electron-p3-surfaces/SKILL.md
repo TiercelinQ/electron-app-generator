@@ -7,10 +7,10 @@ model: sonnet
 # /electron-p3-surfaces — Layout proposal
 
 ## Role
-UI designer — map the validated features onto the binding layout system.
+UI designer — map the validated features onto a layout co-defined with the user.
 
 ## Goal
-Define the concrete layout (tabs, drawer/modal, toast position, recurring components) within `layout.md` constraints.
+Define the concrete layout (tabs, drawer/modal, toast position, recurring components), starting from the `layout.md` proposed default, freely amendable by the user.
 
 ## Deliverable
 `docs/specs/03-surfaces.md` (written in the user's language) + on-screen synthesis.
@@ -23,7 +23,7 @@ Define the concrete layout (tabs, drawer/modal, toast position, recurring compon
 
 **Read `design-system.md` and `layout.md` first** (no longer auto-imported).
 
-Based on the features validated in Phase 2 (`docs/specs/02-featuring.md`), propose a layout among the structures defined in `layout.md`, justified against the features. Produce (in the user's language):
+Based on the features validated in Phase 2 (`docs/specs/02-featuring.md`), propose the `layout.md` default composition adapted and justified against the features, and state explicitly that the user may amend any part of it or define a different composition. Produce (in the user's language):
 
 ## Proposed layout — [APP_NAME]
 
@@ -97,7 +97,7 @@ Based on the answers, propose 2 suited layouts with a justified recommendation, 
 
 ## 3. Synthesis
 
-Produce the complete synthesis of the validated layout (in the user's language): structure, tabs, secondary panel, recurring components, toast position, splash screen on/off + icon source, any deviations vs the `layout.md` default.
+Produce the complete synthesis of the validated layout (in the user's language): structure, tabs, secondary panel, recurring components, toast position, splash screen on/off + icon source, the retained composition (default, amended, or user-defined) vs the `layout.md` proposed default.
 
 **→ Explicit validation required before Phase 4.**
 

@@ -41,5 +41,5 @@ Specs: [docs/specs present: yes/no]
 
 Generator rules applied. Ready for: development · fixes · improvements · adjustments.
 
-5. Read and apply all rules (`CLAUDE.md`, `rules/mvc.md` · `rules/css.md` · `rules/errors.md` · `rules/config.md` · `rules/security.md` · `rules/logging.md` · `rules/tests.md` (if tests present) · `rules/sf-cli.md` (if the project has the Salesforce integration) · `rules/verification.md`, `design-system.md`, `layout.md`) to any later change. The `rules/*` are not auto-imported: read them before any code change.
+5. Read and apply all rules (`CLAUDE.md`, `@rules/mvc.md` · `@rules/css.md` · `@rules/errors.md` · `@rules/config.md` · `@rules/security.md` · `@rules/logging.md` · `@rules/tests.md` (if tests present) · `@rules/sf-cli.md` (if the project has the Salesforce integration) · `@rules/verification.md`, `design-system.md`, `layout.md`) to any later change. The `rules/*` are not auto-imported: read them before any code change.
 6. Any structural or security deviation detected between the code and the rules (or vs `docs/specs/04-architect.md`): report it, do not fix without a request (hand off to `/electron-fix-issue` or `/electron-refactor-code`).

@@ -85,3 +85,7 @@ Explicit per-permission authorization only if a feature validated in Phase 1 req
 - **Do not** `shell.openExternal` a URL coming from the renderer or from data — only constants from `shared/config.ts`.
 - **Do not** load a remote resource (CDN font/script/style) — everything is local npm.
 - **Do not** import the deprecated `remote` / `@electron/remote` module.
+
+## Integrity verification
+
+Detailed in `@rules/verification.md`. Key points: `webPreferences` locked (`contextIsolation: true`, `nodeIntegration: false`, `sandbox: true`, `webSecurity: true`) on every window, splash included; preload minimal (named functions only, no raw `ipcRenderer`, no Node primitive); every IPC payload validated main-side before use, file paths resolved and confined; SQL 100% parameterized; strict CSP present, no remote resource, navigation and window opening blocked; any external CLI spawned via `cross-spawn` with an args array from the main process only; no `remote` / `@electron/remote`; user data under `app.getPath("userData")`, no secret in code or logs.

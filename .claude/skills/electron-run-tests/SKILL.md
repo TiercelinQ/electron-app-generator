@@ -21,7 +21,7 @@ A short report in the user's language stating what passed, with command output a
 
 ## Steps
 
-1. **Apply `rules/verification.md §A`** in order:
+1. **Apply `@rules/verification.md §A`** in order:
    ```
    npm install                  # + postinstall (ensure-electron.cjs)
    npm run typecheck            # tsc --noEmit (node + web) — expect clean
@@ -31,10 +31,10 @@ A short report in the user's language stating what passed, with command output a
    ```
    - better-sqlite3 present → `npx electron-builder install-app-deps` after install.
    - `Error: Electron uninstall` → `npm run postinstall`.
-   - If the Salesforce CLI integration is on, the static read-through (`rules/verification.md §B`) confirms every `sf` call goes through `src/main/models/sf-cli.ts` via `cross-spawn` (args array, no renderer spawn). Tests never spawn the real `sf` — the runner is mocked (`@rules/tests.md`).
+   - If the Salesforce CLI integration is on, the static read-through (`@rules/verification.md §B`) confirms every `sf` call goes through `src/main/models/sf-cli.ts` via `cross-spawn` (args array, no renderer spawn). Tests never spawn the real `sf` — the runner is mocked (`@rules/tests.md`).
 2. **Capture output**. A non-zero exit or any reported error is a failure — quote the relevant lines.
 3. **Report** (in the user's language): which commands passed, with proof. On failure: name the command, the `file:line`, and hand off to `/electron-fix-issue` for the root cause (do not patch here unless the user asks).
-4. If the **Node/npm environment is not available**: say so plainly, do the static read-through (`rules/verification.md §B`), and list the exact commands the user must run themselves. Never claim a clean typecheck you could not execute.
+4. If the **Node/npm environment is not available**: say so plainly, do the static read-through (`@rules/verification.md §B`), and list the exact commands the user must run themselves. Never claim a clean typecheck you could not execute.
 
 ## Test creation policy
 

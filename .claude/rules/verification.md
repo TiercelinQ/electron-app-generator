@@ -20,7 +20,7 @@ npm run dist                 # electron-builder — packaging only (Phase 1 Q7 =
 Rules:
 - A non-zero exit or any reported error is a failure → fix the root cause, do not silence the rule. Re-run until clean.
 - **better-sqlite3** (native module): after `npm install`, run `npx electron-builder install-app-deps` so the native binding is recompiled for Electron. Without it, `npm run dev`/`build` fails at runtime on the SQLite require.
-- **`ensure-electron.cjs`**: if `npm run dev`/`build` reports `Error: Electron uninstall`, the binary extraction failed silently — run `npm run postinstall` (the script restores it from cache). See `rules/config.md`.
+- **`ensure-electron.cjs`**: if `npm run dev`/`build` reports `Error: Electron uninstall`, the binary extraction failed silently — run `npm run postinstall` (the script restores it from cache). See `@rules/config.md`.
 - If Node/npm is **not** available in the environment, say so explicitly, fall back to the static checks below (read-through), and tell the user which commands they must run themselves before considering the work verified. Never claim a clean typecheck you could not run.
 - Quote the relevant command output as proof when reporting completion.
 - **`npm test`** (vitest): run only if tests were enabled in Phase 1 (Q5) / `test/` exists — exit code 0. Otherwise skip — **do not scaffold a suite**.
@@ -33,13 +33,13 @@ Rules:
 ### Every batch / every change
 1. TypeScript compiles (`tsc --noEmit` mentally, then confirmed by §A when the env is available).
 2. Imports: all used, none missing, unidirectional direction respected (`renderer → preload → controllers → models`; `shared` importable by all).
-3. MVC responsibilities respected (zero business logic in view/controller, zero UI in model). See `rules/mvc.md` anti-patterns.
+3. MVC responsibilities respected (zero business logic in view/controller, zero UI in model). See `@rules/mvc.md` anti-patterns.
 4. Zero `// TODO`, zero unjustified empty implementation, zero unjustified `any`.
-4b. React Error Boundary present in `App.tsx`; `process.on("uncaughtException")` handler present in `src/main/index.ts` (see `rules/errors.md`).
+4b. React Error Boundary present in `App.tsx`; `process.on("uncaughtException")` handler present in `src/main/index.ts` (see `@rules/errors.md`).
 5. Node 24+ · Electron stable (≥ 42) · zero deprecated API (`remote`).
-6. `design-system.md` and `layout.md` compliance — zero hardcoded visual value in TS/TSX, zero inline `style={}`. See `rules/css.md` anti-patterns.
-7. `rules/security.md` respected (locked `webPreferences`, minimal preload, validated IPC inputs, strict CSP, no remote resource; any external CLI spawned via `cross-spawn` args array from the main process only).
-8. Errors: business errors raised in the model, caught in the controller, returned as `IpcResult<T>`, surfaced as toasts; no `alert()`/`confirm()`/`dialog.showMessageBox`. See `rules/errors.md`.
+6. `design-system.md` compliance + the composition validated in `docs/specs/03-surfaces.md`/`04-architect.md` + the retained `layout.md` specs (toasts, modals) — zero hardcoded visual value in TS/TSX, zero inline `style={}`. See `@rules/css.md` anti-patterns.
+7. `@rules/security.md` respected (locked `webPreferences`, minimal preload, validated IPC inputs, strict CSP, no remote resource; any external CLI spawned via `cross-spawn` args array from the main process only).
+8. Errors: business errors raised in the model, caught in the controller, returned as `IpcResult<T>`, surfaced as toasts; no `alert()`/`confirm()`/`dialog.showMessageBox`. See `@rules/errors.md`.
 
 ### Last batch only — cross-file
 9. All inter-layer imports resolved; IPC channels consistent end-to-end (`ipc-channels.ts` declaration ↔ handlers ↔ preload ↔ renderer calls).
@@ -50,11 +50,11 @@ Rules:
 14. `docs/specs/` present and consistent with the delivered code.
 
 ### Per-domain (conditional — see the matching rule for detail)
-- **logging** (`rules/logging.md`): `src/main/logger.ts` present and conforming; `setupLogging()` called first in `src/main/index.ts`; `electron-log` in `dependencies`; no `console.log` in delivered `src/`; every non-re-throwing `catch` calls `log.error(...)`.
-- **DB** (`rules/db.md`): `db.ts` single access point; `migrations.ts` called in `src/main/index.ts` before the window; `config.DB_SCHEMA_VERSION` == `max(MIGRATIONS)`; no DB access outside `models/`; SQL parameterized.
-- **sf-cli** (`rules/sf-cli.md`): if enabled, all `sf` calls via `src/main/models/sf-cli.ts` using `cross-spawn` with an args array (no `node:child_process` direct, no shell, no renderer/preload spawn); `sf` resolved from PATH or the `sfPath` preference; `ENOENT` → clear error toast; no token stored/logged; `sf:org:*` channels consistent end-to-end (`ipc-channels.ts` ↔ handlers ↔ preload ↔ `WindowApi` ↔ `OrgView`); Org Manager actions validate input and refresh the list; `cross-spawn` in `dependencies` (bundled by electron-vite).
-- **splash** (`rules/splash.md`): if enabled, `splash.html` + `styles/splash.css` + `splash.ts` present; `splash.html` registered as a second `rollupOptions.input` in `electron.vite.config.ts`; `SPLASH_MIN_DURATION_MS` in `config.ts`; splash created and dismissed in `src/main/index.ts` (main window `show: false` until `ready-to-show`); splash window `webPreferences` locked, no preload/IPC; `splash.css` consumes only tokens (no literal, save the commented `backgroundColor` in the main); splash CSP present; icon resolved to `resources/icon.ico` or text-only fallback.
-- **tests** (`rules/tests.md`): if enabled, each source module has a matching test (Phase 4 mapping); `npm test` exit 0; dev dependencies present.
+- **logging** (`@rules/logging.md`): `src/main/logger.ts` present and conforming; `setupLogging()` called first in `src/main/index.ts`; `electron-log` in `dependencies`; no `console.log` in delivered `src/`; every non-re-throwing `catch` calls `log.error(...)`.
+- **DB** (`@rules/db.md`): `db.ts` single access point; `migrations.ts` called in `src/main/index.ts` before the window; `config.DB_SCHEMA_VERSION` == `max(MIGRATIONS)`; no DB access outside `models/`; SQL parameterized.
+- **sf-cli** (`@rules/sf-cli.md`): if enabled, all `sf` calls via `src/main/models/sf-cli.ts` using `cross-spawn` with an args array (no `node:child_process` direct, no shell, no renderer/preload spawn); `sf` resolved from PATH or the `sfPath` preference; `ENOENT` → clear error toast; no token stored/logged; `sf:org:*` channels consistent end-to-end (`ipc-channels.ts` ↔ handlers ↔ preload ↔ `WindowApi` ↔ `OrgView`); Org Manager actions validate input and refresh the list; `cross-spawn` in `dependencies` (bundled by electron-vite).
+- **splash** (`@rules/splash.md`): if enabled, `splash.html` + `styles/splash.css` + `splash.ts` present; `splash.html` registered as a second `rollupOptions.input` in `electron.vite.config.ts`; `SPLASH_MIN_DURATION_MS` in `config.ts`; splash created and dismissed in `src/main/index.ts` (main window `show: false` until `ready-to-show`); splash window `webPreferences` locked, no preload/IPC; `splash.css` consumes only tokens (no literal, save the commented `backgroundColor` in the main); splash CSP present; icon resolved to `resources/icon.ico` or text-only fallback.
+- **tests** (`@rules/tests.md`): if enabled, each source module has a matching test (Phase 4 mapping); `npm test` exit 0; dev dependencies present.
 
 ---
 

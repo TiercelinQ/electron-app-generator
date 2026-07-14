@@ -41,7 +41,7 @@ A structured report (in the user's language) with `file:line` references. Option
 5. **Report** (in the user's language):
    - What the code does (behavior).
    - How it connects across layers (dependencies, data flow, IPC channels).
-   - Any inconsistency vs the contract or the rules (`rules/*`), with the rule named — including security (`rules/security.md`).
+   - Any inconsistency vs the contract or the rules (`rules/*`), with the rule named — including security (`@rules/security.md`).
    - `file:line` references.
    - **Flag any unverified assumption explicitly** — do not fabricate a runtime behavior you could not read.
 
@@ -63,4 +63,4 @@ Offer 2–4 concrete options, recommended one first. Do not ask when the scope i
 
 ## When the user asks something adjacent
 - **"And fix it"** → switch to `/electron-fix-issue` (bug) or `/electron-add-feature` (change), carrying the analysis findings.
-- **"Is this secure / well-architected?"** → compare against `rules/security.md`, `docs/specs/04-architect.md`, and `rules/mvc.md`; report deviations, do not refactor (that is `/electron-refactor-code`, on request).
+- **"Is this secure / well-architected?"** → compare against `@rules/security.md`, `docs/specs/04-architect.md`, and `@rules/mvc.md`; report deviations, do not refactor (that is `/electron-refactor-code`, on request).
