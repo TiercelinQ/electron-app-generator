@@ -1,7 +1,7 @@
 # Electron App Generator
 
 > Senior Node.js/Electron/TypeScript/React expert. Windows desktop applications, MVC architecture (main = Model, renderer = View, IPC = Controller), personal and professional use.
-> The user has 11 years of Apex/Salesforce experience. Do not explain general programming concepts. Explain only the Node.js/Electron/React specifics that deviate from what an Apex developer would expect.
+> Do not explain general programming concepts. Explain only the Node.js/Electron/React specifics that deviate from what a generic senior developer would expect.
 > Framework version: 1.0.0 (unified edition). This version is recorded in each generated app's `CLAUDE.md`.
 
 ---
@@ -40,6 +40,7 @@ Each skill opens with an explicit **Role / Goal / Deliverable** header that scop
 The generation pipeline has 5 phases. Each phase skill **opens by displaying a visible banner** (rendered in the user's language) so the user knows where they are and follows the thread. This banner is the **visible counterpart** of the internal Role/Goal/Deliverable header (which stays hidden - see ROLE PER SKILL).
 
 Phases - user-facing name + one-line intent:
+
 1. **Scoping** - destination folder, project parameters, palette.
 2. **Features** - elicit, prioritize (MoSCoW), bound the v1.0 scope.
 3. **Surfaces** - map the validated features onto the layout.
@@ -47,15 +48,17 @@ Phases - user-facing name + one-line intent:
 5. **Development** - deliver the app in batches.
 
 Banner format - **output it as plain Markdown, never inside a code block / fenced block** (a fenced block shows raw code-fence markers to the user). Three blocks, each on its own line, in the user's language:
+
 - an H2 heading: `## Phase N/5 — [Name]`
-- the progress map: completed phases followed by `✓`, the current phase preceded by `▶`, upcoming phases plain, joined with ` · `
-- the one-line intent, in *italics*
+- the progress map: completed phases followed by `✓`, the current phase preceded by `▶`, upcoming phases plain, joined with `·`
+- the one-line intent, in _italics_
 
 Example for Phase 2 (renders as a heading + two lines, not a fenced block):
 
 > ## Phase 2/5 — Features
+>
 > Scoping ✓ · ▶ Features · Surfaces · Architecture · Development
-> *Elicit, prioritize (MoSCoW), and bound the v1.0 scope.*
+> _Elicit, prioritize (MoSCoW), and bound the v1.0 scope._
 
 - Progress map: completed phases marked `✓`, the current phase marked `▶`, upcoming phases plain. These are **intentional progress markers** (not decorative - the no-emoji rule does not strip them).
 - Render every phase label and intent in the user's language.
@@ -67,12 +70,12 @@ Example for Phase 2 (renders as a heading + two lines, not a fenced block):
 
 The generation pipeline writes a persisted spec file per phase into `docs/specs/` of the generated project, **in addition** to showing it on screen. **Spec files are written in the user's language** (for user review).
 
-| Phase | Spec file |
-| ----- | --------------------------------- |
-| 1 - Scoping    | `docs/specs/01-scoping.md`   |
-| 2 - Featuring  | `docs/specs/02-featuring.md`   |
-| 3 - Surfaces  | `docs/specs/03-surfaces.md`    |
-| 4 - Architect  | `docs/specs/04-architect.md` (locked architectural contract) |
+| Phase         | Spec file                                                    |
+| ------------- | ------------------------------------------------------------ |
+| 1 - Scoping   | `docs/specs/01-scoping.md`                                   |
+| 2 - Featuring | `docs/specs/02-featuring.md`                                 |
+| 3 - Surfaces  | `docs/specs/03-surfaces.md`                                  |
+| 4 - Architect | `docs/specs/04-architect.md` (locked architectural contract) |
 
 `docs/specs/04-architect.md` is the **source of truth** for the project structure - re-read by `/electron-load-project`, `/electron-show-contract`, `/electron-add-feature`, and `/electron-refactor-code`.
 
@@ -88,21 +91,21 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 
 ## STACK (NON-NEGOTIABLE)
 
-| Item                 | Value                                                          |
-| -------------------- | -------------------------------------------------------------- |
-| Target OS            | Windows                                                        |
-| Runtime              | Node.js 24 LTS+ · Electron stable (≥ 42)                       |
-| Language             | TypeScript strict (`strict: true`)                            |
-| Renderer             | React 19 - functional components + hooks only                  |
-| Build                | electron-vite                                                  |
-| Architecture         | Strict MVC - main = Models · renderer = Views · IPC = Controllers |
-| Style                | Centralized CSS - `tokens.css` (variables) + `styles.css`     |
-| Icons                | Font Awesome Free (`@fortawesome/fontawesome-free`, local npm) |
-| Internationalization | FR/EN - FR default - `i18next` + `react-i18next`              |
-| SQLite database      | `better-sqlite3` (if selected in Phase 1)                     |
+| Item                 | Value                                                                                                                 |
+| -------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| Target OS            | Windows                                                                                                               |
+| Runtime              | Node.js 24 LTS+ · Electron stable (≥ 42)                                                                              |
+| Language             | TypeScript strict (`strict: true`)                                                                                    |
+| Renderer             | React 19 - functional components + hooks only                                                                         |
+| Build                | electron-vite                                                                                                         |
+| Architecture         | Strict MVC - main = Models · renderer = Views · IPC = Controllers                                                     |
+| Style                | Centralized CSS - `tokens.css` (variables) + `styles.css`                                                             |
+| Icons                | Font Awesome Free (`@fortawesome/fontawesome-free`, local npm)                                                        |
+| Internationalization | FR/EN - FR default - `i18next` + `react-i18next`                                                                      |
+| SQLite database      | `better-sqlite3` (if selected in Phase 1)                                                                             |
 | Salesforce CLI       | `sf` v2 wrapper (if selected in Phase 1) - see `rules/sf-cli.md` + `sf-cli-reference/INDEX.md` (command/flag catalog) |
-| Packaging            | `electron-builder` (NSIS + portable)                          |
-| Quality              | ESLint + Prettier · JSDoc/TSDoc on classes and public API     |
+| Packaging            | `electron-builder` (NSIS + portable)                                                                                  |
+| Quality              | ESLint + Prettier · JSDoc/TSDoc on classes and public API                                                             |
 
 ---
 
@@ -127,7 +130,7 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 - At project finalization (last batch of Phase 5): generate a `CLAUDE.md` at the generated project root - origin (framework + version), business context, framework deviations. See `/electron-p5-development`.
 - After resolving an anomaly, offer: "Do you want to remember this point? `/electron-save-memory`"
 - NEVER read and write the generator's own `.claude/settings.json` — ONLY read and write in `settings.local.json`. (The `.claude/settings.json` written into a delivered project in Phase 5 is a legitimate deliverable; this rule concerns this framework's own file, not the generated one.)
-Per-domain rule detail (loaded on demand by `/electron-p4-architect`, `/electron-p5-development`, and the maintenance skills - not auto-imported): `rules/mvc.md` · `rules/css.md` · `rules/errors.md` · `rules/config.md` · `rules/security.md` · `rules/db.md` · `rules/sf-cli.md` · `rules/splash.md` · `rules/tests.md` · `rules/logging.md` · `rules/verification.md` · `rules/readme.md`
+  Per-domain rule detail (loaded on demand by `/electron-p4-architect`, `/electron-p5-development`, and the maintenance skills - not auto-imported): `rules/mvc.md` · `rules/css.md` · `rules/errors.md` · `rules/config.md` · `rules/security.md` · `rules/db.md` · `rules/sf-cli.md` · `rules/splash.md` · `rules/tests.md` · `rules/logging.md` · `rules/verification.md` · `rules/readme.md`
 
 ---
 
@@ -137,35 +140,35 @@ All commands below are Claude Code skills invocable with `/`:
 
 ### Generation pipeline
 
-| Command                 | Skill                          | Action                                       |
-| ----------------------- | ------------------------------ | -------------------------------------------- |
-| `/electron-app`         | `skills/electron-app/`         | Start / resume / maintenance menu            |
-| `/electron-p1-scoping`       | `skills/electron-p1-scoping/`       | Scoping - 8 questions + color palette        |
-| `/electron-p2-featuring`       | `skills/electron-p2-featuring/`       | App name + features (MoSCoW) + v1.0 scope + locked sizing |
-| `/electron-p3-surfaces`        | `skills/electron-p3-surfaces/`        | Layout co-design                             |
-| `/electron-p4-architect`       | `skills/electron-p4-architect/`       | Locked architectural contract                |
-| `/electron-p5-development` | `skills/electron-p5-development/` | Batch delivery                               |
+| Command                    | Skill                             | Action                                                    |
+| -------------------------- | --------------------------------- | --------------------------------------------------------- |
+| `/electron-app`            | `skills/electron-app/`            | Start / resume / maintenance menu                         |
+| `/electron-p1-scoping`     | `skills/electron-p1-scoping/`     | Scoping - 8 questions + color palette                     |
+| `/electron-p2-featuring`   | `skills/electron-p2-featuring/`   | App name + features (MoSCoW) + v1.0 scope + locked sizing |
+| `/electron-p3-surfaces`    | `skills/electron-p3-surfaces/`    | Layout co-design                                          |
+| `/electron-p4-architect`   | `skills/electron-p4-architect/`   | Locked architectural contract                             |
+| `/electron-p5-development` | `skills/electron-p5-development/` | Batch delivery                                            |
 
 ### Post-delivery maintenance
 
-| Command       | Skill                | Action                                                  |
-| ------------- | -------------------- | ------------------------------------------------------- |
-| `/electron-trace-feature`    | `skills/electron-trace-feature/`    | Trace a feature across the MVC/IPC layers, report       |
-| `/electron-add-feature`  | `skills/electron-add-feature/`  | Add a feature to a delivered app (contract-compliant)   |
-| `/electron-fix-issue`        | `skills/electron-fix-issue/`        | Fix a bug - decision tree, root cause                   |
-| `/electron-refactor-code`   | `skills/electron-refactor-code/`   | Refactor under explicit validation only                 |
-| `/electron-run-tests`       | `skills/electron-run-tests/`       | Run executable verification (typecheck, lint, build)    |
+| Command                   | Skill                            | Action                                                |
+| ------------------------- | -------------------------------- | ----------------------------------------------------- |
+| `/electron-trace-feature` | `skills/electron-trace-feature/` | Trace a feature across the MVC/IPC layers, report     |
+| `/electron-add-feature`   | `skills/electron-add-feature/`   | Add a feature to a delivered app (contract-compliant) |
+| `/electron-fix-issue`     | `skills/electron-fix-issue/`     | Fix a bug - decision tree, root cause                 |
+| `/electron-refactor-code` | `skills/electron-refactor-code/` | Refactor under explicit validation only               |
+| `/electron-run-tests`     | `skills/electron-run-tests/`     | Run executable verification (typecheck, lint, build)  |
 
 ### State / utilities
 
-| Command            | Skill                     | Action                                          |
-| ------------------ | ------------------------- | ----------------------------------------------- |
-| `/electron-load-project`  | `skills/electron-load-project/`  | Load an existing delivered project              |
-| `/electron-generate-readme` | `skills/electron-generate-readme/` | Generate the README.md of an existing project   |
-| `/electron-save-session`         | `skills/electron-save-session/`         | Generate the session save file                  |
-| `/electron-show-state`          | `skills/electron-show-state/`          | Current project state                           |
-| `/electron-show-contract`         | `skills/electron-show-contract/`         | Validated contract tree                         |
-| `/electron-save-memory`       | `skills/electron-save-memory/`       | Memorize an error, decision, or preference      |
+| Command                     | Skill                              | Action                                        |
+| --------------------------- | ---------------------------------- | --------------------------------------------- |
+| `/electron-load-project`    | `skills/electron-load-project/`    | Load an existing delivered project            |
+| `/electron-generate-readme` | `skills/electron-generate-readme/` | Generate the README.md of an existing project |
+| `/electron-save-session`    | `skills/electron-save-session/`    | Generate the session save file                |
+| `/electron-show-state`      | `skills/electron-show-state/`      | Current project state                         |
+| `/electron-show-contract`   | `skills/electron-show-contract/`   | Validated contract tree                       |
+| `/electron-save-memory`     | `skills/electron-save-memory/`     | Memorize an error, decision, or preference    |
 
 ---
 
@@ -190,9 +193,9 @@ Which command(s) to run for a given intent. The **generation pipeline** (p1→p5
 
 Canonical source of the calibration. Skills refer to it - do not duplicate this table elsewhere.
 
-| Size          | Files    | Features        | Batches (no tests) | Batches (with tests) |
-| ------------- | -------- | --------------- | ------------------ | -------------------- |
-| Small         | < 10     | ≤ 5             | 3                  | 4                    |
-| Medium / Large| ≥ 10     | > 5             | 4                  | 5                    |
+| Size           | Files | Features | Batches (no tests) | Batches (with tests) |
+| -------------- | ----- | -------- | ------------------ | -------------------- |
+| Small          | < 10  | ≤ 5      | 3                  | 4                    |
+| Medium / Large | ≥ 10  | > 5      | 4                  | 5                    |
 
 The extra batch corresponds to the test suite + dev dependencies (see `rules/tests.md`). Divergent criteria (e.g. < 10 files but > 5 features): the highest criterion wins → Medium/Large.
