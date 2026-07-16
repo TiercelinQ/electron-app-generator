@@ -103,7 +103,7 @@ One entity = `model + controller + view` (`@rules/mvc.md`). The Org Manager is t
   - `sf:org:reconnect` → `reconnect`
   - `sf:org:setDefault` → `setDefaultOrg`
 - **Preload** (`src/preload/index.ts`): one named function per channel (`sfOrgList`, `sfOrgLogin(alias)`, `sfOrgLogout(alias)`, `sfOrgReconnect(alias)`, `sfOrgSetDefault(alias)`), declared in the `WindowApi` interface (`src/shared/types.ts`).
-- **View** (`src/renderer/src/views/OrgView.tsx`): lists orgs from `window.api.sfOrgList()`, shows connected (`fa-circle-check`) vs disconnected (`fa-circle-xmark`) state and marks the default org, with buttons add / remove / reconnect / set-default / refresh. Icon colors via tokens, no business logic (it reads `result.ok` and toasts via `useToast`). After any mutating action, re-list the orgs.
+- **View** (`src/renderer/src/views/OrgView.tsx`): lists orgs from `window.api.sfOrgList()`, shows connected (Lucide `CircleCheck`) vs disconnected (Lucide `CircleX`) state and marks the default org, with buttons add / remove / reconnect / set-default / refresh. Icon colors via tokens (`--icon-success` / `--icon-danger`), no business logic (it reads `result.ok` and toasts via `useToast`). After any mutating action, re-list the orgs.
 
 ## Anti-patterns — what NOT to do
 

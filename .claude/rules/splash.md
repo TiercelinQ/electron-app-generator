@@ -43,7 +43,7 @@ The splash is created and dismissed by the composition root (`index.ts`), before
 const shownAt = Date.now();
 const splash = new BrowserWindow({
   width: 420, height: 260, frame: false, resizable: false, center: true,
-  backgroundColor: startupTheme === "dark" ? "#1C1C1C" : "#FFFFFF", // themed bg — matches tokens
+  backgroundColor: startupTheme === "dark" ? "#181C20" : "#FDFEFF", // themed bg — sourced from --bg (default palette; a custom palette changes these)
   webPreferences: { contextIsolation: true, nodeIntegration: false, sandbox: true },
 });
 splash.loadFile(join(__dirname, "../renderer/splash.html"), { query: { theme: startupTheme } });

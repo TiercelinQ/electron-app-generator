@@ -27,6 +27,8 @@ If no contract is known: stop and ask for `/electron-load-project`.
 
 **Load context**: read `docs/specs/04-architect.md` (locked contract), then `@rules/mvc.md` · `@rules/css.md` · `@rules/errors.md` · `@rules/config.md` · `@rules/security.md` · `@rules/db.md` (if DB) · `@rules/sf-cli.md` (if the Salesforce CLI integration is on) · `@rules/verification.md` (not auto-imported). Read `design-system.md` / `layout.md` on demand (no longer auto-imported) before any UI change. For an `sf`-related change, consult the matching `sf-cli-reference/` section file before writing any command/flag.
 
+> **Legacy design system**: if the app is on design system v1.x (README reference — see `/electron-load-project` step 5), new UI follows the app's own v1.x conventions (its `tokens.css`/`styles.css` and existing components), not the framework's v2.0 `design-system.md`. Never mix the two in one app; the upgrade path is `/electron-migrate-design`, on request.
+
 ## Step 1 — Light feature scoping
 
 Ask the closed parameters with `AskUserQuestion` (clickable options, recommended first); the short description (Q1) stays free-form text:

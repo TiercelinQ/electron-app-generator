@@ -37,7 +37,7 @@ Rules:
 4. Zero `// TODO`, zero unjustified empty implementation, zero unjustified `any`.
 4b. React Error Boundary present in `App.tsx`; `process.on("uncaughtException")` handler present in `src/main/index.ts` (see `@rules/errors.md`).
 5. Node 24+ · Electron stable (≥ 42) · zero deprecated API (`remote`).
-6. `design-system.md` compliance + the composition validated in `docs/specs/03-surfaces.md`/`04-architect.md` + the retained `layout.md` specs (toasts, modals) — zero hardcoded visual value in TS/TSX, zero inline `style={}`. See `@rules/css.md` anti-patterns.
+6. `design-system.md` compliance + the composition validated in `docs/specs/03-surfaces.md`/`04-architect.md` + the retained `layout.md` specs (toasts, modals) — zero hardcoded visual value in TS/TSX, zero inline `style={}` (sanctioned exception: the signature underline writes `--underline-x`/`--underline-w`, `design-system.md §8` — do not flag it). See `@rules/css.md` anti-patterns.
 7. `@rules/security.md` respected (locked `webPreferences`, minimal preload, validated IPC inputs, strict CSP, no remote resource; any external CLI spawned via `cross-spawn` args array from the main process only).
 8. Errors: business errors raised in the model, caught in the controller, returned as `IpcResult<T>`, surfaced as toasts; no `alert()`/`confirm()`/`dialog.showMessageBox`. See `@rules/errors.md`.
 

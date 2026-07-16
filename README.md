@@ -12,7 +12,7 @@ Unified edition: the full generation pipeline **plus** post-delivery maintenance
 
 A structured prompt system that generates complete, production-ready Electron/React desktop applications through a 5-phase cycle, then maintains them:
 
-1. **Scoping** - 8 questions (objective, DB, prefs, i18n, tests, icon, packaging, Salesforce CLI opt-in) + color palette (named or custom; 5 roles, dark + supporting tokens derived, WCAG AA check)
+1. **Scoping** - 8 questions (objective, DB, prefs, i18n, tests, icon, packaging, Salesforce CLI opt-in) + color palette (named or custom; accent + optional overrides, neutrals and semantics derived, WCAG AA check)
 2. **Featuring** - structured feature sheet, explicit out-of-scope, locked sizing
 3. **Surfaces** - topbar tabs, drawer/modal, toast position (6 positions), splash screen
 4. **Architect** - full file tree, IPC channel table, tokens→CSS table - locked before any code is written
@@ -20,7 +20,7 @@ A structured prompt system that generates complete, production-ready Electron/Re
 
 Each phase writes a spec in the user's language to `docs/specs/` (`01-scoping` … `04-architect`); the contract is the source of truth.
 
-**Maintenance commands**: `/electron-add-feature` (add a feature, contract-compliant), `/electron-trace-feature` (trace behavior), `/electron-fix-issue` (root-cause debugging with a decision tree), `/electron-refactor-code` (validated, behavior-preserving), `/electron-run-tests` (executable verification). Plus `/electron-load-project` and `/electron-generate-readme` to load/document existing apps.
+**Maintenance commands**: `/electron-add-feature` (add a feature, contract-compliant), `/electron-trace-feature` (trace behavior), `/electron-fix-issue` (root-cause debugging with a decision tree), `/electron-refactor-code` (validated, behavior-preserving), `/electron-migrate-design` (convert a v1.x app to design system v2.0), `/electron-run-tests` (executable verification). Plus `/electron-load-project` and `/electron-generate-readme` to load/document existing apps.
 
 Every generated app enforces the same visual design system, strict MVC architecture, and locked Electron security.
 
@@ -37,7 +37,7 @@ Every generated app enforces the same visual design system, strict MVC architect
 | Build          | electron-vite                                               |
 | Architecture   | Strict MVC - main = Models · renderer = Views · IPC = Controllers |
 | Styling        | Centralized CSS - `tokens.css` + `styles.css`               |
-| Icons          | Font Awesome Free (local npm)                               |
+| Icons          | Lucide (`lucide-react`, local npm)                          |
 | i18n           | i18next + react-i18next FR/EN (opt-in)                      |
 | DB             | SQLite (better-sqlite3, versioned migrations) · JSON · CSV · none (opt-in) |
 | Logging        | electron-log (file transport, mandatory)                    |
@@ -88,6 +88,7 @@ Then in Claude Code:
 | `/electron-trace-feature`              | Trace a feature across the MVC/IPC layers          |
 | `/electron-fix-issue`                  | Fix a bug - decision tree, root cause              |
 | `/electron-refactor-code`             | Refactor under explicit validation only            |
+| `/electron-migrate-design`            | Convert a v1.x app to design system v2.0           |
 | `/electron-run-tests`                 | Executable verification (typecheck, lint, build)   |
 | `/electron-load-project`       | Load an existing project from its specs/README     |
 | `/electron-generate-readme`      | Generate README.md for an existing project         |
@@ -122,12 +123,13 @@ my-app/
 
 ## Design system
 
-All generated apps share the same visual system, defined in `.claude/design-system.md` (v1.6):
+All generated apps share the same visual system, defined in `.claude/design-system.md` (v2.0):
 
-- **Flat design** - zero border-radius, zero shadows, zero gradients
+- **Depth by stroke** - borders express hierarchy and elevation, zero shadows, zero gradients; soft 5px radius
 - **CSS tokens** - all colors, sizes and durations are `var(--token)`; full light/dark theme via a single `[data-theme="dark"]` block
-- **Segoe UI** typography (Windows native)
-- **Color palette** - 5 roles (main background, secondary background, accent, text, details) chosen for the light theme; dark theme and all supporting tokens derived. Default "Steel Blue" + Teal, Forest, Slate, Amber, Ruby named palettes + custom palette; semantic colors stay fixed
+- **system-ui** typography (native OS face - Segoe UI Variable on Windows 11)
+- **Color palette** - one mandatory accent (+ up to 4 optional role overrides); accent-tinted neutrals, accent stops, and per-project semantic colors all derived from it (info = accent). Default "Steel Blue" + Teal, Forest, Slate, Amber, Ruby named palettes + custom palette
+- **Lucide icons** (`lucide-react`, stroke 1.75) and one signature gesture: the sliding underline on tabs
 - **Toasts only** - no inline banners, no `dialog.showMessageBox`/`alert`/`confirm` for business errors
 
 ---

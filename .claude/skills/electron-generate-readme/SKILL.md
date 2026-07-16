@@ -38,7 +38,7 @@ Use the native Claude Code tools (no shell — Windows-compatible):
 - [Inferred from the present views/ and controllers/]
 
 ## Technical stack
-- OS: Windows · Runtime: Node.js 24 LTS+ · Electron ≥ 42 · React 19 · TypeScript strict · Icons: Font Awesome
+- OS: Windows · Runtime: Node.js 24 LTS+ · Electron ≥ 42 · React 19 · TypeScript strict · Icons: Lucide (`lucide-react`)
 - DB: [inferred from package.json and models/]
 - i18n: [Yes/No — inferred from src/renderer/src/i18n/]
 - Salesforce CLI: [Yes/No — inferred from src/main/models/sf-cli.ts + the `sfPath` preference]
@@ -68,7 +68,7 @@ npm run dist         # Windows packaging (if enabled)
 npm test
 
 ## Palette
-[Name or custom; 5 roles (main background, secondary background, accent, text, details) inferred from tokens.css — otherwise default "Steel Blue" palette]
+[Name or custom accent (+ any explicit overrides) inferred from tokens.css — neutrals and semantics derived from the accent (design-system v2.0); otherwise default "Steel Blue" palette]
 ```
 <!-- If better-sqlite3: run `npx electron-builder install-app-deps` after `npm install` -->
 

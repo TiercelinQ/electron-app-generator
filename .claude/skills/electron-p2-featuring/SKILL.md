@@ -76,7 +76,7 @@ Produce the sheet (in the user's language):
 - Packaging: [Yes/No] — electron-builder
 - Salesforce CLI: [Yes/No] — `sf` v2 runner + starter Org Manager (if Yes)
 - Validated libraries: [Phase 1 list]
-- Palette: [Phase 1 choice: name or custom, 5 roles]
+- Palette: [Phase 1 choice: preset name or custom accent + optional overrides]
 
 **Calibration (confirmed here, from the v1.0 feature count)**
 - Counted v1.0 features: [N]

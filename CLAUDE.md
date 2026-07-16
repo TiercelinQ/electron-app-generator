@@ -83,7 +83,7 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 
 ## BINDING REFERENCES
 
-`design-system.md` is the binding reference for every generated interface (skin: tokens, flat design). `layout.md` is a **companion layout reference** (composition pattern catalog + proposed default + feedback spec) - the composition itself is co-defined with the user in Phase 3 and locked in `docs/specs/04-architect.md`. Both are **not** auto-imported (to keep the session context lean) - the UI skills (`/electron-p3-surfaces`, `/electron-p4-architect`, `/electron-p5-development`, `/electron-add-feature`, `/electron-fix-issue`, `/electron-refactor-code`, `/electron-trace-feature`) read them on demand before producing or altering any UI.
+`design-system.md` is the binding reference for every generated interface (skin: tokens, depth by stroke). `layout.md` is a **companion layout reference** (composition pattern catalog + proposed default + feedback spec) - the composition itself is co-defined with the user in Phase 3 and locked in `docs/specs/04-architect.md`. Both are **not** auto-imported (to keep the session context lean) - the UI skills (`/electron-p3-surfaces`, `/electron-p4-architect`, `/electron-p5-development`, `/electron-add-feature`, `/electron-fix-issue`, `/electron-refactor-code`, `/electron-trace-feature`) read them on demand before producing or altering any UI.
 
 `sf-cli-reference/` is the binding reference for the **`sf` v2 command/flag catalog** — the source of truth for exact command names, subcommands, and flags (never invent an `sf` command or flag from memory). It is **only relevant when the Salesforce CLI integration is on** (the gate of `rules/sf-cli.md`) and is **loaded on demand by section, never read whole**: read `sf-cli-reference/INDEX.md` first (the capability → file map), then open only the section file matching the needed capability (`auth-orgs.md`, `data.md`, `apex.md`, etc.). `rules/sf-cli.md` is the hub that routes every sf-aware skill to it.
 
@@ -100,7 +100,7 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 | Build                | electron-vite                                                                                                         |
 | Architecture         | Strict MVC - main = Models · renderer = Views · IPC = Controllers                                                     |
 | Style                | Centralized CSS - `tokens.css` (variables) + `styles.css`                                                             |
-| Icons                | Font Awesome Free (`@fortawesome/fontawesome-free`, local npm)                                                        |
+| Icons                | Lucide (`lucide-react`, local npm)                                                                                    |
 | Internationalization | FR/EN - FR default - `i18next` + `react-i18next`                                                                      |
 | SQLite database      | `better-sqlite3` (if selected in Phase 1)                                                                             |
 | Salesforce CLI       | `sf` v2 wrapper (if selected in Phase 1) - see `rules/sf-cli.md` + `sf-cli-reference/INDEX.md` (command/flag catalog) |
@@ -157,6 +157,7 @@ All commands below are Claude Code skills invocable with `/`:
 | `/electron-add-feature`   | `skills/electron-add-feature/`   | Add a feature to a delivered app (contract-compliant) |
 | `/electron-fix-issue`     | `skills/electron-fix-issue/`     | Fix a bug - decision tree, root cause                 |
 | `/electron-refactor-code` | `skills/electron-refactor-code/` | Refactor under explicit validation only               |
+| `/electron-migrate-design` | `skills/electron-migrate-design/` | Convert a v1.x app to design system v2.0 (validated plan) |
 | `/electron-run-tests`     | `skills/electron-run-tests/`     | Run executable verification (typecheck, lint, build)  |
 
 ### State / utilities
@@ -182,6 +183,7 @@ Which command(s) to run for a given intent. The **generation pipeline** (p1→p5
   - Add a feature — `/electron-add-feature` → `/electron-run-tests`
   - Fix a bug — `/electron-fix-issue` → `/electron-run-tests`
   - Refactor (behavior-preserving, plan validated first) — `/electron-refactor-code` → `/electron-run-tests`
+  - Convert a legacy app to design system v2.0 (proposed by load-project on detection) — `/electron-migrate-design` → `/electron-run-tests`
   - Understand / audit the code — `/electron-trace-feature`
   - Refresh the README — `/electron-generate-readme`
 - **Verify on demand** — `/electron-run-tests` (install · typecheck · lint · build · package).

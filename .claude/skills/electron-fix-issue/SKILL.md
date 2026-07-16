@@ -49,11 +49,13 @@ Read the actual error before touching code. Classify, then act in this order:
 - Weakened `webPreferences`, raw `ipcRenderer` exposed, unvalidated IPC payload, CSP hole, `shell.openExternal` on renderer data, remote resource. These are never "acceptable for now" — fix to the rule.
 
 ### 6. CSS / design deviation (visual bug)
-- Hardcoded color/size, inline `style={}`, missing dark-mode token, `box-shadow`/`border-radius`, `alert()`/`confirm()`/`dialog.showMessageBox`. Route the value through `tokens.css`/`styles.css`, or replace the native dialog with the styled modal/toast. See `@rules/css.md` / `@rules/errors.md`.
+- Hardcoded color/size, inline `style={}` (except the sanctioned underline variables, `design-system.md §8`), missing dark-mode token, `box-shadow`, a literal `border-radius` instead of `var(--radius)`, `alert()`/`confirm()`/`dialog.showMessageBox`. Route the value through `tokens.css`/`styles.css`, or replace the native dialog with the styled modal/toast. See `@rules/css.md` / `@rules/errors.md`.
 
 ## Steps
 
 Read `design-system.md` / `layout.md` on demand if the fix touches UI (no longer auto-imported).
+
+> **Legacy design system**: if the app is on design system v1.x (README reference — see `/electron-load-project` step 5), fix within the app's own v1.x conventions; do not introduce v2.0 visuals into a v1.x app. The upgrade path is `/electron-migrate-design`, on request.
 
 1. Get the real error (command output, stack trace, devtools, or the user's repro). If you cannot reproduce, ask for the exact message — do not guess.
 2. Classify with the tree above; read both the failing site and the declaration it depends on.

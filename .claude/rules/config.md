@@ -85,7 +85,7 @@ Convention: `entity:action`. Zero hardcoded channel string outside this file. Th
 ```json
 "dependencies":    { "better-sqlite3": "^12.0.0", "i18next": "^26.0.0", "react-i18next": "^17.0.0",
                      "react": "^19.0.0", "react-dom": "^19.0.0", "electron-log": "^5.4.0",
-                     "@fortawesome/fontawesome-free": "^6.7.2" },
+                     "lucide-react": "^1.24.0" },
 "devDependencies": { "electron": "^42.0.0", "electron-vite": "^5.0.0", "electron-builder": "^26.0.0",
                      "typescript": "^6.0.0", "vite": "^7.0.0", "@vitejs/plugin-react": "^5.2.0",
                      "typescript-eslint": "^8.0.0", "eslint-plugin-react": "^7.37.5",
@@ -93,7 +93,7 @@ Convention: `entity:action`. Zero hardcoded channel string outside this file. Th
 ```
 
 Versioning notes:
-- `@fortawesome/fontawesome-free`: **frozen on the 6.x line at `^6.7.2`** (last 6.x) — FA 7.x (currently 7.3.0) is out but introduces breaking changes on CSS class names. Do not bump to 7.x without a full audit of the classes used in `design-system.md` and `layout.md`.
+- `lucide-react`: the icon library (`design-system.md §10`) — icons are **named React component imports** (tree-shaken; no global CSS import, no font). `^1.24.0` verified 2026-07-16 (ISC license); re-confirm at generation (`npm view lucide-react version`). Icon names drift slightly across releases: verify each imported name exists in the pinned version (the import fails typecheck otherwise — that is the guard).
 - `electron-vite ^5.0.0`: peer dep `vite@"^5.0.0 || ^6.0.0 || ^7.0.0"` — **Vite 8 not supported** by the current stable (verified 2026-06: `vite` latest is 8.x, but `electron-vite@5.0.0` — the latest stable, 6.x is beta-only — still caps at vite 7). Stay on `vite ^7.0.0`. Note: a newer `vite` major being out does *not* mean it is usable here — what matters is electron-vite's peer range. Pair with `@vitejs/plugin-react ^5.2.0` (peer `vite ^4 → ^8`). **Do not** bump `@vitejs/plugin-react` to 6.x — that line requires `vite ^8` and is incompatible with vite 7 / electron-vite 5.
 - `eslint-plugin-react-hooks`: its major line moves fast and tracks the React tooling (the 5.x line shipped, later majors followed) — **do not assume a specific major from memory**. Pin the current stable confirmed at generation (`npm view eslint-plugin-react-hooks version`) and check it supports the flat config and React 19.
 - `eslint-plugin-react`: latest stable `7.37.5`.

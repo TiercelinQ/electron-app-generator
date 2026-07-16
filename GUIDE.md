@@ -13,12 +13,12 @@ electron-app-generator/
 ├── README.md                 # Présentation du repo GitHub (EN)
 ├── LICENSE
 └── .claude/
-    ├── design-system.md      # Référence visuelle contraignante (v1.6, tokens CSS) — source de vérité unique
+    ├── design-system.md      # Référence visuelle contraignante (v2.0, tokens CSS) — source de vérité unique
     ├── layout.md             # Cadre layout d'accompagnement — catalogue de patterns + composition par défaut + spec toasts
     ├── sf-cli-reference/     # Catalogue commandes/flags sf v2 (chargé par section si intégration Salesforce)
     ├── rules/
     │   ├── mvc.md            # main=Models · preload+IPC=Controllers · renderer=Views, livraison par lots
-    │   ├── css.md            # Tokens CSS, thème data-theme, flat design, nommage
+    │   ├── css.md            # Tokens CSS, thème data-theme, profondeur par le trait, nommage
     │   ├── errors.md         # Contrat IpcResult<T>, toasts, Error Boundary + uncaughtException
     │   ├── security.md       # Sécurité Electron verrouillée (webPreferences, CSP, validation IPC)
     │   ├── config.md         # config.ts, versioning, postinstall ensure-electron.cjs, packaging
@@ -40,6 +40,7 @@ electron-app-generator/
     │   ├── electron-trace-feature/  # Tracer une fonctionnalité renderer→preload→controller→model
     │   ├── electron-fix-issue/      # Corriger un bug — arbre de décision, cause racine
     │   ├── electron-refactor-code/  # Restructurer sous validation explicite uniquement
+    │   ├── electron-migrate-design/ # Convertir une app v1.x vers le design system v2.0
     │   ├── electron-run-tests/      # Vérification exécutable (typecheck, lint, build)
     │   ├── electron-load-project/   # Chargement d'un projet existant
     │   ├── electron-generate-readme/ # Génération README.md projet existant
@@ -62,7 +63,7 @@ electron-app-generator/
 | **Rôle par skill**            | Chaque skill ouvre sur un persona ciblé (Role / Goal / Deliverable).            |
 | **Specs persistées**          | Phases 1→4 écrivent `docs/specs/01-scoping.md` … `04-architect.md` (dans la langue de l'utilisateur). |
 | **Contrat = source de vérité**| `docs/specs/04-architect.md` relu par `/electron-load-project`, `/electron-show-contract`, `/electron-add-feature`, `/electron-refactor-code`. |
-| **Skills de maintenance**     | `electron-trace-feature`, `electron-add-feature`, `electron-fix-issue`, `electron-refactor-code`, `electron-run-tests` avec arbres de décision et anti-patterns. |
+| **Skills de maintenance**     | `electron-trace-feature`, `electron-add-feature`, `electron-fix-issue`, `electron-refactor-code`, `electron-migrate-design`, `electron-run-tests` avec arbres de décision et anti-patterns. |
 | **Vérification exécutable**   | `rules/verification.md` : typecheck, lint, build — échec bloquant.              |
 | **Mémoire native**            | `/electron-save-memory` écrit dans la mémoire native Claude Code + `MEMORY.md`.            |
 
@@ -98,7 +99,7 @@ node --version        # Node.js 24 LTS+ (pour exécuter les apps générées)
 
 ### Phase 1 — Scoping
 
-8 questions en un seul bloc : objectif · base de données (SQLite better-sqlite3 / JSON / CSV / aucune) · préférences persistantes · i18n FR/EN · tests (Vitest + Testing Library) · icône `.ico` · packaging (electron-builder) · intégration Salesforce CLI (opt-in `sf` v2 ; défaut recommandé à Yes si l'objectif mentionne Salesforce). Puis choix de la **palette** : 5 rôles (fond principal, fond secondaire, accent, texte, détails) pour le thème clair, le sombre et les tokens secondaires étant dérivés. Palette « Steel Blue » par défaut + 5 palettes nommées (Teal, Forest, Slate, Amber, Ruby) + palette personnalisée ; contrôle de contraste WCAG AA (averti, non bloquant). Les couleurs sémantiques restent figées.
+8 questions en un seul bloc : objectif · base de données (SQLite better-sqlite3 / JSON / CSV / aucune) · préférences persistantes · i18n FR/EN · tests (Vitest + Testing Library) · icône `.ico` · packaging (electron-builder) · intégration Salesforce CLI (opt-in `sf` v2 ; défaut recommandé à Yes si l'objectif mentionne Salesforce). Puis choix de la **palette** : un accent obligatoire + jusqu'à 4 rôles optionnels (fond principal, fond secondaire, texte, détails) en override. Tout le reste est dérivé de l'accent : neutres teintés (les deux thèmes), stops d'accent, couleurs sémantiques harmonisées vers l'accent (info = accent). Palette « Steel Blue » par défaut + 5 palettes nommées (Teal, Forest, Slate, Amber, Ruby) + palette personnalisée ; contrôle de contraste WCAG AA (averti, non bloquant), y compris sur les paires sémantiques dérivées.
 
 Calibrage **provisoire** annoncé (figé après Phase 2) :
 
@@ -154,6 +155,7 @@ Claude lit `docs/specs/04-architect.md` (priorité), sinon le README, sinon le c
 | Comprendre / tracer le code     | `/electron-trace-feature`     |
 | Corriger un bug                 | `/electron-fix-issue`         |
 | Restructurer (sous validation)  | `/electron-refactor-code`    |
+| Convertir une app v1.x vers le design system v2.0 | `/electron-migrate-design` |
 | Vérifier le build / lancer les checks | `/electron-run-tests`  |
 
 ---
@@ -203,6 +205,7 @@ Après correction (`/electron-fix-issue` ou Phase 5), Claude produit un bilan de
 | `/electron-trace-feature`              | Sonnet | Tracer une fonctionnalité à travers les couches      |
 | `/electron-fix-issue`                  | Sonnet | Corriger un bug — cause racine                       |
 | `/electron-refactor-code`             | Sonnet | Restructurer sous validation                         |
+| `/electron-migrate-design`            | Sonnet | Convertir une app v1.x vers le design system v2.0    |
 | `/electron-run-tests`                 | Sonnet | Vérification exécutable                               |
 | `/electron-load-project`       | Sonnet | Charger un projet existant                           |
 | `/electron-generate-readme`      | Sonnet | Générer README.md d'un projet existant               |
@@ -241,5 +244,5 @@ mon-app/
 - Sécurité Electron (`.claude/rules/security.md`) non négociable — jamais affaiblie, même temporairement.
 - Les canaux IPC sont centralisés dans `src/shared/ipc-channels.ts` — zéro chaîne de canal en dur ailleurs.
 - Le contrat (`docs/specs/04-architect.md`) est verrouillé. Tout changement structurel passe par `/electron-add-feature` ou le protocole de déclaration d'écart.
-- `/electron-load-project`, `/electron-generate-readme`, `/electron-add-feature`, `/electron-trace-feature`, `/electron-fix-issue`, `/electron-refactor-code`, `/electron-run-tests` s'invoquent depuis la racine du projet cible.
+- `/electron-load-project`, `/electron-generate-readme`, `/electron-add-feature`, `/electron-trace-feature`, `/electron-fix-issue`, `/electron-refactor-code`, `/electron-migrate-design`, `/electron-run-tests` s'invoquent depuis la racine du projet cible.
 - Aucune ressource distante (CDN) — tout est embarqué via npm (contrainte CSP).

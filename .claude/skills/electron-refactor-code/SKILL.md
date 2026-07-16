@@ -25,7 +25,7 @@ A validated plan, then the refactored files on disk + a passing verification + a
 
 ## Steps
 
-1. **Load context**: `docs/specs/04-architect.md`, then `design-system.md`, `layout.md`, `@rules/mvc.md` · `@rules/css.md` · `@rules/security.md` (not auto-imported).
+1. **Load context**: `docs/specs/04-architect.md`, then `design-system.md`, `layout.md`, `@rules/mvc.md` · `@rules/css.md` · `@rules/security.md` (not auto-imported). If the app is on design system v1.x (README reference — see `/electron-load-project` step 5), refactor within the app's own v1.x conventions; the upgrade path is `/electron-migrate-design`, on request.
 
 2. **Diagnose** what is actually wrong: duplication, a view doing business logic, a god-controller, a model leaking UI concerns, a hardcoded value bypassing a token, an IPC channel string duplicated outside `ipc-channels.ts`. Anchor each finding to `file:line`.
 
