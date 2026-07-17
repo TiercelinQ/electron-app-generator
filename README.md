@@ -20,7 +20,7 @@ A structured prompt system that generates complete, production-ready Electron/Re
 
 Each phase writes a spec in the user's language to `docs/specs/` (`01-scoping` … `04-architect`); the contract is the source of truth.
 
-**Maintenance commands**: `/electron-add-feature` (add a feature, contract-compliant), `/electron-trace-feature` (trace behavior), `/electron-fix-issue` (root-cause debugging with a decision tree), `/electron-refactor-code` (validated, behavior-preserving), `/electron-migrate-design` (convert a v1.x app to design system v2.0), `/electron-run-tests` (executable verification). Plus `/electron-load-project` and `/electron-generate-readme` to load/document existing apps.
+**Maintenance commands**: `/electron-add-feature` (add a feature, contract-compliant), `/electron-trace-feature` (trace behavior), `/electron-fix-issue` (root-cause debugging with a decision tree), `/electron-refactor-code` (validated, behavior-preserving), `/electron-migrate-design` (convert a v1.x app to design system v2.0), `/electron-release` (cut a SemVer release from the accumulated changelog), `/electron-run-tests` (executable verification). Plus `/electron-load-project` and `/electron-generate-readme` to load/document existing apps.
 
 Every generated app enforces the same visual design system, strict MVC architecture, and locked Electron security.
 
@@ -89,6 +89,7 @@ Then in Claude Code:
 | `/electron-fix-issue`                  | Fix a bug - decision tree, root cause              |
 | `/electron-refactor-code`             | Refactor under explicit validation only            |
 | `/electron-migrate-design`            | Convert a v1.x app to design system v2.0           |
+| `/electron-release`                   | Cut a SemVer release from the accumulated changelog|
 | `/electron-run-tests`                 | Executable verification (typecheck, lint, build)   |
 | `/electron-load-project`       | Load an existing project from its specs/README     |
 | `/electron-generate-readme`      | Generate README.md for an existing project         |
@@ -108,6 +109,7 @@ my-app/
 ├── CLAUDE.md                      # Project identity (origin, business context, deviations)
 ├── .claude/settings.json          # Guardrails + verification hook (self-enforced app)
 ├── docs/specs/                    # Generation specs (user's language): 01-scoping … 04-architect
+├── docs/release/CHANGELOG.md      # SemVer changelog (Keep a Changelog)
 ├── resources/                     # .ico icon, packaging assets
 ├── scripts/ensure-electron.cjs    # Electron binary reliability (postinstall)
 └── src/
@@ -118,6 +120,12 @@ my-app/
         ├── index.html             # CSP meta
         └── src/                   # main.tsx · App.tsx · views/ · hooks/ · utils/ · i18n/ · styles/
 ```
+
+---
+
+## Versioning & changelog
+
+Every generated app carries a SemVer version and a changelog at `docs/release/CHANGELOG.md` (Keep a Changelog format, written in English). Maintenance skills (`add-feature`, `fix-issue`, `refactor-code`, `migrate-design`) accumulate entries under `## [Unreleased]`; `/electron-release` freezes them into a dated version block and bumps the version source (`package.json` version + the `src/shared/config.ts` `APP_VERSION` mirror). The version is never bumped silently. See `rules/versioning.md`.
 
 ---
 

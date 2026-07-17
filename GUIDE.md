@@ -41,6 +41,7 @@ electron-app-generator/
     │   ├── electron-fix-issue/      # Corriger un bug — arbre de décision, cause racine
     │   ├── electron-refactor-code/  # Restructurer sous validation explicite uniquement
     │   ├── electron-migrate-design/ # Convertir une app v1.x vers le design system v2.0
+    │   ├── electron-release/        # Figer une version SemVer (changelog cumulé)
     │   ├── electron-run-tests/      # Vérification exécutable (typecheck, lint, build)
     │   ├── electron-load-project/   # Chargement d'un projet existant
     │   ├── electron-generate-readme/ # Génération README.md projet existant
@@ -63,7 +64,7 @@ electron-app-generator/
 | **Rôle par skill**            | Chaque skill ouvre sur un persona ciblé (Role / Goal / Deliverable).            |
 | **Specs persistées**          | Phases 1→4 écrivent `docs/specs/01-scoping.md` … `04-architect.md` (dans la langue de l'utilisateur). |
 | **Contrat = source de vérité**| `docs/specs/04-architect.md` relu par `/electron-load-project`, `/electron-show-contract`, `/electron-add-feature`, `/electron-refactor-code`. |
-| **Skills de maintenance**     | `electron-trace-feature`, `electron-add-feature`, `electron-fix-issue`, `electron-refactor-code`, `electron-migrate-design`, `electron-run-tests` avec arbres de décision et anti-patterns. |
+| **Skills de maintenance**     | `electron-trace-feature`, `electron-add-feature`, `electron-fix-issue`, `electron-refactor-code`, `electron-migrate-design`, `electron-release`, `electron-run-tests` avec arbres de décision et anti-patterns. |
 | **Vérification exécutable**   | `rules/verification.md` : typecheck, lint, build — échec bloquant.              |
 | **Mémoire native**            | `/electron-save-memory` écrit dans la mémoire native Claude Code + `MEMORY.md`.            |
 
@@ -156,6 +157,7 @@ Claude lit `docs/specs/04-architect.md` (priorité), sinon le README, sinon le c
 | Corriger un bug                 | `/electron-fix-issue`         |
 | Restructurer (sous validation)  | `/electron-refactor-code`    |
 | Convertir une app v1.x vers le design system v2.0 | `/electron-migrate-design` |
+| Figer une version SemVer (changelog cumulé) | `/electron-release` |
 | Vérifier le build / lancer les checks | `/electron-run-tests`  |
 
 ---
@@ -206,6 +208,7 @@ Après correction (`/electron-fix-issue` ou Phase 5), Claude produit un bilan de
 | `/electron-fix-issue`                  | Sonnet | Corriger un bug — cause racine                       |
 | `/electron-refactor-code`             | Sonnet | Restructurer sous validation                         |
 | `/electron-migrate-design`            | Sonnet | Convertir une app v1.x vers le design system v2.0    |
+| `/electron-release`                   | Sonnet | Figer une version SemVer depuis le changelog cumulé   |
 | `/electron-run-tests`                 | Sonnet | Vérification exécutable                               |
 | `/electron-load-project`       | Sonnet | Charger un projet existant                           |
 | `/electron-generate-readme`      | Sonnet | Générer README.md d'un projet existant               |
@@ -225,6 +228,7 @@ mon-app/
 ├── CLAUDE.md                      # Identité projet (origine, contexte, écarts) — généré en fin de Phase 5
 ├── .claude/settings.json          # Garde-fous + hook de vérification (app auto-contrôlée)
 ├── docs/specs/                    # Specs de génération (langue utilisateur)
+├── docs/release/CHANGELOG.md      # Changelog SemVer (Keep a Changelog)
 ├── resources/                     # icône .ico, assets packaging
 ├── scripts/ensure-electron.cjs    # Fiabilisation du binaire Electron (postinstall)
 └── src/
@@ -236,6 +240,10 @@ mon-app/
         └── src/                   # main.tsx, App.tsx, views/, hooks/, utils/, i18n/, styles/
 ```
 
+### Versioning & changelog
+
+Chaque app générée porte une version SemVer et un changelog `docs/release/CHANGELOG.md` (format Keep a Changelog, rédigé en anglais). Les skills de maintenance (`add-feature`, `fix-issue`, `refactor-code`, `migrate-design`) accumulent leurs entrées sous `## [Unreleased]` ; `/electron-release` les fige en un bloc de version daté et incrémente la source de version (`package.json` + le miroir `src/shared/config.ts` `APP_VERSION`). La version n'est jamais incrémentée en silence. Voir `rules/versioning.md`.
+
 ---
 
 ## Points de vigilance
@@ -244,5 +252,5 @@ mon-app/
 - Sécurité Electron (`.claude/rules/security.md`) non négociable — jamais affaiblie, même temporairement.
 - Les canaux IPC sont centralisés dans `src/shared/ipc-channels.ts` — zéro chaîne de canal en dur ailleurs.
 - Le contrat (`docs/specs/04-architect.md`) est verrouillé. Tout changement structurel passe par `/electron-add-feature` ou le protocole de déclaration d'écart.
-- `/electron-load-project`, `/electron-generate-readme`, `/electron-add-feature`, `/electron-trace-feature`, `/electron-fix-issue`, `/electron-refactor-code`, `/electron-migrate-design`, `/electron-run-tests` s'invoquent depuis la racine du projet cible.
+- `/electron-load-project`, `/electron-generate-readme`, `/electron-add-feature`, `/electron-trace-feature`, `/electron-fix-issue`, `/electron-refactor-code`, `/electron-migrate-design`, `/electron-release`, `/electron-run-tests` s'invoquent depuis la racine du projet cible.
 - Aucune ressource distante (CDN) — tout est embarqué via npm (contrainte CSP).
