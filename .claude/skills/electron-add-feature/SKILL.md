@@ -25,7 +25,7 @@ If the project root has not been provided in this flow, first ask: `Project root
 
 If no contract is known: stop and ask for `/electron-load-project`.
 
-**Load context**: read `docs/specs/04-architect.md` (locked contract), then `@rules/mvc.md` · `@rules/css.md` · `@rules/errors.md` · `@rules/config.md` · `@rules/security.md` · `@rules/db.md` (if DB) · `@rules/sf-cli.md` (if the Salesforce CLI integration is on) · `@rules/verification.md` (not auto-imported). Read `design-system.md` / `layout.md` on demand (no longer auto-imported) before any UI change. For an `sf`-related change, consult the matching `sf-cli-reference/` section file before writing any command/flag.
+**Load context**: read `docs/specs/04-architect.md` (locked contract), then `@rules/mvc.md` · `@rules/css.md` · `@rules/errors.md` · `@rules/config.md` · `@rules/security.md` · `@rules/db.md` (if DB) · `@rules/sf-cli.md` (if the Salesforce CLI integration is on) · `@rules/versioning.md` · `@rules/verification.md` (not auto-imported). Read `design-system.md` / `layout.md` on demand (no longer auto-imported) before any UI change. For an `sf`-related change, consult the matching `sf-cli-reference/` section file before writing any command/flag.
 
 > **Legacy design system**: if the app is on design system v1.x (README reference — see `/electron-load-project` step 5), new UI follows the app's own v1.x conventions (its `tokens.css`/`styles.css` and existing components), not the framework's v2.0 `design-system.md`. Never mix the two in one app; the upgrade path is `/electron-migrate-design`, on request.
 
@@ -91,6 +91,15 @@ Single batch for the feature:
 Feature [name] — [N files]
 
 Deliver each created/modified file as a complete block, written to disk. If tests requested: deliver in the same batch, at the end.
+
+## Step 4b — Changelog entry
+
+After the feature is delivered, append an entry under `## [Unreleased]` in `docs/release/CHANGELOG.md` (`@rules/versioning.md`) — **in English**, no version bump:
+- `### Added` — the new capability, one concise line (add a `### Changed` line too if it alters existing behavior).
+- If the change is backward-incompatible, mark it `**BREAKING:**` (drives a MAJOR at release).
+- If `docs/release/CHANGELOG.md` is absent (app predates the system), skip silently and suggest `/electron-load-project` to initialize it.
+
+Do **not** bump the version — that happens at `/electron-release`. Mention it once, at the end: the change is recorded under `[Unreleased]`; run `/electron-release` when ready to cut a version.
 
 ## Step 5 — Anomaly
 

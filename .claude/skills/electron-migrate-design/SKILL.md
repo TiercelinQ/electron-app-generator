@@ -51,6 +51,7 @@ Present the plan (in the user's language): files touched, the icon mapping table
 4. **Underline** — only if the retained composition has tabs / horizontal navigation (the underline exists nowhere else, `design-system.md §8`): add the `placeUnderline` helper (reference implementation in §8) wired to the tab component on selection change and mount/resize. This is the only JS-positioned visual.
 5. **Splash** (if the app has one) — `splash.css` follows automatically (it consumes `tokens.css`); update the main-process `backgroundColor` literals in `src/main/index.ts` to the new `--bg` values (light/dark), keeping the sourced-from-`--bg` comment (`@rules/splash.md`).
 6. **Docs** — app `README.md`: design system reference → `v2.0` (+ layout `v4.1`), stack line Icons → Lucide; app `CLAUDE.md`: dated migration note under `## Deviations from the framework` (or a `## Design system migration` block); `docs/specs/04-architect.md`: refresh the tokens → CSS table values, append a dated migration note (this validated run is the contract amendment).
+7. **Changelog** — append a `### Changed` entry under `## [Unreleased]` in `docs/release/CHANGELOG.md` (`@rules/versioning.md`): `- Migrated UI to design system v2.0.` (English, no version bump; migrate-design infers MINOR at `/electron-release`). If the file is absent (legacy app never initialized), skip silently and suggest `/electron-load-project`.
 
 ### Icon mapping — Font Awesome 6 → Lucide (`lucide-react`)
 

@@ -44,6 +44,7 @@ Project root to maintain? (folder path, e.g. C:\projects\MyApp)
 - add a feature → `/electron-add-feature`
 - fix a bug → `/electron-fix-issue`
 - restructure existing code → `/electron-refactor-code`
+- cut a release / bump the version → `/electron-release`
 - verify the build / run checks → `/electron-run-tests`
 
 If `/electron-app` is typed mid-project: show the menu only, without resetting the current state.

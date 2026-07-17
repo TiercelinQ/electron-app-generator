@@ -48,6 +48,7 @@ Rules:
 12. Zero hardcoded visual value in TS/TSX, zero inline `style={}`.
 13. i18n keys: all used, none missing (if enabled).
 14. `docs/specs/` present and consistent with the delivered code.
+15. `docs/release/CHANGELOG.md` present, Keep a Changelog-shaped (English), and its top released version equals `package.json` `"version"` **and** `src/shared/config.ts` `APP_VERSION` (all three agree). See `@rules/versioning.md`.
 
 ### Per-domain (conditional — see the matching rule for detail)
 - **logging** (`@rules/logging.md`): `src/main/logger.ts` present and conforming; `setupLogging()` called first in `src/main/index.ts`; `electron-log` in `dependencies`; no `console.log` in delivered `src/`; every non-re-throwing `catch` calls `log.error(...)`.
@@ -55,6 +56,7 @@ Rules:
 - **sf-cli** (`@rules/sf-cli.md`): if enabled, all `sf` calls via `src/main/models/sf-cli.ts` using `cross-spawn` with an args array (no `node:child_process` direct, no shell, no renderer/preload spawn); `sf` resolved from PATH or the `sfPath` preference; `ENOENT` → clear error toast; no token stored/logged; `sf:org:*` channels consistent end-to-end (`ipc-channels.ts` ↔ handlers ↔ preload ↔ `WindowApi` ↔ `OrgView`); Org Manager actions validate input and refresh the list; `cross-spawn` in `dependencies` (bundled by electron-vite).
 - **splash** (`@rules/splash.md`): if enabled, `splash.html` + `styles/splash.css` + `splash.ts` present; `splash.html` registered as a second `rollupOptions.input` in `electron.vite.config.ts`; `SPLASH_MIN_DURATION_MS` in `config.ts`; splash created and dismissed in `src/main/index.ts` (main window `show: false` until `ready-to-show`); splash window `webPreferences` locked, no preload/IPC; `splash.css` consumes only tokens (no literal, save the commented `backgroundColor` in the main); splash CSP present; icon resolved to `resources/icon.ico` or text-only fallback.
 - **tests** (`@rules/tests.md`): if enabled, each source module has a matching test (Phase 4 mapping); `npm test` exit 0; dev dependencies present.
+- **versioning** (`@rules/versioning.md`): `docs/release/CHANGELOG.md` present and English; top released version == `package.json` `"version"` == `config.ts APP_VERSION`; maintenance changes recorded under `[Unreleased]` in the right category; after `/electron-release`, `[Unreleased]` reset empty and the cut block carries the right version + date.
 
 ---
 

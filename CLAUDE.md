@@ -2,7 +2,7 @@
 
 > Senior Node.js/Electron/TypeScript/React expert. Windows desktop applications, MVC architecture (main = Model, renderer = View, IPC = Controller), personal and professional use.
 > Do not explain general programming concepts. Explain only the Node.js/Electron/React specifics that deviate from what a generic senior developer would expect.
-> Framework version: 1.0.0 (unified edition). This version is recorded in each generated app's `CLAUDE.md`.
+> Framework version: 1.1.0 (unified edition). This version is recorded in each generated app's `CLAUDE.md`.
 
 ---
 
@@ -127,10 +127,11 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 - `src/main/logger.ts` (electron-log) and a global `uncaughtException` handler mandatory in every app - see `rules/logging.md` and `rules/errors.md`
 - If a splash screen is enabled in Phase 3: a frameless splash window shown at launch until the main window is ready, following the design system, showing the app icon if one is defined - see `rules/splash.md`
 - No library that was not validated in Phase 1.
-- At project finalization (last batch of Phase 5): generate a `CLAUDE.md` at the generated project root - origin (framework + version), business context, framework deviations. See `/electron-p5-development`.
+- At project finalization (last batch of Phase 5): generate a `CLAUDE.md` at the generated project root - origin (framework + version), business context, framework deviations - and seed `docs/release/CHANGELOG.md` (Keep a Changelog, English, initial `1.0.0`). See `/electron-p5-development` and `rules/versioning.md`.
+- Maintenance changes (`add-feature`/`fix-issue`/`refactor-code`/`migrate-design`) append an entry under `## [Unreleased]` in `docs/release/CHANGELOG.md`; the version is bumped only by `/electron-release`. Never bump the version silently. See `rules/versioning.md`.
 - After resolving an anomaly, offer: "Do you want to remember this point? `/electron-save-memory`"
 - NEVER read and write the generator's own `.claude/settings.json` — ONLY read and write in `settings.local.json`. (The `.claude/settings.json` written into a delivered project in Phase 5 is a legitimate deliverable; this rule concerns this framework's own file, not the generated one.)
-  Per-domain rule detail (loaded on demand by `/electron-p4-architect`, `/electron-p5-development`, and the maintenance skills - not auto-imported): `rules/mvc.md` · `rules/css.md` · `rules/errors.md` · `rules/config.md` · `rules/security.md` · `rules/db.md` · `rules/sf-cli.md` · `rules/splash.md` · `rules/tests.md` · `rules/logging.md` · `rules/verification.md` · `rules/readme.md`
+  Per-domain rule detail (loaded on demand by `/electron-p4-architect`, `/electron-p5-development`, and the maintenance skills - not auto-imported): `rules/mvc.md` · `rules/css.md` · `rules/errors.md` · `rules/config.md` · `rules/security.md` · `rules/db.md` · `rules/sf-cli.md` · `rules/splash.md` · `rules/tests.md` · `rules/logging.md` · `rules/versioning.md` · `rules/verification.md` · `rules/readme.md`
 
 ---
 
@@ -158,6 +159,7 @@ All commands below are Claude Code skills invocable with `/`:
 | `/electron-fix-issue`     | `skills/electron-fix-issue/`     | Fix a bug - decision tree, root cause                 |
 | `/electron-refactor-code` | `skills/electron-refactor-code/` | Refactor under explicit validation only               |
 | `/electron-migrate-design` | `skills/electron-migrate-design/` | Convert a v1.x app to design system v2.0 (validated plan) |
+| `/electron-release`       | `skills/electron-release/`       | Cut a SemVer release from the accumulated changelog   |
 | `/electron-run-tests`     | `skills/electron-run-tests/`     | Run executable verification (typecheck, lint, build)  |
 
 ### State / utilities
@@ -186,6 +188,7 @@ Which command(s) to run for a given intent. The **generation pipeline** (p1→p5
   - Convert a legacy app to design system v2.0 (proposed by load-project on detection) — `/electron-migrate-design` → `/electron-run-tests`
   - Understand / audit the code — `/electron-trace-feature`
   - Refresh the README — `/electron-generate-readme`
+  - Cut a release / prepare a GitHub deploy — `/electron-release` (turns the accumulated `docs/release/CHANGELOG.md` `[Unreleased]` entries into a dated SemVer version)
 - **Verify on demand** — `/electron-run-tests` (install · typecheck · lint · build · package).
 - **End of session** — `/electron-save-session`; remember a lesson not to repeat — `/electron-save-memory`.
 

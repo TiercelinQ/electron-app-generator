@@ -39,6 +39,8 @@ A validated plan, then the refactored files on disk + a passing verification + a
 
 6. **Verify**: `@rules/verification.md §A` — behavior unchanged, typecheck/lint clean. If the structure changed (new shared file, moved code, renamed channel), update `docs/specs/04-architect.md`, regenerate the README (`@rules/readme.md`), and keep the IPC chain consistent end-to-end.
 
+7. **Changelog**: append a `### Changed` entry under `## [Unreleased]` in `docs/release/CHANGELOG.md` (`@rules/versioning.md`) — in English, one line describing the internal restructuring, no version bump (the bump happens at `/electron-release`; a refactor infers PATCH). If the file is absent (legacy app), skip silently and suggest `/electron-load-project`. Skip if the refactor is trivially invisible (e.g. renamed a local variable).
+
 ## Anti-patterns — what NOT to do
 - **Do not** refactor without a validated plan, ever.
 - **Do not** factorize two blocks into a helper with a `mode`/`type` flag that forks inside — that is two functions sharing a body.

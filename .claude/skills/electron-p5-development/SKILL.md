@@ -21,7 +21,7 @@ The full project source on disk + `README.md` + verified build.
 
 ## Code rules
 
-At start, read and fully apply: `@rules/mvc.md` · `@rules/css.md` · `@rules/errors.md` · `@rules/config.md` · `@rules/security.md` · `@rules/logging.md` · `@rules/db.md` (if DB) · `@rules/sf-cli.md` (if Salesforce CLI) · `@rules/splash.md` (if splash screen enabled in Phase 3) · `@rules/tests.md` (if tests) · `@rules/verification.md` (not auto-imported). **Read `design-system.md` and `layout.md`** (no longer auto-imported) before producing any UI. Read `docs/specs/04-architect.md` — it is the locked contract this build follows.
+At start, read and fully apply: `@rules/mvc.md` · `@rules/css.md` · `@rules/errors.md` · `@rules/config.md` · `@rules/security.md` · `@rules/logging.md` · `@rules/db.md` (if DB) · `@rules/sf-cli.md` (if Salesforce CLI) · `@rules/splash.md` (if splash screen enabled in Phase 3) · `@rules/tests.md` (if tests) · `@rules/versioning.md` · `@rules/verification.md` (not auto-imported). **Read `design-system.md` and `layout.md`** (no longer auto-imported) before producing any UI. Read `docs/specs/04-architect.md` — it is the locked contract this build follows.
 
 Critical reminders:
 - ESLint clean · Prettier · TypeScript strict · TSDoc on classes and public API.
@@ -67,6 +67,7 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
   npm run dist       # Windows packaging (if enabled in Phase 1 Q7)
   ```
   (+ `npx electron-builder install-app-deps` note if better-sqlite3.)
+- **`docs/release/CHANGELOG.md`** written at the project root (create `docs/release/`), seeded per `@rules/versioning.md` — **in English**, Keep a Changelog shape: the preamble, an empty `## [Unreleased]`, and the initial `## [1.0.0] - <YYYY-MM-DD>` block with `### Added` / `- Initial release.`. The `1.0.0` matches the app version in `package.json` / `APP_VERSION`. Later releases are cut with `/electron-release`.
 - `README.md` written automatically at the project root: objective, stack, tree, IPC channels, conventions, installation.
 - **`CLAUDE.md`** written at the generated project root (in the user's language), recording the app's identity for future sessions:
 
@@ -74,7 +75,7 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
   # [nom-app]
 
   ## Origin
-  Framework: electron v1.0.0
+  Framework: electron v1.1.0
 
   ## Business context
   [What the app does — synthesized from docs/specs/02-featuring.md: objective + key features]
@@ -82,14 +83,14 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
   ## Deviations from the framework
   - None
   ```
-  `[nom-app]` = `productName` / app name. The version is the one declared at the top of the framework `CLAUDE.md` (currently 1.0.0). Replace the `Deviations` list with every deviation validated via the Phase 4/5 deviation protocol (`- [deviation] — reason: [justification]`); if none, keep `- None`.
+  `[nom-app]` = `productName` / app name. The version here is the **framework** version declared at the top of the framework `CLAUDE.md` (currently 1.1.0) — not the app's own version (which starts at 1.0.0 in `package.json` / `docs/release/CHANGELOG.md`). Replace the `Deviations` list with every deviation validated via the Phase 4/5 deviation protocol (`- [deviation] — reason: [justification]`); if none, keep `- None`.
 - **`.claude/settings.json`** written at the generated project root so the app stays self-enforced in later maintenance sessions:
 
   ```json
   {
     "permissions": {
       "allow": ["Bash(npm:*)", "Bash(npx:*)", "Bash(node:*)", "Read", "Write", "Edit"],
-      "deny": ["Read(**/.env)", "Read(**/.env.*)", "Read(**/secrets/**)", "Write(**/.env)", "Write(**/.env.*)", "Write(**/secrets/**)", "Edit(**/.env)", "Edit(**/.env.*)", "Edit(**/secrets/**)", "Write(**/node_modules/**)", "Write(**/out/**)", "Write(**/release/**)", "Write(**/dist/**)"]
+      "deny": ["Read(**/.env)", "Read(**/.env.*)", "Read(**/secrets/**)", "Write(**/.env)", "Write(**/.env.*)", "Write(**/secrets/**)", "Edit(**/.env)", "Edit(**/.env.*)", "Edit(**/secrets/**)", "Write(**/node_modules/**)", "Write(**/out/**)", "Write(release/**)", "Write(**/dist/**)"]
     },
     "hooks": {
       "Stop": [{ "hooks": [{ "type": "command", "command": "npm run lint" }] }]
