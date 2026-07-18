@@ -82,6 +82,12 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
 
   ## Deviations from the framework
   - None
+
+  ## Maintenance
+  - Load the project first: `/electron-load-project`
+  - Change it: `/electron-add-feature` · `/electron-fix-issue` · `/electron-refactor-code` (each records the change under `[Unreleased]` in `docs/release/CHANGELOG.md`; the version does not move)
+  - Verify: `/electron-run-tests`
+  - Publish a version: `/electron-release` (turns the accumulated `[Unreleased]` changelog into a dated version and raises the version number)
   ```
   `[nom-app]` = `productName` / app name. The version here is the **framework** version declared at the top of the framework `CLAUDE.md` (currently 1.1.0) — not the app's own version (which starts at 1.0.0 in `package.json` / `docs/release/CHANGELOG.md`). Replace the `Deviations` list with every deviation validated via the Phase 4/5 deviation protocol (`- [deviation] — reason: [justification]`); if none, keep `- None`.
 - **`.claude/settings.json`** written at the generated project root so the app stays self-enforced in later maintenance sessions:
@@ -141,6 +147,8 @@ Once the last batch (plus the seed/test batches if any) is delivered, close Phas
   npm run dev
   ```
   (+ `npm run seed` if a DB was selected; `npm test` if tests enabled; `npm run dist` if packaging enabled.)
+
+- **Maintenance & release** — after delivery: `/electron-load-project` first, then `/electron-add-feature` · `/electron-fix-issue` · `/electron-refactor-code` to change it, `/electron-run-tests` to verify, and `/electron-release` to publish a version (it turns the accumulated `[Unreleased]` changelog into a dated version and raises the number). The same reminder is recorded in the generated `CLAUDE.md`.
 
 The summary points to the documents; it does not restate them.
 
