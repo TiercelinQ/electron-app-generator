@@ -10,6 +10,9 @@ preferences.json
 *.log
 logs/
 
+# Local work plan
+tasks/
+
 # Node / builds
 node_modules/
 out/

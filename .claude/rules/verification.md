@@ -23,7 +23,7 @@ Rules:
 - **`ensure-electron.cjs`**: if `npm run dev`/`build` reports `Error: Electron uninstall`, the binary extraction failed silently — run `npm run postinstall` (the script restores it from cache). See `@rules/config.md`.
 - If Node/npm is **not** available in the environment, say so explicitly, fall back to the static checks below (read-through), and tell the user which commands they must run themselves before considering the work verified. Never claim a clean typecheck you could not run.
 - Quote the relevant command output as proof when reporting completion.
-- **`npm test`** (vitest): run only if tests were enabled in Phase 1 (Q5) / `test/` exists — exit code 0. Otherwise skip — **do not scaffold a suite**.
+- **`npm test`** (vitest): run only if tests were enabled in Phase 1 / `test/` exists — exit code 0. Otherwise skip — **do not scaffold a suite**.
 - The generated app ships a `.claude/settings.json` (deny guards on secrets/artifacts + a `Stop` hook running `npm run lint`). These enforce the rules automatically in later maintenance sessions but **do not replace** this checklist.
 
 ---

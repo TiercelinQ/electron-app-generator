@@ -11,6 +11,7 @@ electron-app-generator/
 ├── CLAUDE.md                 # Instructions core (EN) · persona · communication FR · index commandes · calibrage
 ├── GUIDE.md                  # Ce fichier
 ├── README.md                 # Présentation du repo GitHub (EN)
+├── CHANGELOG.md              # Changelog du générateur (distinct de celui des apps générées)
 ├── LICENSE
 └── .claude/
     ├── design-system.md      # Référence visuelle contraignante (v2.0, tokens CSS) — source de vérité unique
@@ -57,7 +58,7 @@ electron-app-generator/
 
 ---
 
-## Nouveautés de la version unifiée
+## Spécificités de ce framework
 
 | Apport                        | Détail                                                                          |
 | ----------------------------- | ------------------------------------------------------------------------------- |
@@ -138,6 +139,8 @@ Fichiers écrits directement sur le disque. Annonce `Lot N/[total] — [contenu]
 /electron-app → 2    # reprendre : fournir le chemin du fichier SESSION
 ```
 
+La reprise est gérée par `/electron-app` (option 2, ou bloc SESSION collé directement dans le message — reprise sans menu) : lecture complète du fichier SESSION, réponse `Resuming [APP_NAME] — [phase suivante] | Batch [X/total] | Open points: …`, puis enchaînement immédiat sans re-poser les questions résolues.
+
 ---
 
 ## Travailler sur un projet livré
@@ -146,7 +149,7 @@ Fichiers écrits directement sur le disque. Annonce `Lot N/[total] — [contenu]
 /electron-app → 3     # ou directement /electron-load-project depuis la racine du projet
 ```
 
-Claude lit `docs/specs/04-architect.md` (priorité), sinon le README, sinon le code, puis applique toutes les règles. Projet sans README : `/electron-generate-readme`.
+Claude lit `docs/specs/04-architect.md` (priorité), sinon le README, sinon le code, puis confirme la prise en charge en un bloc au format unifié (`Project loaded: [nom] v[version]`, stack, entités, canaux IPC, tests, design system, specs, `Generator rules applied. Ready for: development · fixes · improvements · adjustments.`) et applique toutes les règles. Projet sans README : `/electron-generate-readme`.
 
 ### Maintenance (`/electron-app → 4`)
 
@@ -181,7 +184,7 @@ npm run dist                 # packaging — si activé (Phase 1 Q7) ou sur dema
 
 ---
 
-## Sécurité Electron
+## Sécurité
 
 `rules/security.md` est non négociable et appliqué à 100% : `contextIsolation: true`, `nodeIntegration: false`, `sandbox: true`, CSP stricte, validation de toute entrée IPC côté main, preload à surface minimale (fonctions nommées uniquement), zéro ressource distante. `/electron-fix-issue` et `/electron-add-feature` y renvoient systématiquement.
 
@@ -190,6 +193,8 @@ npm run dist                 # packaging — si activé (Phase 1 Q7) ou sur dema
 ## Gestion des anomalies et mémoire
 
 Après correction (`/electron-fix-issue` ou Phase 5), Claude produit un bilan de nettoyage puis propose `Veux-tu mémoriser ce point ? /electron-save-memory`. `/electron-save-memory` catégorise et écrit dans la **mémoire native Claude Code** (+ `MEMORY.md`).
+
+Prérequis : la mémoire auto doit être activée (`/config → Memory → Enable auto memory → On`). Sans cette activation, `/electron-save-memory` formule les notes mais ne les persiste pas entre sessions.
 
 ---
 

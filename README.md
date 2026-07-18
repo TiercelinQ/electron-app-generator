@@ -20,7 +20,7 @@ A structured prompt system that generates complete, production-ready Electron/Re
 
 Each phase writes a spec in the user's language to `docs/specs/` (`01-scoping` … `04-architect`); the contract is the source of truth.
 
-**Maintenance commands**: `/electron-add-feature` (add a feature, contract-compliant), `/electron-trace-feature` (trace behavior), `/electron-fix-issue` (root-cause debugging with a decision tree), `/electron-refactor-code` (validated, behavior-preserving), `/electron-migrate-design` (convert a v1.x app to design system v2.0), `/electron-release` (cut a SemVer release from the accumulated changelog), `/electron-run-tests` (executable verification). Plus `/electron-load-project` and `/electron-generate-readme` to load/document existing apps.
+**Maintenance commands**: `/electron-add-feature` (add a feature, contract-compliant — explicit contract-diff validation before writing), `/electron-trace-feature` (trace behavior), `/electron-fix-issue` (root-cause debugging with a decision tree), `/electron-refactor-code` (validated, behavior-preserving), `/electron-migrate-design` (convert a v1.x app to design system v2.0), `/electron-release` (cut a SemVer release from the accumulated changelog), `/electron-run-tests` (executable verification). Plus `/electron-load-project` and `/electron-generate-readme` to load/document existing apps.
 
 Every generated app enforces the same visual design system, strict MVC architecture, and locked Electron security.
 
@@ -84,7 +84,7 @@ Then in Claude Code:
 | `/electron-p3-surfaces`        | Surfaces - layout proposal + customization        |
 | `/electron-p4-architect`       | Architect - locked architecture contract (IPC)     |
 | `/electron-p5-development` | Auto-chained batch delivery                        |
-| `/electron-add-feature`            | Add a feature to a shipped project                 |
+| `/electron-add-feature`            | Add a feature to a shipped project (contract diff first) |
 | `/electron-trace-feature`              | Trace a feature across the MVC/IPC layers          |
 | `/electron-fix-issue`                  | Fix a bug - decision tree, root cause              |
 | `/electron-refactor-code`             | Refactor under explicit validation only            |
@@ -154,7 +154,7 @@ All generated apps share the same visual system, defined in `.claude/design-syst
 - `.claude/design-system.md` - visual token reference
 - `.claude/layout.md` - layout companion (pattern catalog + proposed default composition + toast spec)
 - `.claude/rules/` - domain rules:
-  - `mvc.md` · `css.md` · `errors.md` · `security.md` · `config.md` · `db.md` · `sf-cli.md` (opt-in) · `splash.md` (opt-in) · `tests.md` (opt-in) · `logging.md` · `readme.md`
+  - `mvc.md` · `css.md` · `errors.md` · `security.md` · `config.md` · `db.md` · `sf-cli.md` (opt-in) · `splash.md` (opt-in) · `tests.md` (opt-in) · `logging.md` · `readme.md` · `versioning.md`
   - `verification.md` - single source of truth for executable + static checks
 - `.claude/sf-cli-reference/` - `sf` v2 command/flag catalog (loaded by section when the Salesforce integration is on)
 

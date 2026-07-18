@@ -46,7 +46,13 @@ New feature — a few questions:
 
 Mark a `(recommended)` option for each closed question, inferred from the existing project. If the request stays ambiguous (business rule, edge case), state assumptions explicitly and ask before the diff.
 
-## Step 2 — Architectural contract diff
+## Step 2 — In-contract OR deviation
+
+Decide before writing anything:
+- **In-contract** — a new entity or an extension within the MVC split (`model + controller + view`), a new IPC channel declared in `ipc-channels.ts` with a validated handler, a new component within the existing tokens, a new non-secret preference key. Proceed to the diff as a straightforward addition.
+- **Deviation** — a new library/dependency, a new window or renderer entry, any change to the security posture (`webPreferences`, CSP, preload surface), a second file for one entity beyond `model + controller + view`, or anything the locked contract does not cover. **STOP → declare the deviation in the diff, explain why → wait for validation before writing.** Never exceed the contract silently. **The diff + validation IS the protocol.**
+
+## Step 3 — Architectural contract diff
 
 Produce (in the user's language):
 
@@ -69,7 +75,7 @@ Produce (in the user's language):
 
 → Validation required before writing. Update `docs/specs/04-architect.md` once the diff is applied.
 
-## Step 3 — Application — strict rules
+## Step 4 — Application — strict rules
 
 - Read `design-system.md` and `layout.md` (no longer auto-imported) before any UI change.
 - Fully respect `@rules/mvc.md`, `@rules/css.md`, `@rules/errors.md`, `@rules/config.md`, `@rules/security.md`, `@rules/logging.md`, `@rules/db.md` (if DB), `@rules/sf-cli.md` (if the Salesforce CLI integration is on), `@rules/tests.md`, `@rules/verification.md`, `@rules/readme.md`.
@@ -84,7 +90,7 @@ Produce (in the user's language):
 - New visual values → tokens in `tokens.css`, never hardcoded.
 - If the validated diff introduces a deviation from the contract, record it in the app's `CLAUDE.md` (`## Deviations from the framework`).
 
-## Step 4 — Delivery
+## Step 5 — Delivery
 
 Single batch for the feature:
 
@@ -92,7 +98,7 @@ Feature [name] — [N files]
 
 Deliver each created/modified file as a complete block, written to disk. If tests requested: deliver in the same batch, at the end.
 
-## Step 4b — Changelog entry
+## Step 5b — Changelog entry
 
 After the feature is delivered, append an entry under `## [Unreleased]` in `docs/release/CHANGELOG.md` (`@rules/versioning.md`) — **in English**, no version bump:
 - `### Added` — the new capability, one concise line (add a `### Changed` line too if it alters existing behavior).
@@ -101,7 +107,7 @@ After the feature is delivered, append an entry under `## [Unreleased]` in `docs
 
 Do **not** bump the version — that happens at `/electron-release`. Mention it once, at the end: the change is recorded under `[Unreleased]`; run `/electron-release` when ready to cut a version.
 
-## Step 5 — Anomaly
+## Step 6 — Anomaly
 
 If the user reports an anomaly after delivery, apply the `@rules/mvc.md` cleanup protocol then offer `/electron-save-memory`.
 

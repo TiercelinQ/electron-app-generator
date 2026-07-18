@@ -128,7 +128,7 @@ my-app/
 
 > **Splash screen (if Phase 3 = Yes)** — no dedicated batch. `SPLASH_MIN_DURATION_MS` ships in `src/shared/config.ts` (**Batch 1**); the splash assets (`splash.html`, `styles/splash.css`, `splash.ts`) and the second `rollupOptions.input` entry ship with the styles/entry batch (last non-test batch, alongside `src/main/index.ts` which orchestrates the splash). It counts toward the size. See `@rules/splash.md`.
 
-### Tests batch (only if Phase 1 Q5 = Yes)
+### Tests batch (only if Phase 1 tests = Yes)
 Add a final dedicated batch — `test/` (mirroring `src/`) + `vitest.config.ts` + dev dependencies (`vitest`, `@testing-library/react`, `@testing-library/jest-dom`, `jsdom`) + the `"test"` script. → Small 4 batches / Medium-Large 5 batches. Patterns and coverage: `@rules/tests.md`.
 
 ### Delivery format

@@ -122,7 +122,7 @@ If a database was selected, deliver a standalone seed script `scripts/seed.ts` t
 
 Announce `Batch [final]/[total] — scripts/seed.ts` (before the tests batch if both apply). See `@rules/db.md`.
 
-## Test batch — only if Phase 1 Q5 = Yes
+## Test batch — only if Phase 1 tests = Yes
 
 Add a final dedicated batch: announce `Batch [final]/[total] — test/ + dev dependencies`. Deliver `test/` mirroring `src/` (per `@rules/tests.md`: controller pattern with mocked model/DB via `vi`, renderer smoke via Testing Library, no network/real-DB), `vitest.config.ts`, the dev dependencies (`vitest`, `@testing-library/react`, `@testing-library/jest-dom`, `jsdom`) and the `"test": "vitest run"` script. Append the `npm test` instruction to the README.
 

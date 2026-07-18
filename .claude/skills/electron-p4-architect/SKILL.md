@@ -47,7 +47,7 @@ Present (in the user's language, as plain Markdown — never inside a code block
 
    **If the splash screen is on (Phase 3)**: add the splash files to the tree (`src/renderer/splash.html`, `src/renderer/src/styles/splash.css`, `src/renderer/src/splash.ts`), note the second `rollupOptions.input` entry in `electron.vite.config.ts`, the `SPLASH_MIN_DURATION_MS` constant in `config.ts`, and the splash orchestration in `src/main/index.ts` (main window `show: false` until `ready-to-show`). The icon source (Phase 1 icon reused, path provided in Phase 3, or text-only) is part of the contract. See @rules/splash.md.
 
-4. **Source → test mapping** (only if tests enabled in Phase 1 Q5): each source module → its `*.test.ts(x)` file (incl. `sf-cli.ts` / `org.controller.ts` if the Salesforce integration is on). See `@rules/tests.md`.
+4. **Source → test mapping** (only if tests enabled in Phase 1): each source module → its `*.test.ts(x)` file (incl. `sf-cli.ts` / `org.controller.ts` if the Salesforce integration is on). See `@rules/tests.md`.
 
 **→ Validation required. This contract is locked.**
 

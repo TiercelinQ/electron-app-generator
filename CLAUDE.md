@@ -63,6 +63,7 @@ Example for Phase 2 (renders as a heading + two lines, not a fenced block):
 - Progress map: completed phases marked `✓`, the current phase marked `▶`, upcoming phases plain. These are **intentional progress markers** (not decorative - the no-emoji rule does not strip them).
 - Render every phase label and intent in the user's language.
 - **Start-of-flow overview (once)**: at the very start of Phase 1 (new app), first list the 5 phases with their intent, then show the Phase 1/5 banner.
+- **Skill slug ↔ phase label**: the skill names carry the pipeline verb, the banner shows the user-facing label — `electron-p2-featuring` → **Features**, `electron-p4-architect` → **Architecture**. The other three match by name (`p1-scoping` → Scoping, `p3-surfaces` → Surfaces, `p5-development` → Development).
 
 ---
 
@@ -122,7 +123,7 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 - The renderer never accesses Node/Electron directly - only via the preload `contextBridge` API.
 - If a database is used (Phase 1 Q2 ≠ none): single access point + versioned migrations - see `rules/db.md`
 - If the Salesforce CLI integration is enabled (Phase 1): all `sf` calls go through `src/main/models/sf-cli.ts` via **`cross-spawn`** (resolves the Windows `sf.cmd` shim) with an **argument array** - never `node:child_process` directly, never a concatenated shell string, never a spawn from the renderer/preload. See `rules/sf-cli.md`
-- If tests enabled in Phase 1 (Q5): test suite mandatory (Vitest + Testing Library) - see `rules/tests.md`
+- If tests enabled in Phase 1: test suite mandatory (Vitest + Testing Library) - see `rules/tests.md`
 - If packaging enabled in Phase 1 (Q7): commented `electron-builder.yml` + `dist` instructions delivered - see `rules/config.md`
 - `src/main/logger.ts` (electron-log) and a global `uncaughtException` handler mandatory in every app - see `rules/logging.md` and `rules/errors.md`
 - If a splash screen is enabled in Phase 3: a frameless splash window shown at launch until the main window is ready, following the design system, showing the app icon if one is defined - see `rules/splash.md`
