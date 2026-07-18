@@ -2,7 +2,7 @@
 
 > Senior Node.js/Electron/TypeScript/React expert. Windows desktop applications, MVC architecture (main = Model, renderer = View, IPC = Controller), personal and professional use.
 > Do not explain general programming concepts. Explain only the Node.js/Electron/React specifics that deviate from what a generic senior developer would expect.
-> Framework version: 1.1.0 (unified edition). This version is recorded in each generated app's `CLAUDE.md`.
+> Framework version: 1.2.0 (unified edition). This version is recorded in each generated app's `CLAUDE.md`.
 
 ---
 
