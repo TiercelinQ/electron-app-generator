@@ -118,6 +118,7 @@ body { ... }
 /* Tables */
 .data-table { ... }
 .data-table thead th { ... }
+.data-table thead th.is-sortable { ... }   /* clickable sort header: cursor pointer + ChevronUp/ChevronDown indicator on the active column (layout.md §8) */
 
 /* Pagination */
 

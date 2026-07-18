@@ -93,7 +93,8 @@ Default values — customizable in Phase 3.
 | ----------------- | ----------------------------------------------------------------------- |
 | `minWidth`        | 1024                                                                    |
 | `minHeight`       | 768                                                                     |
-| state on launch   | restored (position + size) via preferences                              |
+| position on launch | centered on the primary display; when the persisted-position preference is on and a position was saved, that saved position is restored instead (centering is the first-launch / preference-off fallback) |
+| size on launch    | `WINDOW_DEFAULT_WIDTH`×`WINDOW_DEFAULT_HEIGHT` (1280×800); restored via the preference when enabled |
 | theme on launch   | follows the OS theme (`nativeTheme.shouldUseDarkColors`)                |
 | OS default theme  | light                                                                   |
 | `show`            | `false` then `ready-to-show` (zero white flash)                         |
@@ -311,6 +312,7 @@ Default values below.
 - Header bottom border: 2px `--border-strong`.
 - Row: dynamic height (vertical padding `--spacing-2` = 8px), 1px `--border-subtle` bottom border.
 - Columns: dynamic width (`table-layout: auto`). Exception: actions column — fixed width per content.
+- Column sorting: clicking a sortable column header sorts by that column; a second click reverses the order (ascending, then descending). The active column shows a Lucide `ChevronUp` (ascending) or `ChevronDown` (descending) `--icon-sm` indicator; other columns show none. One sort column at a time. Data columns are sortable by default; a presentational column such as the actions column is not.
 - Selected row (`.is-selected`): `--primary-bg` bg.
 - Row hover: bottom border strengthens `--border-subtle` → `--border`, plus the `--bg-subtle` secondary cue allowed on wide rows (`design-system.md §8`).
 - Row alternation: disabled (uniform surfaces — depth by stroke).
@@ -512,6 +514,7 @@ Proposed HTML skeleton (`App.tsx` component):
 | bg                    | `--bg-subtle`                                                          |
 | right border          | 1px `--border`                                                         |
 | item                  | icon `--icon-md` (20px) + label `--weight-medium` `--font-sm` (14px)   |
+| item label            | word-wraps within the 240px width (`white-space: normal; overflow-wrap: anywhere`), never truncated or ellipsized, so long labels stay fully visible |
 | item vertical padding | `--spacing-2` = 8px                                                    |
 | active item           | `--primary` text, `--primary-bg` background (`design-system.md §8` — vertical nav has no underline) |
 | inactive item         | `--text-subtle` text, transparent background, 1px transparent border   |

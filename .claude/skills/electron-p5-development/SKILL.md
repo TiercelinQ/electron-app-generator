@@ -54,7 +54,7 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
 
 ## Last batch — mandatory extra deliverables
 
-- **`src/main/index.ts`** with the strict init order: `setupLogging()` (first — `@rules/logging.md`) → global `process.on("uncaughtException")` handler → `app.whenReady()` → `runMigrations()` (if DB, before any window) → frameless splash window shown (if splash enabled) → main `BrowserWindow` created with `show: false` + locked `webPreferences` → `registerAllControllers()` → renderer loaded → on `ready-to-show`: dismiss the splash after `SPLASH_MIN_DURATION_MS`, then `mainWindow.show()`. See `@rules/splash.md` and `@rules/security.md`.
+- **`src/main/index.ts`** with the strict init order: `setupLogging()` (first — `@rules/logging.md`) → global `process.on("uncaughtException")` handler → `app.whenReady()` → `runMigrations()` (if DB, before any window) → frameless splash window shown (if splash enabled) → main `BrowserWindow` created with `show: false`, `center: true` (centered on the primary display at launch; a saved position from the persisted-position preference, when enabled, takes precedence over centering) and locked `webPreferences` → `registerAllControllers()` → renderer loaded → on `ready-to-show`: dismiss the splash after `SPLASH_MIN_DURATION_MS`, then `mainWindow.show()`. See `@rules/splash.md` and `@rules/security.md`.
 - `scripts/ensure-electron.cjs` written at the project root (see `@rules/config.md §Postinstall`).
 - If packaging enabled (Phase 1 Q7): commented `electron-builder.yml` + `npm run dist` instructions (see `@rules/config.md`).
 - Install and run instructions:
