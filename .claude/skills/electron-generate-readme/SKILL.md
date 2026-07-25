@@ -26,7 +26,7 @@ Use the native Claude Code tools (no shell — Windows-compatible):
    - Read `package.json`, `src/shared/` (config, ipc-channels, types), `src/main/models/`, `src/main/controllers/`, `src/preload/`, `src/renderer/src/views/`, `src/renderer/src/styles/`.
    - Detect `test/` via `Glob` `test/**/*.test.*`.
    - When specs and code disagree, the code is what shipped — describe the code and note the divergence.
-2. Generate `README.md` at the root via `Write`. Write the README in English (public-facing document) — see `rules/readme.md`:
+2. Generate `README.md` at the root via `Write`. Write the README in English (public-facing document) — see `@rules/readme.md`:
 
 ```markdown
 # [APP_NAME] — v[VERSION]
