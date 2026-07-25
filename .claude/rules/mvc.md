@@ -54,6 +54,7 @@ my-app/
 ├── electron.vite.config.ts
 ├── tsconfig.json · tsconfig.node.json · tsconfig.web.json
 ├── eslint.config.mjs · .prettierrc
+├── .gitignore                      # repo hygiene (delivered last batch) — @rules/config.md
 ├── electron-builder.yml            # if packaging (Phase 1 Q7) — @rules/config.md
 ├── README.md
 ├── docs/
@@ -113,7 +114,7 @@ my-app/
 | ----- | -------------------------------------------------------------------------------------------------- |
 | 1     | `src/shared/` + `src/main/models/`                                                                 |
 | 2     | `src/main/controllers/` + `src/preload/` + `src/renderer/src/views/` + `hooks/`                    |
-| 3     | `src/main/index.ts` + `src/main/logger.ts` + renderer entries + `utils/` + `styles/` + `i18n/` + `scripts/` + root configs + `package.json` + README + instructions |
+| 3     | `src/main/index.ts` + `src/main/logger.ts` + renderer entries + `utils/` + `styles/` + `i18n/` + `scripts/` + root configs (incl. `.gitignore`) + `package.json` + README + instructions |
 
 **Medium / Large project (4 batches):**
 
@@ -122,7 +123,7 @@ my-app/
 | 1     | `src/shared/` + `src/main/models/`                                                                 |
 | 2     | `src/renderer/src/views/` + `hooks/`                                                               |
 | 3     | `src/main/controllers/` + `src/preload/`                                                           |
-| 4     | `src/main/index.ts` + `src/main/logger.ts` + renderer entries + `utils/` + `styles/` + `i18n/` + `scripts/` + root configs + `package.json` + README + instructions |
+| 4     | `src/main/index.ts` + `src/main/logger.ts` + renderer entries + `utils/` + `styles/` + `i18n/` + `scripts/` + root configs (incl. `.gitignore`) + `package.json` + README + instructions |
 
 > **Salesforce CLI integration (if Phase 1 = Yes)** — no dedicated batch. `sf-cli.ts` (runner + helpers) ships in **Batch 1** with the other models; `org.controller.ts` and the preload methods ship with the controllers/preload batch; `OrgView.tsx` ships with the views batch. The `sf:org:*` channels go in `src/shared/ipc-channels.ts` (Batch 1). It counts toward the size (`## CALIBRATION` in `CLAUDE.md`). See `@rules/sf-cli.md`.
 

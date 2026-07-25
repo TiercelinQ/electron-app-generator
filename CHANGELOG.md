@@ -4,6 +4,13 @@ All notable changes to this generator are documented in this file.
 The format is based on Keep a Changelog, and this project adheres to Semantic Versioning.
 (This is the changelog of the **generator** itself, distinct from the `docs/release/CHANGELOG.md` of each generated app.)
 
+## [1.3.0] - 2026-07-25
+### Added
+- Generated apps now ship a root `.gitignore` (template in `rules/config.md`): ignores `node_modules/`, the anchored build outputs (`/dist/`, `/out/`, `/release/`), `.env`, `tasks/`, the local `.claude/` settings, and the private `docs/specs/`, while keeping `docs/release/CHANGELOG.md`, `.claude/settings.json`, the generated `CLAUDE.md`, `test/`, and `scripts/` tracked. Wired into the reference tree, the batch tables, the Phase 5 last-batch deliverables, and the verification checklist.
+
+### Changed
+- The generated app `README.md` is now always written in English (public-facing document), regardless of the user's interface language. Updated `rules/readme.md`, `electron-generate-readme`, and the language note in `rules/versioning.md`.
+
 ## [1.2.0] - 2026-07-18
 ### Added
 - Data table columns are sortable ascending and descending (header click, Lucide `ChevronUp`/`ChevronDown` indicator).

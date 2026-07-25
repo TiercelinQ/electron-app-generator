@@ -67,6 +67,7 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
   npm run dist       # Windows packaging (if enabled in Phase 1 Q7)
   ```
   (+ `npx electron-builder install-app-deps` note if better-sqlite3.)
+- **`.gitignore`** written at the project root — template in `@rules/config.md §.gitignore`. Keeps `node_modules/`, the anchored build outputs (`/dist/`, `/out/`, `/release/`), `.env`, `tasks/`, `.claude/settings.local.json` + `.claude/agent-memory/`, and the private `docs/specs/` out of the repo, while **never** ignoring `docs/release/CHANGELOG.md`, `.claude/settings.json`, the generated `CLAUDE.md`, `test/`, or `scripts/`.
 - **`docs/release/CHANGELOG.md`** written at the project root (create `docs/release/`), seeded per `@rules/versioning.md` — **in English**, Keep a Changelog shape: the preamble, an empty `## [Unreleased]`, and the initial `## [1.0.0] - <YYYY-MM-DD>` block with `### Added` / `- Initial release.`. The `1.0.0` matches the app version in `package.json` / `APP_VERSION`. Later releases are cut with `/electron-release`.
 - `README.md` written automatically at the project root: objective, stack, tree, IPC channels, conventions, installation.
 - **`CLAUDE.md`** written at the generated project root (in the user's language), recording the app's identity for future sessions:
@@ -75,7 +76,7 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
   # [nom-app]
 
   ## Origin
-  Framework: electron v1.2.0
+  Framework: electron v1.3.0
 
   ## Business context
   [What the app does — synthesized from docs/specs/02-featuring.md: objective + key features]
@@ -89,7 +90,7 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
   - Verify: `/electron-run-tests`
   - Publish a version: `/electron-release` (turns the accumulated `[Unreleased]` changelog into a dated version and raises the version number)
   ```
-  `[nom-app]` = `productName` / app name. The version here is the **framework** version declared at the top of the framework `CLAUDE.md` (currently 1.2.0) — not the app's own version (which starts at 1.0.0 in `package.json` / `docs/release/CHANGELOG.md`). Replace the `Deviations` list with every deviation validated via the Phase 4/5 deviation protocol (`- [deviation] — reason: [justification]`); if none, keep `- None`.
+  `[nom-app]` = `productName` / app name. The version here is the **framework** version declared at the top of the framework `CLAUDE.md` (currently 1.3.0) — not the app's own version (which starts at 1.0.0 in `package.json` / `docs/release/CHANGELOG.md`). Replace the `Deviations` list with every deviation validated via the Phase 4/5 deviation protocol (`- [deviation] — reason: [justification]`); if none, keep `- None`.
 - **`.claude/settings.json`** written at the generated project root so the app stays self-enforced in later maintenance sessions:
 
   ```json

@@ -49,6 +49,7 @@ Rules:
 13. i18n keys: all used, none missing (if enabled).
 14. `docs/specs/` present and consistent with the delivered code.
 15. `docs/release/CHANGELOG.md` present, Keep a Changelog-shaped (English), and its top released version equals `package.json` `"version"` **and** `src/shared/config.ts` `APP_VERSION` (all three agree). See `@rules/versioning.md`.
+16. `.gitignore` present at the project root and correct (`@rules/config.md §.gitignore`): ignores `node_modules/`, the anchored build outputs (`/dist/`, `/out/`, `/release/`), `.env`, `tasks/`, `.claude/settings.local.json` + `.claude/agent-memory/`, and `docs/specs/`; **never** ignores `docs/release/CHANGELOG.md`, `.claude/settings.json`, the generated `CLAUDE.md`, `test/`, or `scripts/`. Verify with `git add -A` + `git status`, not only `git check-ignore` (the negation rules mislead it).
 
 ### Per-domain (conditional — see the matching rule for detail)
 - **logging** (`@rules/logging.md`): `src/main/logger.ts` present and conforming; `setupLogging()` called first in `src/main/index.ts`; `electron-log` in `dependencies`; no `console.log` in delivered `src/`; every non-re-throwing `catch` calls `log.error(...)`.

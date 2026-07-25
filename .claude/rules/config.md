@@ -372,6 +372,49 @@ renderer: {
 
 The main process loads the built `splash.html` (`out/renderer/splash.html`). Splash assets, orchestration, and CSP: `@rules/splash.md`.
 
+## `.gitignore`
+
+Delivered at the project root in the last batch (`@rules/mvc.md` batch table · `/electron-p5-development`). Single source of truth for what stays out of the repo. Comments in English (the authoring language). Socle common to every stack + the Electron build additions on top:
+
+```gitignore
+# --- Dependencies & build --------------------------------------------------
+node_modules/
+/dist/
+/out/
+/release/
+.env
+
+# --- App runtime data (defensive; normally under app.getPath("userData"), outside the repo) -
+*.db
+preferences.json
+logs/
+
+# --- Claude Code -----------------------------------------------------------
+# Personal, never committed.
+.claude/settings.local.json
+.claude/agent-memory/
+# NOTE: .claude/settings.json IS a delivered asset — do NOT ignore it.
+
+# Local work plan — never committed.
+tasks/
+
+# Private specs. Only the published changelog is committed.
+docs/*
+!docs/release/
+docs/release/*
+!docs/release/CHANGELOG.md
+
+# OS noise.
+.DS_Store
+Thumbs.db
+desktop.ini
+```
+
+- **Build outputs are anchored** (`/dist/`, `/out/`, `/release/`) — the leading slash confines the pattern to the repo root. An unanchored `release/` would match at every level and hide `docs/release/` (the published changelog).
+- **App runtime data is defensive** (`*.db`, `preferences.json`, `logs/`) — the app writes the SQLite DB, `preferences.json`, and logs under `app.getPath("userData")`, never the project folder (`@rules/security.md`), so these normally never appear in the repo. The patterns are a safety net matching `security.md`'s "no application data committed" rule; unanchored on purpose (defensive), and no legitimate committed file uses these names.
+- **Never ignored** (delivered assets): `docs/release/CHANGELOG.md` (the negated pattern above), `.claude/settings.json`, the generated root `CLAUDE.md`, `test/`/`tests/`, and `scripts/` (`ensure-electron.cjs` must ship — a fresh clone's `npm install` breaks without it).
+- Verify the template with `git add -A` + `git status`, **not** only `git check-ignore` — the negation rules make `check-ignore` misleading.
+
 ## Integrity verification
 
 Detailed in `@rules/verification.md`. Key points: every constant reused in more than one file lives in `src/shared/config.ts` (zero color there — colors are tokens); zero hardcoded IPC channel string outside `src/shared/ipc-channels.ts`; `postinstall` → `scripts/ensure-electron.cjs` present in `package.json` (chained with `electron-builder install-app-deps` if `better-sqlite3`); dependency versions re-confirmed at generation and caret-pinned inside the documented peer ranges; `electron-builder.yml` + `dist` script only when packaging is enabled (Phase 1 Q7); `splash.html` registered as a second renderer entry when the splash is on (Phase 3).
