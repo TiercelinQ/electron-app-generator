@@ -4,6 +4,10 @@ All notable changes to this generator are documented in this file.
 The format is based on Keep a Changelog, and this project adheres to Semantic Versioning.
 (This is the changelog of the **generator** itself, distinct from the `docs/release/CHANGELOG.md` of each generated app.)
 
+## [1.4.0] - 2026-07-26
+### Added
+- Phase 5 now writes the delivery baseline session file `docs/sessions/SESSION_<App>_S0.md` automatically at the end of the last batch (`/electron-save-session` template, `N = 0`, overwritten if Phase 5 is replayed). Manual `/electron-save-session` saves keep numbering from `S1`. The delivery summary links it.
+
 ## [1.3.0] - 2026-07-25
 ### Added
 - Generated apps now ship a root `.gitignore` (template in `rules/config.md`): ignores `node_modules/`, the anchored build outputs (`/dist/`, `/out/`, `/release/`), `.env`, `tasks/`, the local `.claude/` settings, and the private `docs/specs/`, while keeping `docs/release/CHANGELOG.md`, `.claude/settings.json`, the generated `CLAUDE.md`, `test/`, and `scripts/` tracked. Wired into the reference tree, the batch tables, the Phase 5 last-batch deliverables, and the verification checklist.

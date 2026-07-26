@@ -110,6 +110,7 @@ my-app/
 ├── .claude/settings.json          # Guardrails + verification hook (self-enforced app)
 ├── docs/specs/                    # Generation specs (user's language): 01-scoping … 04-architect
 ├── docs/release/CHANGELOG.md      # SemVer changelog (Keep a Changelog)
+├── docs/sessions/SESSION_<App>_S0.md  # Delivery baseline session (auto, end of Phase 5)
 ├── resources/                     # .ico icon, packaging assets
 ├── scripts/ensure-electron.cjs    # Electron binary reliability (postinstall)
 └── src/

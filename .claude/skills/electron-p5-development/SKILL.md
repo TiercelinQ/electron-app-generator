@@ -76,7 +76,7 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
   # [nom-app]
 
   ## Origin
-  Framework: electron v1.3.0
+  Framework: electron v1.4.0
 
   ## Business context
   [What the app does — synthesized from docs/specs/02-featuring.md: objective + key features]
@@ -90,7 +90,7 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
   - Verify: `/electron-run-tests`
   - Publish a version: `/electron-release` (turns the accumulated `[Unreleased]` changelog into a dated version and raises the version number)
   ```
-  `[nom-app]` = `productName` / app name. The version here is the **framework** version declared at the top of the framework `CLAUDE.md` (currently 1.3.0) — not the app's own version (which starts at 1.0.0 in `package.json` / `docs/release/CHANGELOG.md`). Replace the `Deviations` list with every deviation validated via the Phase 4/5 deviation protocol (`- [deviation] — reason: [justification]`); if none, keep `- None`.
+  `[nom-app]` = `productName` / app name. The version here is the **framework** version declared at the top of the framework `CLAUDE.md` (currently 1.4.0) — not the app's own version (which starts at 1.0.0 in `package.json` / `docs/release/CHANGELOG.md`). Replace the `Deviations` list with every deviation validated via the Phase 4/5 deviation protocol (`- [deviation] — reason: [justification]`); if none, keep `- None`.
 - **`.claude/settings.json`** written at the generated project root so the app stays self-enforced in later maintenance sessions:
 
   ```json
@@ -113,6 +113,7 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
   if (changed) execSync("npm run lint", { stdio: "inherit" });
   ```
   **If the Salesforce CLI integration is on**, add `"Bash(sf:*)"` to the `allow` list (so maintenance sessions can verify flags with `sf <cmd> --help`).
+- **`docs/sessions/SESSION_[app_name]_S0.md`** written at the project root (create `docs/sessions/`) — the **delivery baseline** session, produced automatically here, no user action. Apply the `/electron-save-session` template as-is (that skill stays the single source of the format) with `[N]` **forced to `0`**: `Completed phase: 5 — Development`, `Next phase: — (delivered — maintenance via /electron-load-project)`, every delivered batch checked, locked decisions and open points filled. **Overwrite** it if it already exists (Phase 5 replayed). `S0` is reserved for this baseline; manual `/electron-save-session` saves keep numbering from `1`.
 - Confirm `docs/specs/` is present and consistent with the delivered code.
 
 ## Splash screen — only if enabled in Phase 3
@@ -140,7 +141,7 @@ Once the last batch (plus the seed/test batches if any) is delivered, close Phas
 - **Project folder** — the project root (clickable).
 - **README.md** — how to run, stack, tree, conventions (clickable).
 - **Generated `CLAUDE.md`** — the app identity for future sessions (clickable).
-- **Documentation — phase specs** — one clickable link each: `docs/specs/01-scoping.md`, `docs/specs/02-featuring.md`, `docs/specs/03-surfaces.md`, `docs/specs/04-architect.md` (and the latest `docs/sessions/SESSION_*.md` if one exists).
+- **Documentation — phase specs** — one clickable link each: `docs/specs/01-scoping.md`, `docs/specs/02-featuring.md`, `docs/specs/03-surfaces.md`, `docs/specs/04-architect.md`, plus the delivery baseline `docs/sessions/SESSION_[app_name]_S0.md`.
 - **How to run** — the key commands (also in the README):
 
   ```

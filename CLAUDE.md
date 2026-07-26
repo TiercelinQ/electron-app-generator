@@ -2,7 +2,7 @@
 
 > Senior Node.js/Electron/TypeScript/React expert. Windows desktop applications, MVC architecture (main = Model, renderer = View, IPC = Controller), personal and professional use.
 > Do not explain general programming concepts. Explain only the Node.js/Electron/React specifics that deviate from what a generic senior developer would expect.
-> Framework version: 1.3.0 (unified edition). This version is recorded in each generated app's `CLAUDE.md`.
+> Framework version: 1.4.0 (unified edition). This version is recorded in each generated app's `CLAUDE.md`.
 
 ---
 
@@ -128,7 +128,7 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 - `src/main/logger.ts` (electron-log) and a global `uncaughtException` handler mandatory in every app - see `rules/logging.md` and `rules/errors.md`
 - If a splash screen is enabled in Phase 3: a frameless splash window shown at launch until the main window is ready, following the design system, showing the app icon if one is defined - see `rules/splash.md`
 - No library that was not validated in Phase 1.
-- At project finalization (last batch of Phase 5): generate a `CLAUDE.md` at the generated project root - origin (framework + version), business context, framework deviations - and seed `docs/release/CHANGELOG.md` (Keep a Changelog, English, initial `1.0.0`). See `/electron-p5-development` and `rules/versioning.md`.
+- At project finalization (last batch of Phase 5): generate a `CLAUDE.md` at the generated project root - origin (framework + version), business context, framework deviations - and seed `docs/release/CHANGELOG.md` (Keep a Changelog, English, initial `1.0.0`), and write the delivery baseline session `docs/sessions/SESSION_[app_name]_S0.md` (`/electron-save-session` template, `N = 0`, overwritten if Phase 5 is replayed). See `/electron-p5-development` and `rules/versioning.md`.
 - Maintenance changes (`add-feature`/`fix-issue`/`refactor-code`/`migrate-design`) append an entry under `## [Unreleased]` in `docs/release/CHANGELOG.md`; the version is bumped only by `/electron-release`. Never bump the version silently. See `rules/versioning.md`.
 - After resolving an anomaly, offer: "Do you want to remember this point? `/electron-save-memory`"
 - NEVER read and write the generator's own `.claude/settings.json` — ONLY read and write in `settings.local.json`. (The `.claude/settings.json` written into a delivered project in Phase 5 is a legitimate deliverable; this rule concerns this framework's own file, not the generated one.)
