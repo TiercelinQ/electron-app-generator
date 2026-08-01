@@ -14,7 +14,7 @@ npm install                  # dependencies resolve; postinstall (ensure-electro
 npm run typecheck            # tsc --noEmit on tsconfig.node.json AND tsconfig.web.json — MUST be clean
 npm run lint                 # eslint — clean
 npm run build                # electron-vite build — succeeds (main + preload + renderer bundles)
-npm run dist                 # electron-builder — packaging only (Phase 1 Q7 = Yes, or on request)
+npm run dist                 # electron-builder — packaging only (if packaging enabled in Phase 1, or on request)
 ```
 
 Rules:

@@ -22,6 +22,8 @@ Regenerate the README **iff** the change touched a documented aspect above:
 
 A purely internal change (a private method, the body of an existing controller, a token value, a bug fix with no structural impact) does **not** trigger a refresh.
 
+A **version bump** does not trigger a regeneration either: `/electron-release` itself updates the README **title line** (`# [APP_NAME] — v[VERSION]`) as a targeted edit of that single line (its Step 4 — Apply the release), so the public page never shows a stale version next to an up-to-date changelog.
+
 ## How to refresh
 
 Regenerate the README via the logic of `/electron-generate-readme` (reads specs + code), in the same delivery, without asking. Full regeneration — the README is derived, so hand edits are not preserved. No manual "offer" step.

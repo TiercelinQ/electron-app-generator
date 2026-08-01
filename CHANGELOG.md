@@ -4,6 +4,21 @@ All notable changes to this generator are documented in this file.
 The format is based on Keep a Changelog, and this project adheres to Semantic Versioning.
 (This is the changelog of the **generator** itself, distinct from the `docs/release/CHANGELOG.md` of each generated app.)
 
+## [1.5.0] - 2026-08-01
+### Added
+- Phase 5 offers `/electron-save-session` between batches when the session is running long or the context is heavily loaded (safety net before saturation; automatic chaining stays the default).
+- Phase 2 Step 1 constrains the application name: space-free candidates (PascalCase or kebab-case), a free-typed name is normalized into the technical identifier; the display name (window title, README) may keep spaces and both are recorded when they differ.
+- `/electron-release` now updates the README title line (`# [APP_NAME] — v[NEW]`) as a targeted edit of that single line; the version-bump trigger is documented in `rules/readme.md`.
+- The `config.ts` template gains `DB_SCHEMA_VERSION` (if DB ≠ none), closing the loop with the `rules/db.md` migrations contract.
+
+### Changed
+- The seed script `scripts/seed.ts` ships inside the last code batch — no dedicated seed batch; the announced batch total now always matches the frozen calibration.
+- Test files live under `test/` mirroring `src/` only (single location — detection and delivery rely on `test/**`).
+- Downstream Phase 1 question numbers removed: conditions now read "if [option] enabled in Phase 1"; the numbers stay in `p1-scoping` only.
+- The debug env var name is normalized (`[^A-Z0-9]` → `_`) in `rules/logging.md`, so a hyphenated app name stays shell-usable.
+- The CALIBRATION closing paragraph is harmonized across the 5 generators (stack options "push the size up", no dedicated batch).
+- Generator settings: the release deny is anchored to the repo root (`Write(release/**)`), so a test app's `docs/release/CHANGELOG.md` stays writable in-repo; the app-template deny anchoring is documented as deliberate in Phase 5 ("Deny anchoring" note).
+
 ## [1.4.0] - 2026-07-26
 ### Added
 - Phase 5 now writes the delivery baseline session file `docs/sessions/SESSION_<App>_S0.md` automatically at the end of the last batch (`/electron-save-session` template, `N = 0`, overwritten if Phase 5 is replayed). Manual `/electron-save-session` saves keep numbering from `S1`. The delivery summary links it.

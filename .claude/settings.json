@@ -20,7 +20,7 @@
       "Edit(**/secrets/**)",
       "Write(**/node_modules/**)",
       "Write(**/out/**)",
-      "Write(**/release/**)",
+      "Write(release/**)",
       "Write(**/dist/**)"
     ]
   }

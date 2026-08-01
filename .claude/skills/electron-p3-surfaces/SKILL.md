@@ -125,7 +125,7 @@ c. Is the content homogeneous (single block) or heterogeneous (several sections)
 Based on the answers, propose 2 suited layouts with a justified recommendation, then confirm before the synthesis.
 
 6. **Splash screen** (`AskUserQuestion`): `Yes` (recommended) · `No`. A frameless splash window shown at launch until the main window is ready, following the design system (flat, palette, dark mode). See @rules/splash.md.
-   - **If `Yes` and no application icon was defined in Phase 1** (Q6 = No): ask, as free-form text, for an **optional** icon path (`.ico`/`.png`) to show on the splash — "Icon to display on the splash? (path, or leave empty for text-only)". A provided image is saved as `resources/icon.ico` and becomes the app icon everywhere; empty → text-only splash (app name). If the Phase 1 icon is already set, the splash reuses it (no extra question).
+   - **If `Yes` and no application icon was defined in Phase 1**: ask, as free-form text, for an **optional** icon path (`.ico`/`.png`) to show on the splash — "Icon to display on the splash? (path, or leave empty for text-only)". A provided image is saved as `resources/icon.ico` and becomes the app icon everywhere; empty → text-only splash (app name). If the Phase 1 icon is already set, the splash reuses it (no extra question).
 
 ## 5. Synthesis
 

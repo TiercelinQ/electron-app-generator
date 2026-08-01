@@ -55,7 +55,7 @@ my-app/
 ├── tsconfig.json · tsconfig.node.json · tsconfig.web.json
 ├── eslint.config.mjs · .prettierrc
 ├── .gitignore                      # repo hygiene (delivered last batch) — @rules/config.md
-├── electron-builder.yml            # if packaging (Phase 1 Q7) — @rules/config.md
+├── electron-builder.yml            # if packaging (Phase 1) — @rules/config.md
 ├── README.md
 ├── docs/
 │   └── specs/                      # generation specs (user's language): 01-scoping … 04-architect

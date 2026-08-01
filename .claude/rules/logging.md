@@ -27,7 +27,9 @@ export function setupLogging(): void {
 }
 
 function debugEnabled(): boolean {
-  return process.env[`${config.APP_NAME.toUpperCase()}_DEBUG`] === "1";
+  // e.g. app `My-App` → env var `MY_APP_DEBUG`. Non-alphanumerics normalized so the name is shell-usable.
+  const key = `${config.APP_NAME.toUpperCase().replace(/[^A-Z0-9]/g, "_")}_DEBUG`;
+  return process.env[key] === "1";
 }
 ```
 

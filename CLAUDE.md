@@ -2,7 +2,7 @@
 
 > Senior Node.js/Electron/TypeScript/React expert. Windows desktop applications, MVC architecture (main = Model, renderer = View, IPC = Controller), personal and professional use.
 > Do not explain general programming concepts. Explain only the Node.js/Electron/React specifics that deviate from what a generic senior developer would expect.
-> Framework version: 1.4.0 (unified edition). This version is recorded in each generated app's `CLAUDE.md`.
+> Framework version: 1.5.0 (unified edition). This version is recorded in each generated app's `CLAUDE.md`.
 
 ---
 
@@ -121,10 +121,10 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 - Zero deprecated Electron API (`remote`, `enableRemoteModule`).
 - Electron security locked: `contextIsolation: true` · `nodeIntegration: false` · `sandbox: true` · strict CSP · every IPC input validated on the main side. Detail: `rules/security.md`
 - The renderer never accesses Node/Electron directly - only via the preload `contextBridge` API.
-- If a database is used (Phase 1 Q2 ≠ none): single access point + versioned migrations - see `rules/db.md`
+- If a database is used (Phase 1 DB choice ≠ none): single access point + versioned migrations - see `rules/db.md`
 - If the Salesforce CLI integration is enabled (Phase 1): all `sf` calls go through `src/main/models/sf-cli.ts` via **`cross-spawn`** (resolves the Windows `sf.cmd` shim) with an **argument array** - never `node:child_process` directly, never a concatenated shell string, never a spawn from the renderer/preload. See `rules/sf-cli.md`
 - If tests enabled in Phase 1: test suite mandatory (Vitest + Testing Library) - see `rules/tests.md`
-- If packaging enabled in Phase 1 (Q7): commented `electron-builder.yml` + `dist` instructions delivered - see `rules/config.md`
+- If packaging enabled in Phase 1: commented `electron-builder.yml` + `dist` instructions delivered - see `rules/config.md`
 - `src/main/logger.ts` (electron-log) and a global `uncaughtException` handler mandatory in every app - see `rules/logging.md` and `rules/errors.md`
 - If a splash screen is enabled in Phase 3: a frameless splash window shown at launch until the main window is ready, following the design system, showing the app icon if one is defined - see `rules/splash.md`
 - No library that was not validated in Phase 1.
@@ -204,4 +204,4 @@ Canonical source of the calibration. Skills refer to it - do not duplicate this 
 | Small          | < 10  | ≤ 5      | 3                  | 4                    |
 | Medium / Large | ≥ 10  | > 5      | 4                  | 5                    |
 
-The extra batch corresponds to the test suite + dev dependencies (see `rules/tests.md`). Divergent criteria (e.g. < 10 files but > 5 features): the highest criterion wins → Medium/Large.
+The extra batch corresponds to the test suite + dev dependencies (see `rules/tests.md`). Divergent criteria (e.g. < 10 files but > 5 features): the highest criterion wins → Medium/Large. The Salesforce CLI integration and the splash screen add files and push the size up (no dedicated batch).

@@ -176,7 +176,7 @@ npm install                  # + postinstall ensure-electron.cjs
 npm run typecheck            # tsc --noEmit (node + web)
 npm run lint                 # eslint
 npm run build                # electron-vite build
-npm run dist                 # packaging — si activé (Phase 1 Q7) ou sur demande
+npm run dist                 # packaging — si activé (Phase 1) ou sur demande
 ```
 
 > Module natif `better-sqlite3` : `npx electron-builder install-app-deps` après l'installation.

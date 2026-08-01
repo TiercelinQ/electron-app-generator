@@ -46,6 +46,7 @@ Critical reminders:
 - Create the folders and write the files **directly to disk** — no manual action required.
 - Announcement (in the user's language): `Batch N/[total] — [content]`
 - Automatic chaining between batches without confirmation.
+- After each delivered batch, if the session is running long or the context is heavily loaded, offer `/electron-save-session` before starting the next batch — the automatic chaining above stays the default.
 - Batch split: tables in `@rules/mvc.md` (3 batches Small / 4 batches Medium-Large, frozen in Phase 2).
 
 ## Verification
@@ -56,7 +57,7 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
 
 - **`src/main/index.ts`** with the strict init order: `setupLogging()` (first — `@rules/logging.md`) → global `process.on("uncaughtException")` handler → `app.whenReady()` → `runMigrations()` (if DB, before any window) → frameless splash window shown (if splash enabled) → main `BrowserWindow` created with `show: false`, `center: true` (centered on the primary display at launch; a saved position from the persisted-position preference, when enabled, takes precedence over centering) and locked `webPreferences` → `registerAllControllers()` → renderer loaded → on `ready-to-show`: dismiss the splash after `SPLASH_MIN_DURATION_MS`, then `mainWindow.show()`. See `@rules/splash.md` and `@rules/security.md`.
 - `scripts/ensure-electron.cjs` written at the project root (see `@rules/config.md §Postinstall`).
-- If packaging enabled (Phase 1 Q7): commented `electron-builder.yml` + `npm run dist` instructions (see `@rules/config.md`).
+- If packaging enabled (Phase 1): commented `electron-builder.yml` + `npm run dist` instructions (see `@rules/config.md`).
 - Install and run instructions:
   ```
   npm install
@@ -64,7 +65,7 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
   npm run typecheck  # TypeScript verification
   npm run lint       # ESLint
   npm run build      # build without packaging
-  npm run dist       # Windows packaging (if enabled in Phase 1 Q7)
+  npm run dist       # Windows packaging (if enabled in Phase 1)
   ```
   (+ `npx electron-builder install-app-deps` note if better-sqlite3.)
 - **`.gitignore`** written at the project root — template in `@rules/config.md §.gitignore`. Keeps `node_modules/`, the anchored build outputs (`/dist/`, `/out/`, `/release/`), `.env`, `tasks/`, `.claude/settings.local.json` + `.claude/agent-memory/`, and the private `docs/specs/` out of the repo, while **never** ignoring `docs/release/CHANGELOG.md`, `.claude/settings.json`, the generated `CLAUDE.md`, `test/`, or `scripts/`.
@@ -76,7 +77,7 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
   # [nom-app]
 
   ## Origin
-  Framework: electron v1.4.0
+  Framework: electron v1.5.0
 
   ## Business context
   [What the app does — synthesized from docs/specs/02-featuring.md: objective + key features]
@@ -90,7 +91,7 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
   - Verify: `/electron-run-tests`
   - Publish a version: `/electron-release` (turns the accumulated `[Unreleased]` changelog into a dated version and raises the version number)
   ```
-  `[nom-app]` = `productName` / app name. The version here is the **framework** version declared at the top of the framework `CLAUDE.md` (currently 1.4.0) — not the app's own version (which starts at 1.0.0 in `package.json` / `docs/release/CHANGELOG.md`). Replace the `Deviations` list with every deviation validated via the Phase 4/5 deviation protocol (`- [deviation] — reason: [justification]`); if none, keep `- None`.
+  `[nom-app]` = `productName` / app name. The version here is the **framework** version declared at the top of the framework `CLAUDE.md` (currently 1.5.0) — not the app's own version (which starts at 1.0.0 in `package.json` / `docs/release/CHANGELOG.md`). Replace the `Deviations` list with every deviation validated via the Phase 4/5 deviation protocol (`- [deviation] — reason: [justification]`); if none, keep `- None`.
 - **`.claude/settings.json`** written at the generated project root so the app stays self-enforced in later maintenance sessions:
 
   ```json
@@ -113,6 +114,8 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
   if (changed) execSync("npm run lint", { stdio: "inherit" });
   ```
   **If the Salesforce CLI integration is on**, add `"Bash(sf:*)"` to the `allow` list (so maintenance sessions can verify flags with `sf <cmd> --help`).
+
+  **Deny anchoring (deliberate):** no deny pattern may ever match `docs/release/CHANGELOG.md` (written at delivery and by the maintenance/release skills). A build-output deny whose folder name could collide with it (e.g. `release/`) is **anchored to the project root** — `Write(release/**)`, never the unanchored `Write(**/release/**)`. Keep this anchoring when adding deny patterns.
 - **`docs/sessions/SESSION_[app_name]_S0.md`** written at the project root (create `docs/sessions/`) — the **delivery baseline** session, produced automatically here, no user action. Apply the `/electron-save-session` template as-is (that skill stays the single source of the format) with `[N]` **forced to `0`**: `Completed phase: 5 — Development`, `Next phase: — (delivered — maintenance via /electron-load-project)`, every delivered batch checked, locked decisions and open points filled. **Overwrite** it if it already exists (Phase 5 replayed). `S0` is reserved for this baseline; manual `/electron-save-session` saves keep numbering from `1`.
 - Confirm `docs/specs/` is present and consistent with the delivered code.
 
@@ -120,7 +123,7 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
 
 No dedicated batch. Deliver, per `@rules/splash.md`: `SPLASH_MIN_DURATION_MS` in `src/shared/config.ts` (Batch 1), the splash assets `src/renderer/splash.html` + `src/renderer/src/styles/splash.css` + `src/renderer/src/splash.ts` and the second `rollupOptions.input` entry in `electron.vite.config.ts` (styles/entry batch — last non-test batch), and the splash orchestration in `src/main/index.ts` (main window `show: false` until `ready-to-show`, frameless splash window with locked `webPreferences`, no preload/IPC). If a splash icon path was provided in Phase 3, save it as `resources/icon.ico`. It counts toward the size, not a separate batch.
 
-## Seed batch — only if DB ≠ none (Phase 1 Q2)
+## Seed script — only if DB ≠ none (Phase 1)
 
 If a database was selected, deliver a standalone seed script `scripts/seed.ts` that inserts a coherent demo dataset, plus the `"seed": "tsx scripts/seed.ts"` (or `electron-vite`-run equivalent) script in `package.json`:
 - Uses the main-process models (`src/main/models/`) / `getDb()` — never raw SQL outside `models/`.
@@ -128,7 +131,7 @@ If a database was selected, deliver a standalone seed script `scripts/seed.ts` t
 - Idempotent: insert only if the target tables are empty (count check first); re-running must not duplicate rows.
 - Run instruction added to the README: `npm run seed`. Never called from `src/main/index.ts`.
 
-Announce `Batch [final]/[total] — scripts/seed.ts` (before the tests batch if both apply). See `@rules/db.md`.
+**No dedicated batch**: `scripts/seed.ts` ships inside the **last code batch** (the one already carrying `scripts/` + root configs — `@rules/mvc.md` batch tables), before the tests batch when both apply. The announced batch total stays the calibration count (`## CALIBRATION` in `CLAUDE.md`). See `@rules/db.md`.
 
 ## Test batch — only if Phase 1 tests = Yes
 
@@ -136,7 +139,7 @@ Add a final dedicated batch: announce `Batch [final]/[total] — test/ + dev dep
 
 ## Final delivery summary
 
-Once the last batch (plus the seed/test batches if any) is delivered, close Phase 5 with a **delivery summary** in the user's language. **Make every file and the project folder a clickable Markdown link** `[label](path)`, each path pointing to the real on-disk location under the project root (relative to the project root, or absolute if the project root lies outside the current workspace). **Valid link syntax (mandatory)**: a Markdown link destination cannot contain spaces unless wrapped in angle brackets. When the path contains spaces (typical of absolute Windows paths), wrap the destination in `<…>` and use forward slashes, e.g. `[README.md](<D:/Documents/00 Mes Documents/.../my-app/README.md>)`. Without spaces, a plain relative path is fine. List:
+Once the last batch (plus the tests batch if any) is delivered, close Phase 5 with a **delivery summary** in the user's language. **Make every file and the project folder a clickable Markdown link** `[label](path)`, each path pointing to the real on-disk location under the project root (relative to the project root, or absolute if the project root lies outside the current workspace). **Valid link syntax (mandatory)**: a Markdown link destination cannot contain spaces unless wrapped in angle brackets. When the path contains spaces (typical of absolute Windows paths), wrap the destination in `<…>` and use forward slashes, e.g. `[README.md](<D:/Documents/00 Mes Documents/.../my-app/README.md>)`. Without spaces, a plain relative path is fine. List:
 
 - **Project folder** — the project root (clickable).
 - **README.md** — how to run, stack, tree, conventions (clickable).

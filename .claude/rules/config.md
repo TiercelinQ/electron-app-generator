@@ -11,6 +11,7 @@ export const APP_VERSION = "1.0.0";
 
 // Database (if applicable) — relative to app.getPath("userData")
 export const DB_FILENAME = "app_name.db";
+export const DB_SCHEMA_VERSION = 1;      // if DB ≠ none — target schema version, == max(MIGRATIONS) — @rules/db.md
 
 // Preferences (if applicable)
 export const PREFERENCES_FILENAME = "preferences.json";
@@ -342,7 +343,7 @@ nsis:
   allowToChangeInstallationDirectory: true
 ```
 
-Command: `npm run dist`. **Opt-in via Phase 1 Q7** — if `Yes`, the last batch delivers the commented `electron-builder.yml` + `dist` instructions (also available later on explicit request).
+Command: `npm run dist`. **Opt-in in Phase 1** — if packaging = `Yes`, the last batch delivers the commented `electron-builder.yml` + `dist` instructions (also available later on explicit request).
 
 ### Application icon
 
@@ -417,4 +418,4 @@ desktop.ini
 
 ## Integrity verification
 
-Detailed in `@rules/verification.md`. Key points: every constant reused in more than one file lives in `src/shared/config.ts` (zero color there — colors are tokens); zero hardcoded IPC channel string outside `src/shared/ipc-channels.ts`; `postinstall` → `scripts/ensure-electron.cjs` present in `package.json` (chained with `electron-builder install-app-deps` if `better-sqlite3`); dependency versions re-confirmed at generation and caret-pinned inside the documented peer ranges; `electron-builder.yml` + `dist` script only when packaging is enabled (Phase 1 Q7); `splash.html` registered as a second renderer entry when the splash is on (Phase 3).
+Detailed in `@rules/verification.md`. Key points: every constant reused in more than one file lives in `src/shared/config.ts` (zero color there — colors are tokens); zero hardcoded IPC channel string outside `src/shared/ipc-channels.ts`; `postinstall` → `scripts/ensure-electron.cjs` present in `package.json` (chained with `electron-builder install-app-deps` if `better-sqlite3`); dependency versions re-confirmed at generation and caret-pinned inside the documented peer ranges; `electron-builder.yml` + `dist` script only when packaging is enabled (Phase 1); `splash.html` registered as a second renderer entry when the splash is on (Phase 3).
