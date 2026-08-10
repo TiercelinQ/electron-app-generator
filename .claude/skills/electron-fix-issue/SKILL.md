@@ -28,7 +28,7 @@ Read the actual error before touching code. Classify, then act in this order:
 - Fix the cause. **Do not** add `// eslint-disable` or `as any` to silence it unless genuinely wrong and justified in a comment.
 
 ### 2. Build failure (`npm run dev` / `npm run build`)
-- `Error: Electron uninstall` → the binary extraction failed silently; run `npm run postinstall` (`ensure-electron.cjs` restores it from cache). See `@rules/config.md`.
+- `Error: Electron uninstall`, or `npm install` exiting 1 on a missing binary → the Electron binary was never downloaded (Electron >= 42 has no `postinstall` of its own) or its extraction failed silently; run `npm run postinstall` (`ensure-electron.cjs` re-runs the official installer, then falls back to the cache). See `@rules/config.md`.
 - `better-sqlite3` native error → run `npx electron-builder install-app-deps` (recompile for Electron).
 - Otherwise: electron-vite config, import path, or a TS error surfacing at build — trace to the declaration.
 

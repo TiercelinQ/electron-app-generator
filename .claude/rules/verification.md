@@ -20,7 +20,7 @@ npm run dist                 # electron-builder — packaging only (if packaging
 Rules:
 - A non-zero exit or any reported error is a failure → fix the root cause, do not silence the rule. Re-run until clean.
 - **better-sqlite3** (native module): after `npm install`, run `npx electron-builder install-app-deps` so the native binding is recompiled for Electron. Without it, `npm run dev`/`build` fails at runtime on the SQLite require.
-- **`ensure-electron.cjs`**: if `npm run dev`/`build` reports `Error: Electron uninstall`, the binary extraction failed silently — run `npm run postinstall` (the script restores it from cache). See `@rules/config.md`.
+- **`ensure-electron.cjs`**: this script is what installs the Electron binary (Electron >= 42 declares no `postinstall` of its own). If `npm install` exits 1 on a missing binary, or `npm run dev`/`build` reports `Error: Electron uninstall`, run `npm run postinstall` — the script re-runs Electron's official installer, then falls back to the local cache. See `@rules/config.md`.
 - If Node/npm is **not** available in the environment, say so explicitly, fall back to the static checks below (read-through), and tell the user which commands they must run themselves before considering the work verified. Never claim a clean typecheck you could not run.
 - Quote the relevant command output as proof when reporting completion.
 - **`npm test`** (vitest): run only if tests were enabled in Phase 1 / `test/` exists — exit code 0. Otherwise skip — **do not scaffold a suite**.

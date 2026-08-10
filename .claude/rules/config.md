@@ -90,16 +90,16 @@ Convention: `entity:action`. Zero hardcoded channel string outside this file. Th
 "devDependencies": { "electron": "^42.0.0", "electron-vite": "^5.0.0", "electron-builder": "^26.0.0",
                      "typescript": "^6.0.0", "vite": "^7.0.0", "@vitejs/plugin-react": "^5.2.0",
                      "typescript-eslint": "^8.0.0", "eslint-plugin-react": "^7.37.5",
-                     "eslint-plugin-react-hooks": "^7.0.0", "eslint": "^10.0.0", "prettier": "^3.8.0" }
+                     "eslint-plugin-react-hooks": "^7.0.0", "eslint": "^9.39.0", "prettier": "^3.8.0" }
 ```
 
 Versioning notes:
 - `lucide-react`: the icon library (`design-system.md §10`) — icons are **named React component imports** (tree-shaken; no global CSS import, no font). `^1.24.0` verified 2026-07-16 (ISC license); re-confirm at generation (`npm view lucide-react version`). Icon names drift slightly across releases: verify each imported name exists in the pinned version (the import fails typecheck otherwise — that is the guard).
 - `electron-vite ^5.0.0`: peer dep `vite@"^5.0.0 || ^6.0.0 || ^7.0.0"` — **Vite 8 not supported** by the current stable (verified 2026-06: `vite` latest is 8.x, but `electron-vite@5.0.0` — the latest stable, 6.x is beta-only — still caps at vite 7). Stay on `vite ^7.0.0`. Note: a newer `vite` major being out does *not* mean it is usable here — what matters is electron-vite's peer range. Pair with `@vitejs/plugin-react ^5.2.0` (peer `vite ^4 → ^8`). **Do not** bump `@vitejs/plugin-react` to 6.x — that line requires `vite ^8` and is incompatible with vite 7 / electron-vite 5.
 - `eslint-plugin-react-hooks`: its major line moves fast and tracks the React tooling (the 5.x line shipped, later majors followed) — **do not assume a specific major from memory**. Pin the current stable confirmed at generation (`npm view eslint-plugin-react-hooks version`) and check it supports the flat config and React 19.
-- `eslint-plugin-react`: latest stable `7.37.5`.
+- `eslint-plugin-react`: latest stable `7.37.5`. **It is what caps the ESLint major** — its peer is `eslint "^3 || … || ^9.7"`, so ESLint 10 does not resolve alongside it (`npm install` fails with `ERESOLVE`). Verified 2026-08-10 on a real CI. Re-check at generation (`npm view eslint-plugin-react peerDependencies`): the day that range covers `^10`, ESLint can move up.
 - `typescript ^6.0.0`: `moduleResolution: classic` removed (electron-vite uses `bundler` → no impact) and `esModuleInterop: false` forbidden (already true by default) — both fine here. **The binding constraint is `typescript-eslint`'s TypeScript peer range (`>=4.8.4 <6.1.0` for v8, see below): pin TypeScript inside it.** TS **6.0.x shipped stable** and is supported; the registry `latest` is now **7.x** (native/Go-port line), which typescript-eslint 8 does **not** support — so pin `^6.0.0`, not `latest` / `^7`, until a typescript-eslint major widens the range. Re-verify at generation (`npm view typescript dist-tags`, `npm view typescript-eslint peerDependencies`) — the numbers move.
-- `eslint ^10.0.0`: flat config mandatory (`eslint.config.mjs` — already the format used). Requires Node ≥ 20.19.
+- `eslint ^9.39.0`: flat config mandatory (`eslint.config.mjs` — already the format used). Requires Node ≥ 20.19. **Not `^10`**, despite ESLint 10 being the registry `latest` and `typescript-eslint ^8` accepting it (peer `^8.57.0 || ^9.0.0 || ^10.0.0`): `eslint-plugin-react` blocks it, see above. `eslint-plugin-react-hooks ^7.1.1` already accepts ESLint 10, so the react plugin is the sole holdout. Re-verify at generation.
 - `typescript-eslint ^8.0.0`: unified package for flat config — replaces the old separate `@typescript-eslint/eslint-plugin` + `@typescript-eslint/parser`. TypeScript peer dep: `>=4.8.4 <6.1.0`.
 - `better-sqlite3`: native module — recompiled for Electron via `electron-builder install-app-deps` chained after `ensure-electron.cjs` in `postinstall` (see the dedicated section). To include in the last batch instructions if SQLite is selected. Versioned migrations: see `@rules/db.md`.
 - **Salesforce CLI (if Phase 1 = Yes)** — add to `dependencies`: `cross-spawn ^7.0.6`; to `devDependencies`: `@types/cross-spawn ^6.0.6`. `electron-vite` bundles `cross-spawn` into the main bundle automatically; `esModuleInterop` is already on. No other runtime dependency (no `jsforce`/`@salesforce/core` — the `sf` CLI covers the v1 use cases). Detail: `@rules/sf-cli.md`.
@@ -110,17 +110,18 @@ Versioning notes:
 
 ## Postinstall — Electron binary reliability
 
-Electron's official `postinstall` downloads the binary (`electron.exe` on Windows, `Electron` on macOS/Linux) then extracts it into `node_modules/electron/dist/` and writes `node_modules/electron/path.txt`. This **fails silently** in several real cases:
+Electron ships an `install.js` that downloads the binary (`electron.exe` on Windows, `Electron` on macOS/Linux), extracts it into `node_modules/electron/dist/` and writes `node_modules/electron/path.txt`. It is **not run automatically**, and when it does run it **fails silently** in several real cases:
+- **Electron >= 42 declares no `postinstall` script at all** (41 still did — check with `npm view electron@<v> scripts`). npm therefore never invokes `install.js`, and a clean `npm install` / `npm ci` leaves **no binary whatsoever**. This is not an edge case: it is the nominal path on every fresh clone and every CI run. Confirmed on a real CI the 2026-08-10 (`cicd/CICD-ELECTRON.md §9.2`).
 - **`ELECTRON_RUN_AS_NODE=1` in the environment** (set by Electron-based shells/IDEs — VS Code, Cursor — on their child node processes). Under this flag Electron's `install.js` no-ops the download: exit 0, **no zip cached**, no binary. This is the most common cause inside an editor terminal and the one a cache-only fallback cannot fix (nothing to restore).
 - Antivirus (Windows Defender chief among them) blocks `node.exe` writing `electron.exe` during extraction.
 - Permission or lock on `node_modules/electron/dist/`.
 - Network interruption during the download (incomplete zip in cache).
 
-Symptom: `Error: Electron uninstall` when launching `electron-vite dev` or any other wrapper. Electron's `install.js` does not propagate the error — so `npm install` returns success.
+Symptoms: `Error: Electron uninstall` when launching `electron-vite dev` or any other wrapper; or, on a clean install with Electron >= 42, the postinstall guard itself exiting 1 on a missing binary. Electron's `install.js` does not propagate the error — so `npm install` returns success.
 
-**Mandatory solution**: every generated project includes `scripts/ensure-electron.cjs` below + the matching `postinstall` hook in `package.json`. The script:
+**Mandatory solution**: every generated project includes `scripts/ensure-electron.cjs` below + the matching `postinstall` hook in `package.json`. Since Electron >= 42 the script is not a mere safety net: it is **the** component that installs the binary. It:
 - No-op if `path.txt` and the binary are already present.
-- Else, if `ELECTRON_RUN_AS_NODE` is set: re-run Electron's own `install.js` with a **cleaned environment** (that variable deleted) so the download actually runs, then re-check.
+- Else: run Electron's own `install.js` with a **cleaned environment** (`ELECTRON_RUN_AS_NODE` deleted) so the download actually runs, then re-check. Unconditional — never gate this on `ELECTRON_RUN_AS_NODE` being set, or a clean install under Electron >= 42 never downloads anything.
 - Else: looks for the zip in the local Electron cache (`%LOCALAPPDATA%\electron\Cache` / `~/Library/Caches/electron` / `~/.cache/electron`), extracts it into `node_modules/electron/dist/`, writes `path.txt`.
 - Otherwise: explicit error message with probable cause and action to take.
 
@@ -184,12 +185,15 @@ function isInstalled() {
   );
 }
 
-// Dans un shell lancé par une app Electron (VS Code, Cursor…),
-// ELECTRON_RUN_AS_NODE=1 est hérité par les process node enfants. Sous ce
-// flag, l'installeur officiel d'Electron (install.js) avale le téléchargement
-// du binaire (sortie 0, aucun zip mis en cache). On relance donc l'installeur
-// avec un environnement nettoyé avant toute restauration depuis le cache.
-function retryDownloadWithCleanEnv() {
+// Electron >= 42 ne déclare plus de script "postinstall" : npm ne lance donc
+// jamais install.js et une installation propre ne contient aucun binaire.
+// L'installeur est appelé ici.
+//
+// Il est appelé avec un environnement nettoyé car, dans un shell lancé par une
+// app Electron (VS Code, Cursor…), ELECTRON_RUN_AS_NODE=1 est hérité par les
+// process node enfants, et sous ce flag install.js avale le téléchargement
+// (sortie 0, aucun zip mis en cache).
+function runOfficialInstaller() {
   const installer = path.join(ELECTRON_DIR, "install.js");
   if (!fs.existsSync(installer)) return;
   const env = { ...process.env };
@@ -223,15 +227,11 @@ async function main() {
     process.exit(1);
   }
 
-  // 1) Relancer le téléchargement officiel avec un env nettoyé.
-  if (process.env.ELECTRON_RUN_AS_NODE) {
-    retryDownloadWithCleanEnv();
-    if (isInstalled()) {
-      console.log(
-        "[ensure-electron] Binaire téléchargé après nettoyage de ELECTRON_RUN_AS_NODE."
-      );
-      return;
-    }
+  // 1) Lancer le téléchargement officiel.
+  runOfficialInstaller();
+  if (isInstalled()) {
+    console.log("[ensure-electron] Binaire téléchargé par l'installeur officiel.");
+    return;
   }
 
   const { version } = JSON.parse(
