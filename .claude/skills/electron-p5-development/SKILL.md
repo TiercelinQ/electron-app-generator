@@ -7,12 +7,15 @@ model: sonnet
 # /electron-p5-development — Batch development
 
 ## Role
+
 Senior Electron/React developer — build the contracted app to a clean, buildable state.
 
 ## Goal
+
 Deliver the application in batches, each one typecheck/lint-clean and contract-compliant, ending with install instructions.
 
 ## Deliverable
+
 The full project source on disk + `README.md` + verified build.
 
 ---
@@ -24,6 +27,7 @@ The full project source on disk + `README.md` + verified build.
 At start, read and fully apply: `@rules/mvc.md` · `@rules/css.md` · `@rules/errors.md` · `@rules/config.md` · `@rules/security.md` · `@rules/logging.md` · `@rules/db.md` (if DB) · `@rules/sf-cli.md` (if Salesforce CLI) · `@rules/splash.md` (if splash screen enabled in Phase 3) · `@rules/tests.md` (if tests) · `@rules/versioning.md` · `@rules/verification.md` (not auto-imported). **Read `design-system.md` and `layout.md`** (no longer auto-imported) before producing any UI. Read `docs/specs/04-architect.md` — it is the locked contract this build follows.
 
 Critical reminders:
+
 - ESLint clean · Prettier · TypeScript strict · TSDoc on classes and public API.
 - Error handling on all critical operations; global `uncaughtException` handler + React Error Boundary installed; file logging via electron-log (`@rules/logging.md`).
 - Zero hardcoded visual value in TS/TSX — everything in `tokens.css` / `styles.css`.
@@ -77,45 +81,82 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
   # [nom-app]
 
   ## Origin
+
   Framework: electron v1.5.0
 
   ## Business context
+
   [What the app does — synthesized from docs/specs/02-featuring.md: objective + key features]
 
   ## Deviations from the framework
+
   - None
 
   ## Maintenance
+
   - Load the project first: `/electron-load-project`
   - Change it: `/electron-add-feature` · `/electron-fix-issue` · `/electron-refactor-code` (each records the change under `[Unreleased]` in `docs/release/CHANGELOG.md`; the version does not move)
   - Verify: `/electron-run-tests`
   - Publish a version: `/electron-release` (turns the accumulated `[Unreleased]` changelog into a dated version and raises the version number)
   ```
+
   `[nom-app]` = `productName` / app name. The version here is the **framework** version declared at the top of the framework `CLAUDE.md` (currently 1.5.0) — not the app's own version (which starts at 1.0.0 in `package.json` / `docs/release/CHANGELOG.md`). Replace the `Deviations` list with every deviation validated via the Phase 4/5 deviation protocol (`- [deviation] — reason: [justification]`); if none, keep `- None`.
+
 - **`.claude/settings.json`** written at the generated project root so the app stays self-enforced in later maintenance sessions:
 
   ```json
   {
     "permissions": {
-      "allow": ["Bash(npm:*)", "Bash(npx:*)", "Bash(node:*)", "Read", "Write", "Edit"],
-      "deny": ["Read(**/.env)", "Read(**/.env.*)", "Read(**/secrets/**)", "Write(**/.env)", "Write(**/.env.*)", "Write(**/secrets/**)", "Edit(**/.env)", "Edit(**/.env.*)", "Edit(**/secrets/**)", "Write(**/node_modules/**)", "Write(**/out/**)", "Write(release/**)", "Write(**/dist/**)"]
+      "allow": [
+        "Bash(npm:*)",
+        "Bash(npx:*)",
+        "Bash(node:*)",
+        "Read",
+        "Write",
+        "Edit"
+      ],
+      "deny": [
+        "Read(**/.env)",
+        "Read(**/.env.*)",
+        "Read(**/secrets/**)",
+        "Write(**/.env)",
+        "Write(**/.env.*)",
+        "Write(**/secrets/**)",
+        "Edit(**/.env)",
+        "Edit(**/.env.*)",
+        "Edit(**/secrets/**)",
+        "Write(**/node_modules/**)",
+        "Write(**/out/**)",
+        "Write(release/**)",
+        "Write(**/dist/**)"
+      ]
     },
     "hooks": {
       "Stop": [{ "hooks": [{ "type": "command", "command": "npm run lint" }] }]
     }
   }
   ```
+
   The `Stop` hook runs the fast static check at the end of each turn. Note in the README that the user can tune or remove it. **To skip it on doc-only turns** (make it conditional), replace the command with a tiny guard shipped as `scripts/stop-lint.cjs` and point the hook at `node scripts/stop-lint.cjs` (a bare inline `node -e`/shell guard is not portable across cmd/PowerShell/bash — use the script). The guard: `git status --porcelain`, run `npm run lint` **only** when a `.ts`/`.tsx` path is present, and **degrade to always-lint** if git is unavailable (no repo / error):
+
   ```js
   // scripts/stop-lint.cjs — Stop-hook guard: lint only when a TS source file has uncommitted changes.
   const { execSync } = require("node:child_process");
   let changed = true;
-  try { changed = /\.tsx?(\s|$)/m.test(execSync("git status --porcelain", { encoding: "utf8" })); } catch { /* no git → lint */ }
+  try {
+    changed = /\.tsx?(\s|$)/m.test(
+      execSync("git status --porcelain", { encoding: "utf8" }),
+    );
+  } catch {
+    /* no git → lint */
+  }
   if (changed) execSync("npm run lint", { stdio: "inherit" });
   ```
+
   **If the Salesforce CLI integration is on**, add `"Bash(sf:*)"` to the `allow` list (so maintenance sessions can verify flags with `sf <cmd> --help`).
 
   **Deny anchoring (deliberate):** no deny pattern may ever match `docs/release/CHANGELOG.md` (written at delivery and by the maintenance/release skills). A build-output deny whose folder name could collide with it (e.g. `release/`) is **anchored to the project root** — `Write(release/**)`, never the unanchored `Write(**/release/**)`. Keep this anchoring when adding deny patterns.
+
 - **`docs/sessions/SESSION_[app_name]_S0.md`** written at the project root (create `docs/sessions/`) — the **delivery baseline** session, produced automatically here, no user action. Apply the `/electron-save-session` template as-is (that skill stays the single source of the format) with `[N]` **forced to `0`**: `Completed phase: 5 — Development`, `Next phase: — (delivered — maintenance via /electron-load-project)`, every delivered batch checked, locked decisions and open points filled. **Overwrite** it if it already exists (Phase 5 replayed). `S0` is reserved for this baseline; manual `/electron-save-session` saves keep numbering from `1`.
 - Confirm `docs/specs/` is present and consistent with the delivered code.
 
@@ -126,6 +167,7 @@ No dedicated batch. Deliver, per `@rules/splash.md`: `SPLASH_MIN_DURATION_MS` in
 ## Seed script — only if DB ≠ none (Phase 1)
 
 If a database was selected, deliver a standalone seed script `scripts/seed.ts` that inserts a coherent demo dataset, plus the `"seed": "tsx scripts/seed.ts"` (or `electron-vite`-run equivalent) script in `package.json`:
+
 - Uses the main-process models (`src/main/models/`) / `getDb()` — never raw SQL outside `models/`.
 - Coherent, FK-respecting data (~5-15 rows per entity), realistic values in the user's language, parents before children.
 - Idempotent: insert only if the target tables are empty (count check first); re-running must not duplicate rows.
@@ -139,7 +181,7 @@ Add a final dedicated batch: announce `Batch [final]/[total] — test/ + dev dep
 
 ## Final delivery summary
 
-Once the last batch (plus the tests batch if any) is delivered, close Phase 5 with a **delivery summary** in the user's language. **Make every file and the project folder a clickable Markdown link** `[label](path)`, each path pointing to the real on-disk location under the project root (relative to the project root, or absolute if the project root lies outside the current workspace). **Valid link syntax (mandatory)**: a Markdown link destination cannot contain spaces unless wrapped in angle brackets. When the path contains spaces (typical of absolute Windows paths), wrap the destination in `<…>` and use forward slashes, e.g. `[README.md](<D:/Documents/00 Mes Documents/.../my-app/README.md>)`. Without spaces, a plain relative path is fine. List:
+Once the last batch (plus the tests batch if any) is delivered, close Phase 5 with a **delivery summary** in the user's language. **Make every file and the project folder a clickable Markdown link** `[label](path)`, each path pointing to the real on-disk location under the project root (relative to the project root, or absolute if the project root lies outside the current workspace). **Valid link syntax (mandatory)**: a Markdown link destination cannot contain spaces unless wrapped in angle brackets. When the path contains spaces (typical of absolute Windows paths), wrap the destination in `<…>` and use forward slashes, e.g. `[README.md](<E:/Informatique/1-projects/.../my-app/README.md>)`. Without spaces, a plain relative path is fine. List:
 
 - **Project folder** — the project root (clickable).
 - **README.md** — how to run, stack, tree, conventions (clickable).
@@ -151,6 +193,7 @@ Once the last batch (plus the tests batch if any) is delivered, close Phase 5 wi
   npm install                            # + npx electron-builder install-app-deps if better-sqlite3
   npm run dev
   ```
+
   (+ `npm run seed` if a DB was selected; `npm test` if tests enabled; `npm run dist` if packaging enabled.)
 
 - **Maintenance & release** — after delivery: `/electron-load-project` first, then `/electron-add-feature` · `/electron-fix-issue` · `/electron-refactor-code` to change it, `/electron-run-tests` to verify, and `/electron-release` to publish a version (it turns the accumulated `[Unreleased]` changelog into a dated version and raises the number). The same reminder is recorded in the generated `CLAUDE.md`.
