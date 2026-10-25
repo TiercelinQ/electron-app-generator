@@ -39,8 +39,9 @@ Present (in the user's language, as plain Markdown — never inside a code block
 
 | design-system.md token | Light value | Dark value | Target CSS rule |
 | ---------------------- | ----------- | ---------- | --------------- |
-| `--bg`                 | #FDFEFF     | #181C20    | body, #main-content, #topbar |
-| `--primary-600`        | #4682B4     | #4682B4    | .btn-primary; feeds `--primary` → .tab.is-active, .tabs::after (underline) |
+| `--bg`                 | #FFFFFF     | #111519    | body, #main-content |
+| `--bg-subtle`          | #F1F4F7     | #1A2025    | #topbar (chrome, surface ladder N1) |
+| `--primary-600`        | #3D729E     | #3D729E    | .btn-primary; feeds `--primary` → .tab.is-active, .tabs::after (underline) |
 | …                      | …           | …          | …               |
 
    The example rows in both tables use the **default composition** (topbar + tabs). Consuming views and CSS targets always follow **the retained composition from `docs/specs/03-surfaces.md`** — another pattern (`layout.md` §12) replaces them with its own shell components and anchors.

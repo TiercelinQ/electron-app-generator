@@ -14,7 +14,7 @@ electron-app-generator/
 ├── CHANGELOG.md              # Changelog du générateur (distinct de celui des apps générées)
 ├── LICENSE
 └── .claude/
-    ├── design-system.md      # Référence visuelle contraignante (v2.0, tokens CSS) — source de vérité unique
+    ├── design-system.md      # Référence visuelle contraignante (v2.1, tokens CSS) — source de vérité unique
     ├── layout.md             # Cadre layout d'accompagnement — catalogue de patterns + composition par défaut + spec toasts
     ├── sf-cli-reference/     # Catalogue commandes/flags sf v2 (chargé par section si intégration Salesforce)
     ├── rules/
@@ -41,7 +41,7 @@ electron-app-generator/
     │   ├── electron-trace-feature/  # Tracer une fonctionnalité renderer→preload→controller→model
     │   ├── electron-fix-issue/      # Corriger un bug — arbre de décision, cause racine
     │   ├── electron-refactor-code/  # Restructurer sous validation explicite uniquement
-    │   ├── electron-migrate-design/ # Convertir une app v1.x vers le design system v2.0
+    │   ├── electron-migrate-design/ # Convertir une app v1.x vers le design system v2.1
     │   ├── electron-release/        # Figer une version SemVer (changelog cumulé)
     │   ├── electron-run-tests/      # Vérification exécutable (typecheck, lint, build)
     │   ├── electron-load-project/   # Chargement d'un projet existant
@@ -161,7 +161,7 @@ Claude lit `docs/specs/04-architect.md` (priorité), sinon le README, sinon le c
 | Comprendre / tracer le code     | `/electron-trace-feature`     |
 | Corriger un bug                 | `/electron-fix-issue`         |
 | Restructurer (sous validation)  | `/electron-refactor-code`    |
-| Convertir une app v1.x vers le design system v2.0 | `/electron-migrate-design` |
+| Convertir une app v1.x vers le design system v2.1 | `/electron-migrate-design` |
 | Figer une version SemVer (changelog cumulé) | `/electron-release` |
 | Vérifier le build / lancer les checks | `/electron-run-tests`  |
 
@@ -214,7 +214,7 @@ Prérequis : la mémoire auto doit être activée (`/config → Memory → Enabl
 | `/electron-trace-feature`              | Sonnet | Tracer une fonctionnalité à travers les couches      |
 | `/electron-fix-issue`                  | Sonnet | Corriger un bug — cause racine                       |
 | `/electron-refactor-code`             | Sonnet | Restructurer sous validation                         |
-| `/electron-migrate-design`            | Sonnet | Convertir une app v1.x vers le design system v2.0    |
+| `/electron-migrate-design`            | Sonnet | Convertir une app v1.x vers le design system v2.1    |
 | `/electron-release`                   | Sonnet | Figer une version SemVer depuis le changelog cumulé   |
 | `/electron-run-tests`                 | Sonnet | Vérification exécutable                               |
 | `/electron-load-project`       | Sonnet | Charger un projet existant                           |

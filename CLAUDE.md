@@ -159,7 +159,7 @@ All commands below are Claude Code skills invocable with `/`:
 | `/electron-add-feature`   | `skills/electron-add-feature/`   | Add a feature to a delivered app (contract-compliant) |
 | `/electron-fix-issue`     | `skills/electron-fix-issue/`     | Fix a bug - decision tree, root cause                 |
 | `/electron-refactor-code` | `skills/electron-refactor-code/` | Refactor under explicit validation only               |
-| `/electron-migrate-design` | `skills/electron-migrate-design/` | Convert a v1.x app to design system v2.0 (validated plan) |
+| `/electron-migrate-design` | `skills/electron-migrate-design/` | Convert a v1.x app to design system v2.1 (validated plan) |
 | `/electron-release`       | `skills/electron-release/`       | Cut a SemVer release from the accumulated changelog   |
 | `/electron-run-tests`     | `skills/electron-run-tests/`     | Run executable verification (typecheck, lint, build)  |
 
@@ -186,7 +186,7 @@ Which command(s) to run for a given intent. The **generation pipeline** (p1→p5
   - Add a feature — `/electron-add-feature` → `/electron-run-tests`
   - Fix a bug — `/electron-fix-issue` → `/electron-run-tests`
   - Refactor (behavior-preserving, plan validated first) — `/electron-refactor-code` → `/electron-run-tests`
-  - Convert a legacy app to design system v2.0 (proposed by load-project on detection) — `/electron-migrate-design` → `/electron-run-tests`
+  - Convert a legacy app to design system v2.1 (proposed by load-project on detection) — `/electron-migrate-design` → `/electron-run-tests`
   - Understand / audit the code — `/electron-trace-feature`
   - Refresh the README — `/electron-generate-readme`
   - Cut a release / prepare a GitHub deploy — `/electron-release` (turns the accumulated `docs/release/CHANGELOG.md` `[Unreleased]` entries into a dated SemVer version)

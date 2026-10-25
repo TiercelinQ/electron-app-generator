@@ -68,7 +68,7 @@ npm run dist         # Windows packaging (if enabled)
 npm test
 
 ## Palette
-[Name or custom accent (+ any explicit overrides) inferred from tokens.css — neutrals and semantics derived from the accent (design-system v2.0); otherwise default "Steel Blue" palette]
+[Name or custom accent (+ any explicit overrides) inferred from tokens.css — neutrals and semantics derived from the accent (design-system v2.1); otherwise default "Steel Blue" palette]
 ```
 <!-- If better-sqlite3: run `npx electron-builder install-app-deps` after `npm install` -->
 

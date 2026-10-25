@@ -55,7 +55,7 @@ Read the actual error before touching code. Classify, then act in this order:
 
 Read `design-system.md` / `layout.md` on demand if the fix touches UI (no longer auto-imported).
 
-> **Legacy design system**: if the app is on design system v1.x (README reference — see `/electron-load-project` step 5), fix within the app's own v1.x conventions; do not introduce v2.0 visuals into a v1.x app. The upgrade path is `/electron-migrate-design`, on request.
+> **Legacy design system**: if the app is on design system v1.x or v2.0 (README reference — see `/electron-load-project` step 5), fix within the app's own conventions; do not introduce v2.1 visuals into a v1.x or v2.0 app. The upgrade path for a v1.x app is `/electron-migrate-design`, on request (none is provided for v2.0).
 
 1. Get the real error (command output, stack trace, devtools, or the user's repro). If you cannot reproduce, ask for the exact message — do not guess.
 2. Classify with the tree above; read both the failing site and the declaration it depends on.

@@ -1,16 +1,16 @@
 ---
 name: electron-migrate-design
-description: Convert an Electron app generated with design system v1.x to v2.0 — tokens (accent-tinted neutrals, derived semantics), icons (Font Awesome → Lucide), hover model, radius, signature underline — without changing any behavior. Proposed by /electron-load-project when a legacy app is detected; runs only on explicit validation.
+description: Convert an Electron app generated with design system v1.x to v2.1 — tokens (accent-tinted neutrals, surface ladder, AA-darkened accent, derived semantics), icons (Font Awesome → Lucide), hover model, radius, signature underline, accessibility behaviors — without changing any behavior. Proposed by /electron-load-project when a legacy app is detected; runs only on explicit validation.
 model: sonnet
 ---
 
-# /electron-migrate-design — Convert a v1.x app to design system v2.0
+# /electron-migrate-design — Convert a v1.x app to design system v2.1
 
 ## Role
-Migration engineer — re-skin a delivered app to the v2.0 design system with zero behavior change.
+Migration engineer — re-skin a delivered app to the v2.1 design system with zero behavior change.
 
 ## Goal
-The app renders under the full v2.0 visual language (tokens, icons, states, motion) while every feature, IPC channel, and business rule behaves exactly as before.
+The app renders under the full v2.1 visual language (tokens, surface ladder, icons, states, motion, accessibility behaviors) while every feature, IPC channel, and business rule behaves exactly as before.
 
 ## Deliverable
 The converted files on disk (tokens/styles, icon usages, dependency swap) + refreshed app `README.md` / `CLAUDE.md` / `docs/specs/04-architect.md` token table + passing verification + a conversion summary.
@@ -19,9 +19,9 @@ The converted files on disk (tokens/styles, icon usages, dependency swap) + refr
 
 ## Prerequisite
 
-The project is loaded (`/electron-load-project`) and detected on design system **v1.x** (README reference; markers: `@fortawesome/fontawesome-free` in `package.json`, `--radius: 0px` in `tokens.css`). If the app is already on v2.0, say so and stop.
+The project is loaded (`/electron-load-project`) and detected on design system **v1.x** (README reference; markers: `@fortawesome/fontawesome-free` in `package.json`, `--radius: 0px` in `tokens.css`). If the app is already on v2.0 or v2.1, say so and stop: a v2.0 app is maintained in its own v2.0 conventions, and no v2.0 to v2.1 path is provided.
 
-**Load context**: `design-system.md` (v2.0) + `layout.md` (v4.1) + `@rules/css.md` + `@rules/config.md` + `@rules/mvc.md` (cleanup protocol) + `@rules/splash.md` (if the app has a splash) + `@rules/verification.md`, and the app's `docs/specs/01-scoping.md` (original palette choice) + `docs/specs/04-architect.md` (locked contract).
+**Load context**: `design-system.md` (v2.1) + `layout.md` (v4.2) + `@rules/css.md` + `@rules/config.md` + `@rules/mvc.md` (cleanup protocol) + `@rules/splash.md` (if the app has a splash) + `@rules/verification.md`, and the app's `docs/specs/01-scoping.md` (original palette choice) + `docs/specs/04-architect.md` (locked contract).
 
 ## Step 1 — Inventory (read-only)
 
@@ -35,8 +35,8 @@ The project is loaded (`/electron-load-project`) and detected on design system *
 
 ## Step 2 — Palette conversion decision
 
-- **Preset palette** → re-derive **everything** from the accent per `design-system.md §2`: accent stops, accent-tinted neutrals (both themes), per-project semantic colors (info = accent). Full v2.0 atmosphere.
-- **Custom palette** → the roles the user explicitly chose in Phase 1 (recorded in `01-scoping.md`) become **v2.0 overrides** (they win over the tinted targets); everything else derives from the accent.
+- **Preset palette** → re-derive **everything** from the accent per `design-system.md §2`: accent stops (`--primary-600` AA-darkened), accent-tinted neutrals with the surface ladder (both themes), per-project semantic colors (info = accent). Full v2.1 atmosphere.
+- **Custom palette** → the roles the user explicitly chose in Phase 1 (recorded in `01-scoping.md`) become **v2.1 overrides** (they win over the tinted targets); everything else derives from the accent.
 - Announce the derived token set and run the **AA contrast check** (same pairs as `/electron-p1-scoping` §2), reporting failures without blocking.
 
 ## Step 3 — Conversion plan (validation gate)
@@ -45,13 +45,13 @@ Present the plan (in the user's language): files touched, the icon mapping table
 
 ## Step 4 — Conversion (single batch, complete files)
 
-1. **`tokens.css`** — full v2.0 token set written as literal hex: tinted neutrals (`:root` + `[data-theme="dark"]`), derived semantics (+ danger 700/800), `--radius: 5px`, `--ease-out` + retimed `--transition-default` (160ms) / `--transition-slow` (240ms), `--icon-*` switched to `var()` consumption, `--icon-stroke`, unchanged structural tokens carried over.
-2. **`styles.css`** — v2.0 state model: neutral hover = border strengthening (transparent 1px borders added where needed so layout never shifts); `:active` = `--bg-muted`; tabs container gains the signature underline `::after`; toast enter/exit animations removed (motion policy); drawer/modal/menu-panel borders promoted to `--border-strong`; `border-radius` routed through `var(--radius)` (nested `calc(var(--radius) - 2px)`); scrollbar thumb rounded; comments updated to v2.0 token names.
+1. **`tokens.css`** — full v2.1 token set written as literal hex: tinted neutrals with the surface ladder (`--bg`, `--bg-subtle`, `--bg-muted`, `--bg-elevated`, `--bg-panel`; `:root` + `[data-theme="dark"]`), AA-darkened `--primary-600` and its `-700`/`-800`, derived semantics (+ `--danger-fill`, danger 700/800), `--radius: 5px`, `--ease-out` + `--duration-*` + the `--transition-*` shorthands (160ms / 240ms), `--icon-*` switched to `var()` consumption, `--icon-stroke`, font sizes in `rem`, the new size tokens (`--toast-width`, `--modal-min-width`, `--sidebar-width`, `--master-width`, `--menubar-height`, `--menu-min-width`), `--shell-*` offsets, `--focus-space`, unchanged structural tokens carried over.
+2. **`styles.css`** — v2.1 state model: neutral hover = border strengthening to `--border-strong` (transparent 1px borders added where needed so layout never shifts); control edge (field, Secondary button) = `--border-strong`; `:active` = `--bg-muted`; selected items carry a 2px `--primary` bar; topbar and menu bar on `--bg-subtle`, modal on `--bg-elevated`; tabs container gains the signature underline `::after`; toast enter/exit animations removed (motion policy); drawer/modal/menu-panel borders promoted to `--border-strong`; `border-radius` routed through `var(--radius)` (nested `calc(var(--radius) - 2px)`); scrollbar thumb rounded; focus floor `:where(:focus-visible)`, universal `prefers-reduced-motion` rule and `forced-colors` block (`@rules/css.md`); comments updated to v2.1 token names.
 3. **Icons** — `package.json`: remove `@fortawesome/fontawesome-free`, add `lucide-react` (pin per `@rules/config.md`); remove the `all.min.css` import from `main.tsx`; replace every `<i className="fa-...">` with the Lucide component (`size` from `--icon-*` classes kept, `strokeWidth={1.75}`, `aria-hidden="true"`).
 4. **Underline** — only if the retained composition has tabs / horizontal navigation (the underline exists nowhere else, `design-system.md §8`): add the `placeUnderline` helper (reference implementation in §8) wired to the tab component on selection change and mount/resize. This is the only JS-positioned visual.
 5. **Splash** (if the app has one) — `splash.css` follows automatically (it consumes `tokens.css`); update the main-process `backgroundColor` literals in `src/main/index.ts` to the new `--bg` values (light/dark), keeping the sourced-from-`--bg` comment (`@rules/splash.md`).
-6. **Docs** — app `README.md`: design system reference → `v2.0` (+ layout `v4.1`), stack line Icons → Lucide; app `CLAUDE.md`: dated migration note under `## Deviations from the framework` (or a `## Design system migration` block); `docs/specs/04-architect.md`: refresh the tokens → CSS table values, append a dated migration note (this validated run is the contract amendment).
-7. **Changelog** — append a `### Changed` entry under `## [Unreleased]` in `docs/release/CHANGELOG.md` (`@rules/versioning.md`): `- Migrated UI to design system v2.0.` (English, no version bump; migrate-design infers MINOR at `/electron-release`). If the file is absent (legacy app never initialized), skip silently and suggest `/electron-load-project`.
+6. **Docs** — app `README.md`: design system reference → `v2.1` (+ layout `v4.2`), stack line Icons → Lucide; app `CLAUDE.md`: dated migration note under `## Deviations from the framework` (or a `## Design system migration` block); `docs/specs/04-architect.md`: refresh the tokens → CSS table values, append a dated migration note (this validated run is the contract amendment).
+7. **Changelog** — append a `### Changed` entry under `## [Unreleased]` in `docs/release/CHANGELOG.md` (`@rules/versioning.md`): `- Migrated UI to design system v2.1.` (English, no version bump; migrate-design infers MINOR at `/electron-release`). If the file is absent (legacy app never initialized), skip silently and suggest `/electron-load-project`.
 
 ### Icon mapping — Font Awesome 6 → Lucide (`lucide-react`)
 
@@ -80,7 +80,7 @@ Any icon not in this table: pick the closest Lucide equivalent, verify the impor
 
 ## Anti-patterns — what NOT to do
 
-- **Do not** run without the Step 3 validation, and do not convert partially — the app is either fully v1.x or fully v2.0 (never a mix).
+- **Do not** run without the Step 3 validation, and do not convert partially — the app is either fully v1.x or fully v2.1 (never a mix).
 - **Do not** touch models, controllers, preload, IPC channels, i18n keys, or any business logic — this is a re-skin.
 - **Do not** redesign the layout/composition — the retained Phase 3 composition stays; only its skin changes.
 - **Do not** improvise a Lucide name — map it, verify it compiles, report it.
@@ -89,4 +89,4 @@ Any icon not in this table: pick the closest Lucide equivalent, verify the impor
 
 ## Integrity verification
 
-Detailed in `@rules/verification.md`. Key points: §A executable suite green after conversion; zero `fa-`/`fortawesome` residue in `src/` and `package.json`; `tokens.css`/`styles.css` fully v2.0 (tinted neutrals, derived semantics, radius token, border-strengthening hover, underline); app README/CLAUDE.md/04-architect.md updated with the v2.0 reference and the dated migration note.
+Detailed in `@rules/verification.md`. Key points: §A executable suite green after conversion; zero `fa-`/`fortawesome` residue in `src/` and `package.json`; `tokens.css`/`styles.css` fully v2.1 (tinted neutrals and surface ladder, AA-darkened accent, derived semantics, radius token, border-strengthening hover, selection bar, focus floor, underline); app README/CLAUDE.md/04-architect.md updated with the v2.1 reference and the dated migration note.

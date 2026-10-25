@@ -20,7 +20,7 @@ A structured prompt system that generates complete, production-ready Electron/Re
 
 Each phase writes a spec in the user's language to `docs/specs/` (`01-scoping` … `04-architect`); the contract is the source of truth.
 
-**Maintenance commands**: `/electron-add-feature` (add a feature, contract-compliant — explicit contract-diff validation before writing), `/electron-trace-feature` (trace behavior), `/electron-fix-issue` (root-cause debugging with a decision tree), `/electron-refactor-code` (validated, behavior-preserving), `/electron-migrate-design` (convert a v1.x app to design system v2.0), `/electron-release` (cut a SemVer release from the accumulated changelog), `/electron-run-tests` (executable verification). Plus `/electron-load-project` and `/electron-generate-readme` to load/document existing apps.
+**Maintenance commands**: `/electron-add-feature` (add a feature, contract-compliant — explicit contract-diff validation before writing), `/electron-trace-feature` (trace behavior), `/electron-fix-issue` (root-cause debugging with a decision tree), `/electron-refactor-code` (validated, behavior-preserving), `/electron-migrate-design` (convert a v1.x app to design system v2.1), `/electron-release` (cut a SemVer release from the accumulated changelog), `/electron-run-tests` (executable verification). Plus `/electron-load-project` and `/electron-generate-readme` to load/document existing apps.
 
 Every generated app enforces the same visual design system, strict MVC architecture, and locked Electron security.
 
@@ -88,7 +88,7 @@ Then in Claude Code:
 | `/electron-trace-feature`              | Trace a feature across the MVC/IPC layers          |
 | `/electron-fix-issue`                  | Fix a bug - decision tree, root cause              |
 | `/electron-refactor-code`             | Refactor under explicit validation only            |
-| `/electron-migrate-design`            | Convert a v1.x app to design system v2.0           |
+| `/electron-migrate-design`            | Convert a v1.x app to design system v2.1           |
 | `/electron-release`                   | Cut a SemVer release from the accumulated changelog|
 | `/electron-run-tests`                 | Executable verification (typecheck, lint, build)   |
 | `/electron-load-project`       | Load an existing project from its specs/README     |
@@ -132,13 +132,14 @@ Every generated app carries a SemVer version and a changelog at `docs/release/CH
 
 ## Design system
 
-All generated apps share the same visual system, defined in `.claude/design-system.md` (v2.0):
+All generated apps share the same visual system, defined in `.claude/design-system.md` (v2.1):
 
-- **Depth by stroke** - borders express hierarchy and elevation, zero shadows, zero gradients; soft 5px radius
+- **Depth by stroke and surface ladder** - borders and four fill levels (canvas, chrome, panel, floating) express hierarchy and elevation, zero shadows, zero gradients; soft 5px radius
 - **CSS tokens** - all colors, sizes and durations are `var(--token)`; full light/dark theme via a single `[data-theme="dark"]` block
 - **system-ui** typography (native OS face - Segoe UI Variable on Windows 11)
-- **Color palette** - one mandatory accent (+ up to 4 optional role overrides); accent-tinted neutrals, accent stops, and per-project semantic colors all derived from it (info = accent). Default "Steel Blue" + Teal, Forest, Slate, Amber, Ruby named palettes + custom palette
+- **Color palette** - one mandatory accent (+ up to 4 optional role overrides); accent-tinted neutrals, accent stops (the accent is darkened until white text and text on the background reach 4.5:1), and per-project semantic colors all derived from it (info = accent). Default "Steel Blue" + Teal, Forest, Slate, Amber, Ruby named palettes + custom palette
 - **Lucide icons** (`lucide-react`, stroke 1.75) and one signature gesture: the sliding underline on tabs
+- **Accessibility** - WCAG 2.1 AA measured on every text and control pair, focus ring floor, forced-colors and reduced-motion support, no state carried by color alone, keyboard contracts for tables, trees, menus and overlays
 - **Toasts only** - no inline banners, no `dialog.showMessageBox`/`alert`/`confirm` for business errors
 
 ---
