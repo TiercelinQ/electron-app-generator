@@ -4,6 +4,17 @@ All notable changes to this generator are documented in this file.
 The format is based on Keep a Changelog, and this project adheres to Semantic Versioning.
 (This is the changelog of the **generator** itself, distinct from the `docs/release/CHANGELOG.md` of each generated app.)
 
+## [1.6.0] - 2026-10-26
+### Added
+- Accessibility behaviors in `design-system.md` and `layout.md`: focus floor `:where(:focus-visible)`, `@media (forced-colors: active)` block, one universal `prefers-reduced-motion` rule, overlay behavior (dialog semantics, focus trap, `inert`, scroll lock, focus return), keyboard contracts for the data table, the tree and the menu bar, toast roles (`alert` / `status`), new size tokens and the runtime `--shell-*` offsets.
+- `electron-p1-scoping` announces the AA darkening of the accent and derives `--bg-panel` and `--danger-fill`; the contrast check runs on the darkened values.
+
+### Changed
+- Design system v2.1 and layout v4.2 replace v2.0 and v4.1: four-level surface ladder (canvas, chrome, panel, floating) with recomputed neutrals; `--primary-600` darkened until white text, text on `--bg` and text on `--primary-50` reach 4.5:1 (default Steel Blue `#4682B4` becomes `#3D729E`); control edge and neutral hover on `--border-strong`; 2px `--primary` selection bar (no color-only state); tabs as a `<nav>` of buttons with `aria-current="page"`; font sizes in `rem`.
+- `rules/css.md`, `rules/splash.md`, `rules/versioning.md` aligned (reduced-motion and `forced-colors` blocks, focus floor, shell offsets, `backgroundColor` literals `#111519` / `#FFFFFF`).
+- `electron-p4-architect` token table and `electron-migrate-design` (target v2.1) updated; `electron-load-project` recognizes v2.1, v2.0 and v1.x.
+- An app generated on v2.0 is maintained in its own v2.0 conventions: no v2.0 to v2.1 migration path is provided.
+
 ## [1.5.0] - 2026-08-01
 ### Added
 - Phase 5 offers `/electron-save-session` between batches when the session is running long or the context is heavily loaded (safety net before saturation; automatic chaining stays the default).
