@@ -2,6 +2,7 @@
 name: electron-p5-development
 description: Phase 5 of the Electron app generation cycle — development and batch delivery, files written directly to disk, executable verification, final README.
 model: sonnet
+effort: medium
 ---
 
 # /electron-p5-development — Batch development

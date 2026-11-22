@@ -2,6 +2,7 @@
 name: electron-show-contract
 description: Show the complete validated architectural contract (Phase 4) — tree with the role of each file and the IPC channels. Reads docs/specs/04-architect.md.
 model: haiku
+effort: low
 ---
 
 # /electron-show-contract — Validated architectural contract

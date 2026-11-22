@@ -2,6 +2,7 @@
 name: electron-app
 description: Start menu of the Electron app generator — new app, resume an existing session, load a delivered project, or maintain one. Invoke at the beginning of a conversation or at any time via /electron-app.
 model: haiku
+effort: low
 ---
 
 # /electron-app — Start / resume / maintenance menu

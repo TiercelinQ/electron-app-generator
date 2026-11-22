@@ -2,6 +2,7 @@
 name: electron-migrate-design
 description: Convert an Electron app generated with design system v1.x to v2.1 — tokens (accent-tinted neutrals, surface ladder, AA-darkened accent, derived semantics), icons (Font Awesome → Lucide), hover model, radius, signature underline, accessibility behaviors — without changing any behavior. Proposed by /electron-load-project when a legacy app is detected; runs only on explicit validation.
 model: sonnet
+effort: medium
 ---
 
 # /electron-migrate-design — Convert a v1.x app to design system v2.1

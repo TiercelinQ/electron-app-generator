@@ -2,6 +2,7 @@
 name: electron-load-project
 description: Load an existing Electron project (Phase 5 complete) from its specs and README — bring the generator rules to bear on already-delivered code. Invoke from the target project root.
 model: sonnet
+effort: low
 ---
 
 # /electron-load-project — Load an existing project

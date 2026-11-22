@@ -2,6 +2,7 @@
 name: electron-generate-readme
 description: Analyze the specs and source of an existing Electron project and generate its README.md (objective, features, stack, tree, IPC channels, conventions, installation). Invoke from the target project root.
 model: sonnet
+effort: low
 ---
 
 # /electron-generate-readme — Generate the README.md

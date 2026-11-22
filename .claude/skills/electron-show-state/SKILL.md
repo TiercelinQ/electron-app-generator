@@ -2,6 +2,7 @@
 name: electron-show-state
 description: Show the current state of the generation project — phase, batch, next action, locked decisions, open points.
 model: haiku
+effort: low
 ---
 
 # /electron-show-state — Current state
