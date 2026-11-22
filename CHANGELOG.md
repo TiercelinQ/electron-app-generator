@@ -4,6 +4,19 @@ All notable changes to this generator are documented in this file.
 The format is based on Keep a Changelog, and this project adheres to Semantic Versioning.
 (This is the changelog of the **generator** itself, distinct from the `docs/release/CHANGELOG.md` of each generated app.)
 
+## [2.0.0] - 2026-11-22
+### Added
+- `.claude/scripts/` with four dependency-free Node scripts: `bump-release.mjs` (`/electron-release` steps 1 to 4), `run-verification.mjs` (`/electron-run-tests`), `static-checks.mjs` (`verification.md` section B by pattern search) and `search-sf-catalog.mjs` (lookup in `sf-cli-reference/`). Tested on fixtures only, not on a generated project. The commands that could call them are unchanged.
+
+### Changed
+- **Major version.** Every skill now carries an `effort` field and a rebalanced `model` (`opus` for `p1-scoping`, `p2-featuring`, `p4-architect`, `fix-issue` and `refactor-code`, `haiku` for `release` and `run-tests`), which changes the cost profile of every command. Values come from the 2026-11-22 cost and quality audit and the Claude Code skill frontmatter documentation.
+- `electron-show-state` names its sources (the latest `docs/sessions/SESSION_*_S*.md`, then `docs/release/CHANGELOG.md`) instead of risking an invented state.
+- `electron-p5-development` loads `@rules/readme.md` and writes the delivered `README.md` in English; it reads `design-system.md` and `layout.md` only before the batch that produces UI, and `electron-refactor-code` only when a `renderer/` file is touched.
+- `electron-save-memory` asks the memory category with `AskUserQuestion` instead of a typed A-D choice.
+- `electron-app` maintenance menu routes `/electron-migrate-design` and `/electron-generate-readme`.
+- `rules/verification.md` lists the skills that load it (all 8 of them, not 4).
+- `electron-generate-readme` template gains a `## Database schema` section and the `npm run lint` line; `electron-save-session` describes the palette as accent plus overrides; `GUIDE.md` Phase 1 wording matches the skill (free-text objective, then two grouped calls).
+
 ## [1.6.0] - 2026-10-26
 ### Added
 - Accessibility behaviors in `design-system.md` and `layout.md`: focus floor `:where(:focus-visible)`, `@media (forced-colors: active)` block, one universal `prefers-reduced-motion` rule, overlay behavior (dialog semantics, focus trap, `inert`, scroll lock, focus return), keyboard contracts for the data table, the tree and the menu bar, toast roles (`alert` / `status`), new size tokens and the runtime `--shell-*` offsets.
