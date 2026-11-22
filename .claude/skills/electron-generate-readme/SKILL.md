@@ -2,6 +2,7 @@
 name: electron-generate-readme
 description: Analyze the specs and source of an existing Electron project and generate its README.md (objective, features, stack, tree, IPC channels, conventions, installation). Invoke from the target project root.
 model: sonnet
+effort: low
 ---
 
 # /electron-generate-readme — Generate the README.md
@@ -50,6 +51,9 @@ Use the native Claude Code tools (no shell — Windows-compatible):
 ## IPC channels
 [table channel → controller → model → renderer usage]
 
+## Database schema
+[Section included only if a DB is used: tables, columns, version]
+
 ## Conventions
 [MVC, CSS tokens, toasts, security — pointer to the rules]
 
@@ -60,6 +64,7 @@ Use the native Claude Code tools (no shell — Windows-compatible):
 npm install
 npm run dev          # development
 npm run typecheck    # TypeScript verification
+npm run lint         # ESLint
 npm run build        # build without packaging
 npm run dist         # Windows packaging (if enabled)
 
