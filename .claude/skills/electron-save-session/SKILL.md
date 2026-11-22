@@ -43,7 +43,7 @@ Next batch: [X+1/total] (if Phase 5)
 - DB: [value]
 - Persistent preferences: [Yes/No] · i18n: [Yes/No] · Tests: [Yes/No]
 - Icon: [provided/default] · Packaging: [Yes/No] · Salesforce CLI: [Yes/No]
-- Palette: [name or custom; 5 light roles + derived]
+- Palette: [name or custom; accent + overrides (if any); derived tokens in 01-scoping.md]
 - Calibration: [Small 3 batches / Medium-Large 4 batches] (+1 test batch if tests enabled)
 - Selected features: [list]
 - Out of scope: [list]

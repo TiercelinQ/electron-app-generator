@@ -44,6 +44,8 @@ Project root to maintain? (folder path, e.g. C:\projects\MyApp)
 - add a feature → `/electron-add-feature`
 - fix a bug → `/electron-fix-issue`
 - restructure existing code → `/electron-refactor-code`
+- convert a legacy app to design system v2.1 → `/electron-migrate-design`
+- refresh the README → `/electron-generate-readme`
 - cut a release / bump the version → `/electron-release`
 - verify the build / run checks → `/electron-run-tests`
 
